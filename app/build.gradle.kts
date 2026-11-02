@@ -41,7 +41,6 @@ android {
 
 dependencies {
     implementation(project(":auth"))
-    debugImplementation(project(":identity-mock"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

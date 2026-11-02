@@ -758,24 +758,6 @@
       "caption": "signInRequired"
     },
     {
-      "id": "app:AppScreenshotTest.mockOptions",
-      "module": "app",
-      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/AppScreenshotTest.kt",
-      "method": "mockOptions",
-      "variants": 2,
-      "capture_kind": "component-preview",
-      "status": "implemented-ui",
-      "viewport_dp": [
-        393,
-        852
-      ],
-      "locale": "en",
-      "font_scale": 1.0,
-      "density": "renderer default; recorded output dimensions",
-      "animation": "renderer-controlled; permission autoAdvance=false",
-      "caption": "mockOptions"
-    },
-    {
       "id": "auth:SupplementalScreenshotTest.narrowLargeTextError",
       "module": "auth",
       "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",

@@ -7,7 +7,6 @@ con [inicio rápido](quickstart.md).
 | --- | --- | --- | --- |
 | Open onboarding | Backend/ajustes compatibles; correo, enlace/código, passkey o contraseña permitida | Estado confirmado por servidor; recuperación de cancelaciones/ajustes | `MainActivity`, `EmailOnboardingHost` |
 | Open UI catalog | Ejemplo debug/release; seleccione pantallas | Solo UI, sin mutar backend; decisiones antiguas son diseños | `OnboardingCatalog` |
-| Test ID capture | Debug y cámara real; tarjeta de muestra, frente/reverso y retoma | Backend simulado, fallos/entrada manual/guardado; sin aprobar identidad | `IdentityRuntime`, `MockCaptureServer` |
 | Captura live | Cuenta autenticada, divulgación y política vigentes | Upload privado, procesamiento, manual y guardado confirmado | `LiveCaptureFlow`, `CaptureHost` |
 | Capturas de documentación | Renderizador host sin emulador, servicios ni credenciales | Fixtures sintéticos con manifiesto; falla si faltan escenarios | [Mantenimiento](../../screenshots.md) |
 

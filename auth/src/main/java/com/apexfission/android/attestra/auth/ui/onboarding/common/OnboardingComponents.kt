@@ -232,3 +232,52 @@ private fun OnboardingFramePreview() {
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "OnboardingCard", showBackground = true)
+@Composable
+private fun OnboardingCardPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                OnboardingCard { BodyText("Review your account details.") }
+            }
+        }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "BodyText", showBackground = true)
+@Composable
+private fun BodyTextPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                BodyText("Your progress is saved on this device.")
+            }
+        }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "StatusRow", showBackground = true)
+@Composable
+private fun StatusRowPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                StatusRow("Email confirmed", "Continue with your account", complete = true)
+                StatusRow("ID capture", "Waiting for your document", complete = false)
+            }
+        }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "WaitingIndicator", showBackground = true)
+@Composable
+private fun WaitingIndicatorPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                WaitingIndicator("Preparing your document…")
+            }
+        }
+    }
+}

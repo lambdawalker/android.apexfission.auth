@@ -22,7 +22,7 @@ import com.apexfission.android.attestra.auth.ui.onboarding.OnboardingBusinessAct
 import com.apexfission.android.attestra.auth.ui.onboarding.OnboardingCatalog
 import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 
-private enum class EntryScreen { Home, Catalog, Onboarding, IdentityDemo, IdentityCapture }
+private enum class EntryScreen { Home, Catalog, Onboarding, IdentityCapture }
 
 class MainActivity : ComponentActivity() {
     private companion object { const val TAG = "EmailDebugX" }
@@ -77,13 +77,10 @@ class MainActivity : ComponentActivity() {
                         },
                         onStart = { destination = EntryScreen.Onboarding },
                         onCatalog = { destination = EntryScreen.Catalog },
-                        onIdentityDemo = if (HAS_IDENTITY_DEMO) { { destination = EntryScreen.IdentityDemo } } else null,
                     )
-                    EntryScreen.IdentityDemo -> IdentityDemo(onExit = { destination = EntryScreen.Home })
                     EntryScreen.IdentityCapture -> {
                         val config = environment.configuration
-                        if (HAS_IDENTITY_DEMO) DirectIdentityCapture(onExit = { destination = EntryScreen.Catalog })
-                        else if (config != null) CompositionLocalProvider(LocalBackendConfiguration provides config) {
+                        if (config != null) CompositionLocalProvider(LocalBackendConfiguration provides config) {
                             DirectIdentityCapture(onExit = { destination = EntryScreen.Catalog })
                         } else EnvironmentStatusScreen(environment.loading, environment.message, environment::load) { destination = EntryScreen.Catalog }
                     }
@@ -105,7 +102,7 @@ class MainActivity : ComponentActivity() {
                                 onRetryConfiguration = environment::refreshRuntimeConfiguration,
                                 link = incomingLink,
                                 onLinkConsumed = ::clearIncomingLink,
-                                identityContent = { passkeyAdded, policy, exit -> AccountIdentityFlow(passkeyAdded, policy, exit) },
+                                identityContent = { _, policy, exit -> AccountIdentityFlow(policy, exit) },
                                 onPasskeyDeferred = { destination = EntryScreen.Home; clearIncomingLink() },
                             )
                             }

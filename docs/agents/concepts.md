@@ -6,7 +6,7 @@ Scope: Development/source. [Architecture owner](https://raw.githubusercontent.co
 
 `:auth` owns UI, controllers, Android storage and HTTP adapters. `:app` owns
 navigation, Android manifest links, environment binding and privacy-window policy.
-`:identity-mock` is a debug transport fixture without its own composable UI.
+Both app variants share the live capture runtime in `app/src/main`; there is no local mock module.
 The Go backend owns authorization, durable capture/extraction and account facts.
 
 ## Email and returning sessions

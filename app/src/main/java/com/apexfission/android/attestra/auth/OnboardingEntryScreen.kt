@@ -38,7 +38,6 @@ internal fun OnboardingEntryScreen(
     onDeleteLocalUser: () -> Unit,
     onStart: () -> Unit,
     onCatalog: () -> Unit,
-    onIdentityDemo: (() -> Unit)? = null,
 ) {
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     Surface(
@@ -56,7 +55,7 @@ internal fun OnboardingEntryScreen(
                     Text("Onboarding", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface)
                     Text("In development · Start or resume email confirmation, passkey setup, and ID capture.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Button(onClick = onStart, enabled = !resetting, modifier = Modifier.fillMaxWidth()) { Text("Open onboarding") }
-                    if (!hasBackend) Text("Environment settings are not ready. Open onboarding to check or retry. The UI catalog and local capture demo remain available.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (!hasBackend) Text("Environment settings are not ready. Open onboarding to check or retry. The UI catalog remains available.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
             Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)) {
@@ -69,13 +68,6 @@ internal fun OnboardingEntryScreen(
                         Text(if (resetting) "Deleting local data…" else "Delete local user")
                     }
                     resetMessage?.let { Text(it, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                }
-            }
-            if (onIdentityDemo != null) Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)) {
-                Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text("ID capture", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface)
-                    Text("Use a sample card to test capture, uploads and file-check recovery. This does not verify a real identity.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    OutlinedButton(onClick = onIdentityDemo, enabled = !resetting, modifier = Modifier.fillMaxWidth()) { Text("Test ID capture") }
                 }
             }
             OutlinedButton(onClick = onCatalog, enabled = !resetting, modifier = Modifier.fillMaxWidth()) { Text("Open UI catalog") }
@@ -100,8 +92,7 @@ private fun OnboardingEntryScreenPreview() {
             resetMessage = null,
             onDeleteLocalUser = {},
             onStart = {},
-            onCatalog = {},
-            onIdentityDemo = {}
+            onCatalog = {}
         )
     }
 }

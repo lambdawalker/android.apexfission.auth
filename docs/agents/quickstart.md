@@ -15,12 +15,12 @@ cd android.attestra.auth
 
 Connect an API-28-or-newer device/emulator with USB debugging. Start **Attestra**.
 Use **Open onboarding** for the matching deployed environment, **Open UI catalog**
-for offline visual states, or **Test ID capture** in a debug build for synthetic
-backend outcomes with a real camera. Camera and Credential Manager require device
-checks; a rendered preview cannot exercise them.
+for offline visual states. ID capture uses the configured backend in both debug and
+release and requires a signed-in account. Camera and Credential Manager require
+device checks; a rendered preview cannot exercise them.
 
 Do not use real identity documents for screenshots or routine fixture tests.
-The offline capture demo does not verify identity or contact the production service.
+Offline previews use synthetic inputs and do not contact a backend.
 
 ## Embed the host UI
 
@@ -34,8 +34,8 @@ EmailOnboardingHost(
     onRetryConfiguration = environment::refreshRuntimeConfiguration,
     link = incomingLink,
     onLinkConsumed = ::clearIncomingLink,
-    identityContent = { passkeyAdded, policy, exit ->
-        AccountIdentityFlow(passkeyAdded, policy, exit)
+    identityContent = { _, policy, exit ->
+        AccountIdentityFlow(policy, exit)
     },
     onPasskeyDeferred = {
         destination = EntryScreen.Home; clearIncomingLink()
@@ -67,7 +67,7 @@ The default `identityContent` shows an unavailable message, not a capture implem
 ## Verify
 
 ```sh
-./gradlew :auth:testDebugUnitTest :identity-mock:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
+./gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
 ```
 
 Then verify a real email link, code fallback, cancelled passkey sheet, capture

@@ -72,3 +72,15 @@ private fun CardReviewFormPreview() {
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "CardField", showBackground = true)
+@Composable
+private fun CardFieldPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                CardField("Full name", "Sample Person", busy = false, change = {})
+            }
+        }
+    }
+}

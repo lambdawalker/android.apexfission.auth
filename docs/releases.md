@@ -2,7 +2,7 @@
 
 This tooling adapts the destination registry, Python terminal wizard and journaled
 release protocol from `android.apexfission.carddetector` to **`:auth` only**.
-The demo `:app` and debug `:identity-mock` are never Maven publications.
+The demo `:app` is never a Maven publication.
 No auth package has been published or confirmed by this change.
 
 ## Before the first release

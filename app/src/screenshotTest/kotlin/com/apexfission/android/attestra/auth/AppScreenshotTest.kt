@@ -12,15 +12,13 @@ annotation class AppDocumentationPreview
 
 class AppScreenshotTest {
     @PreviewTest @AppDocumentationPreview @Composable
-    fun menu() { AttestraAuthTheme { OnboardingEntryScreen(true, false, null, {}, {}, {}, {}) } }
+    fun menu() { AttestraAuthTheme { OnboardingEntryScreen(true, false, null, {}, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
-    fun resetting() { AttestraAuthTheme { OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}, {}) } }
+    fun resetting() { AttestraAuthTheme { OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
     fun configurationLoading() { AttestraAuthTheme { EnvironmentStatusScreen(true, null, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
     fun configurationFailure() { AttestraAuthTheme { EnvironmentStatusScreen(false, "Could not load environment settings. Retry when connected.", {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
     fun signInRequired() { AttestraAuthTheme { CaptureSignInRequired({}) } }
-    @PreviewTest @AppDocumentationPreview @Composable
-    fun mockOptions() { AttestraAuthTheme { MockCaptureContent(false, com.apexfission.android.attestra.identitymock.MockScenario.READY, {}, {}, {}, {}, {}) } }
 }

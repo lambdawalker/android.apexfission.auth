@@ -2,7 +2,7 @@
 
 Implements the capture and card-review contract in [go.attestra.aws.auth/docs/id-capture.md](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/id-capture.md), following [design.attestra](https://github.com/lambdawalker/design.attestra/tree/main/auth/onboarding/id-capture). The backend extracts card fields and the app shows an editable review form. Standalone identity validation is not implemented. The previous combined verification mock is replaced.
 
-`:auth` owns `capture/CaptureApi`, `CaptureController`, `CaptureHost` and encrypted account/environment checkpoint storage. The existing `auth.identity.capture` package owns permission handling, bundled card detection, front/back preview, retake and JPEG conversion. Following the latest repository consolidation, `:auth`, the demo app and debug-only `:identity-mock` require API 28. The existing published Apexfission permission and card-detector dependencies are reused.
+`:auth` owns `capture/CaptureApi`, `CaptureController`, `CaptureHost` and encrypted account/environment checkpoint storage. The existing `auth.identity.capture` package owns permission handling, bundled card detection, front/back preview, retake and JPEG conversion. Following the latest repository consolidation, `:auth` and the demo app require API 28. Both debug and release use the live capture flow from `app/src/main`; the local mock module has been removed. The existing published Apexfission permission and card-detector dependencies are reused.
 
 ## Live flow
 
@@ -16,11 +16,11 @@ Images stay in protected memory, are wiped after upload/disposal, and are never 
 
 ## Offline test flow
 
-The existing startup test menu and local-user reset remain available. Its direct capture entry opens the camera, while the scenario demo offers failure cases; both are debug-only. It uses two in-process Ktor MockEngine clients with the same API/S3 contract; no network deployment, real token, or image persistence. It is conspicuously labelled LOCAL CAPTURE MOCK and intended for sample cards. Scenarios: ready, pending checks, invalid image, one failed upload, lost finalize response, and retryable file-check failure. “New sample capture” clears the mock session and checkpoint. Release includes only live capture.
+The startup test menu, UI catalog and local-user reset remain available. The catalog’s direct capture entry and onboarding both use the same live flow in debug and release, requiring backend configuration and authentication. The former local mock transport and scenario selector have been removed. Use offline Compose previews for visual inspection and the auth unit-test fixtures for simulated HTTP failures.
 
 ## Verification
 
-Run `bash gradlew :auth:testDebugUnitTest :identity-mock:testDebugUnitTest :app:assembleDebug :app:assembleRelease`. Tests cover create-response loss, stable upload retry and byte cleanup, finalize-response recovery, late camera callbacks, SHA-256 encoding, HTTP mock persistence and API-token separation from uploads.
+Run `bash gradlew :auth:testDebugUnitTest :app:assembleDebug :app:assembleRelease`. Tests cover create-response loss, stable upload retry and byte cleanup, finalize-response recovery, late camera callbacks, SHA-256 encoding, API-token separation from uploads.
 
 Device gate: camera permission denial/permanent denial, no camera, preview/retake each side, rotations/process death, leaving during upload/finalization, account switching, offline/expired signed URL retry, sign-in recovery, and clear/glare/blur sample-card captures. Live integration additionally requires the Go/S3 smoke gate. No emulator/device result is implied by JVM tests.
 
@@ -30,7 +30,7 @@ When `extraction.status=complete`, the form shows name, given names, surnames, b
 
 Refresh preserves unsaved edits. Revision conflicts require reviewing the latest server values; “Discard edits and use latest details” explicitly resets the draft. Lost save responses reconcile through status. Draft fields are memory-only (not `rememberSaveable`, preferences or encrypted checkpoints); leaving or recreating the screen discards unsaved changes. The protected window remains active for the form. Cancellation and disposal clear data from controller state. Failed extraction opens an empty editable form automatically. Manual values save through the same review endpoint and do not change the failed extraction outcome. Saved reviewed values take precedence when returning. Pending or absent extraction results show the reading screen; transport errors offer recovery and are not treated as extraction failure.
 
-Deploy the backend extraction/review routes before shipping this client. The debug mock returns clearly synthetic card fields and supports the review endpoint. Cloud model accuracy and real-device form/camera behavior need a live smoke test; JVM checks do not establish these.
+Deploy the backend extraction/review routes before shipping this client. Cloud model accuracy and real-device form/camera behavior need a live smoke test; JVM checks do not establish these.
 
 ## Disclosure and origin
 

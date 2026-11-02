@@ -4,8 +4,8 @@ Read [consumer agent entry](docs/agents/index.md) to integrate this library;
 this file is for contributors. Apply the Android and system-integrated rules in
 [agents.prompts](https://github.com/lambdawalker/agents.prompts).
 
-- `:auth` owns Android APIs and implemented UI; `:app` owns the runnable host and
-  `:identity-mock` is a debug-only, non-UI transport fixture. Keep mocks out of release.
+- `:auth` owns Android APIs and implemented UI; `:app` owns the runnable host. Both app variants use the live capture runtime
+  in `app/src/main`; offline previews must not initialize services.
 - `design.attestra` owns system requirements; the Go backend owns HTTP contracts.
   Do not change intended architecture to hide an implementation defect.
 - Read [IMPORT.md](IMPORT.md) before choosing dependency versions. Auth has no
@@ -37,7 +37,7 @@ python3 scripts/screenshots/suite.py coverage
 python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'
 uv run --with Markdown==3.7 --with Pygments==2.18.0 python sites/test_build.py
 uv run --with Markdown==3.7 --with Pygments==2.18.0 python sites/build.py
-bash gradlew :auth:testDebugUnitTest :identity-mock:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
+bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
 ```
 
 See [screenshot commands](docs/screenshots.md) and [site maintenance](sites/README.md).
