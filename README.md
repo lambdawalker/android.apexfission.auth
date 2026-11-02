@@ -1,6 +1,6 @@
 # Attestra Android authentication
 
-The `:auth` module implements email confirmation, passkey registration, email/passkey/password sign-in, session restoration, and policy-controlled onboarding with Ktor, protected storage, and Android Credential Manager. `:app` hosts the live flow and UI catalog. The ID capture flow supports front/back capture, direct private S3 uploads, asynchronous file checks, recovery and cancellation. A debug-only capture mock works without deployment. Text extraction and editable review are implemented; identity validation remains a separate future feature. See [Android capture](docs/identity-capture.md) and the [backend contract](docs/identity/http-contract.md).
+The `:auth` module implements email confirmation, passkey registration, email/passkey/password sign-in, session restoration, and policy-controlled onboarding with Ktor, protected storage, and Android Credential Manager. `:app` hosts the live flow and UI catalog. The ID capture flow supports front/back capture, direct private S3 uploads, asynchronous file checks, recovery and cancellation. Debug and release share the live capture runtime in `app/src/main`. Text extraction and editable review are implemented; identity validation remains a separate future feature. See [Android capture](docs/identity-capture.md) and the [backend contract](docs/identity/http-contract.md).
 
 Build settings are organized as local Gradle convention plugins. See [build configuration](docs/build-configuration.md) for feature scripts, value precedence, and signing inputs.
 
@@ -11,11 +11,11 @@ Start with [installation](IMPORT.md), [consumer guides](docs/agents/index.md),
 The human HTML site is built from the same sources under `sites/`; hosting is not
 claimed live until a Pages deployment succeeds. See [site maintenance](sites/README.md).
 
-## Test ID capture without deploying the backend
+## Test ID capture and preview UI
 
-Install a debug build and choose **Test ID capture** from the entry screen. Use a sample card, select a capture scenario, capture and preview both sides, and follow automatic upload/processing to review and save. The mock can simulate extraction failure for manual entry; it does not approve an identity. No API configuration or sign-in is required for this demo. Mock transport is excluded from release builds.
+Install either app variant and use onboarding with a signed-in account and matching backend configuration. The UI catalog also provides a direct capture entry, using the same live backend flow. The local mock module and its scenario selector have been removed. For offline UI inspection, use the catalog screens or Android Studio previews; see [preview and screenshot guidance](docs/screenshots.md).
 
-The `:auth` library includes identity capture and requires **Android 9 (API 28)**, as do the demo app and debug mock module. Builds use compile SDK 37 and Java 17. See the [identity guide](docs/identity/README.md) for lifecycle behavior, recovery scenarios, and remaining device checks.
+The `:auth` library includes identity capture and requires **Android 9 (API 28)**, as does the demo app. Builds use compile SDK 37 and Java 17. See the [identity guide](docs/identity/README.md) for lifecycle behavior, recovery scenarios, and remaining device checks.
 
 ## Documentation ownership
 
@@ -165,7 +165,7 @@ The backend setup wizard exports `android-config/<environment>.properties`, cont
 ./gradlew :app:assembleDebug -PattestraConfigFile=../go.attestra.aws.auth/android-config/qa.properties
 ```
 
-Paths are relative to the Android repository root unless absolute. Explicit Gradle properties override file values. Missing or malformed file settings fail the build. Cognito IDs and environment metadata become `BuildConfig` fields; existing backend API authentication remains unchanged. `attestraCaptureEnabled=false` disables the live capture screen; local debug mock capture is separate. In static mode, omitting this property disables live capture. In discovery mode, the index’s `features.idCapture` controls the client flag. The server's document policy remains authoritative; enabling the client does not enable the server.
+Paths are relative to the Android repository root unless absolute. Explicit Gradle properties override file values. Missing or malformed file settings fail the build. Cognito IDs and environment metadata become `BuildConfig` fields; existing backend API authentication remains unchanged. `attestraCaptureEnabled=false` disables the live capture screen in both app variants. In static mode, omitting this property disables live capture. In discovery mode, the index’s `features.idCapture` controls the client flag. The server's document policy remains authoritative; enabling the client does not enable the server.
 
 The file contains public configuration, never AWS keys, GitHub/Cloudflare tokens, or Pulumi passphrases. Re-export and rebuild when switching environments or replacing deployed resources.
 

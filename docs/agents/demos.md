@@ -7,7 +7,6 @@ using [quickstart](quickstart.md).
 | --- | --- | --- | --- |
 | Open onboarding | Matching backend/settings; request email, follow link or enter code, register passkey or permitted password | Server-confirmed auth/account state; recover cancelled sheets and stale settings | `MainActivity`, `EmailOnboardingHost` |
 | Open UI catalog | Debug or release sample; choose each screen | State-driven UI only, no backend mutation. Older identity-decision screens are design mockups | `OnboardingCatalog` |
-| Test ID capture | Debug sample and real camera; sample card front/back, retake/confirm | Synthetic backend outcomes, processing/manual review and save; no real identity decision | Debug `IdentityRuntime`, `MockCaptureServer` |
 | Live ID capture | Signed-in matching account, current disclosure and policy | Private upload, async checks/extraction, manual fallback, exact server-confirmed save | `LiveCaptureFlow`, `CaptureHost` |
 | Screenshots | Host renderer, no emulator/service/credentials; run named fixture suite | Synthetic component-preview images and machine manifest; failure if scenarios are missing | [Screenshot maintenance](../screenshots.md) |
 

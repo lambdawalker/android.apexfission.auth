@@ -7,7 +7,7 @@ conserva los requisitos del sistema.
 
 `:auth` posee UI, controladores, almacenamiento Android y adaptadores HTTP.
 `:app` posee navegación, App Links, vinculación de entorno y privacidad de ventana.
-`:identity-mock` es un transporte de debug sin composables propios. El backend Go
+Ambas variantes de la app comparten la captura real en `app/src/main`; no hay módulo mock local. El backend Go
 posee autorización, evidencia/extracción duraderas y hechos de la cuenta.
 
 ## Correo y sesiones

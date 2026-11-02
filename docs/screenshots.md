@@ -4,7 +4,7 @@ The library and demo app both have executable Compose screenshot suites. Every
 owned composable maps to an offline scenario or an explicit runtime delegation in
 [coverage.json](screenshots/coverage.json). [scenarios.json](screenshots/scenarios.json)
 is the required inventory; missing scenarios, missing variants, unknown images and
-zero-image UI modules fail candidate generation. `:identity-mock` is transport-only.
+zero-image UI modules fail candidate generation.
 
 ## Separate operations
 
@@ -74,3 +74,17 @@ Legacy identity-decision mockups are marked `legacy-design`, not live verificati
 The UI pictured is English even when the surrounding guide is Spanish.
 
 Publication-only Gradle additions are delimited by `BEGIN MAVEN PUBLICATION ONLY` / `END MAVEN PUBLICATION ONLY` in the root/auth build files and `gradle.properties`. They are excluded from visual render-input hashes. Android configuration, dependencies, toolchain and UI sources remain fingerprinted; the original reviewed images and provenance are retained. Do not put visual/build-runtime changes inside these publishing blocks.
+
+## Android Studio previews
+
+Open screen and component Kotlin files under `auth/src/main` or `app/src/main`
+and select Design or Split. Individual previews include shared onboarding cards,
+body text, status rows, waiting indicators, password and document fields, and
+camera/sign-in fallbacks. They use the app theme and synthetic inputs.
+
+Runtime owners (`EmailOnboardingHost`, `CaptureHost`, `IdentityCamera`, and the
+app capture wrappers) delegate to the covered visual components; preview those
+components instead of starting network, Keystore, permissions, or camera services.
+Both app variants now use the live capture flow. The mock-options screenshot is
+retired; existing accepted baselines remain historical until candidates are rendered
+and explicitly reviewed with the commands above.

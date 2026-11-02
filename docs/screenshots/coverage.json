@@ -1,8 +1,6 @@
 {
   "schemaVersion": 1,
-  "headless_modules": {
-    "identity-mock": "Debug transport/state fixture; no owned composables."
-  },
+  "headless_modules": {},
   "composables": [
     {
       "source": "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureHost.kt",
@@ -378,48 +376,6 @@
       "note": "Covered with deterministic offline fixture inputs."
     },
     {
-      "source": "app/src/debug/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
-      "symbol": "AccountIdentityFlow",
-      "kind": "runtime-delegation",
-      "scenarios": [
-        "auth:DocumentationScreenshotTest.readDocument",
-        "auth:DocumentationScreenshotTest.manualReview"
-      ],
-      "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
-    },
-    {
-      "source": "app/src/debug/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
-      "symbol": "IdentityDemo",
-      "kind": "runtime-delegation",
-      "scenarios": [
-        "app:AppScreenshotTest.menu",
-        "auth:DocumentationScreenshotTest.manualReview",
-        "app:AppScreenshotTest.mockOptions"
-      ],
-      "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
-    },
-    {
-      "source": "app/src/debug/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
-      "symbol": "DirectIdentityCapture",
-      "kind": "runtime-delegation",
-      "scenarios": [
-        "auth:DocumentationScreenshotTest.readDocument",
-        "auth:DocumentationScreenshotTest.manualReview"
-      ],
-      "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
-    },
-    {
-      "source": "app/src/debug/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
-      "symbol": "MockCaptureFlow",
-      "kind": "runtime-delegation",
-      "scenarios": [
-        "auth:DocumentationScreenshotTest.readDocument",
-        "auth:DocumentationScreenshotTest.manualReview",
-        "app:AppScreenshotTest.mockOptions"
-      ],
-      "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
-    },
-    {
       "source": "app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt",
       "symbol": "CapturePrivacy",
       "kind": "nonvisual-runtime",
@@ -458,18 +414,7 @@
       "note": "Covered with deterministic offline fixture inputs."
     },
     {
-      "source": "app/src/release/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
-      "symbol": "IdentityDemo",
-      "kind": "runtime-delegation",
-      "scenarios": [
-        "app:AppScreenshotTest.menu",
-        "auth:DocumentationScreenshotTest.manualReview",
-        "app:AppScreenshotTest.mockOptions"
-      ],
-      "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
-    },
-    {
-      "source": "app/src/release/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
+      "source": "app/src/main/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
       "symbol": "DirectIdentityCapture",
       "kind": "runtime-delegation",
       "scenarios": [
@@ -479,7 +424,7 @@
       "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
     },
     {
-      "source": "app/src/release/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
+      "source": "app/src/main/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
       "symbol": "AccountIdentityFlow",
       "kind": "runtime-delegation",
       "scenarios": [
@@ -494,15 +439,6 @@
       "kind": "direct",
       "scenarios": [
         "app:AppScreenshotTest.signInRequired"
-      ],
-      "note": "Same pure visual content is used in runtime and preview."
-    },
-    {
-      "source": "app/src/debug/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt",
-      "symbol": "MockCaptureContent",
-      "kind": "direct",
-      "scenarios": [
-        "app:AppScreenshotTest.mockOptions"
       ],
       "note": "Same pure visual content is used in runtime and preview."
     }

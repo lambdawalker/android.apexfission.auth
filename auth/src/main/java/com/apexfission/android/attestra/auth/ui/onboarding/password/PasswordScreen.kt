@@ -67,3 +67,15 @@ private fun PasswordScreenPreview() {
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "PasswordField", showBackground = true)
+@Composable
+private fun PasswordFieldPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                PasswordField(value = "SamplePassword42!", onChange = {}, optional = true)
+            }
+        }
+    }
+}

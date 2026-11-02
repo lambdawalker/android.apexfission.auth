@@ -100,7 +100,7 @@ android.androidResources.noCompress += "tflite"
 // BEGIN MAVEN PUBLICATION ONLY
 
 
-// Only the auth release variant is a publication. app and identity-mock are local.
+// Only the auth release variant is a publication. app is local.
 val jitpackBuild = providers.gradleProperty("jitpackBuild").orElse("false").map(String::toBoolean)
 val projectUrl = "https://github.com/lambdawalker/android.attestra.auth"
 val pomLicenseName = providers.gradleProperty("POM_LICENSE_NAME").orElse("")

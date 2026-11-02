@@ -45,7 +45,7 @@ def render_bytes(path):
 
 def render_inputs():
     paths = set()
-    for module in ('auth', 'app', 'identity-mock', 'buildSrc'):
+    for module in ('auth', 'app', 'buildSrc'):
         for path in (ROOT / module).rglob('*'):
             if path.is_file() and not any(part in ('build', '.gradle', 'screenshotTestDebug') for part in path.relative_to(ROOT).parts) and path.suffix in ('.kt', '.kts', '.xml', '.ttf', '.otf', '.png', '.jpg', '.jpeg', '.webp', '.json', '.svg'):
                 paths.add(path)
@@ -76,7 +76,7 @@ def coverage():
         if scenario['module'] not in MODULES or scenario['variants'] < 1:
             raise ValueError('Invalid scenario module/count')
     discovered = set()
-    for module in MODULES + ('identity-mock',):
+    for module in MODULES:
         for source in (ROOT / module / 'src').rglob('*.kt'):
             if any(x in source.parts for x in ('test', 'androidTest', 'screenshotTest')):
                 continue

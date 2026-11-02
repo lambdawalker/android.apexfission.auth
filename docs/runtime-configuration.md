@@ -48,6 +48,6 @@ The capture API returns a content-based `policy_version`. The controller sends i
 
 ## Verification
 
-Run `bash gradlew :auth:testDebugUnitTest :identity-mock:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease`.
+Run `bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease`.
 
 Device checks: exercise all three requirements and password placements; reject invalid password classes and lengths; cancel required capture and confirm setup remains incomplete; recover from process death during email confirmation; change email after entering a password; sign in with an existing password after enrollment is disabled; publish a stricter policy mid-session; expire settings offline and retry; inspect saved state/logs for absence of password values. Credential Manager, camera, process recreation and real backend/Cognito checks require a device and deployed matching backend.

@@ -20,7 +20,7 @@ jobs:
         run: uv run --with rich==14.1.0 python -m unittest discover -s scripts/signing
       - name: Test auth and assemble app
         run: >-
-          bash gradlew :auth:testDebugUnitTest :identity-mock:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
+          bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
           -PattestraEnvironment=qa
       - name: Check explicit API override
         run: >-

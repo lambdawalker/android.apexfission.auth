@@ -79,3 +79,15 @@ import kotlinx.serialization.json.jsonPrimitive
         Column(Modifier.padding(24.dp)) { Text("Sign in to the configured service to capture your ID."); Button(onClick = onExit) { Text("Return") } }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "CaptureSignInRequired", showBackground = true, widthDp = 393, heightDp = 852)
+@Composable
+private fun CaptureSignInRequiredPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                CaptureSignInRequired(onExit = {})
+            }
+        }
+    }
+}

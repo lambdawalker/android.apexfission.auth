@@ -15,8 +15,9 @@ cd android.attestra.auth
 
 Conecte un dispositivo/emulador API 28 o posterior con depuración USB. Abra Attestra.
 **Open onboarding** usa el entorno desplegado; **Open UI catalog** muestra estados
-sin backend; **Test ID capture**, en debug, combina cámara real con resultados de
-backend simulados. Cámara y Credential Manager requieren pruebas en dispositivo.
+sin backend. La captura de ID usa el backend configurado tanto en debug como en
+release y requiere una cuenta autenticada. Cámara y Credential Manager requieren
+pruebas en dispositivo. Las vistas previas usan datos sintéticos sin contactar al backend.
 No use identificaciones reales para capturas de documentación o pruebas ordinarias.
 
 ## Integrar la interfaz
@@ -31,8 +32,8 @@ EmailOnboardingHost(
     onRetryConfiguration = environment::refreshRuntimeConfiguration,
     link = incomingLink,
     onLinkConsumed = ::clearIncomingLink,
-    identityContent = { passkeyAdded, policy, exit ->
-        AccountIdentityFlow(passkeyAdded, policy, exit)
+    identityContent = { _, policy, exit ->
+        AccountIdentityFlow(policy, exit)
     },
     onPasskeyDeferred = {
         destination = EntryScreen.Home; clearIncomingLink()
@@ -64,7 +65,7 @@ El slot `identityContent` predeterminado muestra indisponibilidad, no una captur
 ## Verificar
 
 ```sh
-./gradlew :auth:testDebugUnitTest :identity-mock:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
+./gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
 ```
 
 Después pruebe correo real, código de respaldo, cancelación de passkey, retomas,

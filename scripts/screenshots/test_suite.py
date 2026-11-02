@@ -53,9 +53,19 @@ class ScreenshotContracts(unittest.TestCase):
 if __name__=='__main__':unittest.main()
 
 class PublishingProvenanceTests(unittest.TestCase):
-    def test_publication_additions_preserve_accepted_visual_inputs(self):
-        approved=suite.read(suite.ACCEPTED)
-        self.assertEqual(approved['inputs']['sha256'],suite.render_inputs()['sha256'])
+    def test_publication_additions_preserve_visual_inputs(self):
+        # Baseline freshness is checked by restore/validate, not this unit test.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch.object(suite, 'ROOT', root):
+                for name, marker in [('build.gradle.kts', '//'), ('auth/build.gradle.kts', '//'), ('gradle.properties', '#')]:
+                    path = root / name
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    before = 'existing configuration\n'
+                    path.write_text(before)
+                    expected = suite.render_bytes(path)
+                    path.write_text(before + f'{marker} BEGIN MAVEN PUBLICATION ONLY\npublication settings\n{marker} END MAVEN PUBLICATION ONLY\n')
+                    self.assertEqual(expected, suite.render_bytes(path), name)
     def test_runtime_build_changes_remain_fingerprinted(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);path=root/'auth/build.gradle.kts';path.parent.mkdir()

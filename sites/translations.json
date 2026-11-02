@@ -6,13 +6,13 @@
   },
   "docs/agents/quickstart.md": {
     "path": "docs/es/agents/quickstart.md",
-    "source_sha256": "97efa4f25a08ba5a0ffc02dddb8ec5752a227c0df05a732d106804d2096b4cf1",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "33f02d7359770c4ff1db73c5724d62ad04adac14c871d4eeffe8bb828082a621",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
-    "source_sha256": "c48ff263f373580cbc862084affd39b9879557827398ae7a1a27259b1942b11a",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "e8d18dc361f3b33c82eaf8e2986f6bcbe416c3215d847c95f35f8672de12b890",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved."
   },
   "docs/agents/api.md": {
     "path": "docs/es/agents/api.md",
@@ -41,8 +41,8 @@
   },
   "docs/agents/demos.md": {
     "path": "docs/es/agents/demos.md",
-    "source_sha256": "4c7eb24cdb668d20533c9ec0702bbcaaa6c705c043b772f96f6b2d7da74fa195",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "ec560c979ebe5484f0aa838fd90166450b8ff40a0c29362c99ad51c4a685c647",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved."
   },
   "IMPORT.md": {
     "path": "docs/es/IMPORT.md",

@@ -88,3 +88,15 @@ internal fun NoCameraContent(onCancel: () -> Unit) {
         Column(Modifier.padding(24.dp)) { Text("This device has no camera."); Button(onClick = onCancel) { Text("Return") } }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "NoCameraContent", showBackground = true, widthDp = 393, heightDp = 852)
+@Composable
+private fun NoCameraContentPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                NoCameraContent(onCancel = {})
+            }
+        }
+    }
+}

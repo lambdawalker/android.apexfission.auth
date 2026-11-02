@@ -97,3 +97,15 @@ fun IdentityReviewScreenPreview() {
         IdentityReviewScreen(IdentityDetails(), {}, {}, {})
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "DetailField", showBackground = true)
+@Composable
+private fun DetailFieldPreview() {
+    com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme {
+        androidx.compose.material3.Surface {
+            androidx.compose.foundation.layout.Column {
+                DetailField("Residential address", "123 Sample Street", {})
+            }
+        }
+    }
+}
