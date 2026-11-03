@@ -127,7 +127,11 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         val completed = withTimeoutOrNull(timeoutMillis) {
             var attempts = 0
             while (!closed && state.value.record.isProcessingCard() && !state.value.signInRequired && state.value.message == null) {
-                delay(if (attempts++ < 36) 5000L else 15000L)
+                delay(when (attempts++) {
+                    in 0..14 -> 1000L
+                    in 15..44 -> 2000L
+                    else -> 5000L
+                })
                 operation { record(api.get(requireNotNull(checkpoint.id))) }
             }
             true
