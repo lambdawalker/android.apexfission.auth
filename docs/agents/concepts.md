@@ -71,6 +71,6 @@ Library UI resources follow the host Android configuration: English fallback,
 German, Spanish, French, Italian, Japanese, Korean, Polish, Portuguese, Russian,
 Ukrainian, Simplified Chinese and Traditional Chinese. Controller/password-policy
 String APIs retain their existing English values for compatibility; library screens
-resolve known messages at rendering time, including formatted arguments. Host/service
+resolve known messages at rendering time, including formatted arguments. Unrecognized host/service
 text passes through unchanged. A custom UI consuming controller strings directly
 owns its localization. Capture disclosures remain service-provided content.

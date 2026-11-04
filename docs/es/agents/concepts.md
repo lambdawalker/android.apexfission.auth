@@ -68,6 +68,6 @@ de respaldo, alemán, español, francés, italiano, japonés, coreano, polaco, p
 ruso, ucraniano, chino simplificado y chino tradicional. Las APIs String de los
 controladores y la política de contraseña conservan sus valores en inglés por
 compatibilidad; las pantallas de la biblioteca resuelven los mensajes conocidos al
-renderizar, incluidos sus argumentos. El texto del anfitrión o servicio se conserva.
+renderizar, incluidos sus argumentos. El texto del anfitrión o servicio que no coincida con un mensaje conocido se conserva.
 Una UI personalizada que consume esos String directamente debe localizar sus mensajes.
 Los avisos de captura siguen siendo contenido proporcionado por el servicio.

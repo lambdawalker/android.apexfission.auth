@@ -11,7 +11,7 @@
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
-    "source_sha256": "cdffbdc3c25248efed0e3701a576c2089cad33f8db6698aecab6648f310425fe",
+    "source_sha256": "653901fcbe40cd840828c76f7ab87f77399b3949f60cbe76d6e5e8144f404b86",
     "provenance": "Spanish translation reviewed against canonical host MaterialTheme and Android locale contracts; 2026-11-04. Existing ownership meaning and identifiers preserved."
   },
   "docs/agents/api.md": {
