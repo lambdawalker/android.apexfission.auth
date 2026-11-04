@@ -1,5 +1,9 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.email
 
+import com.apexfission.android.attestra.auth.ui.onboarding.common.authText
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import android.util.Patterns
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,27 +36,27 @@ fun EmailStartScreen(onBack: () -> Unit, onContinue: (String) -> Unit, error: St
     var attempted by rememberSaveable { mutableStateOf(false) }
     val valid = Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
     OnboardingFrame(
-        title = "Start with your email", icon = Icons.Default.MarkEmailRead, step = "1/5",
-        onBack = onBack, primaryLabel = "Continue",
+        title = stringResource(R.string.auth_start_with_your_email), icon = Icons.Default.MarkEmailRead, step = "1/5",
+        onBack = onBack, primaryLabel = stringResource(R.string.auth_continue),
         onPrimary = { attempted = true; if (valid && passwordValid) onContinue(email.trim()) },
         primaryEnabled = passwordValid,
-        secondaryLabel = if (onExistingAccount != null) "Already have an account? Sign in" else null,
+        secondaryLabel = if (onExistingAccount != null) stringResource(R.string.auth_already_have_an_account_sign_in) else null,
         onSecondary = { onExistingAccount?.invoke() },
     ) {
         OnboardingCard {
-            BodyText("Enter your email to get a confirmation link and a six-digit code.")
+            BodyText(stringResource(R.string.auth_enter_your_email_to_get_a_confirmation_link_and_a_six_digit_code))
             OutlinedTextField(
-                value = email, onValueChange = { email = it; onEmailChanged() }, label = { Text("Email address") },
+                value = email, onValueChange = { email = it; onEmailChanged() }, label = { Text(stringResource(R.string.auth_email_address)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 singleLine = true, isError = attempted && !valid,
                 supportingText = {
-                    if (attempted && !valid) Text("Enter a valid email address.")
-                    else Text("We show the same next step for every email address.")
+                    if (attempted && !valid) Text(stringResource(R.string.auth_enter_a_valid_email_address))
+                    else Text(stringResource(R.string.auth_we_show_the_same_next_step_for_every_email_address))
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
             passwordContent?.invoke()
-            if (error != null) Text(error, color = MaterialTheme.colorScheme.error)
+            if (error != null) Text(authText(error), color = MaterialTheme.colorScheme.error)
         }
     }
 }

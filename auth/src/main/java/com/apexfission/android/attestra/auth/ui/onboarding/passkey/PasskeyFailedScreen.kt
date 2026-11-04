@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.passkey
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SyncProblem
 import androidx.compose.runtime.Composable
@@ -15,14 +18,14 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 @Composable
 fun PasskeyFailedScreen(onBack: () -> Unit, onRetry: () -> Unit, onDoLater: () -> Unit, cancelled: Boolean, required: Boolean = false) {
     OnboardingFrame(
-        title = "Passkey setup incomplete", icon = Icons.Default.SyncProblem,
+        title = stringResource(R.string.auth_passkey_setup_incomplete), icon = Icons.Default.SyncProblem,
         step = "3/5", onBack = onBack,
-        primaryLabel = "Try again", onPrimary = onRetry,
-        secondaryLabel = if (required) null else "Do this later", onSecondary = onDoLater,
+        primaryLabel = stringResource(R.string.auth_try_again), onPrimary = onRetry,
+        secondaryLabel = if (required) null else stringResource(R.string.auth_do_this_later), onSecondary = onDoLater,
     ) {
         OnboardingCard {
-            BodyText(if (cancelled) "Passkey setup wasn’t finished." else "We couldn’t add your passkey. Please try again.")
-            BodyText(if (required) "A passkey is required to finish setup. Your email remains confirmed." else "You can add a passkey later. Your email remains confirmed.")
+            BodyText(if (cancelled) stringResource(R.string.auth_passkey_setup_wasn_t_finished) else stringResource(R.string.auth_we_couldn_t_add_your_passkey_please_try_again))
+            BodyText(if (required) stringResource(R.string.auth_a_passkey_is_required_to_finish_setup_your_email_remains_confirme) else stringResource(R.string.auth_you_can_add_a_passkey_later_your_email_remains_confirmed))
         }
     }
 }

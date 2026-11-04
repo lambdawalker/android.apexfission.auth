@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.email
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LockClock
 import androidx.compose.material3.MaterialTheme
@@ -21,15 +24,15 @@ fun EmailAttemptLimitScreen(
     canRequestEmail: Boolean, retryAfter: String? = null,
 ) {
     OnboardingFrame(
-        title = "Too many code attempts", icon = Icons.Default.LockClock, step = "2/5", onBack = onBack,
-        primaryLabel = "Request a new email", primaryEnabled = canRequestEmail, onPrimary = onRequestEmail,
-        secondaryLabel = "Change email address", onSecondary = onChangeEmail,
+        title = stringResource(R.string.auth_too_many_code_attempts), icon = Icons.Default.LockClock, step = "2/5", onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_request_a_new_email), primaryEnabled = canRequestEmail, onPrimary = onRequestEmail,
+        secondaryLabel = stringResource(R.string.auth_change_email_address), onSecondary = onChangeEmail,
     ) {
         OnboardingCard {
-            Text("This code can no longer be used", fontWeight = FontWeight.SemiBold)
-            BodyText("Request another email when available. Open its latest link and use its new code together.")
+            Text(stringResource(R.string.auth_this_code_can_no_longer_be_used), style = MaterialTheme.typography.titleSmall)
+            BodyText(stringResource(R.string.auth_request_another_email_when_available_open_its_latest_link_and_use))
             if (email.isNotBlank()) Text(email, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            if (!canRequestEmail) BodyText(retryAfter ?: "Please try again later.")
+            if (!canRequestEmail) BodyText(retryAfter ?: stringResource(R.string.auth_please_try_again_later))
         }
     }
 }

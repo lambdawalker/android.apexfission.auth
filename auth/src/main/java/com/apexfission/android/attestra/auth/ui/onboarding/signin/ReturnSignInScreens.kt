@@ -1,5 +1,9 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.signin
 
+import com.apexfission.android.attestra.auth.ui.onboarding.common.authText
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import android.util.Patterns
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,15 +32,15 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 fun ReturnSignInScreen(initialEmail: String, error: String?, onPasskey: (String) -> Unit, onEmail: (String) -> Unit, onBack: () -> Unit, onPassword: ((String) -> Unit)? = null) {
     var email by rememberSaveable(initialEmail) { mutableStateOf(initialEmail) }
     val valid = Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
-    OnboardingFrame(title = "Sign in to continue", icon = Icons.Default.Lock, step = "Account", onBack = onBack,
-        primaryLabel = "Sign in with passkey", primaryEnabled = valid, onPrimary = { onPasskey(email.trim()) },
-        secondaryLabel = "Send an email code", secondaryEnabled = valid, onSecondary = { onEmail(email.trim()) }) {
+    OnboardingFrame(title = stringResource(R.string.auth_sign_in_to_continue_285), icon = Icons.Default.Lock, step = stringResource(R.string.auth_account), onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_sign_in_with_passkey), primaryEnabled = valid, onPrimary = { onPasskey(email.trim()) },
+        secondaryLabel = stringResource(R.string.auth_send_an_email_code), secondaryEnabled = valid, onSecondary = { onEmail(email.trim()) }) {
         OnboardingCard {
-            BodyText("Enter your email, then choose how to sign in. You can use an email code if a passkey is unavailable on this device.")
-            OutlinedTextField(email, { email = it }, label = { Text("Email address") }, singleLine = true,
+            BodyText(stringResource(R.string.auth_enter_your_email_then_choose_how_to_sign_in_you_can_use_an_email))
+            OutlinedTextField(email, { email = it }, label = { Text(stringResource(R.string.auth_email_address)) }, singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email), modifier = Modifier.fillMaxWidth())
-            if (onPassword != null) androidx.compose.material3.TextButton(onClick = { onPassword(email.trim()) }, enabled = valid) { Text("Sign in with password") }
-            if (error != null) Text(error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+            if (onPassword != null) androidx.compose.material3.TextButton(shape = MaterialTheme.shapes.small, onClick = { onPassword(email.trim()) }, enabled = valid) { Text(stringResource(R.string.auth_sign_in_with_password)) }
+            if (error != null) Text(authText(error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
@@ -47,13 +51,13 @@ fun ReturnSignInScreen(initialEmail: String, error: String?, onPasskey: (String)
 @Composable
 fun ReturnEmailCodeScreen(email: String, error: String?, onVerify: (String) -> Unit, onBack: () -> Unit) {
     var code by rememberSaveable(email) { mutableStateOf("") }
-    OnboardingFrame(title = "Sign in with email", icon = Icons.Default.Lock, step = "Account", onBack = onBack,
-        primaryLabel = "Verify code", primaryEnabled = code.length == 6, onPrimary = { onVerify(code) }) {
+    OnboardingFrame(title = stringResource(R.string.auth_sign_in_with_email), icon = Icons.Default.Lock, step = stringResource(R.string.auth_account), onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_verify_code), primaryEnabled = code.length == 6, onPrimary = { onVerify(code) }) {
         OnboardingCard {
-            BodyText("Enter the six-digit sign-in code sent to $email. This is separate from your signup confirmation code.")
-            OutlinedTextField(code, { code = it.filter(Char::isDigit).take(6) }, label = { Text("Six-digit code") }, singleLine = true,
+            BodyText(stringResource(R.string.auth_enter_the_six_digit_sign_in_code_sent_to_1_s_this_is_separate_fro, email))
+            OutlinedTextField(code, { code = it.filter(Char::isDigit).take(6) }, label = { Text(stringResource(R.string.auth_six_digit_code)) }, singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword), modifier = Modifier.fillMaxWidth())
-            if (error != null) Text(error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+            if (error != null) Text(authText(error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

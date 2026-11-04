@@ -34,7 +34,7 @@ jobs:
           python3 scripts/screenshots/suite.py coverage
           python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'
       - name: Generate candidates without accepting them
-        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'candidates'
+        if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'candidates')
         run: |
           bash gradlew :auth:updateDebugScreenshotTest :app:updateDebugScreenshotTest --stacktrace
           python3 scripts/screenshots/suite.py candidates

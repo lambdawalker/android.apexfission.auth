@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.id
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.runtime.Composable
@@ -16,14 +19,14 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 @Composable
 fun IdentitySuccessScreen(onBack: () -> Unit, onDashboard: () -> Unit, passkeyAdded: Boolean) {
     OnboardingFrame(
-        title = "Identity check complete", icon = Icons.Default.TaskAlt, step = "ID check", onBack = onBack,
-        primaryLabel = "Go to dashboard", onPrimary = onDashboard,
+        title = stringResource(R.string.auth_identity_check_complete), icon = Icons.Default.TaskAlt, step = stringResource(R.string.auth_id_check), onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_go_to_dashboard), onPrimary = onDashboard,
     ) {
         OnboardingCard {
-            BodyText("Your identity check is complete. You can now continue to your account.")
-            StatusRow("Email verified", "Confirmed on this account.")
-            if (passkeyAdded) StatusRow("Passkey added", "Added to your account.")
-            StatusRow("Identity check complete", "Approved result received from the identity service.")
+            BodyText(stringResource(R.string.auth_your_identity_check_is_complete_you_can_now_continue_to_your_acco))
+            StatusRow(stringResource(R.string.auth_email_verified), stringResource(R.string.auth_confirmed_on_this_account))
+            if (passkeyAdded) StatusRow(stringResource(R.string.auth_passkey_added), stringResource(R.string.auth_added_to_your_account))
+            StatusRow(stringResource(R.string.auth_identity_check_complete), stringResource(R.string.auth_approved_result_received_from_the_identity_service))
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.id
 
+import com.apexfission.android.attestra.auth.ui.onboarding.common.authText
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Badge
@@ -52,29 +56,29 @@ fun IdentityReviewScreen(
     fun notifyChanged() = onDetailsChanged(IdentityDetails(fullName, dateOfBirth, address, documentNumber, issuingCountry, documentType, expirationDate))
 
     OnboardingFrame(
-        title = "Review ID details", icon = Icons.Default.Badge, step = "ID check", onBack = onBack,
-        primaryLabel = "Submit details for review",
+        title = stringResource(R.string.auth_review_id_details), icon = Icons.Default.Badge, step = stringResource(R.string.auth_id_check), onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_submit_details_for_review),
         onPrimary = {
             onSubmit(
                 IdentityDetails(fullName, dateOfBirth, address, documentNumber, issuingCountry, documentType, expirationDate)
             )
         },
-        secondaryLabel = "Rescan document", onSecondary = onRescan,
+        secondaryLabel = stringResource(R.string.auth_rescan_document), onSecondary = onRescan,
     ) {
         OnboardingCard {
-            BodyText("Review the details read from your document. Correct mistakes before submitting them for an identity check.")
-            if (error != null) Text(error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
-            if (initialDetails != extractedDetails) BodyText("Your edits will be submitted as corrections. The original extraction is preserved separately.")
-            Text("Personal information", fontWeight = FontWeight.SemiBold)
-            DetailField("Full legal name", fullName) { fullName = it; notifyChanged() }
-            DetailField("Date of birth", dateOfBirth) { dateOfBirth = it; notifyChanged() }
-            DetailField("Residential address", address) { address = it; notifyChanged() }
-            Text("Document information", fontWeight = FontWeight.SemiBold)
-            DetailField("Document number", documentNumber) { documentNumber = it; notifyChanged() }
-            DetailField("Issuing country", issuingCountry) { issuingCountry = it; notifyChanged() }
-            DetailField("Document type", documentType) { documentType = it; notifyChanged() }
-            DetailField("Expiration date", expirationDate) { expirationDate = it; notifyChanged() }
-            BodyText("Correcting extracted text does not verify your identity. A separate result follows submission.")
+            BodyText(stringResource(R.string.auth_review_the_details_read_from_your_document_correct_mistakes_befor))
+            if (error != null) Text(authText(error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+            if (initialDetails != extractedDetails) BodyText(stringResource(R.string.auth_your_edits_will_be_submitted_as_corrections_the_original_extracti))
+            Text(stringResource(R.string.auth_personal_information), style = MaterialTheme.typography.titleSmall)
+            DetailField(stringResource(R.string.auth_full_legal_name), fullName) { fullName = it; notifyChanged() }
+            DetailField(stringResource(R.string.auth_date_of_birth), dateOfBirth) { dateOfBirth = it; notifyChanged() }
+            DetailField(stringResource(R.string.auth_residential_address), address) { address = it; notifyChanged() }
+            Text(stringResource(R.string.auth_document_information), style = MaterialTheme.typography.titleSmall)
+            DetailField(stringResource(R.string.auth_document_number), documentNumber) { documentNumber = it; notifyChanged() }
+            DetailField(stringResource(R.string.auth_issuing_country), issuingCountry) { issuingCountry = it; notifyChanged() }
+            DetailField(stringResource(R.string.auth_document_type), documentType) { documentType = it; notifyChanged() }
+            DetailField(stringResource(R.string.auth_expiration_date), expirationDate) { expirationDate = it; notifyChanged() }
+            BodyText(stringResource(R.string.auth_correcting_extracted_text_does_not_verify_your_identity_a_separat))
         }
     }
 }
@@ -86,7 +90,7 @@ fun IdentityReviewScreen(
 private fun DetailField(label: String, value: String, onChange: (String) -> Unit) {
     OutlinedTextField(
         value = value, onValueChange = onChange, label = { Text(label) },
-        modifier = Modifier.fillMaxWidth(), singleLine = label != "Residential address",
+        modifier = Modifier.fillMaxWidth(), singleLine = label != stringResource(R.string.auth_residential_address),
     )
 }
 

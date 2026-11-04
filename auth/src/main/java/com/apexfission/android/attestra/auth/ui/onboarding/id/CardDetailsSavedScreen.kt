@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.id
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.runtime.Composable
@@ -15,13 +18,13 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 @Composable
 fun CardDetailsSavedScreen(onDone: () -> Unit, onReview: () -> Unit) {
     OnboardingFrame(
-        title = "Details saved", icon = Icons.Default.TaskAlt, step = "Card details", onBack = onDone,
-        primaryLabel = "Done", onPrimary = onDone,
-        secondaryLabel = "Review details", onSecondary = onReview,
+        title = stringResource(R.string.auth_details_saved), icon = Icons.Default.TaskAlt, step = stringResource(R.string.auth_card_details), onBack = onDone,
+        primaryLabel = stringResource(R.string.auth_done), onPrimary = onDone,
+        secondaryLabel = stringResource(R.string.auth_review_details), onSecondary = onReview,
     ) {
         OnboardingCard {
-            BodyText("Your card details have been saved. You can now continue to your account.")
-            BodyText("Saving these details does not verify your identity.")
+            BodyText(stringResource(R.string.auth_your_card_details_have_been_saved_you_can_now_continue_to_your_ac))
+            BodyText(stringResource(R.string.auth_saving_these_details_does_not_verify_your_identity))
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.id
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.runtime.Composable
@@ -18,16 +21,16 @@ fun IdentityUnsuccessfulScreen(
     canRetry: Boolean, explanation: String? = null,
 ) {
     OnboardingFrame(
-        title = "We couldn’t complete your identity check", icon = Icons.Default.WarningAmber,
-        step = "ID check", onBack = onBack,
-        primaryLabel = if (canRetry) "Try again" else "Go to dashboard",
+        title = stringResource(R.string.auth_we_couldn_t_complete_your_identity_check), icon = Icons.Default.WarningAmber,
+        step = stringResource(R.string.auth_id_check), onBack = onBack,
+        primaryLabel = if (canRetry) stringResource(R.string.auth_try_again) else stringResource(R.string.auth_go_to_dashboard),
         onPrimary = if (canRetry) onRetry else onDashboard,
-        secondaryLabel = if (canRetry) "Go to dashboard" else null,
+        secondaryLabel = if (canRetry) stringResource(R.string.auth_go_to_dashboard) else null,
         onSecondary = onDashboard,
     ) {
         OnboardingCard {
-            BodyText(explanation ?: "Your identity check could not be completed. You can return to your account.")
-            BodyText("Your account remains available. Try again only if another attempt is allowed.")
+            BodyText(explanation ?: stringResource(R.string.auth_your_identity_check_could_not_be_completed_you_can_return_to_your))
+            BodyText(stringResource(R.string.auth_your_account_remains_available_try_again_only_if_another_attempt))
         }
     }
 }

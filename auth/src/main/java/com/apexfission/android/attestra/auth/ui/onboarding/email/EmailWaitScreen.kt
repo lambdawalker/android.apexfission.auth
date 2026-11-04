@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.email
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Text
@@ -20,14 +23,14 @@ fun EmailWaitScreen(
     canResend: Boolean = true, resendHelp: String? = null, onSignIn: (() -> Unit)? = null,
 ) {
     OnboardingFrame(
-        title = "Check your email", icon = Icons.Default.Visibility, step = "2/5", onBack = onBack,
-        primaryLabel = "Resend email", onPrimary = onResend, primaryEnabled = canResend,
-        secondaryLabel = if (onSignIn != null) "Already verified? Sign in" else "Change email address", onSecondary = { if (onSignIn != null) onSignIn() else onChangeEmail() },
+        title = stringResource(R.string.auth_check_your_email), icon = Icons.Default.Visibility, step = "2/5", onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_resend_email), onPrimary = onResend, primaryEnabled = canResend,
+        secondaryLabel = if (onSignIn != null) stringResource(R.string.auth_already_verified_sign_in) else stringResource(R.string.auth_change_email_address), onSecondary = { if (onSignIn != null) onSignIn() else onChangeEmail() },
     ) {
         OnboardingCard {
-            BodyText("If a message arrives, open its confirmation link for:")
-            if (email.isNotBlank()) Text(email, fontWeight = FontWeight.SemiBold)
-            BodyText("Keep the six-digit code in that email available in case it is requested.")
+            BodyText(stringResource(R.string.auth_if_a_message_arrives_open_its_confirmation_link_for))
+            if (email.isNotBlank()) Text(email, style = MaterialTheme.typography.titleSmall)
+            BodyText(stringResource(R.string.auth_keep_the_six_digit_code_in_that_email_available_in_case_it_is_req))
             if (resendHelp != null) BodyText(resendHelp)
         }
     }

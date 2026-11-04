@@ -1,5 +1,7 @@
 package com.apexfission.android.attestra.auth.email
 
+import com.apexfission.android.attestra.auth.library.R
+
 import androidx.activity.compose.BackHandler
 import com.apexfission.android.attestra.auth.capture.CaptureApi
 import com.apexfission.android.attestra.auth.capture.CapturePolicy
@@ -113,7 +115,7 @@ fun EmailOnboardingHost(
         } catch (cancel: CancellationException) {
             throw cancel
         } catch (_: Exception) {
-            capturePolicyError = "We could not load the capture information. Try again or return to sign in."
+            capturePolicyError = context.getString(R.string.auth_we_could_not_load_the_capture_information_try_again_or_return_to)
         } finally { capturePolicyLoading = false }
     }
     var status by remember(apiBaseUrl) { mutableStateOf<AccountStatus?>(null) }
@@ -173,7 +175,7 @@ fun EmailOnboardingHost(
                 status = null
                 storage.clearSession()
                 authenticated = false
-                returnError = "Sign in to continue setup."
+                returnError = context.getString(R.string.auth_sign_in_to_continue_setup)
                 returnMode = "choice"
             }
             passkeyScreen = "refresh"
@@ -232,7 +234,7 @@ fun EmailOnboardingHost(
                             refreshStatus()
                         } catch (cancelled: CancellationException) { throw cancelled }
                         catch (_: Exception) {
-                            passwordError = "Could not save your password. Enter it again to retry."
+                            passwordError = context.getString(R.string.auth_could_not_save_your_password_enter_it_again_to_retry)
                             passkeyScreen = "password"
                         }
                     }
@@ -243,7 +245,7 @@ fun EmailOnboardingHost(
                 clearPassword()
                 storage.clearSession()
                 returnMode = "choice"
-                returnError = "Sign in to continue."
+                returnError = context.getString(R.string.auth_sign_in_to_continue)
             } finally { restoring = false }
         }
     }
@@ -263,7 +265,7 @@ fun EmailOnboardingHost(
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
                 Log.e("EmailDebugX", "Sign-in start failed passkey=$usePasskey", error)
-                returnError = if (usePasskey) "Passkey sign-in did not finish. Try again or use email." else "Could not send a sign-in code. Try again."
+                returnError = if (usePasskey) context.getString(R.string.auth_passkey_sign_in_did_not_finish_try_again_or_use_email) else context.getString(R.string.auth_could_not_send_a_sign_in_code_try_again)
                 returnMode = "choice"
             }
         }
@@ -277,7 +279,7 @@ fun EmailOnboardingHost(
                 catch (cancelled: CancellationException) { throw cancelled }
                 catch (error: Exception) {
                     Log.e("EmailDebugX", "Email sign-in failed", error)
-                    returnError = "That code did not work. Try again or request a new one."
+                    returnError = context.getString(R.string.auth_that_code_did_not_work_try_again_or_request_a_new_one)
                     returnMode = "code"
                 }
             }
@@ -332,7 +334,7 @@ fun EmailOnboardingHost(
                 val challenge = returnApi.startPassword(returnEmail)
                 saveSignedIn(returnApi.finishPassword(returnEmail, challenge.session, entered))
             } catch (cancelled: CancellationException) { throw cancelled }
-            catch (_: Exception) { returnError = "Password sign-in did not finish. Try again or use an email code."; returnMode = "password" }
+            catch (_: Exception) { returnError = context.getString(R.string.auth_password_sign_in_did_not_finish_try_again_or_use_an_email_code); returnMode = "password" }
         }
     }
     val savePassword: () -> Unit = {
@@ -346,7 +348,7 @@ fun EmailOnboardingHost(
                     check(returnApi.setPassword(requireNotNull(storage.session()).accessToken, entered).passwordRegistered)
                     refreshStatus()
                 } catch (cancelled: CancellationException) { throw cancelled }
-                catch (_: Exception) { passwordError = "Could not save your password. Check the requirements and try again."; passkeyScreen = "password" }
+                catch (_: Exception) { passwordError = context.getString(R.string.auth_could_not_save_your_password_check_the_requirements_and_try_again); passkeyScreen = "password" }
             }
         }
     }
@@ -360,10 +362,10 @@ fun EmailOnboardingHost(
     } else if (returnMode == "loading" || (screen == EmailScreen.Verified && restoring)) {
         OnboardingLoadingScreen(LoadingTask.SIGN_IN, onBack = {})
     } else if (onboarding == null) {
-        OnboardingFrame("App settings unavailable", Icons.Default.Lock, "Setup", exit,
-            primaryLabel = "Retry settings", onPrimary = onRetryConfiguration,
-            secondaryLabel = "Sign in to an existing account", onSecondary = { clearPassword(); returnMode = "choice" }) {
-            BodyText("Connect to load current setup requirements before continuing.")
+        OnboardingFrame(context.getString(R.string.auth_app_settings_unavailable), Icons.Default.Lock, context.getString(R.string.auth_setup), exit,
+            primaryLabel = context.getString(R.string.auth_retry_settings), onPrimary = onRetryConfiguration,
+            secondaryLabel = context.getString(R.string.auth_sign_in_to_an_existing_account), onSecondary = { clearPassword(); returnMode = "choice" }) {
+            BodyText(context.getString(R.string.auth_connect_to_load_current_setup_requirements_before_continuing))
         }
     } else when (screen) {
         is EmailScreen.Start -> EmailStartScreen(exit, { address ->
@@ -384,7 +386,7 @@ fun EmailOnboardingHost(
             } else null)
         is EmailScreen.Wait -> EmailWaitScreen(
             screen.email, changeEmail, resend, changeEmail,
-            canResend = canResend, resendHelp = screen.help ?: if (canResend) null else "You can request another email in a minute.",
+            canResend = canResend, resendHelp = screen.help ?: if (canResend) null else context.getString(R.string.auth_you_can_request_another_email_in_a_minute),
             onSignIn = { clearPassword(); returnEmail = screen.email; returnMode = "choice" },
         )
         is EmailScreen.Code -> EmailCodeScreen(
@@ -393,7 +395,7 @@ fun EmailOnboardingHost(
         )
         is EmailScreen.Limit -> EmailAttemptLimitScreen(
             screen.email, changeEmail, resend, changeEmail, canRequestEmail = canResend,
-            retryAfter = if (canResend) null else "Wait a minute before requesting another email.",
+            retryAfter = if (canResend) null else context.getString(R.string.auth_wait_a_minute_before_requesting_another_email),
         )
         is EmailScreen.Unusable -> EmailLinkUnusableScreen(
             screen.email, changeEmail, resend, changeEmail, canRequestEmail = screen.requestId != null && canResend,
@@ -421,20 +423,20 @@ fun EmailOnboardingHost(
                     status = null
                     authenticated = false
                     returnMode = "choice"
-                    returnError = "Sign in to resume your capture."
+                    returnError = context.getString(R.string.auth_sign_in_to_resume_your_capture)
                 } else scope.launch { refreshStatus() }
             }
-            "welcome" -> OnboardingFrame("Welcome to Attestra", Icons.Default.Lock, "Your account", exit,
-                primaryLabel = if (status?.idCaptured == true) "Review ID details" else "Refresh account status",
+            "welcome" -> OnboardingFrame(context.getString(R.string.auth_welcome_to_attestra), Icons.Default.Lock, context.getString(R.string.auth_your_account), exit,
+                primaryLabel = if (status?.idCaptured == true) context.getString(R.string.auth_review_id_details) else context.getString(R.string.auth_refresh_account_status),
                 onPrimary = { if (status?.idCaptured == true) { acceptedCapturePolicy = null; passkeyScreen = "identity_flow" } else scope.launch { refreshStatus() } }) {
-                BodyText("Your account setup is complete.")
-                if (status?.idCaptured == true) BodyText("Document captured. This does not assert identity verification.")
+                BodyText(context.getString(R.string.auth_your_account_setup_is_complete))
+                if (status?.idCaptured == true) BodyText(context.getString(R.string.auth_document_captured_this_does_not_assert_identity_verification))
             }
             "start" -> PasskeyStartScreen(exit, createPasskey, { skip(OnboardingStep.PASSKEY) }, required = onboarding.passkey == Requirement.REQUIRED)
-            else -> OnboardingFrame("Check account setup", Icons.Default.Lock, "Account", exit,
-                primaryLabel = "Retry account status", onPrimary = { scope.launch { refreshStatus() } },
-                secondaryLabel = "Reload settings", onSecondary = onRetryConfiguration) {
-                BodyText("We could not confirm that setup is complete. Retry to get the latest server status.")
+            else -> OnboardingFrame(context.getString(R.string.auth_check_account_setup), Icons.Default.Lock, context.getString(R.string.auth_account), exit,
+                primaryLabel = context.getString(R.string.auth_retry_account_status), onPrimary = { scope.launch { refreshStatus() } },
+                secondaryLabel = context.getString(R.string.auth_reload_settings), onSecondary = onRetryConfiguration) {
+                BodyText(context.getString(R.string.auth_we_could_not_confirm_that_setup_is_complete_retry_to_get_the_late))
             }
         }
         is EmailScreen.Loading -> OnboardingLoadingScreen(

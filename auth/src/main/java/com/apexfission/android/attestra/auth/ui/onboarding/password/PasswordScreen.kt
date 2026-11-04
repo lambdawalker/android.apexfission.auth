@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.password
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -22,14 +25,14 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 @Composable
 fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPolicy? = null, optional: Boolean = false) {
     OutlinedTextField(value = value, onValueChange = onChange,
-        label = { Text(if (optional) "Password (optional)" else "Password") },
+        label = { Text(if (optional) stringResource(R.string.auth_password_optional) else stringResource(R.string.auth_password)) },
         singleLine = true, visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), modifier = Modifier.fillMaxWidth())
     if (policy != null) {
         policy.requirements().forEach { BodyText(it) }
         if (value.isNotEmpty()) {
-            BodyText("Strength estimate: ${policy.strength(value)}")
-            BodyText(if (policy.problems(value).isEmpty()) "Meets the configured requirements" else "Does not yet meet the configured requirements")
+            BodyText(stringResource(R.string.auth_strength_estimate_1_s, authText(policy.strength(value))))
+            BodyText(if (policy.problems(value).isEmpty()) stringResource(R.string.auth_meets_the_configured_requirements) else stringResource(R.string.auth_does_not_yet_meet_the_configured_requirements))
             policy.problems(value).forEach { BodyText(it) }
         }
     }
@@ -42,11 +45,11 @@ fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPol
 fun PasswordScreen(value: String, onChange: (String) -> Unit, onSubmit: () -> Unit,
     onBack: () -> Unit, error: String?, policy: PasswordPolicy? = null,
     optional: Boolean = false, onSkip: () -> Unit = {}, signIn: Boolean = false) {
-    OnboardingFrame(title = if (signIn) "Sign in with password" else "Set your password", icon = Icons.Default.Lock,
-        step = "Account", onBack = onBack,
-        primaryLabel = if (signIn) "Sign in" else "Save password",
+    OnboardingFrame(title = if (signIn) stringResource(R.string.auth_sign_in_with_password) else stringResource(R.string.auth_set_your_password), icon = Icons.Default.Lock,
+        step = stringResource(R.string.auth_account), onBack = onBack,
+        primaryLabel = if (signIn) stringResource(R.string.auth_sign_in) else stringResource(R.string.auth_save_password),
         primaryEnabled = value.isNotEmpty() && (policy == null || policy.problems(value).isEmpty()), onPrimary = onSubmit,
-        secondaryLabel = if (optional) "Skip for now" else null, onSecondary = onSkip) {
+        secondaryLabel = if (optional) stringResource(R.string.auth_skip_for_now) else null, onSecondary = onSkip) {
         OnboardingCard {
             PasswordField(value, onChange, policy)
             if (error != null) BodyText(error)
