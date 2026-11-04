@@ -11,8 +11,8 @@
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
-    "source_sha256": "e8d18dc361f3b33c82eaf8e2986f6bcbe416c3215d847c95f35f8672de12b890",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved."
+    "source_sha256": "cdffbdc3c25248efed0e3701a576c2089cad33f8db6698aecab6648f310425fe",
+    "provenance": "Spanish translation reviewed against canonical host MaterialTheme and Android locale contracts; 2026-11-04. Existing ownership meaning and identifiers preserved."
   },
   "docs/agents/api.md": {
     "path": "docs/es/agents/api.md",

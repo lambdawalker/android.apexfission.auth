@@ -261,7 +261,7 @@
     <string name="auth_send_an_email_code">"发送邮件验证码"</string>
     <string name="auth_enter_your_email_then_choose_how_to_sign_in_you_can_use_an_email">"输入邮箱后，选择登录方式。如果此设备无法使用通行密钥，您可以使用邮件验证码。"</string>
     <string name="auth_sign_in_with_email">"使用邮箱登录"</string>
-    <string name="auth_verify_code">"验证验证码"</string>
+    <string name="auth_verify_code">"验证"</string>
     <string name="auth_enter_the_six_digit_sign_in_code_sent_to_1_s_this_is_separate_fro">"请输入发送至%1$s的六位登录验证码。该验证码与注册确认码不同。"</string>
     <string name="auth_six_digit_code">"六位验证码"</string>
     <string name="auth_review_the_front">"检查正面"</string>
@@ -277,4 +277,6 @@
     <string name="auth_front">"正面"</string>
     <string name="auth_camera">"相机"</string>
     <string name="auth_back_side">"反面"</string>
+    <string name="auth_numbers">"数字"</string>
+    <string name="auth_symbols">"符号"</string>
 </resources>

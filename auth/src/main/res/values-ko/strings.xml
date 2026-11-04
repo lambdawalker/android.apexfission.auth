@@ -277,4 +277,6 @@
     <string name="auth_front">"앞면"</string>
     <string name="auth_camera">"카메라"</string>
     <string name="auth_back_side">"뒷면"</string>
+    <string name="auth_numbers">"숫자"</string>
+    <string name="auth_symbols">"기호"</string>
 </resources>

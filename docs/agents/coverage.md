@@ -16,3 +16,6 @@ claiming a released artifact or deployed backend verification.
 | Resource ownership and disposal | Concepts, API | Controller tests and host disposal | Parent rendering is not lifecycle verification |
 | Preview coverage and provenance | Screenshot guide and coverage manifest | Inventory checks, both UI-module renderers | Explicit symbol/scenario mapping |
 | Installation / versions / translations | IMPORT, site maintenance | Site tests and release catalog checks | No fabricated stable release |
+
+
+Host Material appearance and the 13-language UI resource set are covered by resource key/formatter checks, locale-resolution instrumented tests, and the onboarding screenshot suite. Instrumented locale tests require a device; the normal JVM build does not execute them.

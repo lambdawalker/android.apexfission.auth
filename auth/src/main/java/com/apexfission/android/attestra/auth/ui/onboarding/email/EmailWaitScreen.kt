@@ -1,5 +1,6 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.email
 
+import androidx.compose.material3.MaterialTheme
 import com.apexfission.android.attestra.auth.library.R
 import androidx.compose.ui.res.stringResource
 

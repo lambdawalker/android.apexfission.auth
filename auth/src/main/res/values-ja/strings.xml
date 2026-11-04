@@ -224,7 +224,7 @@
     <string name="auth_review_the_details_read_from_your_document_correct_mistakes_befor">"書類から読み取った情報を確認してください。誤りを修正してから、本人確認のために送信してください。"</string>
     <string name="auth_your_edits_will_be_submitted_as_corrections_the_original_extracti">"編集内容は修正情報として送信されます。元の抽出内容は別途保持されます。"</string>
     <string name="auth_personal_information">"個人情報"</string>
-    <string name="auth_full_legal_name">"戸籍上の氏名"</string>
+    <string name="auth_full_legal_name">"法的な氏名"</string>
     <string name="auth_residential_address">"居住先住所"</string>
     <string name="auth_document_information">"書類情報"</string>
     <string name="auth_document_type">"書類の種類"</string>
@@ -277,4 +277,6 @@
     <string name="auth_front">"表面"</string>
     <string name="auth_camera">"カメラ"</string>
     <string name="auth_back_side">"裏面"</string>
+    <string name="auth_numbers">"数字"</string>
+    <string name="auth_symbols">"記号"</string>
 </resources>

@@ -277,4 +277,6 @@
     <string name="auth_front">"przednia"</string>
     <string name="auth_camera">"Aparat"</string>
     <string name="auth_back_side">"tylna"</string>
+    <string name="auth_numbers">"cyfry"</string>
+    <string name="auth_symbols">"symbole"</string>
 </resources>

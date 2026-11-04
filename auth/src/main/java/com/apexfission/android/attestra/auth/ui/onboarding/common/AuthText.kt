@@ -188,6 +188,7 @@ internal class AuthMessages(context: Context) {
             R.string.auth_go_to_dashboard,
             R.string.auth_this_may_take_a_moment_we_will_update_the_screen_when_it_finishes,
             R.string.auth_back,
+            R.string.auth_back_side,
             R.string.auth_protect_your_account_with_a_passkey,
             R.string.auth_create_passkey,
             R.string.auth_do_this_later,
@@ -320,6 +321,8 @@ internal class AuthMessages(context: Context) {
             R.string.auth_return,
             R.string.auth_front,
             R.string.auth_camera,
+            R.string.auth_numbers,
+            R.string.auth_symbols,
         )
     }
 }

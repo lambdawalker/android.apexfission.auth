@@ -277,4 +277,6 @@
     <string name="auth_front">"da frente"</string>
     <string name="auth_camera">"Câmara"</string>
     <string name="auth_back_side">"do verso"</string>
+    <string name="auth_numbers">"números"</string>
+    <string name="auth_symbols">"símbolos"</string>
 </resources>

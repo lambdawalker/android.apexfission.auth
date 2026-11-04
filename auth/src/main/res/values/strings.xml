@@ -277,4 +277,6 @@
     <string name="auth_front">"front"</string>
     <string name="auth_camera">"Camera"</string>
     <string name="auth_back_side">"back"</string>
+    <string name="auth_numbers">"numbers"</string>
+    <string name="auth_symbols">"symbols"</string>
 </resources>
