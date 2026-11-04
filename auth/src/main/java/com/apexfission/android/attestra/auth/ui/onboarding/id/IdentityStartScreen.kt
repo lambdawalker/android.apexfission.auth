@@ -60,7 +60,8 @@ fun IdentityStartScreen(
                         TextButton(shape = MaterialTheme.shapes.small, onClick = onRetryPolicy) { Text(stringResource(R.string.auth_retry)) }
                     }
                     capturePolicy != null -> {
-                        BodyText(capturePolicy.purposes.text(language).ifBlank { capturePolicy.purpose })
+                        Text(capturePolicy.purposes.text(language).ifBlank { capturePolicy.purpose },
+                            style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         BodyText(stringResource(R.string.auth_uploaded_photos_are_retained_for_up_to_1_s_days_after_capture_com, capturePolicy.retentionDays))
                         if (!capturePolicy.enabled) BodyText(stringResource(R.string.auth_document_capture_is_not_enabled_for_this_service_yet))
                     }
