@@ -2,6 +2,8 @@ package com.apexfission.android.attestra.auth.ui.onboarding.common
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Autorenew
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
@@ -27,12 +29,12 @@ enum class LoadingTask(val title: String, val description: String, val step: Str
 fun OnboardingLoadingScreen(task: LoadingTask, onBack: () -> Unit, onLeave: (() -> Unit)? = null) {
     OnboardingFrame(
         title = task.title, icon = Icons.Default.Autorenew, step = task.step, onBack = onBack,
-        secondaryLabel = if (task == LoadingTask.CHECK_IDENTITY) "Go to dashboard" else null,
+        secondaryLabel = if (task == LoadingTask.CHECK_IDENTITY) stringResource(R.string.auth_go_to_dashboard) else null,
         onSecondary = { onLeave?.invoke() },
     ) {
         OnboardingCard {
             WaitingIndicator(task.description)
-            BodyText("This may take a moment. We will update the screen when it finishes.")
+            BodyText(stringResource(R.string.auth_this_may_take_a_moment_we_will_update_the_screen_when_it_finishes))
         }
     }
 }

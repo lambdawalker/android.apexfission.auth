@@ -56,3 +56,21 @@ commits, so do not repeatedly recreate/read it for every recomposition.
 `clearLocalUser()` clears this installation only. It does not revoke remote sessions,
 delete server evidence or delete platform passkeys. Changing backend/account binding
 requires local isolation before constructing authenticated clients.
+
+
+## Host appearance and language
+
+Place `EmailOnboardingHost`, `CaptureHost` and individual screens inside the host's
+Material 3 `MaterialTheme`. Reusable screens inherit its color scheme, typography
+and shapes; action and code-cell minimum heights allow text to grow. Layout spacing
+remains in density-independent pixels because MaterialTheme has no spacing scale.
+`AttestraAuthTheme` is an explicit branded theme for the sample and previews; callers
+do not need to apply it.
+
+Library UI resources follow the host Android configuration: English fallback,
+German, Spanish, French, Italian, Japanese, Korean, Polish, Portuguese, Russian,
+Ukrainian, Simplified Chinese and Traditional Chinese. Controller/password-policy
+String APIs retain their existing English values for compatibility; library screens
+resolve known messages at rendering time, including formatted arguments. Unrecognized host/service
+text passes through unchanged. A custom UI consuming controller strings directly
+owns its localization. Capture disclosures remain service-provided content.

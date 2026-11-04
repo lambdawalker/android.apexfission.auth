@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.id
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.runtime.Composable
@@ -15,13 +18,13 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 @Composable
 fun IdentitySubmissionFailedScreen(onBack: () -> Unit, onRetry: () -> Unit, onDashboard: () -> Unit) {
     OnboardingFrame(
-        title = "Could not submit ID details", icon = Icons.Default.ErrorOutline, step = "ID check", onBack = onBack,
-        primaryLabel = "Try again", onPrimary = onRetry,
-        secondaryLabel = "Go to dashboard", onSecondary = onDashboard,
+        title = stringResource(R.string.auth_could_not_submit_id_details), icon = Icons.Default.ErrorOutline, step = stringResource(R.string.auth_id_check), onBack = onBack,
+        primaryLabel = stringResource(R.string.auth_try_again), onPrimary = onRetry,
+        secondaryLabel = stringResource(R.string.auth_go_to_dashboard), onSecondary = onDashboard,
     ) {
         OnboardingCard {
-            BodyText("We could not confirm that your details were submitted. Check your connection and try again.")
-            BodyText("Check the submission status before sending the same details again.")
+            BodyText(stringResource(R.string.auth_we_could_not_confirm_that_your_details_were_submitted_check_your))
+            BodyText(stringResource(R.string.auth_check_the_submission_status_before_sending_the_same_details_again))
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.identity.capture
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -37,8 +40,8 @@ fun IdentityCamera(onCaptured: (ByteArray, ByteArray) -> Unit, onError: () -> Un
     HandlePermissions(
         modifier = Modifier.fillMaxSize().safeDrawingPadding(),
         permissions = listOf(PermissionDescription(Manifest.permission.CAMERA) {
-            DefaultPermissionPage("Camera", Icons.Default.PhotoCamera, title = "Scan both sides of your ID",
-                body = "Allow the camera to capture the front and back. You can cancel and continue later.")
+            DefaultPermissionPage(stringResource(R.string.auth_camera), Icons.Default.PhotoCamera, title = stringResource(R.string.auth_scan_both_sides_of_your_id),
+                body = stringResource(R.string.auth_allow_the_camera_to_capture_the_front_and_back_you_can_cancel_and))
         }),
         overviewMode = PermissionOverviewMode.Hide,
         onBack = onCancel, onNotNow = onCancel,
@@ -85,7 +88,7 @@ private fun encodeJpeg(bitmap: Bitmap): ByteArray {
 @Composable
 internal fun NoCameraContent(onCancel: () -> Unit) {
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background, contentColor = MaterialTheme.colorScheme.onBackground) {
-        Column(Modifier.padding(24.dp)) { Text("This device has no camera."); Button(onClick = onCancel) { Text("Return") } }
+        Column(Modifier.padding(24.dp)) { Text(stringResource(R.string.auth_this_device_has_no_camera)); Button(shape = MaterialTheme.shapes.small, onClick = onCancel) { Text(stringResource(R.string.auth_return)) } }
     }
 }
 

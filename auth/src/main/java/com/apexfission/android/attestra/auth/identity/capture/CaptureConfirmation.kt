@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.identity.capture
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,14 +26,14 @@ internal fun CaptureConfirmation(side: DocumentSide, jpeg: ByteArray, onAccept: 
     val bitmap = remember(jpeg) { BitmapFactory.decodeByteArray(jpeg, 0, jpeg.size) }
     DisposableEffect(bitmap) { onDispose { bitmap?.recycle() } }
     OnboardingFrame(
-        title = if (side == DocumentSide.FRONT) "Review the front" else "Review the back",
-        icon = Icons.Default.PhotoCamera, step = "ID capture", onBack = onCancel,
-        primaryLabel = "Use this photo", onPrimary = onAccept, primaryEnabled = bitmap != null,
-        secondaryLabel = "Retake photo", onSecondary = onRetake,
+        title = if (side == DocumentSide.FRONT) stringResource(R.string.auth_review_the_front) else stringResource(R.string.auth_review_the_back),
+        icon = Icons.Default.PhotoCamera, step = stringResource(R.string.auth_id_capture), onBack = onCancel,
+        primaryLabel = stringResource(R.string.auth_use_this_photo), onPrimary = onAccept, primaryEnabled = bitmap != null,
+        secondaryLabel = stringResource(R.string.auth_retake_photo), onSecondary = onRetake,
     ) {
         OnboardingCard {
-            BodyText("Check that this is the ${side.name.lowercase()} side and that all text and corners are visible.")
-            if (bitmap != null) Image(bitmap.asImageBitmap(), "Captured ${side.name.lowercase()} of ID", Modifier.fillMaxWidth().heightIn(max = 320.dp))
+            BodyText(stringResource(R.string.auth_check_that_this_is_the_1_s_side_and_that_all_text_and_corners_are, stringResource(if (side == DocumentSide.FRONT) R.string.auth_front else R.string.auth_back_side)))
+            if (bitmap != null) Image(bitmap.asImageBitmap(), stringResource(R.string.auth_captured_1_s_of_id, stringResource(if (side == DocumentSide.FRONT) R.string.auth_front else R.string.auth_back_side)), Modifier.fillMaxWidth().heightIn(max = 320.dp))
         }
     }
 }

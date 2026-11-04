@@ -3,7 +3,7 @@
   "captures": [
     {
       "path": "docs/assets/screenshots/email-start-light.png",
-      "image_sha256": "7b338efc69a361bf2da0228572b41c209627590a88f48c1792c742b0c2f15191",
+      "image_sha256": "2d53e2e7920b40b382fed9d6098fed4578958f258ae3223870eb6faa719efce8",
       "width": 1032,
       "height": 2237,
       "scenario": "auth:DocumentationScreenshotTest.emailStart",
@@ -11,14 +11,14 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "db811142dc2f736623c1b2dfde82a306a04b8167",
-      "render_inputs_sha256": "3a26e561fb87f5986192ec1a4a4be704f77c52bd502fc4e2cae651c228372c81",
+      "source_commit": "e3af238ca7fd696b0131dc777597006137793a49",
+      "render_inputs_sha256": "3bdd93a979b36670ed4ea5ce736e5e64e8c1e9bcd8e45241b4979b1b189c9937",
       "caption": "Synthetic component preview: emailStart",
       "alt": "Attestra emailStart in light theme; synthetic fixture data"
     },
     {
       "path": "docs/assets/screenshots/read-document-dark.png",
-      "image_sha256": "e723e8661962a29a46fd52779b0e713c1c1569623001402df0c8951b690a1a68",
+      "image_sha256": "d3b9be2304309291cd4e5c3c2ceefc764bd0bbf726d4a96dffaa98941fc3230c",
       "width": 1032,
       "height": 2237,
       "scenario": "auth:DocumentationScreenshotTest.readDocument",
@@ -26,14 +26,14 @@
       "capture_kind": "component-preview",
       "theme": "dark",
       "locale": "en",
-      "source_commit": "db811142dc2f736623c1b2dfde82a306a04b8167",
-      "render_inputs_sha256": "3a26e561fb87f5986192ec1a4a4be704f77c52bd502fc4e2cae651c228372c81",
+      "source_commit": "e3af238ca7fd696b0131dc777597006137793a49",
+      "render_inputs_sha256": "3bdd93a979b36670ed4ea5ce736e5e64e8c1e9bcd8e45241b4979b1b189c9937",
       "caption": "Synthetic component preview: readDocument",
       "alt": "Attestra readDocument in dark theme; synthetic fixture data"
     },
     {
       "path": "docs/assets/screenshots/details-saved-light.png",
-      "image_sha256": "e555f691dadff20ad9dcd8cdddd079ee662cebdec1a932aca7aa7e5d56da0118",
+      "image_sha256": "099ad3eb2768667b74c7ad472f03b13aa3754e5ae85522df70cef7ba9ab9a80b",
       "width": 1032,
       "height": 2237,
       "scenario": "auth:DocumentationScreenshotTest.detailsSaved",
@@ -41,8 +41,8 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "db811142dc2f736623c1b2dfde82a306a04b8167",
-      "render_inputs_sha256": "3a26e561fb87f5986192ec1a4a4be704f77c52bd502fc4e2cae651c228372c81",
+      "source_commit": "e3af238ca7fd696b0131dc777597006137793a49",
+      "render_inputs_sha256": "3bdd93a979b36670ed4ea5ce736e5e64e8c1e9bcd8e45241b4979b1b189c9937",
       "caption": "Synthetic component preview: detailsSaved",
       "alt": "Attestra detailsSaved in light theme; synthetic fixture data"
     }

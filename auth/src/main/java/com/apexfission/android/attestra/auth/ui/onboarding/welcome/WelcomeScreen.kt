@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.ui.onboarding.welcome
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.runtime.Composable
@@ -17,23 +20,23 @@ import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 @Composable
 fun WelcomeScreen(passkeyAdded: Boolean, onCheckId: () -> Unit) {
     OnboardingFrame(
-        title = "Welcome to Attestra",
+        title = stringResource(R.string.auth_welcome_to_attestra),
         icon = Icons.Default.VerifiedUser,
-        step = "Your account",
+        step = stringResource(R.string.auth_your_account),
         onBack = onCheckId,
-        primaryLabel = "Open ID check / status",
+        primaryLabel = stringResource(R.string.auth_open_id_check_status),
         onPrimary = onCheckId,
     ) {
         OnboardingCard {
-            BodyText("Your account is ready. You can return to your identity check whenever you're ready.")
-            StatusRow("Email verified", "You can use your email to sign in.")
+            BodyText(stringResource(R.string.auth_your_account_is_ready_you_can_return_to_your_identity_check_whene))
+            StatusRow(stringResource(R.string.auth_email_verified), stringResource(R.string.auth_you_can_use_your_email_to_sign_in))
             StatusRow(
-                if (passkeyAdded) "Passkey added" else "Passkey not added",
-                if (passkeyAdded) "You can sign in with your passkey." else "You can add a passkey later.",
+                if (passkeyAdded) stringResource(R.string.auth_passkey_added) else stringResource(R.string.auth_passkey_not_added),
+                if (passkeyAdded) stringResource(R.string.auth_you_can_sign_in_with_your_passkey) else stringResource(R.string.auth_you_can_add_a_passkey_later),
                 complete = passkeyAdded,
             )
-            StatusRow("Identity check", "Open your check to start, resume, or retrieve its latest result.", complete = false)
-            BodyText("Identity verification is optional for now. Some future actions may require it.")
+            StatusRow(stringResource(R.string.auth_identity_check), stringResource(R.string.auth_open_your_check_to_start_resume_or_retrieve_its_latest_result), complete = false)
+            BodyText(stringResource(R.string.auth_identity_verification_is_optional_for_now_some_future_actions_may))
         }
     }
 }

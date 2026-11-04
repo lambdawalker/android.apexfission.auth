@@ -1,5 +1,8 @@
 package com.apexfission.android.attestra.auth.identity
 
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.runtime.Composable
@@ -12,9 +15,9 @@ import androidx.compose.material3.MaterialTheme
  */
 @Composable
 fun IdentityIntegrationUnavailable(onExit: () -> Unit) {
-    OnboardingFrame("Identity check is not available yet", Icons.Default.Badge, "Optional ID check", onExit,
-        primaryLabel = "Return to account", onPrimary = onExit) {
-        OnboardingCard { BodyText("You can continue using your account. Identity verification will be available when the service is ready.") }
+    OnboardingFrame(stringResource(R.string.auth_identity_check_is_not_available_yet), Icons.Default.Badge, stringResource(R.string.auth_optional_id_check), onExit,
+        primaryLabel = stringResource(R.string.auth_return_to_account), onPrimary = onExit) {
+        OnboardingCard { BodyText(stringResource(R.string.auth_you_can_continue_using_your_account_identity_verification_will_be)) }
     }
 }
 

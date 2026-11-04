@@ -1,5 +1,9 @@
 package com.apexfission.android.attestra.auth.capture
 
+import com.apexfission.android.attestra.auth.ui.onboarding.common.authText
+import com.apexfission.android.attestra.auth.library.R
+import androidx.compose.ui.res.stringResource
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -142,14 +146,14 @@ internal fun CaptureHostContent(
             Column(Modifier.fillMaxSize().safeDrawingPadding().verticalScroll(rememberScrollState()).padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 if (ui.record?.extraction?.status == "failed" && ui.record.reviewed == null) {
-                    Text("We could not read your card. Enter your details below.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.auth_we_could_not_read_your_card_enter_your_details_below), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                ui.message?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                ui.message?.let { Text(authText(it), color = MaterialTheme.colorScheme.error) }
                 if (ui.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
                 CardReviewForm(ui, onEditCard, onResetReview, onEditOrigin, onSaveReview)
-                if (ui.message != null) TextButton(enabled = !ui.busy, onClick = onRestore) { Text("Refresh status") }
-                TextButton(enabled = !ui.busy, onClick = onCancel) { Text("Cancel and delete card data") }
-                TextButton(onClick = { onClose(); onExit() }) { Text("Continue later") }
+                if (ui.message != null) TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onRestore) { Text(stringResource(R.string.auth_refresh_status)) }
+                TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onCancel) { Text(stringResource(R.string.auth_cancel_and_delete_card_data)) }
+                TextButton(shape = MaterialTheme.shapes.small, onClick = { onClose(); onExit() }) { Text(stringResource(R.string.auth_continue_later)) }
             }
         }
         return
@@ -167,54 +171,54 @@ internal fun CaptureHostContent(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text("Capture your ID", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.onBackground)
+            Text(stringResource(R.string.auth_capture_your_id), style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.onBackground)
             Text(
-                "Capture both sides, check the photos, and upload them securely. We read the card details so you can review them. This does not verify your identity.",
+                stringResource(R.string.auth_capture_both_sides_check_the_photos_and_upload_them_securely_we_r),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             if (ui.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
-            ui.message?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            ui.message?.let { Text(authText(it), color = MaterialTheme.colorScheme.error) }
             val record = ui.record
             if (record == null || record.state in setOf("requires_recapture", "expired", "cancelled")) {
                 ui.policy?.let { policy ->
-                    Text("ID card · JPEG images, up to ${policy.maxBytes / (1024 * 1024)} MiB per side.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.auth_id_card_jpeg_images_up_to_1_s_mib_per_side, policy.maxBytes / (1024 * 1024)), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     val disclosureLanguage = ui.record?.disclosureLanguage?.takeIf { it.isNotBlank() } ?: language
                     Text(policy.purposes.text(disclosureLanguage).ifBlank { policy.purpose }, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text("Uploaded photos are retained for up to ${policy.retentionDays} days after capture completes. You can cancel to request deletion.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.auth_uploaded_photos_are_retained_for_up_to_1_s_days_after_capture_com, policy.retentionDays), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
             when (record?.state) {
                 null -> {
                     if (allowNewCapture && ui.policy?.enabled == true) {
-                        Button(enabled = !ui.busy, onClick = { onStart(language) }) { Text("Continue to capture") }
-                    } else Text("Document capture is not enabled for this service yet.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Button(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = { onStart(language) }) { Text(stringResource(R.string.auth_continue_to_capture)) }
+                    } else Text(stringResource(R.string.auth_document_capture_is_not_enabled_for_this_service_yet), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 "uploading" -> {
-                    Text("Photos stay in memory until uploaded. After leaving this screen, unfinished photos may need to be retaken.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    OutlinedButton(enabled = !ui.busy, onClick = { onCamera(DocumentSide.FRONT) }) {
-                        Text(if (ui.uploaded.isEmpty()) "Capture both sides" else "Retake both sides")
+                    Text(stringResource(R.string.auth_photos_stay_in_memory_until_uploaded_after_leaving_this_screen_un), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    OutlinedButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = { onCamera(DocumentSide.FRONT) }) {
+                        Text(if (ui.uploaded.isEmpty()) stringResource(R.string.auth_capture_both_sides) else stringResource(R.string.auth_retake_both_sides))
                     }
-                    if (ui.message != null) OutlinedButton(enabled = !ui.busy, onClick = onUpload) { Text("Retry upload") }
+                    if (ui.message != null) OutlinedButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onUpload) { Text(stringResource(R.string.auth_retry_upload)) }
                     if (ui.message != null && record.selected.keys.containsAll(listOf("front", "back"))) {
-                        TextButton(enabled = !ui.busy, onClick = onFinalizeCapture) { Text("Retry processing") }
+                        TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onFinalizeCapture) { Text(stringResource(R.string.auth_retry_processing)) }
                     }
                 }
-                "finalizing" -> Text("Checking the uploaded files. You can leave and return while this finishes.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                "finalizing" -> Text(stringResource(R.string.auth_checking_the_uploaded_files_you_can_leave_and_return_while_this_f), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 "ready" -> {
                     when (record.extraction?.status) {
-                        "pending" -> { Text("Reading your card details", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground); CircularProgressIndicator(); Text("You can leave and return while this finishes.", color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                        "failed", "complete" -> Text("Refresh to load your review form.")
-                        null -> Text("The service has not provided a reading result. Refresh status or return later.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        else -> Text("Update the app to view this extraction status.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        "pending" -> { Text(stringResource(R.string.auth_reading_your_card_details), style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground); CircularProgressIndicator(); Text(stringResource(R.string.auth_you_can_leave_and_return_while_this_finishes), color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                        "failed", "complete" -> Text(stringResource(R.string.auth_refresh_to_load_your_review_form))
+                        null -> Text(stringResource(R.string.auth_the_service_has_not_provided_a_reading_result_refresh_status_or_r), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        else -> Text(stringResource(R.string.auth_update_the_app_to_view_this_extraction_status), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
-                "failed" -> { Text("File checks are temporarily unavailable.", color = MaterialTheme.colorScheme.onSurfaceVariant); Button(enabled = !ui.busy, onClick = onRetry) { Text("Retry file checks") } }
-                "requires_recapture", "expired", "cancelled" -> { Text("Please capture your document again.", color = MaterialTheme.colorScheme.onSurfaceVariant); Button(enabled = !ui.busy && allowNewCapture && ui.policy?.enabled == true, onClick = { onStart(language) }) { Text("Start again") } }
-                else -> Text("This capture state needs a newer app. Your document has not been marked captured here.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                "failed" -> { Text(stringResource(R.string.auth_file_checks_are_temporarily_unavailable), color = MaterialTheme.colorScheme.onSurfaceVariant); Button(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onRetry) { Text(stringResource(R.string.auth_retry_file_checks)) } }
+                "requires_recapture", "expired", "cancelled" -> { Text(stringResource(R.string.auth_please_capture_your_document_again), color = MaterialTheme.colorScheme.onSurfaceVariant); Button(shape = MaterialTheme.shapes.small, enabled = !ui.busy && allowNewCapture && ui.policy?.enabled == true, onClick = { onStart(language) }) { Text(stringResource(R.string.auth_start_again)) } }
+                else -> Text(stringResource(R.string.auth_this_capture_state_needs_a_newer_app_your_document_has_not_been_m), color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            if (!ui.signInRequired) TextButton(enabled = !ui.busy, onClick = onRestore) { Text("Refresh status") }
-            if (record != null && record.state !in setOf("expired", "cancelled")) TextButton(enabled = !ui.busy, onClick = onCancel) { Text("Cancel and delete card data") }
-            TextButton(onClick = { onClose(); onExit() }) { Text(if (ui.signInRequired) "Return to sign in" else "Continue later") }
+            if (!ui.signInRequired) TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onRestore) { Text(stringResource(R.string.auth_refresh_status)) }
+            if (record != null && record.state !in setOf("expired", "cancelled")) TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onCancel) { Text(stringResource(R.string.auth_cancel_and_delete_card_data)) }
+            TextButton(shape = MaterialTheme.shapes.small, onClick = { onClose(); onExit() }) { Text(if (ui.signInRequired) stringResource(R.string.auth_return_to_sign_in) else stringResource(R.string.auth_continue_later)) }
         }
     }
 }

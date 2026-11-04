@@ -441,6 +441,13 @@
         "app:AppScreenshotTest.signInRequired"
       ],
       "note": "Same pure visual content is used in runtime and preview."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/attestra/auth/ui/onboarding/common/AuthText.kt",
+      "symbol": "authText",
+      "kind": "nonvisual-runtime",
+      "scenarios": [],
+      "note": "Locale-aware resource resolution only; rendered by the covered onboarding and capture components."
     }
   ]
 }

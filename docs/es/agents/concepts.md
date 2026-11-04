@@ -51,3 +51,23 @@ E/S bloqueante a UI. El almacenamiento usa commits síncronos; no lo recree en c
 
 `clearLocalUser()` limpia esta instalación; no revoca sesiones remotas ni elimina
 passkeys/evidencia del servidor. Aísle autenticación al cambiar la vinculación de backend/cuenta.
+
+
+## Apariencia e idioma del anfitrión
+
+Coloque `EmailOnboardingHost`, `CaptureHost` y las pantallas individuales dentro del
+`MaterialTheme` de Material 3 del anfitrión. Las pantallas reutilizables heredan sus
+colores, tipografía y formas; las alturas mínimas de acciones y celdas de código
+permiten que crezca el texto. El espaciado sigue en píxeles independientes de la
+densidad porque MaterialTheme no define una escala de espaciado.
+`AttestraAuthTheme` es un tema de marca explícito para la app de ejemplo y las vistas
+previas; los consumidores no necesitan aplicarlo.
+
+Los recursos de UI siguen la configuración Android del anfitrión: inglés como idioma
+de respaldo, alemán, español, francés, italiano, japonés, coreano, polaco, portugués,
+ruso, ucraniano, chino simplificado y chino tradicional. Las APIs String de los
+controladores y la política de contraseña conservan sus valores en inglés por
+compatibilidad; las pantallas de la biblioteca resuelven los mensajes conocidos al
+renderizar, incluidos sus argumentos. El texto del anfitrión o servicio que no coincida con un mensaje conocido se conserva.
+Una UI personalizada que consume esos String directamente debe localizar sus mensajes.
+Los avisos de captura siguen siendo contenido proporcionado por el servicio.
