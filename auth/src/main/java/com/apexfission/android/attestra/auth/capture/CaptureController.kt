@@ -115,7 +115,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             editedFields.clear()
             focusedField = null
         }
-        val lateResult = sameReview && old.record?.extraction?.status == "retrying" &&
+        val lateResult = sameReview && old.record?.extraction?.retrying == true &&
             r.extraction?.status == "complete" && r.reviewed == null
         val updatedDraft = if (lateResult) {
             requireNotNull(old.draft).mergeOCR(requireNotNull(r.extraction).data, editedFields + listOfNotNull(focusedField))
@@ -489,7 +489,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         val ui = state.value
         val r = ui.record ?: return
         if (closed || ui.busy || !r.canReviewCard()) return
-        if (r.extraction?.status != "retrying") editedFields.clear()
+        if (r.extraction?.retrying != true) editedFields.clear()
         show(ui.copy(draft = r.reviewData(), draftRevision = r.revision, reviewDirty = false, originCountry = r.reviewed?.originCountry.orEmpty(), message = null))
     }
     fun editOrigin(country: String) {
@@ -512,7 +512,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
                 record(api.review(r.id, ReviewCapture(revision, data, ui.originCountry)))
                 return@operation
             } catch (e: CaptureException) {
-                if (e.status != 409 || r.extraction?.status != "retrying") throw e
+                if (e.status != 409 || r.extraction?.retrying != true) throw e
                 val latest = api.get(r.id)
                 if (latest.imageRevision != r.imageRevision || latest.reviewed != r.reviewed ||
                     !latest.canReviewCard() || latest.revision == revision) throw e
