@@ -89,6 +89,11 @@ Card details use the backend wire name `issued_identifier`. The Kotlin property
 `personalNumber` remains source-compatible; legacy `personal_number` responses are
 also readable, while review requests emit `issued_identifier`.
 
+Android confirms the front upload as soon as the PUT succeeds, which starts
+front-only OCR while the camera can still capture the back. After evidence
+validation, the first OCR failure opens manual review. The single immediate
+retry can populate fields that have never been edited and do not have focus.
+
 Timing lines use `phase` and `elapsed_ms`. Bitmap copies, JPEG encoding, upload
 registration and transfers are timed per side. Finalize, retake and retry are
 timed as requests. `validation_observed` and `ocr_observed` measure the time
