@@ -41,7 +41,7 @@ import kotlinx.serialization.json.JsonNames
     }
     fun isEmpty(): Boolean = this == CardData()
 }
-@Serializable data class CardExtraction(val status: String, val data: CardData = CardData(), val error: String = "")
+@Serializable data class CardExtraction(val status: String, val data: CardData = CardData(), val error: String = "", val retrying: Boolean = false)
 @Serializable data class ReviewedCard(val data: CardData, @SerialName("saved_at") val savedAt: Long, @SerialName("origin_country") val originCountry: String = "")
 @Serializable data class ReviewCapture(@SerialName("expected_revision") val revision: Long, val data: CardData, @SerialName("origin_country") val originCountry: String = "")
 @Serializable data class CaptureRecord(
@@ -117,7 +117,7 @@ interface CaptureGateway {
 class CaptureException(val status: Int, val code: String = "request_failed") : Exception("Capture request failed ($status)")
 
 internal fun CaptureRecord.canReviewCard(): Boolean =
-    state == "ready" && extraction?.status in setOf("complete", "failed", "retrying")
+    state == "ready" && (extraction?.status in setOf("complete", "failed") || extraction?.retrying == true)
 
 /** Failed extraction must never seed a manual form with a partial provider result. */
 internal fun CaptureRecord.reviewData(): CardData = reviewed?.data
