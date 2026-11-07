@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.apexfission.android.attestra.auth.capture.CaptureApi
 import com.apexfission.android.permission.requester.HandlePermissions
 import com.apexfission.android.permission.ui.DefaultPermissionPage
 import com.apexfission.android.permission.ui.PermissionDescription
@@ -73,15 +72,33 @@ fun IdentityCamera(onCaptured: (ByteArray, ByteArray) -> Unit, onError: () -> Un
 }
 
 private fun encodeJpeg(bitmap: Bitmap): ByteArray {
-    val maxEdge = 2048
-    val scale = minOf(1f, maxEdge.toFloat() / maxOf(bitmap.width, bitmap.height))
-    val scaled = if (scale < 1f) Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt().coerceAtLeast(1), (bitmap.height * scale).toInt().coerceAtLeast(1), true) else bitmap
-    try {
-        return ByteArrayOutputStream().use { out ->
-            check(scaled.compress(Bitmap.CompressFormat.JPEG, 90, out))
-            out.toByteArray().also { require(it.size <= CaptureApi.MAX_JPEG_BYTES) }
+    val sourceEdge = maxOf(bitmap.width, bitmap.height)
+    val maxBytes = 500 * 1024
+    // Keep color and try lower JPEG quality before reducing text resolution further.
+    for (maxEdge in listOf(1600, 1200, 960).map { minOf(sourceEdge, it) }.distinct()) {
+        val scaled = if (sourceEdge > maxEdge) {
+            val scale = maxEdge.toDouble() / sourceEdge
+            Bitmap.createScaledBitmap(
+                bitmap,
+                (bitmap.width * scale).toInt().coerceAtLeast(1),
+                (bitmap.height * scale).toInt().coerceAtLeast(1),
+                true,
+            )
+        } else {
+            bitmap
         }
-    } finally { if (scaled !== bitmap) scaled.recycle() }
+        try {
+            for (quality in listOf(90, 80, 70)) {
+                ByteArrayOutputStream().use { out ->
+                    check(scaled.compress(Bitmap.CompressFormat.JPEG, quality, out))
+                    if (out.size() in 4..maxBytes) return out.toByteArray()
+                }
+            }
+        } finally {
+            if (scaled !== bitmap) scaled.recycle()
+        }
+    }
+    error("Captured image exceeds the upload size limit")
 }
 
 /** Pure fallback UI; the runtime camera entry and preview use the same content. */
