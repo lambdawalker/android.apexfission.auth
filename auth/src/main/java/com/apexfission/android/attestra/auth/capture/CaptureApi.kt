@@ -61,6 +61,15 @@ class CaptureApi(baseUrl: String, private val client: HttpClient, private val up
         diagnostic("receive image upload status=${response.status.value}")
         if (response.status.value !in 200..299) throw CaptureException(response.status.value, "upload_failed")
     }
+    override suspend fun confirmFront(id: String, uploadId: String): CaptureRecord? = try {
+        client.post("${path(id)}/confirm-front") {
+            authorize()
+            contentType(ContentType.Application.Json)
+            setBody(ConfirmFront(uploadId))
+        }.checked().body<CaptureRecord>()
+    } catch (e: CaptureException) {
+        if (e.status == 404 || e.status == 405) null else throw e
+    }
     override suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord = client.post("${path(id)}/finalize") { authorize(); contentType(ContentType.Application.Json); setBody(request) }.checked().body()
     override suspend fun retry(id: String, key: String): CaptureRecord = client.post("${path(id)}/retry-finalization") { authorize(); contentType(ContentType.Application.Json); setBody(OperationKey(key)) }.checked().body()
     override suspend fun review(id: String, request: ReviewCapture): CaptureRecord = client.post("${path(id)}/review") { authorize(); contentType(ContentType.Application.Json); setBody(request) }.checked().body()
