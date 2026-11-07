@@ -173,7 +173,7 @@ internal fun CaptureHostContent(
         Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Column(Modifier.fillMaxSize().safeDrawingPadding().verticalScroll(rememberScrollState()).padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                if (ui.record?.extraction?.status in setOf("failed", "retrying") && ui.record?.reviewed == null) {
+                if ((ui.record?.extraction?.status == "failed" || ui.record?.extraction?.retrying == true) && ui.record?.reviewed == null) {
                     Text(stringResource(R.string.auth_we_could_not_read_your_card_enter_your_details_below), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 ui.message?.let { Text(authText(it), color = MaterialTheme.colorScheme.error) }
