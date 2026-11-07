@@ -1,6 +1,7 @@
 package com.apexfission.android.attestra.auth.capture
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -23,4 +24,14 @@ class CardDataContractTest {
         assertFalse(CardData(fullName = "é".repeat(257)).isValid())
         assertFalse(CardData(documentNumber = "a\u0000b").isValid())
     }
+    @Test fun issuedIdentifierUsesBackendWireNameAndReadsLegacyRecords() {
+        val current = json.decodeFromString<CardData>("""{"issued_identifier":"0000456"}""")
+        assertEquals("0000456", current.personalNumber)
+        val legacy = json.decodeFromString<CardData>("""{"personal_number":"0000456"}""")
+        assertEquals(current, legacy)
+        val encoded = json.encodeToString(current)
+        assertTrue(encoded.contains("\"issued_identifier\":\"0000456\""))
+        assertFalse(encoded.contains("personal_number"))
+    }
+
 }

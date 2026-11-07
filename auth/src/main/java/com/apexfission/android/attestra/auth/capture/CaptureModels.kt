@@ -2,6 +2,8 @@ package com.apexfission.android.attestra.auth.capture
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.JsonNames
 
 @Serializable data class DisclosureMessages(val en: String = "", val es: String = "", val fr: String = "") {
     fun language(requested: String): String = when { requested.startsWith("es") && es.isNotBlank() -> "es"; requested.startsWith("fr") && fr.isNotBlank() -> "fr"; else -> "en" }
@@ -19,13 +21,14 @@ import kotlinx.serialization.Serializable
     val jurisdiction: String = "",
     @SerialName("retention_days") val retentionDays: Int = 7,
 )
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable data class CardData(
     @SerialName("full_name") val fullName: String = "",
     @SerialName("given_names") val givenNames: String = "",
     val surnames: String = "",
     @SerialName("birth_date") val birthDate: String = "",
     @SerialName("document_number") val documentNumber: String = "",
-    @SerialName("personal_number") val personalNumber: String = "",
+    @SerialName("issued_identifier") @JsonNames("personal_number") val personalNumber: String = "",
     val address: String = "",
     @SerialName("issue_date") val issueDate: String = "",
     @SerialName("expiry_date") val expiryDate: String = "",

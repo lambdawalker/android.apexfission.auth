@@ -130,7 +130,7 @@ fun text(requested: String): String
     val surnames: String = "",
     @SerialName("birth_date") val birthDate: String = "",
     @SerialName("document_number") val documentNumber: String = "",
-    @SerialName("personal_number") val personalNumber: String = "",
+    @SerialName("issued_identifier") @JsonNames("personal_number") val personalNumber: String = "",
     val address: String = "",
     @SerialName("issue_date") val issueDate: String = "",
     @SerialName("expiry_date") val expiryDate: String = "",

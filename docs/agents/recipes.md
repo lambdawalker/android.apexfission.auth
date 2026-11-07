@@ -84,3 +84,7 @@ Deploy backend retake and `image_revision` support before enabling `earlyCamera`
 An incompatible backend leads to recovery instead of presenting stale results.
 `CARD-OCR` logs method/path, HTTP status, byte counts and capture metadata only.
 Tokens, signed URLs, images and extracted card fields stay out of logs.
+
+Card details use the backend wire name `issued_identifier`. The Kotlin property
+`personalNumber` remains source-compatible; legacy `personal_number` responses are
+also readable, while review requests emit `issued_identifier`.

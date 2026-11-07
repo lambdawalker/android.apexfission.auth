@@ -74,3 +74,7 @@ Despliegue retake e `image_revision` en el backend antes de activar `earlyCamera
 Un backend incompatible conduce a recuperación sin presentar resultados obsoletos.
 `CARD-OCR` registra solo método/ruta, estado HTTP, cantidad de bytes y metadatos de captura.
 No registra tokens, URLs firmadas, imágenes ni campos extraídos.
+
+Los datos usan `issued_identifier` en el contrato HTTP. La propiedad Kotlin
+`personalNumber` conserva compatibilidad; también se leen respuestas antiguas con
+`personal_number`, pero las solicitudes de revisión emiten `issued_identifier`.
