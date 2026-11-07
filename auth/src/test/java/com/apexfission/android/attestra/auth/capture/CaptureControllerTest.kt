@@ -86,7 +86,7 @@ class CaptureControllerTest {
         val api = Gateway(store)
         val c = CaptureController(api, store)
         val pending = CaptureRecord("a".repeat(32), 1, 5, "capture-v1", "sample_card", "ready",
-            9999999999, imageRevision = 4, extraction = CardExtraction("retrying"))
+            9999999999, imageRevision = 4, extraction = CardExtraction("pending", retrying = true))
         api.record = pending
         c.restore()
         assertEquals(CaptureDestination.REVIEW, captureDestination(c.state.value))
