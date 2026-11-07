@@ -334,6 +334,23 @@ class CaptureControllerTest {
         assertEquals(CardData(), c.state.value.draft)
         assertEquals(CaptureDestination.REVIEW, captureDestination(c.state.value))
     }
+    @Test fun grayscaleFrontUploadsBeforePairAndIsReused() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        val front = byteArrayOf(1, 2, 3, 4)
+        session.frontReady(front)
+        val frontId = requireNotNull(api.record?.selected?.get("front"))
+        assertEquals(setOf("front"), api.record?.selected?.keys)
+        assertEquals("uploading", api.record?.state)
+        assertEquals(CaptureDestination.CAMERA, captureDestination(c.state.value))
+        session.imagesReady(byteArrayOf(1, 2, 3, 4), byteArrayOf(5, 6, 7, 8), stitched = true).join()
+        assertEquals(frontId, api.record?.selected?.get("front"))
+        assertEquals(setOf("front", "stitched"), api.record?.selected?.keys)
+        assertEquals("finalizing", api.record?.state)
+        assertTrue(front.all { it == 0.toByte() })
+    }
+
     @Test fun earlyPairStartsOcrButKeepsCameraUntilConfirmation() = runBlocking {
         val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
         c.restore(); c.continueToCapture()

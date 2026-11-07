@@ -20,6 +20,7 @@ import kotlinx.serialization.json.JsonNames
     val purposes: DisclosureMessages = DisclosureMessages(),
     val jurisdiction: String = "",
     @SerialName("retention_days") val retentionDays: Int = 7,
+    @SerialName("stitched_pair_supported") val stitchedPairSupported: Boolean = false,
 )
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable data class CardData(
