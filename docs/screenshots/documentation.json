@@ -11,8 +11,8 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "17258944cca32577bfb3b56319104198c214d46d",
-      "render_inputs_sha256": "8f34da54738a35c22dbc10f657b70e0ae2c2f3e03667279efa9ef96345b75499",
+      "source_commit": "1bb9a43f5acacc4bcfe714f08f05bb97015a832b",
+      "render_inputs_sha256": "a16551e26cb002a0541cd7beee8ebe9e71c92cf322b61fbdc535102993cb915e",
       "caption": "Synthetic component preview: emailStart",
       "alt": "Attestra emailStart in light theme; synthetic fixture data"
     },
@@ -26,8 +26,8 @@
       "capture_kind": "component-preview",
       "theme": "dark",
       "locale": "en",
-      "source_commit": "17258944cca32577bfb3b56319104198c214d46d",
-      "render_inputs_sha256": "8f34da54738a35c22dbc10f657b70e0ae2c2f3e03667279efa9ef96345b75499",
+      "source_commit": "1bb9a43f5acacc4bcfe714f08f05bb97015a832b",
+      "render_inputs_sha256": "a16551e26cb002a0541cd7beee8ebe9e71c92cf322b61fbdc535102993cb915e",
       "caption": "Synthetic component preview: readDocument",
       "alt": "Attestra readDocument in dark theme; synthetic fixture data"
     },
@@ -41,8 +41,8 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "17258944cca32577bfb3b56319104198c214d46d",
-      "render_inputs_sha256": "8f34da54738a35c22dbc10f657b70e0ae2c2f3e03667279efa9ef96345b75499",
+      "source_commit": "1bb9a43f5acacc4bcfe714f08f05bb97015a832b",
+      "render_inputs_sha256": "a16551e26cb002a0541cd7beee8ebe9e71c92cf322b61fbdc535102993cb915e",
       "caption": "Synthetic component preview: detailsSaved",
       "alt": "Attestra detailsSaved in light theme; synthetic fixture data"
     }
