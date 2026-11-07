@@ -58,6 +58,6 @@ The [central agent entry](https://raw.githubusercontent.com/lambdawalker/design.
 owns architecture and shared requirements. The
 [backend agent entry](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md)
 owns service operations; its
-[capture contract](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md)
+[capture contract](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md)
 is authoritative for HTTP serialization. Follow links as raw Markdown; prototype
 timers are not evidence of successful backend behavior.
