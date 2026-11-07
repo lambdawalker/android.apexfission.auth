@@ -83,6 +83,7 @@ import kotlinx.serialization.json.JsonNames
     @SerialName("upload_ids") val uploads: Map<String, String>,
 )
 @Serializable data class RetakeCapture(@SerialName("operation_key") val key: String, @SerialName("expected_revision") val revision: Long)
+@Serializable internal data class ConfirmFront(@SerialName("upload_id") val uploadId: String)
 @Serializable data class OperationKey(@SerialName("operation_key") val key: String)
 @Serializable data class CaptureStatus(val capture: CaptureRecord? = null)
 /** Only identifiers and mutation intents survive process death. Never image bytes or signed URLs. */
@@ -106,6 +107,7 @@ interface CaptureGateway {
     suspend fun get(id: String): CaptureRecord
     suspend fun register(id: String, request: RegisterUpload): UploadInstructions
     suspend fun put(instructions: UploadInstructions, jpeg: ByteArray)
+    suspend fun confirmFront(id: String, uploadId: String): CaptureRecord? = null
     suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord
     suspend fun retry(id: String, key: String): CaptureRecord
     suspend fun review(id: String, request: ReviewCapture): CaptureRecord
@@ -115,7 +117,7 @@ interface CaptureGateway {
 class CaptureException(val status: Int, val code: String = "request_failed") : Exception("Capture request failed ($status)")
 
 internal fun CaptureRecord.canReviewCard(): Boolean =
-    state == "ready" && extraction?.status in setOf("complete", "failed")
+    state == "ready" && extraction?.status in setOf("complete", "failed", "retrying")
 
 /** Failed extraction must never seed a manual form with a partial provider result. */
 internal fun CaptureRecord.reviewData(): CardData = reviewed?.data
