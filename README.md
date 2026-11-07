@@ -186,12 +186,11 @@ front, turn-over prompt, back, then review with independent retakes. Auto captur
 starts enabled and can be toggled beside the shutter; manual capture remains available.
 Side labels guide the user and do not classify or verify a document.
 
-The live host uploads bounded color JPEGs and starts OCR as soon as both photos
-are ready, while photo review remains open. Retakes invalidate earlier work.
+The live host uploads a bounded grayscale front image and starts OCR while photo
+review remains open. Retakes invalidate earlier work.
 Confirmation opens the matching OCR result or loading while it finishes. Failed
 extraction opens manual entry. Saving the reviewed details opens a server-confirmed Details saved screen; see [save and finish](docs/identity-capture.md#save-and-finish).
-Unconfirmed photos require recapture after process restart. Filter Logcat by
-`CARD-OCR` for [phase timings](docs/agents/recipes.md).
+Unconfirmed photos require recapture after process restart.
 
 The detector and model share a JitPack artifact ID. `cardModelAssets` resolves
 `tfmodel~v0.1.2` separately and copies only assets into the auth library; the

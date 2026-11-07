@@ -12,8 +12,6 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.graphics.Rect
-import android.util.Log
-import com.apexfission.android.attestra.auth.capture.timeOcrPhase
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
@@ -99,7 +97,6 @@ fun IdentityCamera(
             onSideReady = sideReady@{ side, image ->
                 if (side == CardSide.Front) {
                     val earlyUploadEnabled = stitchedPair && ready != null
-                    Log.i("CARD-OCR", "event=front_captured early_upload_enabled=$earlyUploadEnabled")
                     if (!earlyUploadEnabled) return@sideReady
                     try {
                         val copy = copyForEncoding(image.bitmap)
@@ -109,7 +106,7 @@ fun IdentityCamera(
                             var bytes: ByteArray? = null
                             try {
                                 ensureActive()
-                                val encoded = timeCameraPhase("jpeg_front_gray") { encodeGray(copy) }
+                                val encoded = encodeGray(copy)
                                 bytes = encoded
                                 withContext(Dispatchers.Main.immediate) {
                                     sendFront(encoded)
@@ -117,7 +114,6 @@ fun IdentityCamera(
                                 }
                             } catch (cancel: CancellationException) { throw cancel }
                             catch (_: Exception) {
-                                Log.i("CARD-OCR", "early grayscale encoding failed; pair will retry")
                             } finally {
                                 bytes?.fill(0)
                                 copy.recycle()
@@ -125,7 +121,6 @@ fun IdentityCamera(
                         }
                         frontEncoding = task
                     } catch (_: Exception) {
-                        Log.i("CARD-OCR", "early front copy failed; pair will retry")
                     }
                 }
             },
@@ -157,8 +152,8 @@ fun IdentityCamera(
                     var frontCopy: Bitmap? = null
                     var backCopy: Bitmap? = null
                     try {
-                        frontCopy = timeCameraPhase("copy_front") { copyForEncoding(result.front.bitmap) }
-                        backCopy = timeCameraPhase("copy_back") { copyForEncoding(result.back.bitmap) }
+                        frontCopy = copyForEncoding(result.front.bitmap)
+                        backCopy = copyForEncoding(result.back.bitmap)
                         val earlyFront = frontEncoding
                         val frontImage = frontCopy
                         val backImage = backCopy
@@ -169,13 +164,9 @@ fun IdentityCamera(
                             var transferred = false
                             try {
                                 ensureActive()
-                                front = timeCameraPhase("jpeg_front") {
-                                    if (stitchedPair) encodeGray(frontImage) else encodeJpeg(frontImage)
-                                }
+                                front = if (stitchedPair) encodeGray(frontImage) else encodeJpeg(frontImage)
                                 ensureActive()
-                                back = timeCameraPhase(if (stitchedPair) "jpeg_stitched" else "jpeg_back") {
-                                    if (stitchedPair) encodeStitched(frontImage, backImage) else encodeJpeg(backImage)
-                                }
+                                back = if (stitchedPair) encodeStitched(frontImage, backImage) else encodeJpeg(backImage)
                                 if (stitchedPair) earlyFront?.join()
                                 withContext(Dispatchers.Main.immediate) {
                                     if (generation == token) {
@@ -206,8 +197,8 @@ fun IdentityCamera(
                     var front: ByteArray? = null
                     var back: ByteArray? = null
                     try {
-                        front = timeCameraPhase("jpeg_front") { encodeJpeg(result.front.bitmap) }
-                        back = timeCameraPhase("jpeg_back") { encodeJpeg(result.back.bitmap) }
+                        front = encodeJpeg(result.front.bitmap)
+                        back = encodeJpeg(result.back.bitmap)
                     } catch (_: Exception) {
                         front?.fill(0); back?.fill(0)
                         onError()
@@ -221,9 +212,6 @@ fun IdentityCamera(
         )
     }
 }
-
-private inline fun <T> timeCameraPhase(phase: String, block: () -> T): T =
-    timeOcrPhase(phase, { Log.i("CARD-OCR", it) }, block)
 
 private fun copyForEncoding(bitmap: Bitmap): Bitmap {
     val scale = minOf(1.0, 1600.0 / maxOf(bitmap.width, bitmap.height))

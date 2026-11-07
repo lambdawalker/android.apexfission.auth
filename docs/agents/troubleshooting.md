@@ -10,8 +10,8 @@ and Android/device evidence separate.
 | Verification link opens browser | Check manifest host, package/certificate, public `assetlinks.json` and installed signing identity | Follow [signing](../android-signing.md); index discovery does not establish App Links |
 | Link on another device needs a code | The local A proof is missing | Use B + C; never confirm with B alone or copy proof secrets between logs |
 | Settings unavailable | Check index binding, `/v1/app-config`, cache expiry and validation | Retry trusted settings. Do not infer a default successful policy or silently change host |
-| Stuck reading, state `finalizing` | Worker file validation and durable ready transition have not completed | Correlate backend `capture.work_*` / `capture.store_swap_failed`; check S3 and DynamoDB permissions, not only the model |
-| `ready` with extraction `pending` | Extraction queued/running | Correlate `capture.inference_*` and attempts; retain recovery. HTTP status/parser stage helps distinguish provider rejection from malformed output |
+| Stuck reading, state `finalizing` | Worker file validation and durable ready transition have not completed | Check S3, DynamoDB and the worker queue |
+| `ready` with extraction `pending` | Extraction queued/running | Check the worker queue and capture status |
 | Extraction `failed` | Service could not extract text | Show empty manual entry, not untrusted partial provider output |
 | Save failed or stale revision | Compare returned `reviewed` values and draft revision | Preserve local edits; refresh/reconcile. Do not navigate to finish without matching server acknowledgement |
 | Recapture needed after restart | Upload bytes were memory-only | Retake unfinished photos; IDs/checkpoints cannot recreate image bytes |
@@ -20,12 +20,7 @@ and Android/device evidence separate.
 
 ## Log safety
 
-Android metadata tag: `AttestraCapture`. Backend diagnostic events include
-`capture.dispatch`, `capture.work_started`, `capture.work_state`,
-`capture.work_finished`, `capture.extraction_result`, `capture.inference_response`,
-`capture.inference_failed`, and `capture.store_swap_failed` when that backend
-revision is deployed. Normal Lambda END/REPORT entries alone are not application
-success evidence; the worker can report SQS batch-item failures.
+Document capture omits OCR debug logs. Use the capture state to verify the processing outcome.
 
 Do not log token/password values, email-link secrets, JPEG bytes, signed URLs,
 card text, provider response bodies or raw exceptions containing those values.

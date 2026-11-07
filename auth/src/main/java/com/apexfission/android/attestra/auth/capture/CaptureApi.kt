@@ -27,18 +27,15 @@ object CaptureClients {
     }
 }
 class CaptureApi(baseUrl: String, private val client: HttpClient, private val uploads: HttpClient, private val token: () -> String) : CaptureGateway {
-    /** Metadata only: never URLs with queries, headers, tokens, payloads or OCR fields. */
-    var diagnostic: (String) -> Unit = {}
     private val root = baseUrl.trimEnd('/').also {
         val url = Url(it)
         require(url.protocol == URLProtocol.HTTPS && url.host.isNotBlank() && url.user.isNullOrEmpty() && url.password.isNullOrEmpty())
         require(url.encodedPath in listOf("", "/") && url.parameters.isEmpty() && url.fragment.isEmpty())
     } + "/onboarding/id"
     private fun path(id: String): String { require(id.matches(Regex("[a-f0-9]{32}"))); return "$root/captures/$id" }
-    private fun HttpRequestBuilder.authorize() { val access = token(); if (access.isBlank()) throw CaptureException(401); bearerAuth(access); diagnostic("send backend method=${method.value} path=${url.encodedPath}") }
+    private fun HttpRequestBuilder.authorize() { val access = token(); if (access.isBlank()) throw CaptureException(401); bearerAuth(access) }
     @Serializable private data class Failure(val error: String = "request_failed")
     private suspend fun HttpResponse.checked(): HttpResponse {
-        diagnostic("receive backend status=${status.value}")
         if (status.value !in 200..299) throw CaptureException(status.value, runCatching { body<Failure>().error }.getOrDefault("request_failed"))
         return this
     }
@@ -53,12 +50,10 @@ class CaptureApi(baseUrl: String, private val client: HttpClient, private val up
         require(url.protocol == URLProtocol.HTTPS && url.user.isNullOrEmpty() && url.password.isNullOrEmpty() && url.port == 443)
         require(url.host.matches(Regex("[a-z0-9-]+\\.s3\\.[a-z0-9-]+\\.amazonaws\\.com")))
         require(instructions.headers.keys.map(String::lowercase).toSet() == setOf("content-type", "x-amz-checksum-sha256", "x-amz-server-side-encryption"))
-        diagnostic("send image upload bytes=${jpeg.size}")
         val response = uploads.put(instructions.url) {
             instructions.headers.forEach { (key, value) -> header(key, value) }
             setBody(jpeg)
         }
-        diagnostic("receive image upload status=${response.status.value}")
         if (response.status.value !in 200..299) throw CaptureException(response.status.value, "upload_failed")
     }
     override suspend fun confirmFront(id: String, uploadId: String): CaptureRecord? = try {
