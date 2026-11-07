@@ -8,11 +8,12 @@ class CardDataContractTest {
     private val json = Json { ignoreUnknownKeys = true }
     @Test fun statusDecodesExtractionAndPreservesLeadingZeros() {
         val r = json.decodeFromString<CaptureRecord>("""{
-            "capture_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","evidence_version":1,"revision":8,
+            "capture_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","evidence_version":1,"revision":8,"image_revision":5,
             "policy_version":"v1","document_type":"card","state":"ready","expires_at":9999999999,
             "extraction":{"status":"complete","data":{"full_name":"Ana García","document_number":"000123"}},
             "reviewed":{"data":{"full_name":"Ana María García","document_number":"000123"},"saved_at":123}
         }""")
+        assertEquals(5L, r.imageRevision)
         assertEquals("000123", r.extraction?.data?.documentNumber)
         assertEquals("", r.extraction?.data?.birthDate)
         assertEquals("Ana María García", r.reviewed?.data?.fullName)

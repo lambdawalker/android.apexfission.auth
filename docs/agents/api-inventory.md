@@ -25,6 +25,7 @@ override suspend fun put(instructions: UploadInstructions, jpeg: ByteArray)
 override suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord
 override suspend fun retry(id: String, key: String): CaptureRecord
 override suspend fun review(id: String, request: ReviewCapture): CaptureRecord
+override suspend fun retake(id: String, request: RetakeCapture): CaptureRecord
 override suspend fun cancel(id: String): CaptureRecord
 ```
 
@@ -85,6 +86,16 @@ package com.apexfission.android.attestra.auth.capture
     allowNewCapture: Boolean = true,
     camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit,
 )
+@Composable fun CaptureHost(
+    controller: CaptureController,
+    onExit: () -> Unit,
+    startCaptureOnEntry: Boolean = false,
+    acceptedPolicy: CapturePolicy? = null,
+    requireReviewedPolicy: Boolean = false,
+    allowNewCapture: Boolean = true,
+    earlyCamera: (@Composable (CaptureCameraEvents) -> Unit)?,
+    camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit = { _, _, _ -> },
+)
 @Composable
 fun CaptureHostDarkPreview()
 @Composable
@@ -144,6 +155,7 @@ fun isEmpty(): Boolean
     val extraction: CardExtraction? = null,
     val reviewed: ReviewedCard? = null,
     @SerialName("disclosure_language") val disclosureLanguage: String = "",
+    @SerialName("image_revision") val imageRevision: Long? = null,
 )
 @Serializable data class CreateCapture(@SerialName("operation_key") val key: String, @SerialName("document_type") val documentType: String,
     @SerialName("expected_policy_version") val expectedPolicyVersion: String = "",
@@ -167,6 +179,7 @@ fun isEmpty(): Boolean
     @SerialName("expected_revision") val revision: Long,
     @SerialName("upload_ids") val uploads: Map<String, String>,
 )
+@Serializable data class RetakeCapture(@SerialName("operation_key") val key: String, @SerialName("expected_revision") val revision: Long)
 @Serializable data class OperationKey(@SerialName("operation_key") val key: String)
 @Serializable data class CaptureStatus(val capture: CaptureRecord? = null)
 @Serializable data class CaptureCheckpoint(
@@ -174,6 +187,7 @@ fun isEmpty(): Boolean
     val id: String? = null,
     val finalize: FinalizeCapture? = null,
     val retry: String? = null,
+    val retake: RetakeCapture? = null,
 )
 interface CaptureCheckpointStore
 fun load(): CaptureCheckpoint?
@@ -189,8 +203,30 @@ suspend fun put(instructions: UploadInstructions, jpeg: ByteArray)
 suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord
 suspend fun retry(id: String, key: String): CaptureRecord
 suspend fun review(id: String, request: ReviewCapture): CaptureRecord
+suspend fun retake(id: String, request: RetakeCapture): CaptureRecord
 suspend fun cancel(id: String): CaptureRecord
 class CaptureException(val status: Int, val code: String = "request_failed") : Exception("Capture request failed ($status)")
+```
+
+## EarlyCaptureSession
+
+[Source](../../auth/src/main/java/com/apexfission/android/attestra/auth/capture/EarlyCaptureSession.kt)
+
+```kotlin
+package com.apexfission.android.attestra.auth.capture
+
+class EarlyCaptureSession(private val controller: CaptureController, private val scope: CoroutineScope)
+fun imagesReady(front: ByteArray, back: ByteArray): Job
+fun invalidated()
+fun confirmed()
+fun close()
+class CaptureCameraEvents(
+    val onImagesReady: (ByteArray, ByteArray) -> Unit,
+    val onImagesInvalidated: () -> Unit,
+    val onConfirmed: () -> Unit,
+    val onError: () -> Unit,
+    val onCancel: () -> Unit,
+)
 ```
 
 ## SecureCaptureCheckpointStore
@@ -461,7 +497,14 @@ enum class DocumentSide
 package com.apexfission.android.attestra.auth.identity.capture
 
 @Composable
-fun IdentityCamera(onCaptured: (ByteArray, ByteArray) -> Unit, onError: () -> Unit, onCancel: () -> Unit)
+fun IdentityCamera(
+    onCaptured: (ByteArray, ByteArray) -> Unit,
+    onError: () -> Unit,
+    onCancel: () -> Unit,
+    onImagesReady: ((ByteArray, ByteArray) -> Unit)? = null,
+    onImagesInvalidated: () -> Unit = {},
+    onConfirmed: () -> Unit = {},
+)
 ```
 
 ## PasskeyRegistration

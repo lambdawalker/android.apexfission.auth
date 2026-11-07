@@ -21,8 +21,8 @@
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",
-    "source_sha256": "edf5c7eec293f18ab7abbaf1dfa333d0c227b84b5a2edc26e0ae3f0b5c481878",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "28a21609a6ad8bedfe8ddbecbcc146bee78b72911de5e3368f35b99fdb6c5c47",
+    "provenance": "Spanish recipe reviewed against early OCR callbacks, bitmap ownership, cancellation and revision fencing; 2026-11-06."
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",

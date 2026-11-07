@@ -24,6 +24,18 @@ import com.apexfission.android.attestra.auth.ui.onboarding.id.CardDetailsSavedSc
 import com.apexfission.android.attestra.auth.ui.theme.AttestraAuthTheme
 import kotlinx.coroutines.launch
 
+/** Legacy camera slot: submit both JPEGs only after photo confirmation. */
+@Composable fun CaptureHost(
+    controller: CaptureController,
+    onExit: () -> Unit,
+    startCaptureOnEntry: Boolean = false,
+    acceptedPolicy: CapturePolicy? = null,
+    requireReviewedPolicy: Boolean = false,
+    allowNewCapture: Boolean = true,
+    camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit,
+) = CaptureHost(controller, onExit, startCaptureOnEntry, acceptedPolicy,
+    requireReviewedPolicy, allowNewCapture, earlyCamera = null, camera = camera)
+
 /**
  * Screen that orchestrates the ID capture process, guiding the user through capturing, uploading, and reviewing.
  */
@@ -34,11 +46,14 @@ import kotlinx.coroutines.launch
     acceptedPolicy: CapturePolicy? = null,
     requireReviewedPolicy: Boolean = false,
     allowNewCapture: Boolean = true,
-    camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit,
+    earlyCamera: (@Composable (CaptureCameraEvents) -> Unit)?,
+    camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit = { _, _, _ -> },
 ) {
     val ui by controller.state.collectAsState()
     val language = LocalConfiguration.current.locales[0].language
     val scope = rememberCoroutineScope()
+    val early = remember(controller, scope) { EarlyCaptureSession(controller, scope) }
+    DisposableEffect(early) { onDispose { early.close() } }
     var reviewSavedDetails by remember(controller) { mutableStateOf(false) }
     var initializing by remember(controller) { mutableStateOf(true) }
     var refreshGeneration by remember(controller) { mutableIntStateOf(0) }
@@ -90,7 +105,16 @@ import kotlinx.coroutines.launch
         onRestore = { scope.launch { controller.restore(); refreshGeneration++ } },
         onCancel = { scope.launch { controller.cancel() } },
         onClose = controller::close,
-        camera = camera,
+        camera = { captured, error, cancel ->
+            if (earlyCamera == null) camera(captured, error, cancel)
+            else earlyCamera(CaptureCameraEvents(
+                onImagesReady = { front, back -> early.imagesReady(front, back) },
+                onImagesInvalidated = early::invalidated,
+                onConfirmed = early::confirmed,
+                onError = { early.invalidated(); error() },
+                onCancel = { early.close(); cancel() },
+            ))
+        },
     )
 }
 

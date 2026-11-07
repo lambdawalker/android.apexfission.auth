@@ -11,8 +11,9 @@ Lleve `acceptedPolicy` desde Continuar y active `requireReviewedPolicy = true`.
 Nunca acepte una política diferente sin conocimiento del usuario.
 `allowNewCapture` refleja ajustes vigentes, no autorización del servidor.
 
-Flujo esperado: Continuar → permiso/cámara → revisar frente/reverso → subir → validar
-archivos → extracción → formulario poblado/manual → **Details saved** confirmado.
+Flujo esperado: Continuar → permiso/cámara → ambas fotos listas → subir/validar/OCR
+durante revisión de fotos → confirmar → resultados editables o carga mientras termina
+OCR → **Details saved** confirmado.
 Cancelación, 401, consentimiento obsoleto, evidencia inválida y desconexión tienen
 recuperación propia. Reanude fotos existentes sin reabrir cámara innecesariamente.
 
@@ -39,6 +40,35 @@ es visual. Sus resultados antiguos de identidad son diseños, no resultados live
 ni elimina passkeys/evidencia remota. Para evidencia use cancelación autenticada;
 no reinicie infraestructura para probar salida de un dispositivo.
 
-Filtre Logcat por `AttestraCapture` y correlacione ID/hora UTC en backend.
+Filtre Logcat por `CARD-OCR` y correlacione ID/hora UTC en backend.
 `finalizing` precede extracción: investigue validación, almacenamiento y transacciones.
 `ready/pending` sí corresponde a extracción. Consulte [diagnóstico](troubleshooting.md).
+
+## Iniciar OCR durante la revisión de fotos
+
+Use `CaptureHost(earlyCamera = { events -> … })` y conecte `events.onImagesReady`,
+`events.onImagesInvalidated` y `events.onConfirmed` con los argumentos correspondientes
+de `IdentityCamera`, como en `LiveCaptureFlow`. El slot `camera` anterior conserva el envío
+tras confirmar. Use una ruta por cámara.
+
+El detector `carddetector~v0.1.8` presta los bitmaps durante el callback síncrono. Auth crea
+copias antes de regresar, limita el lado mayor a 1600 píxeles y codifica JPEG a color en
+un dispatcher de trabajo, hasta 500 KiB por lado. Los bytes pasan al controlador; no los
+conserve ni registre. El modelo mantiene su versión independiente `tfmodel~v0.1.2`.
+
+`EarlyCaptureSession` conserva la revisión de fotos durante procesamiento. Repetir una
+foto cancela el trabajo local, borra el borrador anterior y llama con autenticación a
+`POST /onboarding/id/captures/{id}/retake`. El mutex serializa las sustituciones, incluso
+respuestas tardías de solicitudes canceladas. Se reutiliza la captura sin otra admisión;
+siguen vigentes los límites del backend. Las claves de retake persistidas permiten
+recuperar respuestas inciertas.
+
+Auth calcula `image_revision` esperado mediante el contrato de finalización. Solo una
+coincidencia exacta de `(capture_id, image_revision)` permite llenar el formulario; las
+revisiones de estado del worker pueden cambiar por separado. Confirmar no vuelve a subir
+fotos: presenta el resultado correspondiente o carga mientras termina procesamiento.
+
+Despliegue retake e `image_revision` en el backend antes de activar `earlyCamera`.
+Un backend incompatible conduce a recuperación sin presentar resultados obsoletos.
+`CARD-OCR` registra solo método/ruta, estado HTTP, cantidad de bytes y metadatos de captura.
+No registra tokens, URLs firmadas, imágenes ni campos extraídos.

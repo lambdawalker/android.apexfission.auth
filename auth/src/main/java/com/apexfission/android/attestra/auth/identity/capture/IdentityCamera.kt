@@ -24,13 +24,28 @@ import com.apexfission.android.permission.ui.PermissionOverviewMode
 import com.apexfission.android.carddetector.ui.capture.CardCaptureConfig
 import com.apexfission.android.carddetector.ui.capture.TwoSidedCardCapture
 import java.io.ByteArrayOutputStream
+import kotlinx.coroutines.*
 
 /**
  * Screen that manages camera permissions and the ID document capture workflow.
  * Permission-gated front/back capture. Side labels guide users; they do not verify identity.
  */
 @Composable
-fun IdentityCamera(onCaptured: (ByteArray, ByteArray) -> Unit, onError: () -> Unit, onCancel: () -> Unit) {
+fun IdentityCamera(
+    onCaptured: (ByteArray, ByteArray) -> Unit,
+    onError: () -> Unit,
+    onCancel: () -> Unit,
+    onImagesReady: ((ByteArray, ByteArray) -> Unit)? = null,
+    onImagesInvalidated: () -> Unit = {},
+    onConfirmed: () -> Unit = {},
+) {
+    val scope = rememberCoroutineScope()
+    var encoding by remember { mutableStateOf<Job?>(null) }
+    var generation by remember { mutableIntStateOf(0) }
+    var encodedGeneration by remember { mutableIntStateOf(-1) }
+    val ready by rememberUpdatedState(onImagesReady)
+    val failed by rememberUpdatedState(onError)
+    val confirmed by rememberUpdatedState(onConfirmed)
     val context = LocalContext.current
     if (!context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
         NoCameraContent(onCancel)
@@ -52,23 +67,93 @@ fun IdentityCamera(onCaptured: (ByteArray, ByteArray) -> Unit, onError: () -> Un
             cardClasses = IdentityCardModel.cardClasses,
             config = CardCaptureConfig(autoCaptureEnabled = true),
             onBack = onCancel,
-            onComplete = { result ->
-                var front: ByteArray? = null
-                var back: ByteArray? = null
-                try {
-                    front = encodeJpeg(result.front.bitmap)
-                    back = encodeJpeg(result.back.bitmap)
-                } catch (_: Exception) {
-                    front?.fill(0); back?.fill(0)
-                    onError()
-                } finally {
-                    result.front.bitmap.recycle()
-                    result.back.bitmap.recycle()
+            onSideChanged = { _, image ->
+                if (image == null && ready != null) {
+                    generation++
+                    encodedGeneration = -1
+                    encoding?.cancel()
+                    onImagesInvalidated()
                 }
-                if (front != null && back != null) onCaptured(front, back)
+            },
+            onImagesReady = { result ->
+                if (ready != null) {
+                    val token = ++generation
+                    encodedGeneration = -1
+                    encoding?.cancel()
+                    // Detector owns these pixels; make independent bounded copies before returning.
+                    var frontCopy: Bitmap? = null
+                    var backCopy: Bitmap? = null
+                    try {
+                        frontCopy = copyForEncoding(result.front.bitmap)
+                        backCopy = copyForEncoding(result.back.bitmap)
+                        val frontImage = frontCopy
+                        val backImage = backCopy
+                        @OptIn(ExperimentalCoroutinesApi::class)
+                        val task = scope.launch(Dispatchers.Default, start = CoroutineStart.ATOMIC) {
+                            var front: ByteArray? = null
+                            var back: ByteArray? = null
+                            var transferred = false
+                            try {
+                                ensureActive()
+                                front = encodeJpeg(frontImage)
+                                ensureActive()
+                                back = encodeJpeg(backImage)
+                                withContext(Dispatchers.Main.immediate) {
+                                    if (generation == token) {
+                                        ready?.invoke(requireNotNull(front), requireNotNull(back))
+                                        transferred = true
+                                        encodedGeneration = token
+                                    }
+                                }
+                            } catch (cancel: CancellationException) { throw cancel }
+                            catch (_: Exception) {
+                                withContext(Dispatchers.Main.immediate) { if (generation == token) failed() }
+                            } finally {
+                                if (!transferred) { front?.fill(0); back?.fill(0) }
+                                frontImage.recycle(); backImage.recycle()
+                            }
+                        }
+                        encoding = task
+                    } catch (_: Exception) {
+                        frontCopy?.recycle(); backCopy?.recycle()
+                        failed()
+                    }
+                }
+            },
+            onComplete = { result ->
+                if (ready != null) {
+                    result.front.bitmap.recycle(); result.back.bitmap.recycle()
+                    val token = generation
+                    scope.launch {
+                        encoding?.join()
+                        if (generation == token && encodedGeneration == token) confirmed()
+                        else failed()
+                    }
+                } else {
+                    var front: ByteArray? = null
+                    var back: ByteArray? = null
+                    try {
+                        front = encodeJpeg(result.front.bitmap)
+                        back = encodeJpeg(result.back.bitmap)
+                    } catch (_: Exception) {
+                        front?.fill(0); back?.fill(0)
+                        onError()
+                    } finally {
+                        result.front.bitmap.recycle()
+                        result.back.bitmap.recycle()
+                    }
+                    if (front != null && back != null) onCaptured(front, back)
+                }
             },
         )
     }
+}
+
+private fun copyForEncoding(bitmap: Bitmap): Bitmap {
+    val scale = minOf(1.0, 1600.0 / maxOf(bitmap.width, bitmap.height))
+    return if (scale < 1.0) Bitmap.createScaledBitmap(bitmap,
+        (bitmap.width * scale).toInt().coerceAtLeast(1), (bitmap.height * scale).toInt().coerceAtLeast(1), true)
+    else requireNotNull(bitmap.copy(Bitmap.Config.ARGB_8888, false))
 }
 
 private fun encodeJpeg(bitmap: Bitmap): ByteArray {

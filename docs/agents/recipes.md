@@ -14,8 +14,9 @@ set `requireReviewedPolicy = true`. Never silently accept a different policy ver
 just to avoid another user acknowledgement. `allowNewCapture` reflects fresh runtime
 settings; it does not grant server authorization.
 
-Expected flow: Continue → permission/camera → front/back review → upload → file checks
-→ extraction → populated/empty manual review → server-confirmed **Details saved**.
+Expected flow: Continue → permission/camera → both photos ready → upload/file checks/OCR
+while photo review stays open → photo confirmation → editable results or loading
+while OCR finishes → server-confirmed **Details saved**.
 Cancellation, 401, stale consent, invalid evidence and offline requests have distinct
 recovery paths. Existing images should resume processing instead of reopening camera.
 
@@ -49,7 +50,35 @@ infrastructure reset to test a single device's sign-out path.
 
 ## Troubleshoot without sensitive logs
 
-Filter Logcat by `AttestraCapture` for capture metadata. Use the same capture ID
+Filter Logcat by `CARD-OCR` for capture metadata. Use the same capture ID
 and UTC time in the backend worker/dispatcher logs. A `finalizing` record has not
 reached extraction; investigate validation, storage and transaction errors first.
 A `ready/pending` record is in extraction. See [troubleshooting](troubleshooting.md).
+
+## Start OCR during photo review
+
+Use `CaptureHost(earlyCamera = { events -> … })`; forward `events.onImagesReady`,
+`events.onImagesInvalidated` and `events.onConfirmed` to the corresponding
+`IdentityCamera` arguments, as shown in `LiveCaptureFlow`. The original `camera`
+slot remains supported for hosts uploading after confirmation. Use one path per camera.
+
+Detector `carddetector~v0.1.8` supplies borrowed bitmaps synchronously. Auth copies them
+before returning, bounds the longest edge to 1600 pixels, encodes color JPEGs on a worker
+dispatcher and caps each side at 500 KiB. Encoded arrays transfer to the controller;
+do not retain or log them. Model assets remain independently pinned to `tfmodel~v0.1.2`.
+
+`EarlyCaptureSession` keeps photo review open while processing. Retakes cancel local
+work, clear the old draft and call authenticated `POST /onboarding/id/captures/{id}/retake`.
+The controller mutex serializes replacements, including canceled requests returning late.
+The same capture is reused without another admission; backend upload/retake limits apply.
+Persisted retake operation keys recover uncertain responses.
+
+Auth derives the expected finalized `image_revision` from the finalize revision contract.
+Only an exact `(capture_id, image_revision)` match can seed the editable result; worker
+status revisions may change independently. Confirmation does not upload again. It shows
+matching results immediately or the existing loading screen while processing finishes.
+
+Deploy backend retake and `image_revision` support before enabling `earlyCamera`.
+An incompatible backend leads to recovery instead of presenting stale results.
+`CARD-OCR` logs method/path, HTTP status, byte counts and capture metadata only.
+Tokens, signed URLs, images and extracted card fields stay out of logs.

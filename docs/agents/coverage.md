@@ -19,3 +19,11 @@ claiming a released artifact or deployed backend verification.
 
 
 Host Material appearance and the 13-language UI resource set are covered by resource key/formatter checks, locale-resolution instrumented tests, and the onboarding screenshot suite. Instrumented locale tests require a device; the normal JVM build does not execute them.
+
+## Early image submission
+
+`EarlyCaptureSession`, `CaptureHost.earlyCamera` and `IdentityCamera` callbacks are wired
+in the live host. Tests cover OCR behind photo review, confirmation without repeat upload,
+in-flight cancellation, non-cancellable late responses, retakes within one capture,
+stale image revisions and byte cleanup. Camera encoding, permissions/lifecycle and
+deployed retake behavior require the [device gate](../identity-capture.md).

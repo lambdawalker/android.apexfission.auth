@@ -42,7 +42,7 @@ After scanning, the review form requires a Country of origin selection: Canada, 
 
 The existing Continue screen fetches and displays the current localized capture purpose and retention, and carries the accepted policy snapshot into capture. A change before creation requires accepting the refreshed disclosure; a newly fetched policy is never treated as already accepted.
 
-Continue to capture restores existing state and opens the two-sided camera immediately for a new capture (after camera permission if needed). Photo confirmation automatically uploads both images and requests finalization. There is no additional Start capture or Finish capture action on the normal path. The server still validates both uploaded objects before accepting finalization; selected upload IDs alone do not prove successful uploads.
+Continue to capture restores existing state and opens the two-sided camera immediately for a new capture (after camera permission if needed). The live host uploads and finalizes as soon as both images are ready, while photo review stays open. Confirmation reveals only the matching OCR result or loading. Retakes cancel local work and invalidate the old pair through authenticated retake. There is no additional Start capture or Finish capture action on the normal path. The server still validates both uploaded objects before accepting finalization; selected upload IDs alone do not prove successful uploads.
 
 Returning to finalizing or extraction-pending captures shows the reading screen. A complete extraction opens the populated form; failed extraction opens a blank form for manual entry. Already saved reviews are retained. The account completion screen includes Review ID details so capture completion does not hide an unfinished form.
 
@@ -71,3 +71,11 @@ light/dark gallery and refresh commands.
 | Email setup | Document processing | Confirmed save |
 | --- | --- | --- |
 | <img src="assets/screenshots/email-start-light.png" alt="Email setup in light theme" width="220"> | <img src="assets/screenshots/read-document-dark.png" alt="Document reading in dark theme" width="220"> | <img src="assets/screenshots/details-saved-light.png" alt="Server-confirmed saved details in light theme" width="220"> |
+
+## Early OCR and retakes
+
+See [integration recipes](agents/recipes.md#start-ocr-during-photo-review) for
+`earlyCamera`, ownership and backend prerequisites. The live host uses detector 0.1.8,
+bounded color JPEGs and serialized replacements. Only matching capture ID and image
+revision can seed results after confirmation. Checkpoints also persist retake intents;
+photos and OCR data remain memory-only. The capture-screen design is unchanged.
