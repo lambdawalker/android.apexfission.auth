@@ -1,8 +1,8 @@
 {
   "docs/agents/index.md": {
     "path": "docs/es/agents/index.md",
-    "source_sha256": "022056ac8dfa121c53e71cc1af951689ce59a4531ed1ed06c49a728f0c5493c8",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "97c5c8e0278a41531965af500d6619e46951ceea672eee95ecae8103eceb828a",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/quickstart.md": {
     "path": "docs/es/agents/quickstart.md",
@@ -21,8 +21,8 @@
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",
-    "source_sha256": "bdb440fdb383126bd786fc67869a453a87abf2f120e7a6050750f96d1e6dd45c",
-    "provenance": "Spanish recipe reviewed for per-phase OCR timing and polling semantics."
+    "source_sha256": "e7865d782c8e8ac6a3fc4bbc30c6e223658a39b4ad774ee0285704a3e138793c",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",

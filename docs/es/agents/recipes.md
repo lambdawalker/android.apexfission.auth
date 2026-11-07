@@ -85,3 +85,7 @@ Finalizar, repetir fotos y reintentar se miden como solicitudes.
 `validation_observed` y `ocr_observed` miden el tiempo entre estados observados
 por Android, incluida la espera del sondeo y la red. Si una fase empieza y
 termina entre sondeos, no aparece una medición separada.
+
+Para medir el tiempo del servidor, usa el ID de captura del registro de la app
+para localizar la invocación del worker de extracción. Consulta los
+[eventos de CloudWatch y el alcance de cada medición](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md).

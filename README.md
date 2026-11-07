@@ -181,18 +181,21 @@ See [runtime app settings](docs/runtime-configuration.md) for dashboard publishi
 
 ### Two-sided document camera
 
-The live and debug camera use Card Detector 0.1.4 `TwoSidedCardCapture`:
+The live and debug camera use Card Detector 0.1.8 `TwoSidedCardCapture`:
 front, turn-over prompt, back, then review with independent retakes. Auto capture
 starts enabled and can be toggled beside the shutter; manual capture remains available.
 Side labels guide the user and do not classify or verify a document.
 
-Both reviewed JPEGs are uploaded in order. Retry upload retains unfinished photos
-in memory; leaving the flow clears them. Both photos are finalized automatically after upload; pending extraction shows loading and failed extraction opens manual entry. Saving the reviewed details opens a server-confirmed Details saved screen; see [save and finish](docs/identity-capture.md#save-and-finish).
-Activity recreation restarts any unsubmitted camera session.
+The live host uploads bounded color JPEGs and starts OCR as soon as both photos
+are ready, while photo review remains open. Retakes invalidate earlier work.
+Confirmation opens the matching OCR result or loading while it finishes. Failed
+extraction opens manual entry. Saving the reviewed details opens a server-confirmed Details saved screen; see [save and finish](docs/identity-capture.md#save-and-finish).
+Unconfirmed photos require recapture after process restart. Filter Logcat by
+`CARD-OCR` for [phase timings](docs/agents/recipes.md).
 
 The detector and model share a JitPack artifact ID. `cardModelAssets` resolves
 `tfmodel~v0.1.2` separately and copies only assets into the auth library; the
-runtime depends exclusively on `carddetector~v0.1.4`, avoiding the old core 0.1.0.
+runtime depends exclusively on `carddetector~v0.1.8`, avoiding the old core 0.1.0.
 The local Sentinel catalog matches that model release.
 
 ### Documentation screenshots

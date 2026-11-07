@@ -94,3 +94,6 @@ registration and transfers are timed per side. Finalize, retake and retry are
 timed as requests. `validation_observed` and `ocr_observed` measure the time
 between status updates seen by Android, including polling and network delay.
 A phase that starts and finishes between polls has no separate measurement.
+
+For server-side timing, use the capture ID from the app log to locate the
+extraction worker invocation. See [CloudWatch event names and timing boundaries](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md).

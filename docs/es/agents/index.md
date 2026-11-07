@@ -55,5 +55,5 @@ En pantallas estrechas, desplace horizontalmente el recorrido de imágenes.
 
 La [entrada central para agentes](https://raw.githubusercontent.com/lambdawalker/design.attestra/main/docs/agents/index.md)
 posee requisitos y arquitectura; la [entrada del backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md)
-posee operaciones. El [contrato de captura](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md)
+posee operaciones. El [contrato de captura](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md)
 es la autoridad para HTTP. Los temporizadores de prototipos no demuestran éxito real.
