@@ -21,7 +21,7 @@
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",
-    "source_sha256": "3815bdcbde234abf86ed9a54bc5dfc72e4d0a9866a405bc06774fc45d64933fd",
+    "source_sha256": "90dc6668e8238e908e5343de9b33ef228e86549c43c769e0c54abfb468f63472",
     "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/limitations.md": {
@@ -31,7 +31,7 @@
   },
   "docs/agents/troubleshooting.md": {
     "path": "docs/es/agents/troubleshooting.md",
-    "source_sha256": "dd90d8e1fb72e11bb5e8d441dc59ce8b98ed0589e345e71d0ba2fd37a82ba479",
+    "source_sha256": "92d126fc35ea0ae96167cf329dcfb6f117c4a4f1d272ae2a00153aa9887d2941",
     "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
   },
   "docs/agents/migration.md": {

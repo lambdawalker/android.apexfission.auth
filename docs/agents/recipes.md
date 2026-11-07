@@ -50,10 +50,7 @@ infrastructure reset to test a single device's sign-out path.
 
 ## Troubleshoot without sensitive logs
 
-Filter Logcat by `CARD-OCR` for capture metadata. Use the same capture ID
-and UTC time in the backend worker/dispatcher logs. A `finalizing` record has not
-reached extraction; investigate validation, storage and transaction errors first.
-A `ready/pending` record is in extraction. See [troubleshooting](troubleshooting.md).
+Check the authenticated capture status. While `finalizing`, check image validation. A `ready/pending` record is waiting for OCR. See [troubleshooting](troubleshooting.md).
 
 ## Start OCR during photo review
 
@@ -82,8 +79,6 @@ matching results immediately or the existing loading screen while processing fin
 
 Deploy backend retake and `image_revision` support before enabling `earlyCamera`.
 An incompatible backend leads to recovery instead of presenting stale results.
-`CARD-OCR` logs method/path, HTTP status, byte counts, elapsed milliseconds and capture metadata only.
-Tokens, signed URLs, images and extracted card fields stay out of logs.
 
 Card details use the backend wire name `issued_identifier`. The Kotlin property
 `personalNumber` remains source-compatible; legacy `personal_number` responses are
@@ -93,12 +88,3 @@ Android confirms the front upload as soon as the PUT succeeds, which starts
 front-only OCR while the camera can still capture the back. After evidence
 validation, the first OCR failure opens manual review. The single immediate
 retry can populate fields that have never been edited and do not have focus.
-
-Timing lines use `phase` and `elapsed_ms`. Bitmap copies, JPEG encoding, upload
-registration and transfers are timed per side. Finalize, retake and retry are
-timed as requests. `validation_observed` and `ocr_observed` measure the time
-between status updates seen by Android, including polling and network delay.
-A phase that starts and finishes between polls has no separate measurement.
-
-For server-side timing, use the capture ID from the app log to locate the
-extraction worker invocation. See [CloudWatch event names and timing boundaries](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md).

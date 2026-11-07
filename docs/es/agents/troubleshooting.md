@@ -10,8 +10,8 @@
 | Enlace abre navegador | Host, paquete, certificado, `assetlinks.json` e identidad instalada | Siga [firma](../../android-signing.md); el índice no asocia App Links |
 | Otro dispositivo solicita código | Falta prueba A local | Use B + C; nunca B solo ni copie secretos desde logs |
 | Ajustes no disponibles | Índice, binding, `/v1/app-config`, caché y validación | Reintente configuración confiable; no invente política exitosa ni cambie de servidor |
-| Estado `finalizing` no avanza | Validación o transacción de evidencia no concluyó | Correlacione `capture.work_*` y `capture.store_swap_failed`; revise S3/DynamoDB antes del modelo |
-| `ready/pending` | Extracción en cola/ejecución | Correlacione `capture.inference_*` e intentos; HTTP y etapa distinguen rechazo de respuesta inválida |
+| Estado `finalizing` no avanza | Validación o transacción de evidencia no concluyó | Revise S3, DynamoDB y la cola del worker |
+| `ready/pending` | Extracción en cola/ejecución | Revise la cola del worker y el estado de captura |
 | Extracción `failed` | No se pudo leer texto | Formulario manual vacío, no datos parciales de un proveedor fallido |
 | Guardado falla/conflicto | Revise `reviewed` y revisión del borrador | Conserve cambios, actualice/reconcilie; no finalice sin confirmación coincidente |
 | Requiere retoma tras reiniciar | Bytes solo en memoria | Vuelva a tomar fotos inconclusas; ID/checkpoint no reconstruye imágenes |
@@ -20,10 +20,7 @@
 
 ## Registros seguros
 
-Etiqueta Android: `AttestraCapture`. El backend correspondiente puede registrar
-`capture.dispatch`, `capture.work_started`, `capture.work_state`, `capture.work_finished`,
-`capture.extraction_result`, `capture.inference_response`, `capture.inference_failed`
-y `capture.store_swap_failed`. Lambda END/REPORT no demuestra éxito: hay fallos
-SQS por mensaje. Los registros Android no prueban por sí solos la revisión desplegada.
+La captura de documentos omite el registro detallado de OCR. El estado de la captura indica si el procesamiento finalizó.
+
 Nunca registre tokens, contraseñas, secretos de enlaces, JPEG, URLs firmadas,
 texto personal, respuestas del proveedor o excepciones que incluyan esos valores.

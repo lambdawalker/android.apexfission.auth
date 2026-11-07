@@ -40,9 +40,7 @@ es visual. Sus resultados antiguos de identidad son diseños, no resultados live
 ni elimina passkeys/evidencia remota. Para evidencia use cancelación autenticada;
 no reinicie infraestructura para probar salida de un dispositivo.
 
-Filtre Logcat por `CARD-OCR` y correlacione ID/hora UTC en backend.
-`finalizing` precede extracción: investigue validación, almacenamiento y transacciones.
-`ready/pending` sí corresponde a extracción. Consulte [diagnóstico](troubleshooting.md).
+Revise el estado devuelto por la API autenticada de captura. En `finalizing`, compruebe la validación de las imágenes. En `ready/pending`, el OCR está pendiente.
 
 ## Iniciar OCR durante la revisión de fotos
 
@@ -72,8 +70,6 @@ fotos: presenta el resultado correspondiente o carga mientras termina procesamie
 
 Despliegue retake e `image_revision` en el backend antes de activar `earlyCamera`.
 Un backend incompatible conduce a recuperación sin presentar resultados obsoletos.
-`CARD-OCR` registra solo método/ruta, estado HTTP, cantidad de bytes, milisegundos transcurridos y metadatos de captura.
-No registra tokens, URLs firmadas, imágenes ni campos extraídos.
 
 Los datos usan `issued_identifier` en el contrato HTTP. La propiedad Kotlin
 `personalNumber` conserva compatibilidad; también se leen respuestas antiguas con
@@ -83,14 +79,3 @@ Android confirma la carga del frente en cuanto termina el PUT. Así inicia el OC
 del frente mientras la cámara todavía puede capturar el reverso. Tras validar
 las imágenes, el primer fallo de OCR abre la revisión manual. El único reintento
 se ejecuta de inmediato y puede completar campos sin editar que no tengan el foco.
-
-Las líneas de tiempo usan `phase` y `elapsed_ms`. Se miden por lado la copia
-del bitmap, la codificación JPEG, el registro de carga y la transferencia.
-Finalizar, repetir fotos y reintentar se miden como solicitudes.
-`validation_observed` y `ocr_observed` miden el tiempo entre estados observados
-por Android, incluida la espera del sondeo y la red. Si una fase empieza y
-termina entre sondeos, no aparece una medición separada.
-
-Para medir el tiempo del servidor, usa el ID de captura del registro de la app
-para localizar la invocación del worker de extracción. Consulta los
-[eventos de CloudWatch y el alcance de cada medición](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md).

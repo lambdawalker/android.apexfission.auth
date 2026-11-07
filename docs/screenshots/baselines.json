@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "reviewed-baselines",
-  "source_commit": "e1e35f70a87b6a2a72168332830451a35c1f0225",
+  "source_commit": "17258944cca32577bfb3b56319104198c214d46d",
   "inputs": {
     "files": {
       "app/build.gradle.kts": "3fca8313c50204e96bcb0867c115d66c3bc5d25145820e5052c4832ffaa6cc60",
@@ -12,7 +12,7 @@
       "app/src/main/java/com/apexfission/android/attestra/auth/BackendConfiguration.kt": "6a2a8c54bd8226e40fe1b9fbad475354e03833a9af29cd9e9b423f410863b295",
       "app/src/main/java/com/apexfission/android/attestra/auth/EnvironmentViewModel.kt": "06489f07b81785d08d74f9449e818bb1b1ca62f43b9cdf583647dd5c1a640337",
       "app/src/main/java/com/apexfission/android/attestra/auth/IdentityRuntime.kt": "a84e93a90c06895acfc3db0a7a2f12557157f4adcc9c99e558e62ca1529db1c9",
-      "app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt": "ed7e8df7d6b1bb81044d9b9e2b89731a593ba1c205522873a61ee54233c5b623",
+      "app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt": "96aaedddb706720b56abafbc7116e50b6a4cd853def20bd4f408529c1581ec3e",
       "app/src/main/java/com/apexfission/android/attestra/auth/LocalUserReset.kt": "d654f5049ee82d06b9748904c6bbdcbeceaface28875a603fe5942431e78e94c",
       "app/src/main/java/com/apexfission/android/attestra/auth/LocalUserResetViewModel.kt": "dcf6e528450e041402210fc619afdd2a50016a2644e17f9ece39a78c946ac3b3",
       "app/src/main/java/com/apexfission/android/attestra/auth/MainActivity.kt": "f2aaf5a6e245a6646ba817ec64fcc230f1c223a35c455f896ad3d290da047000",
@@ -45,14 +45,14 @@
       "auth/src/androidTest/java/com/apexfission/android/attestra/auth/ExampleInstrumentedTest.kt": "d7c93aba1a656e72eaac77f569dd86d919738eacded6e10b6c83dac7ce7e9b7f",
       "auth/src/androidTest/java/com/apexfission/android/attestra/auth/ui/onboarding/common/AuthMessagesTest.kt": "d1dbf43371f7b3a8ebc437748e62e3aa840a0927f87d7310c102bfed800e3f6d",
       "auth/src/main/AndroidManifest.xml": "b04d356d17902c3c22de02a06dafc380ce7e30a538c3bd550f5f7676efb6f4a6",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureApi.kt": "bb6ab4059bda46c81cd15e5e6559784952d79a342f13a502ba1544008d0d6539",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureController.kt": "766d9e0244064c6eda1579f5fc5c5b3f7f28a23d73c1dc9c7807ce313a3057b3",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureApi.kt": "173752b2d0563c406b1e86e5a847f647889790a49e4b138cb939beab5f65a18f",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureController.kt": "77ba1ee431459d4ce8db9ad90944f93ed3751509a2f1860b7292a4b5ad80b558",
       "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureDestination.kt": "404339844ce59b6fc87dc4b84dd7033e84dc6e195b66c02a4e9317c508b68270",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureHost.kt": "9744b0dedcc9d444d97fdc19864ed3e6947c0b7465f5138db45381ca2cc5aac3",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureModels.kt": "22580ee4c2177af10cf5bb18a903668d6a51a17bd66db6edbcdfb555b47e3ce5",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CardReviewForm.kt": "9049dc272512000e9669b3a328ea7cb0ee52aac72ce84a6d4c4b502d8a5cdcd1",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/EarlyCaptureSession.kt": "9a51fdadf440ba73a60538e2abe23e6bc68a7649106e43e774a83af92561e0a9",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/OcrTiming.kt": "706a86f38bf20220e130488d239a99e39a8b6d6f887310862712809d92dfcebe",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureHost.kt": "a6085a8cc45416a080658b620ce0c480941507b6dbc771d720e2084cdca4c807",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CaptureModels.kt": "0afdca6fc2482e22df4ffe807be83f06b634c8105eb1d84fe811c6a97c12f31c",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CardOcrMerge.kt": "ca2892ef6c666c57e0406580918aed33f42423335435a904ab3e5000acb84fa0",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/CardReviewForm.kt": "6819134847039a0972c07b3ad29bf4dbd26cf5fb15232316ae58167f4386d52e",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/capture/EarlyCaptureSession.kt": "0183535cbc95cd9bc67a3d928e9a23d5c6836ec5ebb6820105976477110808fd",
       "auth/src/main/java/com/apexfission/android/attestra/auth/capture/SecureCaptureCheckpointStore.kt": "4c20e44f7e085042a1327a596c6a46d886602c2abf92503d16073ae4efb50b87",
       "auth/src/main/java/com/apexfission/android/attestra/auth/discovery/AppConfiguration.kt": "173225af45c50faba1ed3bdb2c28e082b96c4a413a955c451eb66773fbfa6d90",
       "auth/src/main/java/com/apexfission/android/attestra/auth/discovery/EnvironmentIndex.kt": "5131b1d63f6fa2a837f858b9cf11bde5e337e75f4f838a23f50eba0d925f689f",
@@ -66,7 +66,7 @@
       "auth/src/main/java/com/apexfission/android/attestra/auth/identity/IdentityIntegrationUnavailable.kt": "60bc9c71e19592c45da5993a564c58fa8ccd3e92c56b8ca9e49ceeb07ca43dd9",
       "auth/src/main/java/com/apexfission/android/attestra/auth/identity/IdentityModels.kt": "dbba1e65e645f74fefd7b07244bbdc8238216dc5f7cd1a0389568c5d2d8a31b7",
       "auth/src/main/java/com/apexfission/android/attestra/auth/identity/capture/CaptureConfirmation.kt": "7aa42433d25e463715c4d2c1e671ee15bf28b8569c0cbe0becb8128e32de147b",
-      "auth/src/main/java/com/apexfission/android/attestra/auth/identity/capture/IdentityCamera.kt": "a89b14cc3f33e6cb332d068e20eccf50c26812a4805a1aa60f04a495ec0ffe90",
+      "auth/src/main/java/com/apexfission/android/attestra/auth/identity/capture/IdentityCamera.kt": "03cf36e29c3ef4ac52735826c8bff1ec9aa8789014df7dc52561990dc0175bc2",
       "auth/src/main/java/com/apexfission/android/attestra/auth/identity/capture/IdentityCardModel.kt": "04f557cc12059a241c7a5b2a870da10be0c7c8fdc06c526d00675af229301f6f",
       "auth/src/main/java/com/apexfission/android/attestra/auth/passkey/PasskeyRegistration.kt": "7f4ec685184765816297c989e467e754c716e3432ce93e83dd57fb5940125f8e",
       "auth/src/main/java/com/apexfission/android/attestra/auth/passkey/ReturnAuthApi.kt": "9d9087bfba1a55d53bac70e192e5be11922f83f0d9a3a95aa33f75d33b7b862f",
@@ -114,7 +114,7 @@
       "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt": "fc3583b4fa0bc043791b22ab8686fb5a92c254852e0db09553fe595bdf76d6f2",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/permission/PermissionBundleScreenshotTest.kt": "7bc8a94b66f31aaf6edfc501a5a718effb4e463bf38a76d8275a35737ce6948a",
       "auth/src/test/java/com/apexfission/android/attestra/auth/ExampleUnitTest.kt": "16b87eda1ce72147e5883bba841cc273cdef745cc3bb33c2dc7e9049cb767ad9",
-      "auth/src/test/java/com/apexfission/android/attestra/auth/capture/CaptureControllerTest.kt": "e741bc3b65e6e495e7c081df901e0c09c4931986aa7471bb7060b5c3a4b64abb",
+      "auth/src/test/java/com/apexfission/android/attestra/auth/capture/CaptureControllerTest.kt": "b33ef370df87a71abd605e3304be8067d2d837dcde6f8a94c9a59f11c97da487",
       "auth/src/test/java/com/apexfission/android/attestra/auth/capture/CaptureDestinationTest.kt": "6b21ad1d33332abcf07ec5b33818bf9a007af4e65cef8f0090dac6923ed58177",
       "auth/src/test/java/com/apexfission/android/attestra/auth/capture/CapturePolicyContractTest.kt": "8dd4f80796deb2fbf9907577a6848407577460ad59f221a20b32da1f2e952ccc",
       "auth/src/test/java/com/apexfission/android/attestra/auth/capture/CardDataContractTest.kt": "3975f55baf6b56f4a3fe9eaa9f1da2cab6bc8089606c320d7b3dc00055a6ba13",
@@ -136,15 +136,15 @@
       "buildSrc/src/main/kotlin/attestra.endpoints.gradle.kts": "2864f334e9a0db995665badb9e8612c03a6853b65dd3f4f2234e5ec55aeda9ae",
       "buildSrc/src/main/kotlin/attestra.signing.gradle.kts": "e6ccc9cbba952a52bfb126a940e71b3c77f26f882e0e348d78e0e6f52e8ac8ac",
       "docs/screenshots/scenarios.json": "fbb9a761a7c7447837848d13e1df77c36d8f64955284997ab5711c070be2cd6c",
-      "gradle/libs.versions.toml": "64763d253fde03a0a8676833e9810700116f37112d1fce0943038f5679d83ddd",
+      "gradle/libs.versions.toml": "94da2d1f9f0270de0c2a1a547344b9bb890809cd261f967e5fab64987ad06603",
       "gradle/wrapper/gradle-wrapper.properties": "8d8a9c29d44a5921d120d615c953d4c33cd10b60d7945f8cc0644c8b3f391b4f",
       "gradle.properties": "4ac2919cbfd52cbbf8763598a5ed5af65377a33f7b56a715a6212f470905e169",
       "settings.gradle.kts": "1e281ae474072977fb81533cc0eb0870bf89aeb948f3740c72a1c7db5786a509"
     },
-    "sha256": "3b4c6449f016fc4042600a19ad54eb4e07c6b11a28664d211ba76c66781652ae"
+    "sha256": "8f34da54738a35c22dbc10f657b70e0ae2c2f3e03667279efa9ef96345b75499"
   },
   "toolchain": {
-    "versions_sha256": "64763d253fde03a0a8676833e9810700116f37112d1fce0943038f5679d83ddd",
+    "versions_sha256": "94da2d1f9f0270de0c2a1a547344b9bb890809cd261f967e5fab64987ad06603",
     "renderer": "Compose screenshot alpha16",
     "java": "openjdk version \"25.0.5\" 2026-10-20 LTS",
     "platform": "Linux host layoutlib; no device",
@@ -1479,6 +1479,6 @@
       "height": 2237
     }
   ],
-  "reviewed_by": "Codex: reused exact render inputs and 78 PNGs previously compared byte for byte against the approved archive",
+  "reviewed_by": "Codex compared all 78 CI candidate PNGs against accepted references. Every PNG SHA-256 matched.",
   "archive_sha256": "0b5c475ad92077106fe533565a3e646ccdf5ea7fd134950fdbf2aae5b5bffe32"
 }
