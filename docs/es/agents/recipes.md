@@ -51,7 +51,7 @@ Use `CaptureHost(earlyCamera = { events -> … })` y conecte `events.onImagesRea
 de `IdentityCamera`, como en `LiveCaptureFlow`. El slot `camera` anterior conserva el envío
 tras confirmar. Use una ruta por cámara.
 
-El detector `carddetector~v0.1.8` presta los bitmaps durante el callback síncrono. Auth crea
+El detector fijado presta los bitmaps durante el callback síncrono. Auth crea
 copias antes de regresar, limita el lado mayor a 1600 píxeles y codifica JPEG a color en
 un dispatcher de trabajo, hasta 500 KiB por lado. Los bytes pasan al controlador; no los
 conserve ni registre. El modelo mantiene su versión independiente `tfmodel~v0.1.2`.

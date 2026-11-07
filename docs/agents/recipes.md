@@ -62,7 +62,7 @@ Use `CaptureHost(earlyCamera = { events -> … })`; forward `events.onImagesRead
 `IdentityCamera` arguments, as shown in `LiveCaptureFlow`. The original `camera`
 slot remains supported for hosts uploading after confirmation. Use one path per camera.
 
-Detector `carddetector~v0.1.8` supplies borrowed bitmaps synchronously. Auth copies them
+The pinned detector supplies borrowed bitmaps synchronously. Auth copies them
 before returning, bounds the longest edge to 1600 pixels, encodes color JPEGs on a worker
 dispatcher and caps each side at 500 KiB. Encoded arrays transfer to the controller;
 do not retain or log them. Model assets remain independently pinned to `tfmodel~v0.1.2`.

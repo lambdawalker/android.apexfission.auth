@@ -21,7 +21,7 @@
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",
-    "source_sha256": "e7865d782c8e8ac6a3fc4bbc30c6e223658a39b4ad774ee0285704a3e138793c",
+    "source_sha256": "04f482ae7ab08fa6c273d2a7dd9f77d8b20fbab342f31e469353cbfd9d9fc124",
     "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/limitations.md": {
