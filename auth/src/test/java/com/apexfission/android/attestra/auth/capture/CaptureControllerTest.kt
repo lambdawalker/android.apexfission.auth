@@ -16,6 +16,8 @@ class CaptureControllerTest {
         var record: CaptureRecord? = null
         var creates = 0
         var retakes = 0
+        var failRetake = false
+        var lastRetakeKey: String? = null
         var onPut: suspend () -> Unit = {}
         var failCreate = false
         var failPut = false
@@ -55,9 +57,15 @@ class CaptureControllerTest {
         override suspend fun retake(id: String, request: RetakeCapture): CaptureRecord {
             retakes++
             val r = requireNotNull(record)
+            assertEquals(request, store.value?.retake)
+            if (lastRetakeKey == request.key) return r
             if (request.revision != r.revision) throw CaptureException(409)
+            lastRetakeKey = request.key
             return r.copy(state = "uploading", revision = r.revision + 1, imageRevision = null,
-                selected = emptyMap(), extraction = null, reviewed = null).also { record = it }
+                selected = emptyMap(), extraction = null, reviewed = null).also {
+                    record = it
+                    if (failRetake) { failRetake = false; throw CaptureException(503) }
+                }
         }
         var failReview = false
         override suspend fun review(id: String, request: ReviewCapture): CaptureRecord {
@@ -419,6 +427,36 @@ class CaptureControllerTest {
         session.confirmed(); session.confirmed()
         assertEquals(finalizedRevision, api.record!!.revision)
         assertEquals(1, api.creates)
+    }
+
+    @Test fun lostRetakeResponseReplaysPersistedIntentBeforeReplacement() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.failRetake = true; session.invalidated()
+        val uncertain = store.value?.retake
+        assertNotNull(uncertain)
+        session.imagesReady(byteArrayOf(8,8,8,8), byteArrayOf(9,9,9,9)).join()
+        assertEquals(uncertain?.key, api.lastRetakeKey)
+        assertNull(store.value?.retake)
+        assertEquals("finalizing", api.record?.state)
+        assertEquals(1, api.creates)
+    }
+    @Test fun missingImageRevisionFailsClosedAndDifferentCaptureCannotReplacePair() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.record = api.record!!.copy(state = "ready", imageRevision = null,
+            extraction = CardExtraction("complete", CardData(fullName = "Uncorrelated")))
+        c.restore(); session.confirmed()
+        assertNull(c.state.value.draft)
+        api.record = api.record!!.copy(id = "b".repeat(32))
+        c.restore()
+        // restore resets the checkpoint when the server changes captures, but the
+        // pair's exact identity still prevents a review draft for the other capture.
+        assertNull(c.state.value.draft)
     }
 
 }

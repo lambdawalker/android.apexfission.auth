@@ -93,6 +93,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         currentCoroutineContext().ensureActive()
         if (closed) throw CancellationException("Capture closed")
         require(r.id.matches(Regex("[a-f0-9]{32}")) && r.evidenceVersion > 0)
+        if (earlyImages && checkpoint.id != null && checkpoint.id != r.id) throw CaptureException(409, "capture_changed")
         if (state.value.record?.id != r.id) discard()
         save(checkpoint.copy(id = r.id, create = null))
         acknowledged = if (state.value.record?.id == r.id) acknowledged.filter { (slot, id) -> r.selected[slot] == id } else emptyMap()
