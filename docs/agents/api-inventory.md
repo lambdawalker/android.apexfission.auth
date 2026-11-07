@@ -140,7 +140,7 @@ fun text(requested: String): String
 )
 fun isValid(): Boolean
 fun isEmpty(): Boolean
-@Serializable data class CardExtraction(val status: String, val data: CardData = CardData(), val error: String = "")
+@Serializable data class CardExtraction(val status: String, val data: CardData = CardData(), val error: String = "", val retrying: Boolean = false)
 @Serializable data class ReviewedCard(val data: CardData, @SerialName("saved_at") val savedAt: Long, @SerialName("origin_country") val originCountry: String = "")
 @Serializable data class ReviewCapture(@SerialName("expected_revision") val revision: Long, val data: CardData, @SerialName("origin_country") val originCountry: String = "")
 @Serializable data class CaptureRecord(
