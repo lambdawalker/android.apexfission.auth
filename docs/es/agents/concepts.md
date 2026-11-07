@@ -38,7 +38,7 @@ con los mismos valores y origen, confirma guardado. Guardar no verifica identida
 | Clientes HTTP | Anfitrión o `EmailOnboardingHost` | Su creador los cierra; los adaptadores API no |
 | `CaptureController` | Anfitrión, retenido por cuenta/backend | `CaptureHost` lo cierra al salir; `close()` borra JPEG pendientes |
 | Arreglos JPEG | El callback transfiere al controlador | Solo reintento en memoria; se borran después de uso/salida; no reutilizar |
-| Bitmaps del detector | `IdentityCamera` los consume | Codifica píxeles orientados y recicla resultados |
+| Bitmaps del detector | `IdentityCamera` los consume | Copia imágenes prestadas antes de codificar en segundo plano; JPEG a color hasta 1600 px en el lado mayor y 500 KiB por lado; recicla copias propias y resultados confirmados |
 | Contraseña pendiente | Memoria Compose | Nunca estado guardado, almacenamiento, URLs o registros; se borra en transiciones pertinentes |
 | Prueba/sesión | `SecureAuthStorage` | AES-GCM con clave Keystore por instalación; excluir preferencias sensibles de respaldos |
 | Checkpoint | `SecureCaptureCheckpointStore` | Solo identificadores e intención, aislados por cuenta/backend; sin imágenes ni URLs firmadas |

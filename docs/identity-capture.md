@@ -74,7 +74,7 @@ light/dark gallery and refresh commands.
 
 ## Early OCR and retakes
 
-See [integration recipes](agents/recipes.md#start-ocr-during-photo-review) for
+See [integration recipes](agents/recipes.md) for
 `earlyCamera`, ownership and backend prerequisites. The live host uses detector 0.1.8,
 bounded color JPEGs and serialized replacements. Only matching capture ID and image
 revision can seed results after confirmation. Checkpoints also persist retake intents;
