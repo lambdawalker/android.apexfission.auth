@@ -98,6 +98,13 @@ fun EmailOnboardingHost(
     val passkeyManager = remember(activityContext) { AndroidPasskeyManager(activityContext) }
     val returnApi = remember(apiBaseUrl, client) { ReturnAuthApi(apiBaseUrl, client) }
     var passkeyScreen by remember(apiBaseUrl) { mutableStateOf("refresh") }
+    val capturePolicyPrefetch = remember(apiBaseUrl, client, scope) {
+        CapturePolicyPrefetch(scope) { token ->
+            // This transport only reads policy. LiveCaptureFlow owns the image transport.
+            CaptureApi(apiBaseUrl, client, client) { token }.policy()
+        }
+    }
+    DisposableEffect(capturePolicyPrefetch) { onDispose { capturePolicyPrefetch.clear() } }
     var capturePolicy by remember(apiBaseUrl) { mutableStateOf<CapturePolicy?>(null) }
     var acceptedCapturePolicy by remember(apiBaseUrl) { mutableStateOf<CapturePolicy?>(null) }
     var capturePolicyLoading by remember(apiBaseUrl) { mutableStateOf(false) }
@@ -110,8 +117,9 @@ fun EmailOnboardingHost(
         capturePolicyLoading = true
         capturePolicyError = null
         try {
-            // Only policy GET uses this instance; image uploads use LiveCaptureFlow's dedicated transport.
-            capturePolicy = CaptureApi(apiBaseUrl, client, client) { storage.session()?.accessToken.orEmpty() }.policy()
+            val token = requireNotNull(storage.session()).accessToken
+            val policy = capturePolicyPrefetch.load(token)
+            if (storage.session()?.accessToken == token) capturePolicy = policy
         } catch (cancel: CancellationException) {
             throw cancel
         } catch (_: Exception) {
@@ -133,9 +141,10 @@ fun EmailOnboardingHost(
     var restoring by remember(apiBaseUrl) { mutableStateOf(storage.session() != null) }
     val currentPolicy by rememberUpdatedState(onboarding)
     fun clearPassword() { password = ""; passwordEmail = null; passwordRequestId = null }
-    val exit = { clearPassword(); onPasskeyDeferred() }
+    val exit = { capturePolicyPrefetch.clear(); clearPassword(); onPasskeyDeferred() }
     LaunchedEffect(controller, link) {
         if (link != null) {
+            capturePolicyPrefetch.clear()
             if (link.requestId != passwordRequestId) { clearPassword(); skipped = emptySet() }
             status = null
             authenticated = false
@@ -154,10 +163,16 @@ fun EmailOnboardingHost(
             else -> "refresh"
         }
     }
+    val prefetchCapturePolicy: (String) -> Unit = { token ->
+        if (currentPolicy?.idCapture?.let { it != Requirement.DISABLED } == true && status?.idCaptured != true) {
+            capturePolicyPrefetch.start(token)
+        }
+    }
     val refreshStatus: suspend () -> Unit = {
         passkeyScreen = "refreshing"
         try {
             val session = requireNotNull(storage.session())
+            prefetchCapturePolicy(session.accessToken)
             status = try { returnApi.status(session.accessToken) }
             catch (expired: SignInError) {
                 if (!expired.expired || session.refreshToken.isBlank()) throw expired
@@ -165,6 +180,7 @@ fun EmailOnboardingHost(
                     if (it.refreshToken.isBlank()) it.copy(refreshToken = session.refreshToken) else it
                 }
                 storage.saveSession(refreshed)
+                prefetchCapturePolicy(refreshed.accessToken)
                 returnApi.status(refreshed.accessToken)
             }
             route()
@@ -173,6 +189,7 @@ fun EmailOnboardingHost(
             if (error.expired) {
                 clearPassword()
                 status = null
+                capturePolicyPrefetch.clear()
                 storage.clearSession()
                 authenticated = false
                 returnError = activityContext.getString(R.string.auth_sign_in_to_continue_setup)
@@ -243,6 +260,7 @@ fun EmailOnboardingHost(
             catch (error: Exception) {
                 Log.e("EmailDebugX", "Could not restore session", error)
                 clearPassword()
+                capturePolicyPrefetch.clear()
                 storage.clearSession()
                 returnMode = "choice"
                 returnError = activityContext.getString(R.string.auth_sign_in_to_continue)
@@ -324,7 +342,7 @@ fun EmailOnboardingHost(
     }
     val canResend = clock >= controller.lastEmailAtMillis + 60_000
     val resend = { scope.launch { controller.resend() }; Unit }
-    val changeEmail = { clearPassword(); skipped = emptySet(); passwordError = null; controller.changeEmail() }
+    val changeEmail = { capturePolicyPrefetch.clear(); clearPassword(); skipped = emptySet(); passwordError = null; controller.changeEmail() }
     val passwordSignIn: () -> Unit = {
         val entered = password
         clearPassword()
@@ -415,10 +433,11 @@ fun EmailOnboardingHost(
             }, { skip(OnboardingStep.ID_CAPTURE) },
                 passkeyAdded = status?.passkeyRegistered == true, required = onboarding.idCapture == Requirement.REQUIRED,
                 capturePolicy = capturePolicy, policyLoading = capturePolicyLoading, policyError = capturePolicyError,
-                requireDisclosure = true, onRetryPolicy = { capturePolicyRefresh++ })
+                requireDisclosure = true, onRetryPolicy = { capturePolicyPrefetch.clear(); capturePolicyRefresh++ })
             "identity_flow" -> identityContent(status?.passkeyRegistered == true, acceptedCapturePolicy) {
                 // Both successful capture and cancellation only trigger a server read.
                 if (storage.session() == null) {
+                    capturePolicyPrefetch.clear()
                     clearPassword()
                     status = null
                     authenticated = false

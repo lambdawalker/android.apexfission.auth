@@ -58,7 +58,7 @@ import kotlinx.serialization.json.jsonPrimitive
     val client = remember { CaptureClients.api() }
     val uploads = remember { CaptureClients.uploads() }
     DisposableEffect(client, uploads) { onDispose { client.close(); uploads.close() } }
-    val controller = remember(account) {
+    val controller = remember(account, config.apiUrl) {
         CaptureController(
             CaptureApi(config.apiUrl, client, uploads) {
                 if (subject() != account) "" else storage.session()?.accessToken.orEmpty()

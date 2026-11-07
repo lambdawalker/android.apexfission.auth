@@ -1,6 +1,8 @@
 package com.apexfission.android.attestra.auth.capture
 
 import com.apexfission.android.attestra.auth.identity.DocumentSide
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.CancellationException
@@ -45,6 +47,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     private val mutable = MutableStateFlow(CaptureUi())
     val state = mutable.asStateFlow()
     private val mutex = Mutex()
+    private val resumableStates = setOf("uploading", "finalizing", "ready", "failed")
     private var checkpoint = store.load() ?: CaptureCheckpoint()
     private var needsRecapture = checkpoint.awaitingImageConfirmation
     private var closed = false
@@ -117,14 +120,25 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         ))
         if (r.state != "uploading") discard()
     }
+    private suspend fun readCaptureEntry() = coroutineScope {
+        val policy = async {
+            try { Result.success(api.policy()) }
+            catch (cancel: CancellationException) { throw cancel }
+            catch (error: Exception) { Result.failure(error) }
+        }
+        val current = api.current()
+        policy.await() to current
+    }
+
     suspend fun restore() = operation {
+        val (policy, current) = readCaptureEntry()
+        restoreCapture(policy.getOrNull(), current)
+    }
+
+    private suspend fun restoreCapture(policy: CapturePolicy?, current: CaptureRecord?) {
         // A settings outage must not prevent viewing or deleting an existing capture.
-        val policy = try { api.policy() }
-        catch (cancel: CancellationException) { throw cancel }
-        catch (_: Exception) { null }
         show(state.value.copy(policy = policy, signInRequired = false))
         val create = checkpoint.create
-        val current = api.current()
         val r = if (create != null && mayCreate() && policy?.enabled == true && create.expectedPolicyVersion.isNotBlank()) {
             createOrReview(create)
         } else current
@@ -179,36 +193,64 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         null
     }
     suspend fun start(language: String = "en", reviewedPolicy: CapturePolicy? = state.value.policy) = operation {
-        if (!mayCreate()) { show(state.value.copy(message = "New ID capture is disabled until app settings are refreshed.")); return@operation }
-        val reviewed = reviewedPolicy
-        val policy = api.policy()
+        if (!checkAdmission()) return@operation
+        val (policy, current) = readCaptureEntry()
+        admitCapture(language, reviewedPolicy, policy.getOrThrow(), current)
+    }
+
+    private fun checkAdmission(): Boolean {
+        if (mayCreate()) return true
+        show(state.value.copy(message = "New ID capture is disabled until app settings are refreshed."))
+        return false
+    }
+
+    private suspend fun admitCapture(
+        language: String,
+        reviewedPolicy: CapturePolicy?,
+        policy: CapturePolicy,
+        existing: CaptureRecord?,
+    ) {
         show(state.value.copy(policy = policy))
         require(policy.enabled && policy.slots == listOf("front", "back") && policy.contentType == "image/jpeg")
-        val existing = api.current()
-        if (existing != null && existing.state in setOf("uploading", "finalizing", "ready", "failed")) { record(existing); return@operation }
+        if (existing?.state in resumableStates) { record(requireNotNull(existing)); return }
         val pending = checkpoint.create
-        if (pending == null && (reviewed == null || reviewed != policy)) {
+        if (pending == null && reviewedPolicy != policy) {
             show(state.value.copy(message = "Review the current capture policy, then select Start capture again."))
-            return@operation
+            return
         }
-        if (!mayCreate()) { show(state.value.copy(message = "New ID capture is disabled until app settings are refreshed.")); return@operation }
+        if (!checkAdmission()) return
         val request = pending?.takeIf { it.expectedPolicyVersion.isNotBlank() }
             ?: CreateCapture(key(), policy.documentType, policy.version, policy.purposes.language(language))
         if (pending != null && pending.expectedPolicyVersion.isBlank()) {
             save(checkpoint.copy(create = null))
             show(state.value.copy(message = "Review the current capture policy, then select Start capture again."))
-            return@operation
+            return
         }
         save(CaptureCheckpoint(create = request))
         createOrReview(request)?.let { record(it); show(state.value.copy(uploaded = emptySet())) }
     }
+
+    internal suspend fun restoreAndContinue(language: String, allowNewCapture: Boolean, reviewedPolicy: CapturePolicy?, useRestoredPolicy: Boolean) {
+        operation {
+            val (policy, current) = readCaptureEntry()
+            restoreCapture(policy.getOrNull(), current)
+            if (state.value.message != null || state.value.record?.state in resumableStates || !allowNewCapture) return@operation
+            if (!checkAdmission()) return@operation
+            admitCapture(language, if (useRestoredPolicy) state.value.policy else reviewedPolicy, policy.getOrThrow(), current)
+        }
+        openCaptureCamera()
+    }
+
     /** Continue is the only admission action; existing evidence resumes without reopening the camera. */
     suspend fun continueToCapture(language: String = "en", allowNewCapture: Boolean = true, reviewedPolicy: CapturePolicy? = state.value.policy) {
         if (closed || state.value.busy) return
-        if (state.value.record?.state !in setOf("uploading", "finalizing", "ready", "failed")) {
+        if (state.value.record?.state !in resumableStates) {
             if (!allowNewCapture) return
             start(language, reviewedPolicy)
         }
+        openCaptureCamera()
+    }
+    private suspend fun openCaptureCamera() {
         if (closed || state.value.message != null || state.value.record?.state != "uploading") return
         if (state.value.record?.selected?.keys?.hasCapturePair() == true) {
             // Selection alone is not proof of upload: finalize HEAD-checks both objects on the server.

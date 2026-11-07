@@ -26,11 +26,13 @@ class CaptureControllerTest {
         var lastUploadKey: String? = null
         var policyValue = CapturePolicy(true, "capture-v1", "sample_card", listOf("front", "back"), "image/jpeg", 4194304)
         var policyFailure = false
+        var policyCalls = 0
+        var currentCalls = 0
         var onCurrent: () -> Unit = {}
         var onCreate: () -> Unit = {}
         var createCalls = 0
-        override suspend fun policy(): CapturePolicy { if (policyFailure) throw CaptureException(503); return policyValue }
-        override suspend fun current(): CaptureRecord? { onCurrent(); return record }
+        override suspend fun policy(): CapturePolicy { policyCalls++; if (policyFailure) throw CaptureException(503); return policyValue }
+        override suspend fun current(): CaptureRecord? { currentCalls++; onCurrent(); return record }
         override suspend fun create(request: CreateCapture): CaptureRecord {
             createCalls++
             onCreate()
@@ -160,6 +162,29 @@ class CaptureControllerTest {
         c.restore(); assertTrue(bytes.all { it == 0.toByte() }); assertTrue(c.state.value.uploaded.isEmpty())
     }
     @Test fun checksumUsesStandardPaddedBase64() { assertEquals("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=", checksum(byteArrayOf())) }
+    @Test fun automaticEntryUsesOnePolicyAndStatusRead() = runBlocking {
+        val store = Store()
+        val api = Gateway(store)
+        val controller = CaptureController(api, store)
+        controller.restoreAndContinue("en", true, api.policyValue, useRestoredPolicy = false)
+        assertEquals(1, api.policyCalls)
+        assertEquals(1, api.currentCalls)
+        assertEquals(1, api.creates)
+        assertEquals(DocumentSide.FRONT, controller.state.value.camera)
+    }
+
+    @Test fun automaticEntryDoesNotCreateWithOutdatedDisclosure() = runBlocking {
+        val store = Store()
+        val api = Gateway(store)
+        val controller = CaptureController(api, store)
+        val accepted = api.policyValue
+        api.policyValue = accepted.copy(version = "new")
+        controller.restoreAndContinue("en", true, accepted, useRestoredPolicy = false)
+        assertEquals(0, api.createCalls)
+        assertNull(controller.state.value.camera)
+        assertEquals(api.policyValue, controller.state.value.policy)
+    }
+
     @Test fun changedDisclosureNeedsSecondExplicitStart() = runBlocking {
         val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
         c.restore()

@@ -40,7 +40,9 @@ After scanning, the review form requires a Country of origin selection: Canada, 
 
 ## Direct capture and review
 
-The existing Continue screen fetches and displays the current localized capture purpose and retention, and carries the accepted policy snapshot into capture. A change before creation requires accepting the refreshed disclosure; a newly fetched policy is never treated as already accepted.
+After sign-in, onboarding fetches the capture policy in parallel with account status when ID capture is enabled. The disclosure screen can reuse or join that request for the same session and backend. The prefetch expires after two minutes. If it fails, the screen fetches the policy directly.
+
+Continue carries the accepted policy into capture. Capture entry fetches a fresh policy and current capture status in parallel and uses that single pair of responses to restore or create a capture. A changed policy requires accepting the refreshed disclosure before creation.
 
 Continue to capture restores existing state and opens the two-sided camera immediately for a new capture (after camera permission if needed). The live host uploads and finalizes as soon as both images are ready, while photo review stays open. Confirmation reveals only the matching OCR result or loading. Retakes cancel local work and invalidate the old pair through authenticated retake. There is no additional Start capture or Finish capture action on the normal path. The server still validates both uploaded objects before accepting finalization; selected upload IDs alone do not prove successful uploads.
 
