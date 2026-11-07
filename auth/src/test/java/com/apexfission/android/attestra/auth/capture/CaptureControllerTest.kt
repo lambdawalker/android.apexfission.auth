@@ -1,7 +1,7 @@
 package com.apexfission.android.attestra.auth.capture
 
 import com.apexfission.android.attestra.auth.identity.DocumentSide
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -15,7 +15,12 @@ class CaptureControllerTest {
     private class Gateway(val store: Store) : CaptureGateway {
         var record: CaptureRecord? = null
         var creates = 0
+        var retakes = 0
+        var failRetake = false
+        var lastRetakeKey: String? = null
+        var onPut: suspend () -> Unit = {}
         var failCreate = false
+        var failGet = false
         var failPut = false
         var failFinalize = false
         var lastUploadKey: String? = null
@@ -35,21 +40,37 @@ class CaptureControllerTest {
             if (failCreate) { failCreate = false; throw CaptureException(503) }
             return requireNotNull(record)
         }
-        override suspend fun get(id: String) = requireNotNull(record)
+        override suspend fun get(id: String): CaptureRecord {
+            if (failGet) { failGet = false; throw CaptureException(503) }
+            return requireNotNull(record)
+        }
         override suspend fun register(id: String, request: RegisterUpload): UploadInstructions {
             val r = requireNotNull(record)
             if (lastUploadKey != request.key) record = r.copy(revision = r.revision + 1, selected = r.selected + (request.slot to request.key))
             lastUploadKey = request.key
             return UploadInstructions(requireNotNull(record), request.key, "https://example.invalid", emptyMap(), 300)
         }
-        override suspend fun put(instructions: UploadInstructions, jpeg: ByteArray) { if (failPut) { failPut = false; throw CaptureException(503) } }
+        override suspend fun put(instructions: UploadInstructions, jpeg: ByteArray) { onPut(); if (failPut) { failPut = false; throw CaptureException(503) } }
         override suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord {
             assertEquals(request, store.value?.finalize)
-            record = requireNotNull(record).copy(state = "finalizing")
+            record = requireNotNull(record).copy(state = "finalizing", revision = request.revision + 1, imageRevision = request.revision + 1)
             if (failFinalize) { failFinalize = false; throw CaptureException(503) }
             return requireNotNull(record)
         }
         override suspend fun retry(id: String, key: String) = requireNotNull(record).copy(state = "finalizing").also { record = it }
+        override suspend fun retake(id: String, request: RetakeCapture): CaptureRecord {
+            retakes++
+            val r = requireNotNull(record)
+            assertEquals(request, store.value?.retake)
+            if (lastRetakeKey == request.key) return r
+            if (request.revision != r.revision) throw CaptureException(409)
+            lastRetakeKey = request.key
+            return r.copy(state = "uploading", revision = r.revision + 1, imageRevision = null,
+                selected = emptyMap(), extraction = null, reviewed = null).also {
+                    record = it
+                    if (failRetake) { failRetake = false; throw CaptureException(503) }
+                }
+        }
         var failReview = false
         override suspend fun review(id: String, request: ReviewCapture): CaptureRecord {
             val r = requireNotNull(record)
@@ -313,4 +334,178 @@ class CaptureControllerTest {
         assertEquals(CardData(), c.state.value.draft)
         assertEquals(CaptureDestination.REVIEW, captureDestination(c.state.value))
     }
+    @Test fun earlyPairStartsOcrButKeepsCameraUntilConfirmation() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        assertEquals("finalizing", api.record?.state)
+        assertEquals(CaptureDestination.CAMERA, captureDestination(c.state.value))
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Latest")))
+        c.restore()
+        assertEquals(CaptureDestination.CAMERA, captureDestination(c.state.value))
+        session.confirmed()
+        assertEquals(CaptureDestination.REVIEW, captureDestination(c.state.value))
+        assertEquals("Latest", c.state.value.draft?.fullName)
+        assertEquals(1, api.creates)
+    }
+    @Test fun retakeCancelsInflightUploadAndReusesCaptureWithNewImageRevision() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        val entered = CompletableDeferred<Unit>()
+        api.onPut = { entered.complete(Unit); awaitCancellation() }
+        val oldFront = byteArrayOf(1,2,3,4); val oldBack = byteArrayOf(5,6,7,8)
+        val old = session.imagesReady(oldFront, oldBack)
+        entered.await()
+        session.invalidated()
+        api.onPut = {}
+        session.imagesReady(byteArrayOf(9,8,7,6), byteArrayOf(6,7,8,9)).join()
+        assertTrue(old.isCancelled)
+        assertTrue(oldFront.all { it == 0.toByte() }); assertTrue(oldBack.all { it == 0.toByte() })
+        assertEquals(1, api.creates); assertEquals(1, api.retakes)
+        assertEquals("finalizing", api.record?.state)
+        assertNotNull(api.record?.imageRevision)
+        session.confirmed()
+        assertEquals(CaptureDestination.LOADING, captureDestination(c.state.value))
+    }
+    @Test fun staleImageRevisionCannotPopulateConfirmedReview() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        val previous = api.record!!.imageRevision
+        session.invalidated()
+        session.imagesReady(byteArrayOf(9,8,7,6), byteArrayOf(6,7,8,9)).join()
+        api.record = api.record!!.copy(state = "ready", imageRevision = previous,
+            extraction = CardExtraction("complete", CardData(fullName = "Stale")))
+        c.restore(); session.confirmed()
+        assertNull(c.state.value.draft)
+        assertNotEquals(CaptureDestination.REVIEW, captureDestination(c.state.value))
+    }
+    @Test fun closeCancelsEarlyWorkAndWipesOwnedImages() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        api.onPut = { awaitCancellation() }
+        val front = byteArrayOf(1,2,3,4); val back = byteArrayOf(5,6,7,8)
+        val job = session.imagesReady(front, back)
+        session.close(); c.close(); job.join()
+        assertTrue(front.all { it == 0.toByte() }); assertTrue(back.all { it == 0.toByte() })
+        assertNull(c.state.value.record)
+    }
+
+    @Test fun lateNonCancellableResponseCannotResurrectOldPair() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        val entered = CompletableDeferred<Unit>(); val release = CompletableDeferred<Unit>()
+        api.onPut = { withContext(NonCancellable) { entered.complete(Unit); release.await() } }
+        val front = byteArrayOf(1,2,3,4); val back = byteArrayOf(5,6,7,8)
+        val old = session.imagesReady(front, back)
+        entered.await(); session.invalidated(); api.onPut = {}
+        val latest = session.imagesReady(byteArrayOf(8,8,8,8), byteArrayOf(9,9,9,9))
+        assertFalse(latest.isCompleted)
+        release.complete(Unit); latest.join(); old.join()
+        assertTrue(front.all { it == 0.toByte() }); assertTrue(back.all { it == 0.toByte() })
+        assertEquals(1, api.retakes)
+        assertEquals("finalizing", c.state.value.record?.state)
+        assertEquals(setOf("front", "back"), c.state.value.uploaded)
+        assertNull(c.state.value.message)
+    }
+    @Test fun confirmationDoesNotUploadAgainAndRetakeClearsCompletedDraft() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        val revision = api.record!!.imageRevision
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Old")))
+        c.restore(); assertNotNull(c.state.value.draft)
+        session.invalidated()
+        assertNull(c.state.value.draft)
+        session.confirmed() // no pair: this must leave camera review open
+        assertEquals(CaptureDestination.CAMERA, captureDestination(c.state.value))
+        session.imagesReady(byteArrayOf(8,8,8,8), byteArrayOf(9,9,9,9)).join()
+        assertTrue(api.record!!.imageRevision!! > revision!!)
+        val finalizedRevision = api.record!!.revision
+        session.confirmed(); session.confirmed()
+        assertEquals(finalizedRevision, api.record!!.revision)
+        assertEquals(1, api.creates)
+    }
+
+    @Test fun lostRetakeResponseReplaysPersistedIntentBeforeReplacement() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.failRetake = true; session.invalidated()
+        val uncertain = store.value?.retake
+        assertNotNull(uncertain)
+        session.imagesReady(byteArrayOf(8,8,8,8), byteArrayOf(9,9,9,9)).join()
+        assertEquals(uncertain?.key, api.lastRetakeKey)
+        assertNull(store.value?.retake)
+        assertEquals("finalizing", api.record?.state)
+        assertEquals(1, api.creates)
+    }
+    @Test fun missingImageRevisionFailsClosedAndDifferentCaptureCannotReplacePair() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.record = api.record!!.copy(state = "ready", imageRevision = null,
+            extraction = CardExtraction("complete", CardData(fullName = "Uncorrelated")))
+        c.restore(); session.confirmed()
+        assertNull(c.state.value.draft)
+        api.record = api.record!!.copy(id = "b".repeat(32))
+        c.restore()
+        // restore resets the checkpoint when the server changes captures, but the
+        // pair's exact identity still prevents a review draft for the other capture.
+        assertNull(c.state.value.draft)
+    }
+
+    @Test fun restartBeforePhotoConfirmationRequiresRecapture() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Unconfirmed")))
+        c.close(); session.close()
+        val restored = CaptureController(api, store)
+        restored.restore()
+        assertNull(restored.state.value.draft)
+        assertEquals(CaptureDestination.CAMERA, captureDestination(restored.state.value))
+        assertEquals("uploading", restored.state.value.record?.state)
+        assertEquals(1, api.creates)
+    }
+
+    @Test fun restartAfterPhotoConfirmationResumesMatchingResult() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        session.confirmed(); session.close(); c.close()
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Confirmed")))
+        val restored = CaptureController(api, store)
+        restored.restore()
+        assertEquals("Confirmed", restored.state.value.draft?.fullName)
+        assertEquals(CaptureDestination.REVIEW, captureDestination(restored.state.value))
+        assertEquals(0, api.retakes)
+    }
+
+    @Test fun restartRecaptureRecoveryCanRetryAfterTransientStatusFailure() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Unconfirmed")))
+        c.close(); session.close()
+        val restored = CaptureController(api, store)
+        api.failGet = true
+        restored.restore(); assertNotNull(restored.state.value.message)
+        restored.restore()
+        assertNull(restored.state.value.message)
+        assertNull(restored.state.value.draft)
+        assertEquals(CaptureDestination.CAMERA, captureDestination(restored.state.value))
+    }
+
 }

@@ -2,6 +2,8 @@ package com.apexfission.android.attestra.auth.capture
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.JsonNames
 
 @Serializable data class DisclosureMessages(val en: String = "", val es: String = "", val fr: String = "") {
     fun language(requested: String): String = when { requested.startsWith("es") && es.isNotBlank() -> "es"; requested.startsWith("fr") && fr.isNotBlank() -> "fr"; else -> "en" }
@@ -19,13 +21,14 @@ import kotlinx.serialization.Serializable
     val jurisdiction: String = "",
     @SerialName("retention_days") val retentionDays: Int = 7,
 )
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable data class CardData(
     @SerialName("full_name") val fullName: String = "",
     @SerialName("given_names") val givenNames: String = "",
     val surnames: String = "",
     @SerialName("birth_date") val birthDate: String = "",
     @SerialName("document_number") val documentNumber: String = "",
-    @SerialName("personal_number") val personalNumber: String = "",
+    @SerialName("issued_identifier") @JsonNames("personal_number") val personalNumber: String = "",
     val address: String = "",
     @SerialName("issue_date") val issueDate: String = "",
     @SerialName("expiry_date") val expiryDate: String = "",
@@ -54,6 +57,7 @@ import kotlinx.serialization.Serializable
     val extraction: CardExtraction? = null,
     val reviewed: ReviewedCard? = null,
     @SerialName("disclosure_language") val disclosureLanguage: String = "",
+    @SerialName("image_revision") val imageRevision: Long? = null,
 )
 @Serializable data class CreateCapture(@SerialName("operation_key") val key: String, @SerialName("document_type") val documentType: String,
     @SerialName("expected_policy_version") val expectedPolicyVersion: String = "",
@@ -77,6 +81,7 @@ import kotlinx.serialization.Serializable
     @SerialName("expected_revision") val revision: Long,
     @SerialName("upload_ids") val uploads: Map<String, String>,
 )
+@Serializable data class RetakeCapture(@SerialName("operation_key") val key: String, @SerialName("expected_revision") val revision: Long)
 @Serializable data class OperationKey(@SerialName("operation_key") val key: String)
 @Serializable data class CaptureStatus(val capture: CaptureRecord? = null)
 /** Only identifiers and mutation intents survive process death. Never image bytes or signed URLs. */
@@ -85,6 +90,8 @@ import kotlinx.serialization.Serializable
     val id: String? = null,
     val finalize: FinalizeCapture? = null,
     val retry: String? = null,
+    val retake: RetakeCapture? = null,
+    val awaitingImageConfirmation: Boolean = false,
 )
 interface CaptureCheckpointStore {
     fun load(): CaptureCheckpoint?
@@ -101,6 +108,7 @@ interface CaptureGateway {
     suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord
     suspend fun retry(id: String, key: String): CaptureRecord
     suspend fun review(id: String, request: ReviewCapture): CaptureRecord
+    suspend fun retake(id: String, request: RetakeCapture): CaptureRecord = throw CaptureException(405, "retake_not_supported")
     suspend fun cancel(id: String): CaptureRecord
 }
 class CaptureException(val status: Int, val code: String = "request_failed") : Exception("Capture request failed ($status)")

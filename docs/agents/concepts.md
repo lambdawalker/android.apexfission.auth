@@ -41,7 +41,7 @@ fields and origin. A saved form is not an identity-verification decision.
 | HTTP clients | Host or `EmailOnboardingHost` | The creator closes them; API adapters do not |
 | `CaptureController` | Host, remembered per account/backend | `CaptureHost` closes it on disposal; `close()` wipes pending JPEG arrays |
 | Front/back JPEG arrays | Camera callback transfers to controller | Controller retains retry data in memory, wipes it after use/exit; caller must not reuse |
-| Camera result bitmaps | `IdentityCamera` consumes detector results | Encodes each side as a color JPEG up to 1600 px on its longest edge and 500 KiB, then recycles the detector bitmaps |
+| Camera result bitmaps | `IdentityCamera` consumes detector results | Copies borrowed images before background encoding; each color JPEG is bounded to 1600 px on the longest edge and 500 KiB; recycles owned copies and confirmed detector results |
 | Pending password | Onboarding Compose memory | Never saved state/storage/URLs/logs; cleared on relevant exits and account changes |
 | Pending proof/session | `SecureAuthStorage` | AES-GCM under per-install Android Keystore key; host must exclude backing preferences from backup |
 | Capture checkpoint | `SecureCaptureCheckpointStore` | IDs and mutation intents only; namespace by account/backend, never signed URLs or images |

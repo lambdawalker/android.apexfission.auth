@@ -62,15 +62,25 @@ import kotlinx.serialization.json.jsonPrimitive
         CaptureController(
             CaptureApi(config.apiUrl, client, uploads) {
                 if (subject() != account) "" else storage.session()?.accessToken.orEmpty()
-            },
+            }.also { api -> api.diagnostic = { android.util.Log.i("CARD-OCR", it) } },
             SecureCaptureCheckpointStore(storage, config.apiUrl, account),
             mayCreate = { currentConfiguration.value.canStartCapture() },
-        ).also { controller -> controller.diagnostic = { android.util.Log.i("AttestraCapture", it) } }
+        ).also { controller -> controller.diagnostic = { android.util.Log.i("CARD-OCR", it) } }
     }
     CaptureHost(controller, {
         if (controller.state.value.signInRequired) storage.clearSession()
         onExit()
-    }, startCaptureOnEntry = true, acceptedPolicy = acceptedPolicy, requireReviewedPolicy = true, allowNewCapture = config.canStartCapture()) { captured, error, cancel -> IdentityCamera(captured, error, cancel) }
+    }, startCaptureOnEntry = true, acceptedPolicy = acceptedPolicy, requireReviewedPolicy = true, allowNewCapture = config.canStartCapture(),
+        earlyCamera = { events ->
+            IdentityCamera(
+                onCaptured = { front, back -> events.onImagesReady(front, back); events.onConfirmed() },
+                onError = events.onError, onCancel = events.onCancel,
+                onImagesReady = events.onImagesReady,
+                onImagesInvalidated = events.onImagesInvalidated,
+                onConfirmed = events.onConfirmed,
+            )
+        },
+    )
 }
 
 /** Pure authentication-required content shared by runtime and screenshot fixtures. */

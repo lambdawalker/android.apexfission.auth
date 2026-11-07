@@ -1,6 +1,8 @@
 package com.apexfission.android.attestra.auth.capture
 
 import com.apexfission.android.attestra.auth.identity.DocumentSide
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
@@ -46,7 +48,11 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     val state = mutable.asStateFlow()
     private val mutex = Mutex()
     private var checkpoint = store.load() ?: CaptureCheckpoint()
+    private var needsRecapture = checkpoint.awaitingImageConfirmation
     private var closed = false
+    private var imageReviewOpen = false
+    private var earlyImages = false
+    private var expectedImages: Pair<String, Long>? = null
     private var pending: Pair<RegisterUpload, ByteArray>? = null
     private var pendingBack: ByteArray? = null
     private var acknowledged: Map<String, String> = emptyMap()
@@ -62,9 +68,11 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     }
     private fun save(value: CaptureCheckpoint) { check(!closed); store.save(value); checkpoint = value }
     private suspend fun operation(block: suspend () -> Unit) {
-        if (closed || !mutex.tryLock()) return
-        show(state.value.copy(busy = true, message = null, camera = null))
-        try { block() }
+        if (closed) return
+        mutex.lock()
+        if (closed) { mutex.unlock(); return }
+        show(state.value.copy(busy = true, message = null, camera = if (imageReviewOpen) state.value.camera else null))
+        try { currentCoroutineContext().ensureActive(); block() }
         catch (cancel: CancellationException) { throw cancel }
         catch (e: Exception) {
             diagnostic("capture request failed status=${(e as? CaptureException)?.status} type=${e.javaClass.simpleName}")
@@ -82,14 +90,16 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             ))
         } finally { if (!closed) show(state.value.copy(busy = false)); mutex.unlock() }
     }
-    private fun record(r: CaptureRecord) {
+    private suspend fun record(r: CaptureRecord) {
+        currentCoroutineContext().ensureActive()
         if (closed) throw CancellationException("Capture closed")
         require(r.id.matches(Regex("[a-f0-9]{32}")) && r.evidenceVersion > 0)
+        if (earlyImages && checkpoint.id != null && checkpoint.id != r.id) throw CaptureException(409, "capture_changed")
         if (state.value.record?.id != r.id) discard()
         save(checkpoint.copy(id = r.id, create = null))
         acknowledged = if (state.value.record?.id == r.id) acknowledged.filter { (slot, id) -> r.selected[slot] == id } else emptyMap()
         val old = state.value
-        val canReview = r.canReviewCard()
+        val canReview = r.canReviewCard() && (!earlyImages || expectedImages == (r.id to r.imageRevision))
         val savedDraft = old.draft != null && r.reviewed?.data == old.draft && r.reviewed?.originCountry == old.originCountry
         val keepDraft = canReview && old.record?.id == r.id && old.reviewDirty && !savedDraft
         show(old.copy(
@@ -114,9 +124,21 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         } else current
         if (r != null) {
             if (checkpoint.id != r.id) save(CaptureCheckpoint(id = r.id))
+            val recoverPhotoReview = checkpoint.awaitingImageConfirmation && needsRecapture
+            if (recoverPhotoReview) { earlyImages = true; imageReviewOpen = true }
             record(r)
-            checkpoint.finalize?.let { if (r.state == "uploading") record(api.finalize(r.id, it)) }
-            checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(api.retry(r.id, it)); save(checkpoint.copy(retry = null)) }
+            if (recoverPhotoReview) {
+                // Borrowed camera images cannot survive process death. Never silently
+                // confirm an old pair just because its OCR completed on the server.
+                expectedImages = null
+                resetImages()
+                show(state.value.copy(camera = DocumentSide.FRONT))
+                needsRecapture = false
+            } else {
+                if (checkpoint.retake != null) resetImages()
+                checkpoint.finalize?.let { if (r.state == "uploading") record(api.finalize(r.id, it)) }
+                checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(api.retry(r.id, it)); save(checkpoint.copy(retry = null)) }
+            }
         } else if (checkpoint.create == null) {
             discard(); acknowledged = emptyMap(); store.clear(); checkpoint = CaptureCheckpoint()
             show(state.value.copy(record = null, uploaded = emptySet(), draft = null, draftRevision = null, reviewDirty = false, originCountry = ""))
@@ -215,13 +237,15 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             front.size !in 4..CaptureApi.MAX_JPEG_BYTES || back.size !in 4..CaptureApi.MAX_JPEG_BYTES) {
             front.fill(0); back.fill(0); cameraFailed(); return
         }
+        if (checkpoint.awaitingImageConfirmation) confirmImages()
         discard()
         pendingBack = back
         val r = requireNotNull(ui.record)
         pending = RegisterUpload(key(), r.revision, "front", checksum(front), front.size.toLong()) to front
         uploadAndContinue()
     }
-    suspend fun upload() = operation {
+    suspend fun upload() = operation { uploadPending() }
+    private suspend fun uploadPending() {
         while (pending != null) {
             val (request, bytes) = requireNotNull(pending)
             val r = requireNotNull(state.value.record)
@@ -229,6 +253,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             require(instructions.capture.id == r.id)
             record(instructions.capture)
             api.put(instructions, bytes)
+            currentCoroutineContext().ensureActive()
             acknowledged = acknowledged + (request.slot to instructions.uploadId)
             show(state.value.copy(uploaded = acknowledged.keys))
             bytes.fill(0)
@@ -241,14 +266,88 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             }
         }
     }
-    suspend fun finalizeCapture(resumeSelectedUploads: Boolean = false) = operation {
+    suspend fun finalizeCapture(resumeSelectedUploads: Boolean = false) = operation { finalizePending(resumeSelectedUploads) }
+    private suspend fun finalizePending(resumeSelectedUploads: Boolean = false) {
         val r = api.get(requireNotNull(checkpoint.id)); record(r)
-        if (r.state != "uploading") return@operation
+        if (r.state != "uploading") return
         require(state.value.uploaded.containsAll(listOf("front", "back")) || checkpoint.finalize != null ||
             (resumeSelectedUploads && r.selected.keys.containsAll(listOf("front", "back"))))
         val request = checkpoint.finalize ?: FinalizeCapture(key(), r.revision, r.selected.toMap())
         save(checkpoint.copy(finalize = request))
+        if (earlyImages) expectedImages = r.id to (request.revision + 1)
         record(api.finalize(r.id, request))
+    }
+    /** UI-owner calls only. Keep the detector review visible while requests run. */
+    internal fun beginImageReview() {
+        if (closed) return
+        earlyImages = true
+        needsRecapture = false
+        imageReviewOpen = true
+        save(checkpoint.copy(awaitingImageConfirmation = true))
+    }
+    internal fun invalidateImageReview() {
+        expectedImages = null
+        show(state.value.copy(draft = null, draftRevision = null, reviewDirty = false, originCountry = ""))
+    }
+    internal fun confirmImages() {
+        if (closed) return
+        needsRecapture = false
+        save(checkpoint.copy(awaitingImageConfirmation = false))
+        imageReviewOpen = false
+        show(state.value.copy(camera = null))
+    }
+    /** Takes ownership, including cancellation while waiting for another operation. */
+    internal suspend fun previewPair(front: ByteArray, back: ByteArray) {
+        var retained = false
+        try {
+            operation {
+                require(front.size in 4..CaptureApi.MAX_JPEG_BYTES && back.size in 4..CaptureApi.MAX_JPEG_BYTES)
+                resetImages()
+                val r = requireNotNull(state.value.record)
+                require(r.state == "uploading")
+                discard()
+                pendingBack = back
+                pending = RegisterUpload(key(), r.revision, "front", checksum(front), front.size.toLong()) to front
+                retained = true
+                uploadPending()
+                finalizePending()
+            }
+        } finally {
+            if (!retained) { front.fill(0); back.fill(0) }
+        }
+    }
+    internal suspend fun retakeImages() = operation { resetImages() }
+    private suspend fun resetImages() {
+        discard()
+        val id = requireNotNull(checkpoint.id)
+        var r = api.get(id)
+        currentCoroutineContext().ensureActive()
+        if (checkpoint.retake == null && r.state == "uploading" && r.selected.isEmpty() && r.imageRevision == null) {
+            record(r)
+            return
+        }
+        // Persist the intent before the request: replay the same key after response loss.
+        repeat(3) {
+            val request = checkpoint.retake ?: RetakeCapture(key(), r.revision)
+            save(checkpoint.copy(retake = request, finalize = null, retry = null))
+            try {
+                val reset = api.retake(id, request)
+                currentCoroutineContext().ensureActive()
+                require(reset.id == id && reset.state == "uploading" && reset.imageRevision == null && reset.selected.isEmpty())
+                expectedImages = null
+                acknowledged = emptyMap()
+                record(reset)
+                save(checkpoint.copy(retake = null))
+                return
+            } catch (conflict: CaptureException) {
+                if (conflict.status != 409) throw conflict
+                r = api.get(id)
+                currentCoroutineContext().ensureActive()
+                // A worker may have advanced revision between GET and retake.
+                save(checkpoint.copy(retake = null))
+            }
+        }
+        throw CaptureException(409, "revision_conflict")
     }
     suspend fun retry() = operation {
         val r = api.get(requireNotNull(checkpoint.id)); record(r)

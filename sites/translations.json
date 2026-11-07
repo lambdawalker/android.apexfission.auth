@@ -11,8 +11,8 @@
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
-    "source_sha256": "653901fcbe40cd840828c76f7ab87f77399b3949f60cbe76d6e5e8144f404b86",
-    "provenance": "Spanish translation reviewed against canonical host MaterialTheme and Android locale contracts; 2026-11-04. Existing ownership meaning and identifiers preserved."
+    "source_sha256": "645225f213cdc568a0b9b301b7bcb1ba6f898af6cdba2b25a175d05833216ae5",
+    "provenance": "Spanish resource ownership reviewed against bounded color JPEGs and borrowed-versus-owned image cleanup; 2026-11-06."
   },
   "docs/agents/api.md": {
     "path": "docs/es/agents/api.md",
@@ -21,8 +21,8 @@
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",
-    "source_sha256": "edf5c7eec293f18ab7abbaf1dfa333d0c227b84b5a2edc26e0ae3f0b5c481878",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "bfb58d8ec14b96e2bee8f86b76d0bbba4b96c68a75ae7584a0ceeba1fbbaa593",
+    "provenance": "Spanish recipe reviewed against early OCR callbacks, bitmap ownership, cancellation and revision fencing; 2026-11-06."
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",
