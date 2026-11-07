@@ -108,7 +108,9 @@ import kotlinx.coroutines.launch
         camera = { captured, error, cancel ->
             if (earlyCamera == null) camera(captured, error, cancel)
             else earlyCamera(CaptureCameraEvents(
-                onImagesReady = { front, back -> early.imagesReady(front, back) },
+                onImagesReady = { front, back -> early.imagesReady(front, back, ui.policy?.stitchedPairSupported == true) },
+                stitchedPair = ui.policy?.stitchedPairSupported == true,
+                onFrontReady = early::frontReady,
                 onImagesInvalidated = early::invalidated,
                 onConfirmed = early::confirmed,
                 onError = { early.invalidated(); error() },
@@ -223,7 +225,7 @@ internal fun CaptureHostContent(
                         Text(if (ui.uploaded.isEmpty()) stringResource(R.string.auth_capture_both_sides) else stringResource(R.string.auth_retake_both_sides))
                     }
                     if (ui.message != null) OutlinedButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onUpload) { Text(stringResource(R.string.auth_retry_upload)) }
-                    if (ui.message != null && record.selected.keys.containsAll(listOf("front", "back"))) {
+                    if (ui.message != null && record.selected.keys.hasCapturePair()) {
                         TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onFinalizeCapture) { Text(stringResource(R.string.auth_retry_processing)) }
                     }
                 }

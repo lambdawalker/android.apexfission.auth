@@ -78,6 +78,8 @@ import kotlinx.serialization.json.jsonPrimitive
                 onImagesReady = events.onImagesReady,
                 onImagesInvalidated = events.onImagesInvalidated,
                 onConfirmed = events.onConfirmed,
+                stitchedPair = events.stitchedPair,
+                onFrontReady = events.onFrontReady,
             )
         },
     )

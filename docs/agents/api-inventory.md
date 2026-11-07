@@ -123,6 +123,7 @@ fun text(requested: String): String
     val purposes: DisclosureMessages = DisclosureMessages(),
     val jurisdiction: String = "",
     @SerialName("retention_days") val retentionDays: Int = 7,
+    @SerialName("stitched_pair_supported") val stitchedPairSupported: Boolean = false,
 )
 @Serializable data class CardData(
     @SerialName("full_name") val fullName: String = "",
@@ -217,7 +218,8 @@ class CaptureException(val status: Int, val code: String = "request_failed") : E
 package com.apexfission.android.attestra.auth.capture
 
 class EarlyCaptureSession(private val controller: CaptureController, private val scope: CoroutineScope)
-fun imagesReady(front: ByteArray, back: ByteArray): Job
+fun frontReady(front: ByteArray)
+fun imagesReady(front: ByteArray, back: ByteArray, stitched: Boolean = false): Job
 fun invalidated()
 fun confirmed()
 fun close()
@@ -227,6 +229,8 @@ class CaptureCameraEvents(
     val onConfirmed: () -> Unit,
     val onError: () -> Unit,
     val onCancel: () -> Unit,
+    val stitchedPair: Boolean = false,
+    val onFrontReady: (ByteArray) -> Unit = { it.fill(0) },
 )
 ```
 
@@ -508,6 +512,18 @@ fun IdentityCamera(
     onImagesInvalidated: () -> Unit = {},
     onConfirmed: () -> Unit = {},
 )
+@Composable
+fun IdentityCamera(
+    onCaptured: (ByteArray, ByteArray) -> Unit,
+    onError: () -> Unit,
+    onCancel: () -> Unit,
+    onImagesReady: ((ByteArray, ByteArray) -> Unit)?,
+    onImagesInvalidated: () -> Unit,
+    onConfirmed: () -> Unit,
+    stitchedPair: Boolean,
+    onFrontReady: (ByteArray) -> Unit = { it.fill(0) },
+)
+fun draw(bitmap: Bitmap, top: Int, scaledHeight: Int)
 ```
 
 ## PasskeyRegistration

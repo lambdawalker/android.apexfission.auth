@@ -58,6 +58,8 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     private var processingStarted: TimeMark? = null
     private var pending: Pair<RegisterUpload, ByteArray>? = null
     private var pendingBack: ByteArray? = null
+    private var pendingSecondSlot = "back"
+    private var stagedFrontChecksum: String? = null
     private var acknowledged: Map<String, String> = emptyMap()
     private fun key() = UUID.randomUUID().toString()
     private fun show(value: CaptureUi) {
@@ -107,7 +109,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         val savedDraft = old.draft != null && r.reviewed?.data == old.draft && r.reviewed?.originCountry == old.originCountry
         val keepDraft = canReview && old.record?.id == r.id && old.reviewDirty && !savedDraft
         show(old.copy(
-            record = r, policy = r.policy ?: old.policy, uploaded = acknowledged.keys,
+            record = r, policy = r.policy?.copy(stitchedPairSupported = old.policy?.stitchedPairSupported == true) ?: old.policy, uploaded = acknowledged.keys,
             draft = if (!canReview) null else if (keepDraft) old.draft else r.reviewData(),
             draftRevision = if (!canReview) null else if (keepDraft) old.draftRevision else r.revision,
             reviewDirty = keepDraft,
@@ -235,14 +237,14 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             start(language, reviewedPolicy)
         }
         if (closed || state.value.message != null || state.value.record?.state != "uploading") return
-        if (state.value.record?.selected?.keys?.containsAll(listOf("front", "back")) == true) {
+        if (state.value.record?.selected?.keys?.hasCapturePair() == true) {
             // Selection alone is not proof of upload: finalize HEAD-checks both objects on the server.
             finalizeCapture(resumeSelectedUploads = true)
         } else camera(DocumentSide.FRONT)
     }
     suspend fun uploadAndContinue() {
         upload()
-        if (!closed && state.value.message == null && state.value.uploaded.containsAll(listOf("front", "back"))) {
+        if (!closed && state.value.message == null && state.value.uploaded.hasCapturePair()) {
             finalizeCapture()
         }
     }
@@ -270,6 +272,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         if (checkpoint.awaitingImageConfirmation) confirmImages()
         discard()
         pendingBack = back
+        pendingSecondSlot = "back"
         val r = requireNotNull(ui.record)
         pending = RegisterUpload(key(), r.revision, "front", checksum(front), front.size.toLong()) to front
         uploadAndContinue()
@@ -296,7 +299,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             pendingBack = null
             if (back != null) {
                 val current = requireNotNull(state.value.record)
-                pending = RegisterUpload(key(), current.revision, "back", checksum(back), back.size.toLong()) to back
+                pending = RegisterUpload(key(), current.revision, pendingSecondSlot, checksum(back), back.size.toLong()) to back
             }
         }
     }
@@ -304,8 +307,8 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     private suspend fun finalizePending(resumeSelectedUploads: Boolean = false) {
         val r = api.get(requireNotNull(checkpoint.id)); record(r)
         if (r.state != "uploading") return
-        require(state.value.uploaded.containsAll(listOf("front", "back")) || checkpoint.finalize != null ||
-            (resumeSelectedUploads && r.selected.keys.containsAll(listOf("front", "back"))))
+        require(state.value.uploaded.hasCapturePair() || checkpoint.finalize != null ||
+            (resumeSelectedUploads && r.selected.keys.hasCapturePair()))
         val request = checkpoint.finalize ?: FinalizeCapture(key(), r.revision, r.selected.toMap())
         save(checkpoint.copy(finalize = request))
         if (earlyImages) expectedImages = r.id to (request.revision + 1)
@@ -331,18 +334,43 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         imageReviewOpen = false
         show(state.value.copy(camera = null))
     }
+    internal suspend fun stageFront(front: ByteArray) {
+        try {
+            operation {
+                require(front.size in 4..CaptureApi.MAX_JPEG_BYTES)
+                resetImages()
+                val r = requireNotNull(state.value.record)
+                val digest = checksum(front)
+                pending = RegisterUpload(key(), r.revision, "front", digest, front.size.toLong()) to front
+                uploadPending()
+                stagedFrontChecksum = digest
+            }
+        } finally {
+            if (pending?.second === front) pending = null
+            front.fill(0)
+        }
+    }
+
     /** Takes ownership, including cancellation while waiting for another operation. */
-    internal suspend fun previewPair(front: ByteArray, back: ByteArray) {
+    internal suspend fun previewPair(front: ByteArray, back: ByteArray, stitched: Boolean = false) {
         var retained = false
         try {
             operation {
                 require(front.size in 4..CaptureApi.MAX_JPEG_BYTES && back.size in 4..CaptureApi.MAX_JPEG_BYTES)
-                resetImages()
+                val digest = checksum(front)
+                val reuseFront = stitched && stagedFrontChecksum == digest && "front" in acknowledged
+                if (!reuseFront) resetImages()
                 val r = requireNotNull(state.value.record)
                 require(r.state == "uploading")
                 discard()
-                pendingBack = back
-                pending = RegisterUpload(key(), r.revision, "front", checksum(front), front.size.toLong()) to front
+                if (reuseFront) {
+                    front.fill(0)
+                    pending = RegisterUpload(key(), r.revision, "stitched", checksum(back), back.size.toLong()) to back
+                } else {
+                    pendingBack = back
+                    pendingSecondSlot = if (stitched) "stitched" else "back"
+                    pending = RegisterUpload(key(), r.revision, "front", digest, front.size.toLong()) to front
+                }
                 retained = true
                 uploadPending()
                 finalizePending()
@@ -353,6 +381,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     }
     internal suspend fun retakeImages() = operation { resetImages() }
     private suspend fun resetImages() {
+        stagedFrontChecksum = null
         discard()
         val id = requireNotNull(checkpoint.id)
         var r = api.get(id)
@@ -427,3 +456,5 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     private fun discard() { pending?.second?.fill(0); pending = null; pendingBack?.fill(0); pendingBack = null }
     fun close() { closed = true; discard(); mutable.value = CaptureUi(signInRequired = mutable.value.signInRequired) }
 }
+
+internal fun Set<String>.hasCapturePair(): Boolean = "front" in this && ("back" in this || "stitched" in this)

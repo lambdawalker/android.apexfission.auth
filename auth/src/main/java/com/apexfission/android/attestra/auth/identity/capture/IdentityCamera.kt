@@ -6,6 +6,12 @@ import androidx.compose.ui.res.stringResource
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
+import android.graphics.Rect
 import android.util.Log
 import com.apexfission.android.attestra.auth.capture.timeOcrPhase
 import androidx.compose.foundation.layout.*
@@ -23,6 +29,7 @@ import com.apexfission.android.permission.requester.HandlePermissions
 import com.apexfission.android.permission.ui.DefaultPermissionPage
 import com.apexfission.android.permission.ui.PermissionDescription
 import com.apexfission.android.permission.ui.PermissionOverviewMode
+import com.apexfission.android.carddetector.ui.capture.CardSide
 import com.apexfission.android.carddetector.ui.capture.CardCaptureConfig
 import com.apexfission.android.carddetector.ui.capture.TwoSidedCardCapture
 import java.io.ByteArrayOutputStream
@@ -45,9 +52,24 @@ fun IdentityCamera(
     onImagesReady: ((ByteArray, ByteArray) -> Unit)?,
     onImagesInvalidated: () -> Unit = {},
     onConfirmed: () -> Unit = {},
+) = IdentityCamera(onCaptured, onError, onCancel, onImagesReady, onImagesInvalidated,
+    onConfirmed, stitchedPair = false)
+
+@Composable
+fun IdentityCamera(
+    onCaptured: (ByteArray, ByteArray) -> Unit,
+    onError: () -> Unit,
+    onCancel: () -> Unit,
+    onImagesReady: ((ByteArray, ByteArray) -> Unit)?,
+    onImagesInvalidated: () -> Unit,
+    onConfirmed: () -> Unit,
+    stitchedPair: Boolean,
+    onFrontReady: (ByteArray) -> Unit = { it.fill(0) },
 ) {
     val scope = rememberCoroutineScope()
     var encoding by remember { mutableStateOf<Job?>(null) }
+    var frontEncoding by remember { mutableStateOf<Job?>(null) }
+    val sendFront by rememberUpdatedState(onFrontReady)
     var generation by remember { mutableIntStateOf(0) }
     var encodedGeneration by remember { mutableIntStateOf(-1) }
     val ready by rememberUpdatedState(onImagesReady)
@@ -74,12 +96,53 @@ fun IdentityCamera(
             cardClasses = IdentityCardModel.cardClasses,
             config = CardCaptureConfig(autoCaptureEnabled = true),
             onBack = onCancel,
-            onSideChanged = { _, image ->
-                if (image == null && ready != null) {
+            onSideReady = { side, image ->
+                if (stitchedPair && ready != null && side == CardSide.Front) {
+                    try {
+                        val copy = copyForEncoding(image.bitmap)
+                        frontEncoding?.cancel()
+                        @OptIn(ExperimentalCoroutinesApi::class)
+                        val task = scope.launch(Dispatchers.Default, start = CoroutineStart.ATOMIC) {
+                            var bytes: ByteArray? = null
+                            try {
+                                ensureActive()
+                                val encoded = timeCameraPhase("jpeg_front_gray") { encodeGray(copy) }
+                                bytes = encoded
+                                withContext(Dispatchers.Main.immediate) {
+                                    sendFront(encoded)
+                                    bytes = null
+                                }
+                            } catch (cancel: CancellationException) { throw cancel }
+                            catch (_: Exception) {
+                                Log.i("CARD-OCR", "early grayscale encoding failed; pair will retry")
+                            } finally {
+                                bytes?.fill(0)
+                                copy.recycle()
+                            }
+                        }
+                        frontEncoding = task
+                    } catch (_: Exception) {
+                        Log.i("CARD-OCR", "early front copy failed; pair will retry")
+                    }
+                }
+            },
+            onSideInvalidated = {
+                if (ready != null) {
                     generation++
                     encodedGeneration = -1
+                    frontEncoding?.cancel()
                     encoding?.cancel()
                     onImagesInvalidated()
+                }
+            },
+            onSideAccepted = { side, _ ->
+                if (side == CardSide.Back && ready != null) {
+                    val token = generation
+                    scope.launch {
+                        encoding?.join()
+                        if (generation == token && encodedGeneration == token) confirmed()
+                        else failed()
+                    }
                 }
             },
             onImagesReady = { result ->
@@ -93,6 +156,7 @@ fun IdentityCamera(
                     try {
                         frontCopy = timeCameraPhase("copy_front") { copyForEncoding(result.front.bitmap) }
                         backCopy = timeCameraPhase("copy_back") { copyForEncoding(result.back.bitmap) }
+                        val earlyFront = frontEncoding
                         val frontImage = frontCopy
                         val backImage = backCopy
                         @OptIn(ExperimentalCoroutinesApi::class)
@@ -102,9 +166,14 @@ fun IdentityCamera(
                             var transferred = false
                             try {
                                 ensureActive()
-                                front = timeCameraPhase("jpeg_front") { encodeJpeg(frontImage) }
+                                front = timeCameraPhase("jpeg_front") {
+                                    if (stitchedPair) encodeGray(frontImage) else encodeJpeg(frontImage)
+                                }
                                 ensureActive()
-                                back = timeCameraPhase("jpeg_back") { encodeJpeg(backImage) }
+                                back = timeCameraPhase(if (stitchedPair) "jpeg_stitched" else "jpeg_back") {
+                                    if (stitchedPair) encodeStitched(frontImage, backImage) else encodeJpeg(backImage)
+                                }
+                                if (stitchedPair) earlyFront?.join()
                                 withContext(Dispatchers.Main.immediate) {
                                     if (generation == token) {
                                         ready?.invoke(requireNotNull(front), requireNotNull(back))
@@ -130,12 +199,6 @@ fun IdentityCamera(
             onComplete = { result ->
                 if (ready != null) {
                     result.front.bitmap.recycle(); result.back.bitmap.recycle()
-                    val token = generation
-                    scope.launch {
-                        encoding?.join()
-                        if (generation == token && encodedGeneration == token) confirmed()
-                        else failed()
-                    }
                 } else {
                     var front: ByteArray? = null
                     var back: ByteArray? = null
@@ -164,6 +227,44 @@ private fun copyForEncoding(bitmap: Bitmap): Bitmap {
     return if (scale < 1.0) Bitmap.createScaledBitmap(bitmap,
         (bitmap.width * scale).toInt().coerceAtLeast(1), (bitmap.height * scale).toInt().coerceAtLeast(1), true)
     else requireNotNull(bitmap.copy(Bitmap.Config.ARGB_8888, false))
+}
+
+private fun encodeGray(bitmap: Bitmap): ByteArray {
+    val grayscale = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+    try {
+        val paint = Paint().apply {
+            colorFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
+        }
+        Canvas(grayscale).drawBitmap(bitmap, 0f, 0f, paint)
+        return encodeJpeg(grayscale)
+    } finally {
+        grayscale.recycle()
+    }
+}
+
+private fun encodeStitched(front: Bitmap, back: Bitmap): ByteArray {
+    val width = maxOf(front.width, back.width)
+    val height = front.height + back.height
+    val scale = minOf(1.0, 1600.0 / maxOf(width, height))
+    val frontHeight = (front.height * scale).toInt().coerceAtLeast(1)
+    val backHeight = (back.height * scale).toInt().coerceAtLeast(1)
+    val stitched = Bitmap.createBitmap((width * scale).toInt().coerceAtLeast(1),
+        frontHeight + backHeight, Bitmap.Config.ARGB_8888)
+    try {
+        val canvas = Canvas(stitched)
+        canvas.drawColor(Color.WHITE)
+        val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+        fun draw(bitmap: Bitmap, top: Int, scaledHeight: Int) {
+            val scaledWidth = (bitmap.width * scale).toInt().coerceAtLeast(1)
+            val left = (stitched.width - scaledWidth) / 2
+            canvas.drawBitmap(bitmap, null, Rect(left, top, left + scaledWidth, top + scaledHeight), paint)
+        }
+        draw(front, 0, frontHeight)
+        draw(back, frontHeight, backHeight)
+        return encodeJpeg(stitched)
+    } finally {
+        stitched.recycle()
+    }
 }
 
 private fun encodeJpeg(bitmap: Bitmap): ByteArray {
