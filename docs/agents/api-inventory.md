@@ -498,11 +498,13 @@ enum class DocumentSide
 package com.apexfission.android.attestra.auth.identity.capture
 
 @Composable
+fun IdentityCamera(onCaptured: (ByteArray, ByteArray) -> Unit, onError: () -> Unit, onCancel: () -> Unit)
+@Composable
 fun IdentityCamera(
     onCaptured: (ByteArray, ByteArray) -> Unit,
     onError: () -> Unit,
     onCancel: () -> Unit,
-    onImagesReady: ((ByteArray, ByteArray) -> Unit)? = null,
+    onImagesReady: ((ByteArray, ByteArray) -> Unit)?,
     onImagesInvalidated: () -> Unit = {},
     onConfirmed: () -> Unit = {},
 )
