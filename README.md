@@ -195,7 +195,7 @@ Unconfirmed photos require recapture after process restart. Filter Logcat by
 
 The detector and model share a JitPack artifact ID. `cardModelAssets` resolves
 `tfmodel~v0.1.2` separately and copies only assets into the auth library; the
-runtime depends exclusively on `carddetector~v0.1.8`, avoiding the old core 0.1.0.
+runtime uses the detector version pinned in `gradle/libs.versions.toml`.
 The local Sentinel catalog matches that model release.
 
 ### Documentation screenshots
