@@ -101,6 +101,7 @@ android.androidResources.noCompress += "tflite"
 
 
 // Only the auth release variant is a publication. app is local.
+val jitpackTagSuffix = if (providers.gradleProperty("jitpackScopedTag").orNull == "true") "-jitpack" else ""
 val jitpackBuild = providers.gradleProperty("jitpackBuild").orElse("false").map(String::toBoolean)
 val projectUrl = "https://github.com/lambdawalker/android.attestra.auth"
 val pomLicenseName = providers.gradleProperty("POM_LICENSE_NAME").orElse("")
@@ -109,7 +110,7 @@ mavenPublishing {
     coordinates(
         if (jitpackBuild.get()) "com.github.lambdawalker" else providers.gradleProperty("GROUP").get(),
         if (jitpackBuild.get()) "android.attestra.auth" else providers.gradleProperty("POM_ARTIFACT_ID").get(),
-        if (jitpackBuild.get()) "auth~v${project.version}" else project.version.toString()
+        if (jitpackBuild.get()) "auth~v${project.version}$jitpackTagSuffix" else project.version.toString()
     )
     configure(AndroidSingleVariantLibrary(variant = "release", javadocJar = JavadocJar.Empty(), sourcesJar = SourcesJar.Sources()))
     if (!jitpackBuild.get()) publishToMavenCentral()

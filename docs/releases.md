@@ -77,14 +77,14 @@ python scripts/publishing_config.py check
 
 After review and merge, open **Actions → Publish Attestra auth → Run workflow**
 on `main`. Select `maven-central` or `jitpack`. There is one optional `version`
-field; the module is fixed internally.
+field and a JitPack pending-attempt checkbox. The module is fixed internally.
 
 - First blank version selects `0.1.0`.
 - Blank with unchanged release inputs reuses the latest semantic version and
   its original source commit. If this destination already confirms it, it is a no-op.
-- Blank with changed release inputs increments the latest global patch, e.g.
-  `0.1.9` becomes `0.1.10`, even when the selected destination missed releases.
-- An explicit stable `X.Y.Z` must be newer than every reserved/confirmed identity.
+- Blank with changed release inputs increments the latest destination patch, e.g.
+  `0.1.9` becomes `0.1.10`.
+- An explicit stable `X.Y.Z` must be newer than every reserved or confirmed identity at the selected destination.
   It is a new version request, never a recovery shortcut. Prereleases and snapshots
   are not stable releases under this policy.
 
@@ -93,7 +93,7 @@ build scripts, dependency catalog, wrapper/toolchain, license, release helpers a
 registry. Demo/mock-only sources, generated IMPORT and confirmation records are
 excluded. Protocol/script changes conservatively allocate a new identity.
 
-The workflow validates an unsigned publication before reserving `auth/vX.Y.Z` and
+The workflow validates an unsigned publication before reserving `auth/vX.Y.Z-DESTINATION` and
 an annotated `release-pending/...` journal atomically. Tags are immutable. A Central
 upload-started marker is pushed before the plugin upload; an unresolved attempt
 blocks another upload. Maven Central credentials are exposed only to preflight and
@@ -108,7 +108,7 @@ is not a durable FIFO queue; pending runs may be superseded, so journals remain
 necessary.
 
 JitPack installs exactly one unsigned release publication in MavenLocal from a
-canonical `auth/vX.Y.Z` tag. Its consumer version is **`auth~vX.Y.Z`**, at
+canonical `auth/vX.Y.Z-jitpack` tag. Its consumer version is **`auth~vX.Y.Z-jitpack`**, at
 `com.github.lambdawalker:android.attestra.auth`; this is distinct from Central's
 semantic version string. An artifact request starts the remote build, which is
 polled for up to 30 minutes. Provider-reported success must identify the reserved
@@ -153,8 +153,7 @@ source-mismatched or partially public builds keep their journal.
 ## Installation and documentation
 
 `IMPORT.md` is generated from `docs/templates/IMPORT.md.template` and confirmed
-records. It shows only destinations confirming the newest semantic version at the
-same source SHA, with Kotlin/Groovy/catalog/Maven examples and JitPack dependency
+records. After the first scoped confirmation it shows each destination’s latest version and source, with Kotlin/Groovy/catalog/Maven examples and JitPack dependency
 repository declarations. No proposed coordinate is advertised as available.
 
 ```sh
@@ -190,3 +189,11 @@ References: [plugin Central setup](https://github.com/vanniktech/gradle-maven-pu
 [JitPack build configuration](https://docs.jitpack.io/building/),
 [JitPack API](https://docs.jitpack.io/api/),
 [GitHub environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment).
+
+## Destination-scoped publishing and recovery
+
+Enter plain `X.Y.Z` in the workflow. Maven Central reserves `auth/vX.Y.Z-maven-central` and keeps `X.Y.Z` in its dependency coordinates. JitPack reserves `auth/vX.Y.Z-jitpack` and publishes consumer version `auth~vX.Y.Z-jitpack`. The same semantic version can identify different commits on different destinations. Existing tags, journals, and published coordinates remain valid.
+
+Leave **allow_pending_jitpack** off for normal releases. Enable it only to publish an explicit newer JitPack version while an older pending attempt remains unresolved. The workflow preserves the older tags and journals, checks their source provenance, and keeps upload-started markers and artifact verification enforced. Maven publishing does not use this checkbox.
+
+Use the dedicated **Finalize** workflow from the current release branch for an already reserved version. It verifies the original artifact source and only then updates installation metadata. New archive entries are scoped to the destination, so two providers with the same semantic version can retain separate source and documentation revisions.
