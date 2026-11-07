@@ -66,11 +66,10 @@ import kotlinx.coroutines.launch
     }
     LaunchedEffect(controller) {
         try {
-            controller.restore()
-            if (startCaptureOnEntry && controller.state.value.message == null) {
-                controller.continueToCapture(language, allowNewCapture,
-                    reviewedPolicy = if (requireReviewedPolicy) acceptedPolicy else controller.state.value.policy)
-            }
+            if (startCaptureOnEntry) {
+                controller.restoreAndContinue(language, allowNewCapture, acceptedPolicy,
+                    useRestoredPolicy = !requireReviewedPolicy)
+            } else controller.restore()
         } finally { initializing = false }
     }
     DisposableEffect(controller) { onDispose { controller.close() } }
