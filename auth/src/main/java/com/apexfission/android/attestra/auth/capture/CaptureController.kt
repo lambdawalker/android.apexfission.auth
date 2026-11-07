@@ -65,7 +65,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         if (closed || !mutex.tryLock()) return
         show(state.value.copy(busy = true, message = null, camera = null))
         try { block() }
-        catch (cancel: CancellationException) { throw cancel }
+        catch (cancel: CancellationException) { diagnostic("capture request cancelled"); throw cancel }
         catch (e: Exception) {
             diagnostic("capture request failed status=${(e as? CaptureException)?.status} type=${e.javaClass.simpleName}")
             if (!closed) show(state.value.copy(
@@ -124,6 +124,8 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     }
     /** Poll the known capture directly; configuration outages cannot block status updates. */
     internal suspend fun awaitProcessing(timeoutMillis: Long = 600_000L) {
+        val started = System.nanoTime()
+        diagnostic("ocr polling started id=${state.value.record?.id} revision=${state.value.record?.revision}")
         val completed = withTimeoutOrNull(timeoutMillis) {
             var attempts = 0
             while (!closed && state.value.record.isProcessingCard() && !state.value.signInRequired && state.value.message == null) {
@@ -136,6 +138,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             }
             true
         }
+        diagnostic("ocr polling finished id=${state.value.record?.id} extraction=${state.value.record?.extraction?.status} elapsed_ms=${(System.nanoTime() - started) / 1_000_000} timed_out=${completed == null}")
         if (completed == null && !closed && state.value.record.isProcessingCard()) {
             diagnostic("capture polling deadline exceeded")
             show(state.value.copy(message = "Reading your document is taking longer than expected. Refresh status to check again, or continue later."))
@@ -196,10 +199,11 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     }
     fun camera(side: DocumentSide) {
         if (closed || state.value.busy || state.value.record?.state != "uploading") return
+        diagnostic("camera opened id=${state.value.record?.id} retake=${state.value.uploaded.isNotEmpty()}")
         discard(); save(checkpoint.copy(finalize = null)); show(state.value.copy(camera = side, message = null))
     }
-    fun cameraCancelled() { show(state.value.copy(camera = null)) }
-    fun cameraFailed() { show(state.value.copy(camera = null, message = "Could not capture a clear image. Try again.")) }
+    fun cameraCancelled() { diagnostic("camera cancelled"); show(state.value.copy(camera = null)) }
+    fun cameraFailed() { diagnostic("camera failed"); show(state.value.copy(camera = null, message = "Could not capture a clear image. Try again.")) }
     suspend fun captured(side: DocumentSide, bytes: ByteArray) {
         if (closed || state.value.busy || state.value.camera != side) { bytes.fill(0); return }
         val r = state.value.record ?: run { bytes.fill(0); return }
@@ -215,6 +219,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             front.size !in 4..CaptureApi.MAX_JPEG_BYTES || back.size !in 4..CaptureApi.MAX_JPEG_BYTES) {
             front.fill(0); back.fill(0); cameraFailed(); return
         }
+        diagnostic("images confirmed id=${ui.record?.id} front_bytes=${front.size} back_bytes=${back.size}")
         discard()
         pendingBack = back
         val r = requireNotNull(ui.record)
@@ -225,10 +230,13 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         while (pending != null) {
             val (request, bytes) = requireNotNull(pending)
             val r = requireNotNull(state.value.record)
+            val started = System.nanoTime()
+            diagnostic("upload started id=${r.id} revision=${r.revision} side=${request.slot} bytes=${bytes.size}")
             val instructions = api.register(r.id, request)
             require(instructions.capture.id == r.id)
             record(instructions.capture)
             api.put(instructions, bytes)
+            diagnostic("upload completed id=${r.id} side=${request.slot} elapsed_ms=${(System.nanoTime() - started) / 1_000_000}")
             acknowledged = acknowledged + (request.slot to instructions.uploadId)
             show(state.value.copy(uploaded = acknowledged.keys))
             bytes.fill(0)
@@ -248,6 +256,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             (resumeSelectedUploads && r.selected.keys.containsAll(listOf("front", "back"))))
         val request = checkpoint.finalize ?: FinalizeCapture(key(), r.revision, r.selected.toMap())
         save(checkpoint.copy(finalize = request))
+        diagnostic("finalization requested id=${r.id} revision=${r.revision}")
         record(api.finalize(r.id, request))
     }
     suspend fun retry() = operation {
@@ -255,11 +264,13 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         if (r.state != "failed" && !(r.state == "ready" && r.extraction?.status == "failed")) return@operation
         val operationKey = checkpoint.retry ?: key()
         save(checkpoint.copy(retry = operationKey))
+        diagnostic("ocr retry requested id=${r.id} revision=${r.revision}")
         record(api.retry(r.id, operationKey))
         save(checkpoint.copy(retry = null))
     }
     suspend fun cancel() = operation {
         val id = checkpoint.id ?: return@operation
+        diagnostic("capture cancellation requested id=$id")
         record(api.cancel(id)); discard(); acknowledged = emptyMap(); store.clear(); checkpoint = CaptureCheckpoint()
         show(state.value.copy(record = null, uploaded = emptySet(), draft = null, draftRevision = null, reviewDirty = false, originCountry = ""))
     }

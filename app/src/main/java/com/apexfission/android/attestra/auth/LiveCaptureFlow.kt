@@ -65,7 +65,7 @@ import kotlinx.serialization.json.jsonPrimitive
             },
             SecureCaptureCheckpointStore(storage, config.apiUrl, account),
             mayCreate = { currentConfiguration.value.canStartCapture() },
-        ).also { controller -> controller.diagnostic = { android.util.Log.i("AttestraCapture", it) } }
+        ).also { controller -> controller.diagnostic = { android.util.Log.i("CARD-OCR", it) } }
     }
     CaptureHost(controller, {
         if (controller.state.value.signInRequired) storage.clearSession()
