@@ -9,8 +9,9 @@ internal val cardFields = listOf(
 )
 
 internal fun CardData.mergeOCR(result: CardData, protected: Set<KProperty1<CardData, String>>): CardData {
-    fun value(field: KProperty1<CardData, String>): String =
+    val value = { field: KProperty1<CardData, String> ->
         if (field in protected) field.get(this) else field.get(result).ifBlank { field.get(this) }
+    }
 
     return copy(
         fullName = value(CardData::fullName),
