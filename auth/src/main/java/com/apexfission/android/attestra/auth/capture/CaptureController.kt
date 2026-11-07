@@ -181,7 +181,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
                 needsRecapture = false
             } else {
                 if (checkpoint.retake != null) resetImages()
-                checkpoint.finalize?.let { if (r.state == "uploading") record(timeOcrPhase("finalize_request", diagnostic) { api.finalize(r.id, it) }) }
+                if (checkpoint.finalize != null && r.state == "uploading") finalizePending(resumeSelectedUploads = true)
                 checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(timeOcrPhase("retry_request", diagnostic) { api.retry(r.id, it) }); save(checkpoint.copy(retry = null)) }
             }
         } else if (checkpoint.create == null) {
@@ -313,7 +313,16 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
                 currentCoroutineContext().ensureActive()
             }
             if (request.slot == "front") {
-                api.confirmFront(r.id, instructions.uploadId)?.let { record(it) }
+                val confirmed = try {
+                    api.confirmFront(r.id, instructions.uploadId)
+                } catch (cancel: CancellationException) {
+                    throw cancel
+                } catch (failure: Exception) {
+                    if ((failure as? CaptureException)?.status in setOf(401, 409, 422)) throw failure
+                    diagnostic("early OCR confirmation failed; finalization can start OCR")
+                    null
+                }
+                confirmed?.let { record(it) }
             }
             acknowledged = acknowledged + (request.slot to instructions.uploadId)
             show(state.value.copy(uploaded = acknowledged.keys))
@@ -467,6 +476,9 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         if (focused) focusedField = field
         else if (focusedField == field) focusedField = null
     }
+    internal fun editCardField(change: (CardData) -> CardData) {
+        state.value.draft?.let { editCard(change(it)) }
+    }
     fun editCard(data: CardData) {
         val ui = state.value
         if (closed || ui.busy || ui.draft == null) return
@@ -477,7 +489,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         val ui = state.value
         val r = ui.record ?: return
         if (closed || ui.busy || !r.canReviewCard()) return
-        editedFields.clear()
+        if (r.extraction?.status != "retrying") editedFields.clear()
         show(ui.copy(draft = r.reviewData(), draftRevision = r.revision, reviewDirty = false, originCountry = r.reviewed?.originCountry.orEmpty(), message = null))
     }
     fun editOrigin(country: String) {
