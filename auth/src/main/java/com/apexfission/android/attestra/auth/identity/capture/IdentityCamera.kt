@@ -96,8 +96,11 @@ fun IdentityCamera(
             cardClasses = IdentityCardModel.cardClasses,
             config = CardCaptureConfig(autoCaptureEnabled = true),
             onBack = onCancel,
-            onSideReady = { side, image ->
-                if (stitchedPair && ready != null && side == CardSide.Front) {
+            onSideReady = sideReady@{ side, image ->
+                if (side == CardSide.Front) {
+                    val earlyUploadEnabled = stitchedPair && ready != null
+                    Log.i("CARD-OCR", "event=front_captured early_upload_enabled=$earlyUploadEnabled")
+                    if (!earlyUploadEnabled) return@sideReady
                     try {
                         val copy = copyForEncoding(image.bitmap)
                         frontEncoding?.cancel()
