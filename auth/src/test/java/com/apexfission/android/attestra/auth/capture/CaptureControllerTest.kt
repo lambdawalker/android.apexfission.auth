@@ -98,6 +98,8 @@ class CaptureControllerTest {
         c.awaitProcessing()
         assertEquals(CardData(documentNumber = "000123"), c.state.value.draft)
         assertEquals(6L, c.state.value.draftRevision)
+        c.editCardField { it.copy(address = "Manual address") }
+        assertEquals(CardData(address = "Manual address", documentNumber = "000123"), c.state.value.draft)
     }
 
     @Test fun pairedCaptureRetriesBothSidesAndWipesImages() = runBlocking {
