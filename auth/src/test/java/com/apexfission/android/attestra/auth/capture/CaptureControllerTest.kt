@@ -20,6 +20,7 @@ class CaptureControllerTest {
         var lastRetakeKey: String? = null
         var onPut: suspend () -> Unit = {}
         var failCreate = false
+        var failGet = false
         var failPut = false
         var failFinalize = false
         var lastUploadKey: String? = null
@@ -39,7 +40,10 @@ class CaptureControllerTest {
             if (failCreate) { failCreate = false; throw CaptureException(503) }
             return requireNotNull(record)
         }
-        override suspend fun get(id: String) = requireNotNull(record)
+        override suspend fun get(id: String): CaptureRecord {
+            if (failGet) { failGet = false; throw CaptureException(503) }
+            return requireNotNull(record)
+        }
         override suspend fun register(id: String, request: RegisterUpload): UploadInstructions {
             val r = requireNotNull(record)
             if (lastUploadKey != request.key) record = r.copy(revision = r.revision + 1, selected = r.selected + (request.slot to request.key))
@@ -486,6 +490,22 @@ class CaptureControllerTest {
         assertEquals("Confirmed", restored.state.value.draft?.fullName)
         assertEquals(CaptureDestination.REVIEW, captureDestination(restored.state.value))
         assertEquals(0, api.retakes)
+    }
+
+    @Test fun restartRecaptureRecoveryCanRetryAfterTransientStatusFailure() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Unconfirmed")))
+        c.close(); session.close()
+        val restored = CaptureController(api, store)
+        api.failGet = true
+        restored.restore(); assertNotNull(restored.state.value.message)
+        restored.restore()
+        assertNull(restored.state.value.message)
+        assertNull(restored.state.value.draft)
+        assertEquals(CaptureDestination.CAMERA, captureDestination(restored.state.value))
     }
 
 }

@@ -48,6 +48,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     val state = mutable.asStateFlow()
     private val mutex = Mutex()
     private var checkpoint = store.load() ?: CaptureCheckpoint()
+    private var needsRecapture = checkpoint.awaitingImageConfirmation
     private var closed = false
     private var imageReviewOpen = false
     private var earlyImages = false
@@ -123,7 +124,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         } else current
         if (r != null) {
             if (checkpoint.id != r.id) save(CaptureCheckpoint(id = r.id))
-            val recoverPhotoReview = checkpoint.awaitingImageConfirmation && !earlyImages
+            val recoverPhotoReview = checkpoint.awaitingImageConfirmation && needsRecapture
             if (recoverPhotoReview) { earlyImages = true; imageReviewOpen = true }
             record(r)
             if (recoverPhotoReview) {
@@ -132,6 +133,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
                 expectedImages = null
                 resetImages()
                 show(state.value.copy(camera = DocumentSide.FRONT))
+                needsRecapture = false
             } else {
                 if (checkpoint.retake != null) resetImages()
                 checkpoint.finalize?.let { if (r.state == "uploading") record(api.finalize(r.id, it)) }
@@ -279,6 +281,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     internal fun beginImageReview() {
         if (closed) return
         earlyImages = true
+        needsRecapture = false
         imageReviewOpen = true
         save(checkpoint.copy(awaitingImageConfirmation = true))
     }
@@ -288,6 +291,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     }
     internal fun confirmImages() {
         if (closed) return
+        needsRecapture = false
         save(checkpoint.copy(awaitingImageConfirmation = false))
         imageReviewOpen = false
         show(state.value.copy(camera = null))
