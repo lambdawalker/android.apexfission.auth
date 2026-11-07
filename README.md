@@ -181,13 +181,16 @@ See [runtime app settings](docs/runtime-configuration.md) for dashboard publishi
 
 ### Two-sided document camera
 
-The live and debug camera use Card Detector 0.1.8 `TwoSidedCardCapture`:
+The live and debug camera use Card Detector’s `TwoSidedCardCapture`:
 front, turn-over prompt, back, then review with independent retakes. Auto capture
 starts enabled and can be toggled beside the shutter; manual capture remains available.
 Side labels guide the user and do not classify or verify a document.
 
-The live host uploads a bounded grayscale front image and starts OCR while photo
-review remains open. Retakes invalidate earlier work.
+When document policy advertises `stitched_pair_supported`, the live host uploads a
+bounded grayscale front image as soon as it is captured so the backend can start OCR.
+The color pair is then uploaded as one stitched JPEG. Retakes invalidate earlier work.
+During a background retry the review can open for manual entry. Late OCR only fills
+untouched fields on the matching image revision.
 Confirmation opens the matching OCR result or loading while it finishes. Failed
 extraction opens manual entry. Saving the reviewed details opens a server-confirmed Details saved screen; see [save and finish](docs/identity-capture.md#save-and-finish).
 Unconfirmed photos require recapture after process restart.

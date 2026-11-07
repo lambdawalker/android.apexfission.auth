@@ -93,16 +93,12 @@ jobs:
           RELEASE_VERSION: ${{ inputs.version }}
           EXPECTED_SOURCE: ${{ inputs.source }}
         run: python3 scripts/module_release.py prepare-finalization --module "$RELEASE_MODULE" --version "$RELEASE_VERSION" --source "$EXPECTED_SOURCE"
-      - name: Check out immutable artifact source
-        if: steps.release.outputs.skip != 'true'
-        env:
-          SOURCE_SHA: ${{ steps.release.outputs.source }}
-        run: git checkout --detach "$SOURCE_SHA"
       - name: Confirm complete public artifact set (up to 40 minutes)
         if: steps.release.outputs.skip != 'true'
         env:
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
-        run: python3 scripts/module_release.py confirm --module "$RELEASE_MODULE" --version "$RELEASE_VERSION" --timeout 2400
+          SOURCE_SHA: ${{ steps.release.outputs.source }}
+        run: python3 scripts/module_release.py confirm --module "$RELEASE_MODULE" --version "$RELEASE_VERSION" --source "$SOURCE_SHA" --timeout 2400
       - name: Atomically finalize docs, source tag, and attempt markers
         if: steps.release.outputs.skip != 'true'
         env:

@@ -47,7 +47,7 @@ jobs:
           DESTINATION: ${{ matrix.destination }}
         run: |
           args=()
-          if [ "$DESTINATION" = jitpack ]; then args+=(-PjitpackBuild=true); fi
+          if [ "$DESTINATION" = jitpack ]; then args+=(-PjitpackBuild=true -PjitpackScopedTag=true); fi
           bash gradlew :auth:testDebugUnitTest :auth:assembleRelease :auth:publishAllPublicationsToVerificationRepository -PreleaseModule=auth -PreleaseVersion=0.1.0 '-PPOM_LICENSE_NAME=CI validation fixture only' -PPOM_LICENSE_URL=https://example.invalid/license "${args[@]}" --no-daemon
           python scripts/module_release.py check-local --module auth --version 0.1.0 --source "$GITHUB_SHA"
       - uses: actions/upload-artifact@v7
