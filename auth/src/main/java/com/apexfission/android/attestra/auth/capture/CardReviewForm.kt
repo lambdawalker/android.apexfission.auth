@@ -17,7 +17,7 @@ import kotlin.reflect.KProperty1
  */
 @Composable internal fun CardReviewForm(
     ui: CaptureUi,
-    onEdit: (CardData) -> Unit,
+    onEdit: ((CardData) -> CardData) -> Unit,
     onReset: () -> Unit,
     onOrigin: (String) -> Unit,
     onSave: () -> Unit,
@@ -27,16 +27,16 @@ import kotlin.reflect.KProperty1
     Text(stringResource(R.string.auth_review_your_card_details), style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onSurface)
     Text(stringResource(R.string.auth_check_each_value_against_your_card_and_correct_any_mistakes_leave), color = MaterialTheme.colorScheme.onSurfaceVariant)
     if (ui.record?.reviewed != null && !ui.reviewDirty) Text(stringResource(R.string.auth_your_reviewed_details_are_saved), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
-    CardField(stringResource(R.string.auth_full_name), data.fullName, ui.busy, focus = { onFocus(CardData::fullName, it) }) { onEdit(data.copy(fullName = it)) }
-    CardField(stringResource(R.string.auth_given_names), data.givenNames, ui.busy, focus = { onFocus(CardData::givenNames, it) }) { onEdit(data.copy(givenNames = it)) }
-    CardField(stringResource(R.string.auth_surnames), data.surnames, ui.busy, focus = { onFocus(CardData::surnames, it) }) { onEdit(data.copy(surnames = it)) }
-    CardField(stringResource(R.string.auth_date_of_birth), data.birthDate, ui.busy, focus = { onFocus(CardData::birthDate, it) }) { onEdit(data.copy(birthDate = it)) }
-    CardField(stringResource(R.string.auth_document_number), data.documentNumber, ui.busy, focus = { onFocus(CardData::documentNumber, it) }) { onEdit(data.copy(documentNumber = it)) }
-    CardField(stringResource(R.string.auth_personal_number_e_g_curp), data.personalNumber, ui.busy, focus = { onFocus(CardData::personalNumber, it) }) { onEdit(data.copy(personalNumber = it)) }
-    CardField(stringResource(R.string.auth_address), data.address, ui.busy, multiline = true, focus = { onFocus(CardData::address, it) }) { onEdit(data.copy(address = it)) }
-    CardField(stringResource(R.string.auth_issue_date), data.issueDate, ui.busy, focus = { onFocus(CardData::issueDate, it) }) { onEdit(data.copy(issueDate = it)) }
-    CardField(stringResource(R.string.auth_expiry_date), data.expiryDate, ui.busy, focus = { onFocus(CardData::expiryDate, it) }) { onEdit(data.copy(expiryDate = it)) }
-    CardField(stringResource(R.string.auth_issuing_country), data.issuingCountry, ui.busy, focus = { onFocus(CardData::issuingCountry, it) }) { onEdit(data.copy(issuingCountry = it)) }
+    CardField(stringResource(R.string.auth_full_name), data.fullName, ui.busy, focus = { onFocus(CardData::fullName, it) }) { text -> onEdit { it.copy(fullName = text) } }
+    CardField(stringResource(R.string.auth_given_names), data.givenNames, ui.busy, focus = { onFocus(CardData::givenNames, it) }) { text -> onEdit { it.copy(givenNames = text) } }
+    CardField(stringResource(R.string.auth_surnames), data.surnames, ui.busy, focus = { onFocus(CardData::surnames, it) }) { text -> onEdit { it.copy(surnames = text) } }
+    CardField(stringResource(R.string.auth_date_of_birth), data.birthDate, ui.busy, focus = { onFocus(CardData::birthDate, it) }) { text -> onEdit { it.copy(birthDate = text) } }
+    CardField(stringResource(R.string.auth_document_number), data.documentNumber, ui.busy, focus = { onFocus(CardData::documentNumber, it) }) { text -> onEdit { it.copy(documentNumber = text) } }
+    CardField(stringResource(R.string.auth_personal_number_e_g_curp), data.personalNumber, ui.busy, focus = { onFocus(CardData::personalNumber, it) }) { text -> onEdit { it.copy(personalNumber = text) } }
+    CardField(stringResource(R.string.auth_address), data.address, ui.busy, multiline = true, focus = { onFocus(CardData::address, it) }) { text -> onEdit { it.copy(address = text) } }
+    CardField(stringResource(R.string.auth_issue_date), data.issueDate, ui.busy, focus = { onFocus(CardData::issueDate, it) }) { text -> onEdit { it.copy(issueDate = text) } }
+    CardField(stringResource(R.string.auth_expiry_date), data.expiryDate, ui.busy, focus = { onFocus(CardData::expiryDate, it) }) { text -> onEdit { it.copy(expiryDate = text) } }
+    CardField(stringResource(R.string.auth_issuing_country), data.issuingCountry, ui.busy, focus = { onFocus(CardData::issuingCountry, it) }) { text -> onEdit { it.copy(issuingCountry = text) } }
     var countriesOpen by remember { mutableStateOf(false) }
     val countries = mapOf("CA" to stringResource(R.string.auth_canada), "US" to stringResource(R.string.auth_united_states), "MX" to stringResource(R.string.auth_mexico), "GT" to stringResource(R.string.auth_guatemala), "BZ" to stringResource(R.string.auth_belize))
     Text(stringResource(R.string.auth_country_of_origin), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
