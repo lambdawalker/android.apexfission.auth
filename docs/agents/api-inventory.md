@@ -188,6 +188,7 @@ fun isEmpty(): Boolean
     val finalize: FinalizeCapture? = null,
     val retry: String? = null,
     val retake: RetakeCapture? = null,
+    val awaitingImageConfirmation: Boolean = false,
 )
 interface CaptureCheckpointStore
 fun load(): CaptureCheckpoint?

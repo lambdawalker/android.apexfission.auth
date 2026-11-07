@@ -123,10 +123,20 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         } else current
         if (r != null) {
             if (checkpoint.id != r.id) save(CaptureCheckpoint(id = r.id))
+            val recoverPhotoReview = checkpoint.awaitingImageConfirmation && !earlyImages
+            if (recoverPhotoReview) { earlyImages = true; imageReviewOpen = true }
             record(r)
-            if (checkpoint.retake != null) resetImages()
-            checkpoint.finalize?.let { if (r.state == "uploading") record(api.finalize(r.id, it)) }
-            checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(api.retry(r.id, it)); save(checkpoint.copy(retry = null)) }
+            if (recoverPhotoReview) {
+                // Borrowed camera images cannot survive process death. Never silently
+                // confirm an old pair just because its OCR completed on the server.
+                expectedImages = null
+                resetImages()
+                show(state.value.copy(camera = DocumentSide.FRONT))
+            } else {
+                if (checkpoint.retake != null) resetImages()
+                checkpoint.finalize?.let { if (r.state == "uploading") record(api.finalize(r.id, it)) }
+                checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(api.retry(r.id, it)); save(checkpoint.copy(retry = null)) }
+            }
         } else if (checkpoint.create == null) {
             discard(); acknowledged = emptyMap(); store.clear(); checkpoint = CaptureCheckpoint()
             show(state.value.copy(record = null, uploaded = emptySet(), draft = null, draftRevision = null, reviewDirty = false, originCountry = ""))
@@ -225,6 +235,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             front.size !in 4..CaptureApi.MAX_JPEG_BYTES || back.size !in 4..CaptureApi.MAX_JPEG_BYTES) {
             front.fill(0); back.fill(0); cameraFailed(); return
         }
+        if (checkpoint.awaitingImageConfirmation) confirmImages()
         discard()
         pendingBack = back
         val r = requireNotNull(ui.record)
@@ -269,12 +280,15 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         if (closed) return
         earlyImages = true
         imageReviewOpen = true
+        save(checkpoint.copy(awaitingImageConfirmation = true))
     }
     internal fun invalidateImageReview() {
         expectedImages = null
         show(state.value.copy(draft = null, draftRevision = null, reviewDirty = false, originCountry = ""))
     }
     internal fun confirmImages() {
+        if (closed) return
+        save(checkpoint.copy(awaitingImageConfirmation = false))
         imageReviewOpen = false
         show(state.value.copy(camera = null))
     }

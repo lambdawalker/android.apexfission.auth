@@ -71,7 +71,9 @@ do not retain or log them. Model assets remain independently pinned to `tfmodel~
 work, clear the old draft and call authenticated `POST /onboarding/id/captures/{id}/retake`.
 The controller mutex serializes replacements, including canceled requests returning late.
 The same capture is reused without another admission; backend upload/retake limits apply.
-Persisted retake operation keys recover uncertain responses.
+Persisted retake operation keys recover uncertain responses. A checkpoint also records
+whether photos were confirmed. Restarting before confirmation requires recapture because
+local bitmaps are gone; restarting after confirmation resumes server processing.
 
 Auth derives the expected finalized `image_revision` from the finalize revision contract.
 Only an exact `(capture_id, image_revision)` match can seed the editable result; worker

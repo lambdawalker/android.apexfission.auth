@@ -459,4 +459,33 @@ class CaptureControllerTest {
         assertNull(c.state.value.draft)
     }
 
+    @Test fun restartBeforePhotoConfirmationRequiresRecapture() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Unconfirmed")))
+        c.close(); session.close()
+        val restored = CaptureController(api, store)
+        restored.restore()
+        assertNull(restored.state.value.draft)
+        assertEquals(CaptureDestination.CAMERA, captureDestination(restored.state.value))
+        assertEquals("uploading", restored.state.value.record?.state)
+        assertEquals(1, api.creates)
+    }
+
+    @Test fun restartAfterPhotoConfirmationResumesMatchingResult() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        c.restore(); c.continueToCapture()
+        val session = EarlyCaptureSession(c, this)
+        session.imagesReady(byteArrayOf(1,2,3,4), byteArrayOf(5,6,7,8)).join()
+        session.confirmed(); session.close(); c.close()
+        api.record = api.record!!.copy(state = "ready", extraction = CardExtraction("complete", CardData(fullName = "Confirmed")))
+        val restored = CaptureController(api, store)
+        restored.restore()
+        assertEquals("Confirmed", restored.state.value.draft?.fullName)
+        assertEquals(CaptureDestination.REVIEW, captureDestination(restored.state.value))
+        assertEquals(0, api.retakes)
+    }
+
 }

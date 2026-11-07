@@ -61,7 +61,9 @@ foto cancela el trabajo local, borra el borrador anterior y llama con autenticac
 `POST /onboarding/id/captures/{id}/retake`. El mutex serializa las sustituciones, incluso
 respuestas tardías de solicitudes canceladas. Se reutiliza la captura sin otra admisión;
 siguen vigentes los límites del backend. Las claves de retake persistidas permiten
-recuperar respuestas inciertas.
+recuperar respuestas inciertas. El checkpoint también conserva si se confirmaron las fotos.
+Reiniciar antes de confirmar requiere capturarlas de nuevo porque los bitmaps locales
+ya no existen; reiniciar después de confirmar reanuda el procesamiento del servidor.
 
 Auth calcula `image_revision` esperado mediante el contrato de finalización. Solo una
 coincidencia exacta de `(capture_id, image_revision)` permite llenar el formulario; las

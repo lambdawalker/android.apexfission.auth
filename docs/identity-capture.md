@@ -77,5 +77,6 @@ light/dark gallery and refresh commands.
 See [integration recipes](agents/recipes.md) for
 `earlyCamera`, ownership and backend prerequisites. The live host uses detector 0.1.8,
 bounded color JPEGs and serialized replacements. Only matching capture ID and image
-revision can seed results after confirmation. Checkpoints also persist retake intents;
+revision can seed results after confirmation. Restarting with unconfirmed photos requires
+recapture; confirmed photos resume processing. Checkpoints also persist retake intents;
 photos and OCR data remain memory-only. The capture-screen design is unchanged.
