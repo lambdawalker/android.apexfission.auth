@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import java.security.MessageDigest
 import java.util.UUID
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
 
 // java.util.Base64 requires API 26; this encoding keeps the auth library on API 24.
 internal fun checksum(data: ByteArray): String {
@@ -53,6 +55,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     private var imageReviewOpen = false
     private var earlyImages = false
     private var expectedImages: Pair<String, Long>? = null
+    private var processingStarted: TimeMark? = null
     private var pending: Pair<RegisterUpload, ByteArray>? = null
     private var pendingBack: ByteArray? = null
     private var acknowledged: Map<String, String> = emptyMap()
@@ -99,6 +102,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         save(checkpoint.copy(id = r.id, create = null))
         acknowledged = if (state.value.record?.id == r.id) acknowledged.filter { (slot, id) -> r.selected[slot] == id } else emptyMap()
         val old = state.value
+        logProcessingTransition(old.record, r)
         val canReview = r.canReviewCard() && (!earlyImages || expectedImages == (r.id to r.imageRevision))
         val savedDraft = old.draft != null && r.reviewed?.data == old.draft && r.reviewed?.originCountry == old.originCountry
         val keepDraft = canReview && old.record?.id == r.id && old.reviewDirty && !savedDraft
@@ -111,6 +115,32 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         ))
         if (r.state != "uploading") discard()
     }
+    private fun logProcessingTransition(previous: CaptureRecord?, current: CaptureRecord) {
+        if (earlyImages && expectedImages != (current.id to current.imageRevision)) {
+            processingStarted = null
+            return
+        }
+        val samePair = previous?.id == current.id && previous.imageRevision == current.imageRevision
+        val previousPhase = previous.processingPhase()
+        val nextPhase = current.processingPhase()
+        if (samePair && previousPhase == nextPhase && processingStarted != null) return
+
+        if (samePair && previousPhase != null) {
+            processingStarted?.let { start ->
+                diagnostic("timing phase=$previousPhase elapsed_ms=${start.elapsedNow().inWholeMilliseconds} " +
+                    "capture_id=${current.id} image_revision=${current.imageRevision} " +
+                    "next_state=${current.state} extraction=${current.extraction?.status}")
+            }
+        }
+        processingStarted = if (nextPhase == null) null else TimeSource.Monotonic.markNow()
+    }
+
+    private fun CaptureRecord?.processingPhase(): String? = when {
+        this?.state == "finalizing" -> "validation_observed"
+        this?.state == "ready" && extraction?.status == "pending" -> "ocr_observed"
+        else -> null
+    }
+
     suspend fun restore() = operation {
         // A settings outage must not prevent viewing or deleting an existing capture.
         val policy = try { api.policy() }
@@ -136,8 +166,8 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
                 needsRecapture = false
             } else {
                 if (checkpoint.retake != null) resetImages()
-                checkpoint.finalize?.let { if (r.state == "uploading") record(api.finalize(r.id, it)) }
-                checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(api.retry(r.id, it)); save(checkpoint.copy(retry = null)) }
+                checkpoint.finalize?.let { if (r.state == "uploading") record(timeOcrPhase("finalize_request", diagnostic) { api.finalize(r.id, it) }) }
+                checkpoint.retry?.let { if (r.state == "failed" || r.extraction?.status == "failed") record(timeOcrPhase("retry_request", diagnostic) { api.retry(r.id, it) }); save(checkpoint.copy(retry = null)) }
             }
         } else if (checkpoint.create == null) {
             discard(); acknowledged = emptyMap(); store.clear(); checkpoint = CaptureCheckpoint()
@@ -249,11 +279,15 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         while (pending != null) {
             val (request, bytes) = requireNotNull(pending)
             val r = requireNotNull(state.value.record)
-            val instructions = api.register(r.id, request)
+            val instructions = timeOcrPhase("register_${request.slot}", diagnostic) {
+                api.register(r.id, request)
+            }
             require(instructions.capture.id == r.id)
             record(instructions.capture)
-            api.put(instructions, bytes)
-            currentCoroutineContext().ensureActive()
+            timeOcrPhase("upload_${request.slot}", diagnostic) {
+                api.put(instructions, bytes)
+                currentCoroutineContext().ensureActive()
+            }
             acknowledged = acknowledged + (request.slot to instructions.uploadId)
             show(state.value.copy(uploaded = acknowledged.keys))
             bytes.fill(0)
@@ -275,7 +309,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         val request = checkpoint.finalize ?: FinalizeCapture(key(), r.revision, r.selected.toMap())
         save(checkpoint.copy(finalize = request))
         if (earlyImages) expectedImages = r.id to (request.revision + 1)
-        record(api.finalize(r.id, request))
+        record(timeOcrPhase("finalize_request", diagnostic) { api.finalize(r.id, request) })
     }
     /** UI-owner calls only. Keep the detector review visible while requests run. */
     internal fun beginImageReview() {
@@ -287,6 +321,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     }
     internal fun invalidateImageReview() {
         expectedImages = null
+        processingStarted = null
         show(state.value.copy(draft = null, draftRevision = null, reviewDirty = false, originCountry = ""))
     }
     internal fun confirmImages() {
@@ -331,7 +366,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
             val request = checkpoint.retake ?: RetakeCapture(key(), r.revision)
             save(checkpoint.copy(retake = request, finalize = null, retry = null))
             try {
-                val reset = api.retake(id, request)
+                val reset = timeOcrPhase("retake_request", diagnostic) { api.retake(id, request) }
                 currentCoroutineContext().ensureActive()
                 require(reset.id == id && reset.state == "uploading" && reset.imageRevision == null && reset.selected.isEmpty())
                 expectedImages = null
@@ -354,7 +389,7 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         if (r.state != "failed" && !(r.state == "ready" && r.extraction?.status == "failed")) return@operation
         val operationKey = checkpoint.retry ?: key()
         save(checkpoint.copy(retry = operationKey))
-        record(api.retry(r.id, operationKey))
+        record(timeOcrPhase("retry_request", diagnostic) { api.retry(r.id, operationKey) })
         save(checkpoint.copy(retry = null))
     }
     suspend fun cancel() = operation {
