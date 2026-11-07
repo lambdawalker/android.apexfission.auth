@@ -6,6 +6,8 @@ import androidx.compose.ui.res.stringResource
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.util.Log
+import com.apexfission.android.attestra.auth.capture.timeOcrPhase
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
@@ -89,8 +91,8 @@ fun IdentityCamera(
                     var frontCopy: Bitmap? = null
                     var backCopy: Bitmap? = null
                     try {
-                        frontCopy = copyForEncoding(result.front.bitmap)
-                        backCopy = copyForEncoding(result.back.bitmap)
+                        frontCopy = timeCameraPhase("copy_front") { copyForEncoding(result.front.bitmap) }
+                        backCopy = timeCameraPhase("copy_back") { copyForEncoding(result.back.bitmap) }
                         val frontImage = frontCopy
                         val backImage = backCopy
                         @OptIn(ExperimentalCoroutinesApi::class)
@@ -100,9 +102,9 @@ fun IdentityCamera(
                             var transferred = false
                             try {
                                 ensureActive()
-                                front = encodeJpeg(frontImage)
+                                front = timeCameraPhase("jpeg_front") { encodeJpeg(frontImage) }
                                 ensureActive()
-                                back = encodeJpeg(backImage)
+                                back = timeCameraPhase("jpeg_back") { encodeJpeg(backImage) }
                                 withContext(Dispatchers.Main.immediate) {
                                     if (generation == token) {
                                         ready?.invoke(requireNotNull(front), requireNotNull(back))
@@ -138,8 +140,8 @@ fun IdentityCamera(
                     var front: ByteArray? = null
                     var back: ByteArray? = null
                     try {
-                        front = encodeJpeg(result.front.bitmap)
-                        back = encodeJpeg(result.back.bitmap)
+                        front = timeCameraPhase("jpeg_front") { encodeJpeg(result.front.bitmap) }
+                        back = timeCameraPhase("jpeg_back") { encodeJpeg(result.back.bitmap) }
                     } catch (_: Exception) {
                         front?.fill(0); back?.fill(0)
                         onError()
@@ -153,6 +155,9 @@ fun IdentityCamera(
         )
     }
 }
+
+private inline fun <T> timeCameraPhase(phase: String, block: () -> T): T =
+    timeOcrPhase(phase, { Log.i("CARD-OCR", it) }, block)
 
 private fun copyForEncoding(bitmap: Bitmap): Bitmap {
     val scale = minOf(1.0, 1600.0 / maxOf(bitmap.width, bitmap.height))

@@ -72,9 +72,16 @@ fotos: presenta el resultado correspondiente o carga mientras termina procesamie
 
 Despliegue retake e `image_revision` en el backend antes de activar `earlyCamera`.
 Un backend incompatible conduce a recuperación sin presentar resultados obsoletos.
-`CARD-OCR` registra solo método/ruta, estado HTTP, cantidad de bytes y metadatos de captura.
+`CARD-OCR` registra solo método/ruta, estado HTTP, cantidad de bytes, milisegundos transcurridos y metadatos de captura.
 No registra tokens, URLs firmadas, imágenes ni campos extraídos.
 
 Los datos usan `issued_identifier` en el contrato HTTP. La propiedad Kotlin
 `personalNumber` conserva compatibilidad; también se leen respuestas antiguas con
 `personal_number`, pero las solicitudes de revisión emiten `issued_identifier`.
+
+Las líneas de tiempo usan `phase` y `elapsed_ms`. Se miden por lado la copia
+del bitmap, la codificación JPEG, el registro de carga y la transferencia.
+Finalizar, repetir fotos y reintentar se miden como solicitudes.
+`validation_observed` y `ocr_observed` miden el tiempo entre estados observados
+por Android, incluida la espera del sondeo y la red. Si una fase empieza y
+termina entre sondeos, no aparece una medición separada.
