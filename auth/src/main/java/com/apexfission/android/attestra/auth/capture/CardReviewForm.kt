@@ -9,6 +9,8 @@ import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import kotlin.reflect.KProperty1
 
 /**
  * Component of the identity review screen containing the editable form fields for card details.
@@ -19,21 +21,22 @@ import androidx.compose.ui.Modifier
     onReset: () -> Unit,
     onOrigin: (String) -> Unit,
     onSave: () -> Unit,
+    onFocus: (KProperty1<CardData, String>, Boolean) -> Unit = { _, _ -> },
 ) {
     val data = ui.draft ?: return
     Text(stringResource(R.string.auth_review_your_card_details), style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onSurface)
     Text(stringResource(R.string.auth_check_each_value_against_your_card_and_correct_any_mistakes_leave), color = MaterialTheme.colorScheme.onSurfaceVariant)
     if (ui.record?.reviewed != null && !ui.reviewDirty) Text(stringResource(R.string.auth_your_reviewed_details_are_saved), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
-    CardField(stringResource(R.string.auth_full_name), data.fullName, ui.busy) { onEdit(data.copy(fullName = it)) }
-    CardField(stringResource(R.string.auth_given_names), data.givenNames, ui.busy) { onEdit(data.copy(givenNames = it)) }
-    CardField(stringResource(R.string.auth_surnames), data.surnames, ui.busy) { onEdit(data.copy(surnames = it)) }
-    CardField(stringResource(R.string.auth_date_of_birth), data.birthDate, ui.busy) { onEdit(data.copy(birthDate = it)) }
-    CardField(stringResource(R.string.auth_document_number), data.documentNumber, ui.busy) { onEdit(data.copy(documentNumber = it)) }
-    CardField(stringResource(R.string.auth_personal_number_e_g_curp), data.personalNumber, ui.busy) { onEdit(data.copy(personalNumber = it)) }
-    CardField(stringResource(R.string.auth_address), data.address, ui.busy, multiline = true) { onEdit(data.copy(address = it)) }
-    CardField(stringResource(R.string.auth_issue_date), data.issueDate, ui.busy) { onEdit(data.copy(issueDate = it)) }
-    CardField(stringResource(R.string.auth_expiry_date), data.expiryDate, ui.busy) { onEdit(data.copy(expiryDate = it)) }
-    CardField(stringResource(R.string.auth_issuing_country), data.issuingCountry, ui.busy) { onEdit(data.copy(issuingCountry = it)) }
+    CardField(stringResource(R.string.auth_full_name), data.fullName, ui.busy, focus = { onFocus(CardData::fullName, it) }) { onEdit(data.copy(fullName = it)) }
+    CardField(stringResource(R.string.auth_given_names), data.givenNames, ui.busy, focus = { onFocus(CardData::givenNames, it) }) { onEdit(data.copy(givenNames = it)) }
+    CardField(stringResource(R.string.auth_surnames), data.surnames, ui.busy, focus = { onFocus(CardData::surnames, it) }) { onEdit(data.copy(surnames = it)) }
+    CardField(stringResource(R.string.auth_date_of_birth), data.birthDate, ui.busy, focus = { onFocus(CardData::birthDate, it) }) { onEdit(data.copy(birthDate = it)) }
+    CardField(stringResource(R.string.auth_document_number), data.documentNumber, ui.busy, focus = { onFocus(CardData::documentNumber, it) }) { onEdit(data.copy(documentNumber = it)) }
+    CardField(stringResource(R.string.auth_personal_number_e_g_curp), data.personalNumber, ui.busy, focus = { onFocus(CardData::personalNumber, it) }) { onEdit(data.copy(personalNumber = it)) }
+    CardField(stringResource(R.string.auth_address), data.address, ui.busy, multiline = true, focus = { onFocus(CardData::address, it) }) { onEdit(data.copy(address = it)) }
+    CardField(stringResource(R.string.auth_issue_date), data.issueDate, ui.busy, focus = { onFocus(CardData::issueDate, it) }) { onEdit(data.copy(issueDate = it)) }
+    CardField(stringResource(R.string.auth_expiry_date), data.expiryDate, ui.busy, focus = { onFocus(CardData::expiryDate, it) }) { onEdit(data.copy(expiryDate = it)) }
+    CardField(stringResource(R.string.auth_issuing_country), data.issuingCountry, ui.busy, focus = { onFocus(CardData::issuingCountry, it) }) { onEdit(data.copy(issuingCountry = it)) }
     var countriesOpen by remember { mutableStateOf(false) }
     val countries = mapOf("CA" to stringResource(R.string.auth_canada), "US" to stringResource(R.string.auth_united_states), "MX" to stringResource(R.string.auth_mexico), "GT" to stringResource(R.string.auth_guatemala), "BZ" to stringResource(R.string.auth_belize))
     Text(stringResource(R.string.auth_country_of_origin), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
@@ -55,9 +58,9 @@ import androidx.compose.ui.Modifier
 /**
  * Component of the review form representing a single input field.
  */
-@Composable private fun CardField(label: String, value: String, busy: Boolean, multiline: Boolean = false, change: (String) -> Unit) {
+@Composable private fun CardField(label: String, value: String, busy: Boolean, multiline: Boolean = false, focus: (Boolean) -> Unit = {}, change: (String) -> Unit) {
     OutlinedTextField(value = value, onValueChange = change, label = { Text(label) }, enabled = !busy,
-        modifier = Modifier.fillMaxWidth(), singleLine = !multiline, maxLines = if (multiline) 4 else 1)
+        modifier = Modifier.fillMaxWidth().onFocusChanged { focus(it.isFocused) }, singleLine = !multiline, maxLines = if (multiline) 4 else 1)
 }
 
 @Preview
