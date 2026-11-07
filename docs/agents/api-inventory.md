@@ -22,6 +22,7 @@ override suspend fun create(request: CreateCapture): CaptureRecord
 override suspend fun get(id: String): CaptureRecord
 override suspend fun register(id: String, request: RegisterUpload): UploadInstructions
 override suspend fun put(instructions: UploadInstructions, jpeg: ByteArray)
+override suspend fun confirmFront(id: String, uploadId: String): CaptureRecord?
 override suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord
 override suspend fun retry(id: String, key: String): CaptureRecord
 override suspend fun review(id: String, request: ReviewCapture): CaptureRecord
@@ -139,7 +140,7 @@ fun text(requested: String): String
 )
 fun isValid(): Boolean
 fun isEmpty(): Boolean
-@Serializable data class CardExtraction(val status: String, val data: CardData = CardData(), val error: String = "")
+@Serializable data class CardExtraction(val status: String, val data: CardData = CardData(), val error: String = "", val retrying: Boolean = false)
 @Serializable data class ReviewedCard(val data: CardData, @SerialName("saved_at") val savedAt: Long, @SerialName("origin_country") val originCountry: String = "")
 @Serializable data class ReviewCapture(@SerialName("expected_revision") val revision: Long, val data: CardData, @SerialName("origin_country") val originCountry: String = "")
 @Serializable data class CaptureRecord(
@@ -202,6 +203,7 @@ suspend fun create(request: CreateCapture): CaptureRecord
 suspend fun get(id: String): CaptureRecord
 suspend fun register(id: String, request: RegisterUpload): UploadInstructions
 suspend fun put(instructions: UploadInstructions, jpeg: ByteArray)
+suspend fun confirmFront(id: String, uploadId: String): CaptureRecord?
 suspend fun finalize(id: String, request: FinalizeCapture): CaptureRecord
 suspend fun retry(id: String, key: String): CaptureRecord
 suspend fun review(id: String, request: ReviewCapture): CaptureRecord

@@ -81,6 +81,27 @@ class CaptureControllerTest {
         }
         override suspend fun cancel(id: String) = requireNotNull(record).copy(state = "cancelled").also { record = it }
     }
+    @Test fun retryResultPreservesEditedAndFocusedFields() = runBlocking {
+        val store = Store()
+        val api = Gateway(store)
+        val c = CaptureController(api, store)
+        val pending = CaptureRecord("a".repeat(32), 1, 5, "capture-v1", "sample_card", "ready",
+            9999999999, imageRevision = 4, extraction = CardExtraction("pending", retrying = true))
+        api.record = pending
+        c.restore()
+        assertEquals(CaptureDestination.REVIEW, captureDestination(c.state.value))
+        c.editCard(CardData(fullName = "Manual"))
+        c.editCard(CardData())
+        c.focusCardField(CardData::address, true)
+        api.record = pending.copy(revision = 6, extraction = CardExtraction("complete",
+            CardData(fullName = "OCR", address = "OCR address", documentNumber = "000123")))
+        c.awaitProcessing()
+        assertEquals(CardData(documentNumber = "000123"), c.state.value.draft)
+        assertEquals(6L, c.state.value.draftRevision)
+        c.editCardField { it.copy(address = "Manual address") }
+        assertEquals(CardData(address = "Manual address", documentNumber = "000123"), c.state.value.draft)
+    }
+
     @Test fun pairedCaptureRetriesBothSidesAndWipesImages() = runBlocking {
         val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
         c.restore(); c.start(); c.camera(DocumentSide.FRONT)

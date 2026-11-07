@@ -79,6 +79,11 @@ Los datos usan `issued_identifier` en el contrato HTTP. La propiedad Kotlin
 `personalNumber` conserva compatibilidad; también se leen respuestas antiguas con
 `personal_number`, pero las solicitudes de revisión emiten `issued_identifier`.
 
+Android confirma la carga del frente en cuanto termina el PUT. Así inicia el OCR
+del frente mientras la cámara todavía puede capturar el reverso. Tras validar
+las imágenes, el primer fallo de OCR abre la revisión manual. El único reintento
+se ejecuta de inmediato y puede completar campos sin editar que no tengan el foco.
+
 Las líneas de tiempo usan `phase` y `elapsed_ms`. Se miden por lado la copia
 del bitmap, la codificación JPEG, el registro de carga y la transferencia.
 Finalizar, repetir fotos y reintentar se miden como solicitudes.
