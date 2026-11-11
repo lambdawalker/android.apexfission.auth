@@ -6,8 +6,8 @@
   },
   "docs/agents/quickstart.md": {
     "path": "docs/es/agents/quickstart.md",
-    "source_sha256": "33f02d7359770c4ff1db73c5724d62ad04adac14c871d4eeffe8bb828082a621",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved."
+    "source_sha256": "6fa63f42b3e8d1f341b43708a190cf2ad8b8a7e10d60ebfd14cd0a4a430fa002",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
@@ -16,13 +16,13 @@
   },
   "docs/agents/api.md": {
     "path": "docs/es/agents/api.md",
-    "source_sha256": "e527c403d49d0e0be53b471156d7f73f43d0c3c47b3fdb1363da9ac0080c9135",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "d7b33865aa18500ba018f69cc34ba0ff824cde139540effc21a5b2bc8a19a715",
+    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",
-    "source_sha256": "90dc6668e8238e908e5343de9b33ef228e86549c43c769e0c54abfb468f63472",
-    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
+    "source_sha256": "d71aaa9f44cfff12fcf3478817634900a9a90184fc637307b587444f96763b57",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",
@@ -36,13 +36,13 @@
   },
   "docs/agents/migration.md": {
     "path": "docs/es/agents/migration.md",
-    "source_sha256": "42d101b6728fc391330cd4248b4bbea588234a7f6ced8d0a8ffa3a4d9af5ea4d",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved."
+    "source_sha256": "c8d753ff02fad04eecdce2f0d2e1b8bd5a1ff45bf5899ae45c935e34cbf0f5f5",
+    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
   },
   "docs/agents/demos.md": {
     "path": "docs/es/agents/demos.md",
-    "source_sha256": "ec560c979ebe5484f0aa838fd90166450b8ff40a0c29362c99ad51c4a685c647",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved."
+    "source_sha256": "3209917170b48b79a392a37f45e87c0e6ae92ba7e16433d537b78bc8484babf0",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
   },
   "IMPORT.md": {
     "path": "docs/es/IMPORT.md",

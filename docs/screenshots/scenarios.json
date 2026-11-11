@@ -4,7 +4,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.emailStart",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "emailStart",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -22,7 +22,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.emailWait",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "emailWait",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -40,7 +40,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.emailLimit",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "emailLimit",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -58,7 +58,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.emailLinkUnusable",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "emailLinkUnusable",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -76,7 +76,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.emailRecovery",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "emailRecovery",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -94,7 +94,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.passkeyStart",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "passkeyStart",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -112,7 +112,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.passkeyFailed",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "passkeyFailed",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -130,7 +130,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.passkeyUnsupported",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "passkeyUnsupported",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -148,7 +148,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.identityStart",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "identityStart",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -166,7 +166,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.identityUnreadable",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "identityUnreadable",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -184,7 +184,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.identitySubmissionFailed",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "identitySubmissionFailed",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -202,7 +202,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.detailsSaved",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "detailsSaved",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -220,7 +220,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.welcome",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "welcome",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -238,7 +238,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.password",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "password",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -256,7 +256,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.returnSignIn",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "returnSignIn",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -274,7 +274,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.returnCode",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "returnCode",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -292,7 +292,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.prepareCapture",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "prepareCapture",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -310,7 +310,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.uploadDocument",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "uploadDocument",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -328,7 +328,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.readDocument",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "readDocument",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -346,7 +346,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.extractedReview",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "extractedReview",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -364,7 +364,7 @@
     {
       "id": "auth:DocumentationScreenshotTest.manualReview",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
       "method": "manualReview",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -382,7 +382,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.components",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "components",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -400,7 +400,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.catalog",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "catalog",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -418,7 +418,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.unavailable",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "unavailable",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -436,7 +436,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.noCamera",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "noCamera",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -454,7 +454,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.legacyFrontReview",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "legacyFrontReview",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -472,7 +472,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.legacyBackReview",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "legacyBackReview",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -490,7 +490,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.legacyIdentityReview",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "legacyIdentityReview",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -508,7 +508,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.legacyIdentitySuccess",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "legacyIdentitySuccess",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -526,7 +526,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.legacyIdentityUnsuccessful",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "legacyIdentityUnsuccessful",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -544,7 +544,7 @@
     {
       "id": "auth:EmailCodeScreenshotTest.emptyState",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt",
       "method": "emptyState",
       "variants": 1,
       "capture_kind": "component-preview",
@@ -562,7 +562,7 @@
     {
       "id": "auth:EmailCodeScreenshotTest.withError",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt",
       "method": "withError",
       "variants": 1,
       "capture_kind": "component-preview",
@@ -580,7 +580,7 @@
     {
       "id": "auth:EmailCodeScreenshotTest.cannotResend",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt",
       "method": "cannotResend",
       "variants": 1,
       "capture_kind": "component-preview",
@@ -670,7 +670,7 @@
     {
       "id": "app:AppScreenshotTest.menu",
       "module": "app",
-      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/AppScreenshotTest.kt",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
       "method": "menu",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -688,7 +688,7 @@
     {
       "id": "app:AppScreenshotTest.resetting",
       "module": "app",
-      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/AppScreenshotTest.kt",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
       "method": "resetting",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -706,7 +706,7 @@
     {
       "id": "app:AppScreenshotTest.configurationLoading",
       "module": "app",
-      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/AppScreenshotTest.kt",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
       "method": "configurationLoading",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -724,7 +724,7 @@
     {
       "id": "app:AppScreenshotTest.configurationFailure",
       "module": "app",
-      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/AppScreenshotTest.kt",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
       "method": "configurationFailure",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -742,7 +742,7 @@
     {
       "id": "app:AppScreenshotTest.signInRequired",
       "module": "app",
-      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/AppScreenshotTest.kt",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
       "method": "signInRequired",
       "variants": 2,
       "capture_kind": "component-preview",
@@ -760,7 +760,7 @@
     {
       "id": "auth:SupplementalScreenshotTest.narrowLargeTextError",
       "module": "auth",
-      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/attestra/auth/ui/onboarding/SupplementalScreenshotTest.kt",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt",
       "method": "narrowLargeTextError",
       "variants": 1,
       "capture_kind": "component-preview",

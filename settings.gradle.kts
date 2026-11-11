@@ -23,6 +23,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Attestra Auth"
+rootProject.name = "Apexfission Auth"
 include(":app")
 include(":auth")

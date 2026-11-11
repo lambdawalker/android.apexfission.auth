@@ -15,7 +15,7 @@ Use **signedDebug** for local end-to-end tests. The variant appears after Gradle
 
 ## Personal developer identities
 
-Each developer keeps a personal keystore and password. Teammates do not need to share one private key. Dev and QA can approve multiple certificate fingerprints for the same application ID, `com.apexfission.android.attestra.auth`.
+Each developer keeps a personal keystore and password. Teammates do not need to share one private key. Dev and QA can approve multiple certificate fingerprints for the same application ID, `com.apexfission.android.auth`.
 
 1. Run `signing.bat` on Windows or `./signing.sh` on Linux/macOS. Generate a key once; use Export for an existing key.
 2. Select the intended environment. The wizard exports public JSON and copies it to `~/.attestra/associations/<environment>/developer-associations.json`.
@@ -45,7 +45,7 @@ In PowerShell, locate ADB and select the intended device:
 $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 & $adb devices -l
 $serial = "emulator-5554" # replace with the first-column serial of your device
-$package = "com.apexfission.android.attestra.auth"
+$package = "com.apexfission.android.auth"
 & $adb -s $serial shell pm get-app-links --user cur $package
 ```
 

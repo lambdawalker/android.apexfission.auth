@@ -4,7 +4,7 @@ Scope: Development/source. Start with [quickstart](quickstart.md), not a guessed
 
 ## Add ID capture to onboarding
 
-Use the complete [LiveCaptureFlow](../../app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt).
+Use the complete [LiveCaptureFlow](../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt).
 It remembers `CaptureClients.api()` and `.uploads()`, binds `SecureCaptureCheckpointStore`
 to account/backend, supplies the current access token only for that account, closes
 both clients on disposal and connects `IdentityCamera` to `CaptureHost`.
@@ -24,8 +24,8 @@ recovery paths. Existing images should resume processing instead of reopening ca
 
 Use `environmentIndexClient()` and inject `EnvironmentCache`; close the client with
 its owner. Resolve the environment before creating auth adapters. Reuse the sample's
-[EnvironmentViewModel](../../app/src/main/java/com/apexfission/android/attestra/auth/EnvironmentViewModel.kt)
-and [backend configuration](../../app/src/main/java/com/apexfission/android/attestra/auth/BackendConfiguration.kt)
+[EnvironmentViewModel](../../app/src/main/java/com/apexfission/android/auth/EnvironmentViewModel.kt)
+and [backend configuration](../../app/src/main/java/com/apexfission/android/auth/BackendConfiguration.kt)
 for account-binding and runtime refresh responsibilities. Never reuse a bearer-bearing
 client for public discovery. See [discovery](../environment-discovery.md).
 
@@ -37,7 +37,7 @@ optimistic success navigation. `OnboardingFrame` accepts optional primary/second
 labels/actions and content; omitted actions stay absent. Callback execution occurs
 from Compose UI interaction; launch suspend work in the owning scope.
 
-Use [the UI catalog](../../auth/src/main/java/com/apexfission/android/attestra/auth/ui/onboarding/OnboardingCatalog.kt)
+Use [the UI catalog](../../auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt)
 for visual examples and [screenshots](../screenshots.md) for deterministic fixtures.
 The catalog's older identity-decision pages are labeled design mockups, not live outcomes.
 

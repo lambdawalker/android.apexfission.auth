@@ -1,6 +1,6 @@
 # Demos ejecutables y evidencia de UI
 
-Ámbito: Desarrollo. Compile [el anfitrión completo](../../../app/src/main/java/com/apexfission/android/attestra/auth/MainActivity.kt)
+Ámbito: Desarrollo. Compile [el anfitrión completo](../../../app/src/main/java/com/apexfission/android/auth/MainActivity.kt)
 con [inicio rápido](quickstart.md).
 
 | Entrada | Requisitos y acciones | Resultado / fallo | Fuente |

@@ -83,9 +83,9 @@ def verify_artifact(data, suffix, group, artifact, version, model_assets=None):
         if suffix == '.aar':
             if not {'AndroidManifest.xml','classes.jar'} <= set(names): raise ValueError('Missing manifest/classes')
             with zipfile.ZipFile(io.BytesIO(archive.read('classes.jar'))) as classes:
-                owned = [n for n in classes.namelist() if n.endswith('.class') and n.startswith('com/apexfission/android/attestra/auth/')]
+                owned = [n for n in classes.namelist() if n.endswith('.class') and n.startswith('com/apexfission/android/auth/')]
                 if not owned: raise ValueError('Missing auth classes')
-                if any(n.startswith('com/apexfission/android/attestra/identitymock/') for n in classes.namelist()):
+                if any(n.startswith('com/apexfission/android/identitymock/') for n in classes.namelist()):
                     raise ValueError('Mock classes must not be published')
                 for name in owned:
                     bytecode = classes.read(name)

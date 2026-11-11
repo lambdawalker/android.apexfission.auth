@@ -14,7 +14,7 @@ from rich.table import Table
 import signing
 
 ROOT = Path(__file__).resolve().parents[2]
-PACKAGE = "com.apexfission.android.attestra.auth"
+PACKAGE = "com.apexfission.android.auth"
 
 
 def new_output(environment):

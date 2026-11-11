@@ -1,6 +1,6 @@
 # Runnable demos and UI evidence
 
-Scope: Development/source. Build [the complete sample](../../app/src/main/java/com/apexfission/android/attestra/auth/MainActivity.kt)
+Scope: Development/source. Build [the complete sample](../../app/src/main/java/com/apexfission/android/auth/MainActivity.kt)
 using [quickstart](quickstart.md).
 
 | Entry / scenario | Prerequisites and actions | Expected result / failure | Source |

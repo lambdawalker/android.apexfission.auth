@@ -16,7 +16,7 @@ plugins {
 }
 
 android {
-    namespace = "com.apexfission.android.attestra.auth.library"
+    namespace = "com.apexfission.android.auth.library"
     compileSdk {
         version = release(37)
     }

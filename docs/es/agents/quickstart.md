@@ -42,9 +42,9 @@ EmailOnboardingHost(
 ```
 
 La implementación completa que CI compila está en
-[MainActivity](../../../app/src/main/java/com/apexfission/android/attestra/auth/MainActivity.kt),
-[EnvironmentViewModel](../../../app/src/main/java/com/apexfission/android/attestra/auth/EnvironmentViewModel.kt)
-y [LiveCaptureFlow](../../../app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt).
+[MainActivity](../../../app/src/main/java/com/apexfission/android/auth/MainActivity.kt),
+[EnvironmentViewModel](../../../app/src/main/java/com/apexfission/android/auth/EnvironmentViewModel.kt)
+y [LiveCaptureFlow](../../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt).
 `AccountIdentityFlow` es código del anfitrión de ejemplo, no una API exportada de auth.
 Implemente sus responsabilidades equivalentes; no importe componentes internos del ejemplo.
 El slot `identityContent` predeterminado muestra indisponibilidad, no una captura funcional.

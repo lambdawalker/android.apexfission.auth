@@ -64,13 +64,13 @@ attestraApiBaseUrl=https://kop22wur83.execute-api.us-east-2.amazonaws.com
 attestraLinkHost=attestrabond.com
 ```
 
-Use your own stack's `apiUrl` if it differs from this example; when `pulumi stack output apiUrl` is missing, verify the selected stack and finish `pulumi up`. These values can also be passed through CI. The link host must serve `https://HOST/.well-known/assetlinks.json` with the app's package `com.apexfission.android.attestra.auth` and signing certificate SHA-256 to make Android App Links open directly in the app. On other devices or when the app isn't associated, the website must host `/verify-email` and show the manual code screen.
+Use your own stack's `apiUrl` if it differs from this example; when `pulumi stack output apiUrl` is missing, verify the selected stack and finish `pulumi up`. These values can also be passed through CI. The link host must serve `https://HOST/.well-known/assetlinks.json` with the app's package `com.apexfission.android.auth` and signing certificate SHA-256 to make Android App Links open directly in the app. On other devices or when the app isn't associated, the website must host `/verify-email` and show the manual code screen.
 
 The launcher opens a choice screen in the existing `MainActivity`: **Open onboarding** runs the live email flow, and **Open UI catalog** previews every screen without calling the backend. With no explicit API URL, Open onboarding waits for index discovery and offers Retry if unavailable; the catalog still works. The system Back action returns to the choice screen, or to the catalog list when previewing an individual screen. A valid HTTPS `/verify-email` App Link opens live onboarding directly, including when the catalog is currently visible. The manifest accepts links only for the configured host, and the activity checks the incoming origin again before handling one. Visiting a link never calls the backend with B alone.
 
 ### Verify Android App Links on a device
 
-The manifest's `android:autoVerify="true"` filter matches `https://<attestraLinkHost>/verify-email`. Serve `https://<attestraLinkHost>/.well-known/assetlinks.json` (default: `https://dev.attestrabond.com/.well-known/assetlinks.json`) as public JSON without redirects. Its `package_name` must match this app's Gradle `applicationId`, **`com.apexfission.android.attestra.auth`** (not `com.apexfission.android`), and `sha256_cert_fingerprints` must include the certificate of the **installed build**. A debug APK and a release or Play-signed APK may use different certificates. To find the fingerprint for your build, run `.\gradlew.bat :app:signingReport` or inspect the installed package's `Signatures` in the command below. For example:
+The manifest's `android:autoVerify="true"` filter matches `https://<attestraLinkHost>/verify-email`. Serve `https://<attestraLinkHost>/.well-known/assetlinks.json` (default: `https://dev.attestrabond.com/.well-known/assetlinks.json`) as public JSON without redirects. Its `package_name` must match this app's Gradle `applicationId`, **`com.apexfission.android.auth`** (not `com.apexfission.android`), and `sha256_cert_fingerprints` must include the certificate of the **installed build**. A debug APK and a release or Play-signed APK may use different certificates. To find the fingerprint for your build, run `.\gradlew.bat :app:signingReport` or inspect the installed package's `Signatures` in the command below. For example:
 
 ```json
 [
@@ -78,7 +78,7 @@ The manifest's `android:autoVerify="true"` filter matches `https://<attestraLink
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.apexfission.android.attestra.auth",
+      "package_name": "com.apexfission.android.auth",
       "sha256_cert_fingerprints": ["<SHA-256 fingerprint of the installed app>"]
     }
   }
@@ -93,9 +93,9 @@ In Android Studio's PowerShell terminal, use the SDK's `adb.exe` if `adb` is not
 $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 & $adb devices
 $serial = 'emulator-5556' # replace with your device's serial from `devices`
-& $adb -s $serial shell pm verify-app-links --re-verify com.apexfission.android.attestra.auth
+& $adb -s $serial shell pm verify-app-links --re-verify com.apexfission.android.auth
 # Wait for verification to finish, then check for `dev.attestrabond.com: verified`:
-& $adb -s $serial shell pm get-app-links com.apexfission.android.attestra.auth
+& $adb -s $serial shell pm get-app-links com.apexfission.android.auth
 & $adb -s $serial shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d 'https://dev.attestrabond.com/verify-email?request_id=test&b=test'
 ```
 

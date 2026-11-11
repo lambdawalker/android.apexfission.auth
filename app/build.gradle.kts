@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    namespace = "com.apexfission.android.attestra.auth"
+    namespace = "com.apexfission.android.auth"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.apexfission.android.attestra.auth"
+        applicationId = "com.apexfission.android.auth"
         minSdk = 28
         targetSdk = 36
         versionCode = 1

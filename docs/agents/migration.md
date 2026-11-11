@@ -19,3 +19,21 @@ APK version does not version those libraries or establish an auth release.
 For later auth releases, retain confirmed code/documentation identities and exact
 installation facts before changing the latest pointer. A missing translation must
 fall back to the canonical guide for the selected scope, never a newer API version.
+
+## Apexfission namespace
+
+The source package is now `com.apexfission.android.auth` (previously
+`com.apexfission.android.attestra.auth`). Update imports and fully qualified names,
+including the library resource namespace `com.apexfission.android.auth.library`.
+Source directories, tests and signing helpers use the new namespace.
+
+The demo application ID is now `com.apexfission.android.auth`. Android treats it
+as a separate app, so it does not inherit the previous installation's local session
+or private storage. Update the backend's `assetlinks.json` package association for
+App Links and passkeys using the new application ID and the installed signing
+certificate; register the new association before testing those integrations.
+
+Backend URLs, `attestra*` Gradle properties, `ATTESTRA_*` configuration variables,
+private storage names and signing aliases retain their existing contracts.
+The repository name and publication coordinates are independent of the Kotlin
+namespace; no repository rename or artifact publication is performed here.

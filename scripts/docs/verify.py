@@ -4,7 +4,7 @@ import re
 ROOT=Path(__file__).resolve().parents[2]
 page=(ROOT/'docs/agents/quickstart.md').read_text()
 example=next(x for x in re.findall(r'```kotlin\n(.*?)```',page,re.S) if 'EmailOnboardingHost(' in x)
-source=(ROOT/'app/src/main/java/com/apexfission/android/attestra/auth/MainActivity.kt').read_text()
+source=(ROOT/'app/src/main/java/com/apexfission/android/auth/MainActivity.kt').read_text()
 normalize=lambda s:re.sub(r'\s+','',s)
 if normalize(example) not in normalize(source):
     raise SystemExit('Quickstart host call drifted from compiled MainActivity')
