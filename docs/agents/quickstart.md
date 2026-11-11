@@ -44,9 +44,9 @@ EmailOnboardingHost(
 ```
 
 For a complete compiled implementation and imports, read
-[MainActivity](../../app/src/main/java/com/apexfission/android/attestra/auth/MainActivity.kt),
-[EnvironmentViewModel](../../app/src/main/java/com/apexfission/android/attestra/auth/EnvironmentViewModel.kt)
-and [LiveCaptureFlow](../../app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt).
+[MainActivity](../../app/src/main/java/com/apexfission/android/auth/MainActivity.kt),
+[EnvironmentViewModel](../../app/src/main/java/com/apexfission/android/auth/EnvironmentViewModel.kt)
+and [LiveCaptureFlow](../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt).
 `AccountIdentityFlow` is sample-host wiring, not an exported auth-library symbol.
 Use the same responsibilities in your host instead of importing sample internals.
 The default `identityContent` shows an unavailable message, not a capture implementation.

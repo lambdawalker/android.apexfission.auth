@@ -19,7 +19,7 @@ def gradle(*args, env=None, failure=None):
 
 
 def config():
-    return (ROOT / "app/build/generated/source/buildConfig/debug/com/apexfission/android/attestra/auth/BuildConfig.java").read_text()
+    return (ROOT / "app/build/generated/source/buildConfig/debug/com/apexfission/android/auth/BuildConfig.java").read_text()
 
 
 with tempfile.TemporaryDirectory() as tmp:

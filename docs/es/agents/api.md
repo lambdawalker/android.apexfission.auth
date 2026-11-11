@@ -4,7 +4,7 @@
 El [backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md)
 posee la serialización HTTP. Fuente y pruebas prevalecen sobre prosa.
 
-| API / paquete bajo `com.apexfission.android.attestra.auth` | Uso | Contrato |
+| API / paquete bajo `com.apexfission.android.auth` | Uso | Contrato |
 | --- | --- | --- |
 | `EmailOnboardingHost` · `email` | Autenticación e incorporación interactivas | Activity y Compose, origen confiable, política validada y callbacks de enlace. Posee cliente/almacenamiento/controlador recordados y cierra el cliente. ID predeterminado muestra indisponibilidad. |
 | `parseVerificationLink` · `email` | Validar origen URI | HTTPS, host esperado, `/verify-email`, puerto por defecto/443; null si no coincide. El controlador valida además formato de pruebas. |

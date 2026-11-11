@@ -4,7 +4,7 @@
 
 ## Agregar captura
 
-Reutilice las responsabilidades de [LiveCaptureFlow](../../../app/src/main/java/com/apexfission/android/attestra/auth/LiveCaptureFlow.kt):
+Reutilice las responsabilidades de [LiveCaptureFlow](../../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt):
 retener clientes API/upload, aislar checkpoint por cuenta/backend, suministrar token
 solo de esa cuenta, cerrar clientes y conectar `IdentityCamera` con `CaptureHost`.
 Lleve `acceptedPolicy` desde Continuar y active `requireReviewedPolicy = true`.
@@ -21,8 +21,8 @@ recuperación propia. Reanude fotos existentes sin reabrir cámara innecesariame
 
 Use `environmentIndexClient()` con `EnvironmentCache`; cierre el cliente con su
 propietario. Resuelva primero el entorno. Consulte
-[EnvironmentViewModel](../../../app/src/main/java/com/apexfission/android/attestra/auth/EnvironmentViewModel.kt),
-[BackendConfiguration](../../../app/src/main/java/com/apexfission/android/attestra/auth/BackendConfiguration.kt)
+[EnvironmentViewModel](../../../app/src/main/java/com/apexfission/android/auth/EnvironmentViewModel.kt),
+[BackendConfiguration](../../../app/src/main/java/com/apexfission/android/auth/BackendConfiguration.kt)
 y [entornos](../../environment-discovery.md). Nunca use un cliente con bearer para el índice público.
 
 ## Personalizar UI
@@ -31,7 +31,7 @@ Use pantallas con estado bajo `ui/onboarding` dentro de `AttestraAuthTheme`.
 Sus callbacks deben llamar al controlador, no navegar a éxito anticipadamente.
 `OnboardingFrame` admite acciones primarias/secundarias y contenido; acciones omitidas
 no se muestran. Callbacks de Compose se disparan en UI; lance funciones suspendidas
-en el scope correspondiente. El [catálogo](../../../auth/src/main/java/com/apexfission/android/attestra/auth/ui/onboarding/OnboardingCatalog.kt)
+en el scope correspondiente. El [catálogo](../../../auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt)
 es visual. Sus resultados antiguos de identidad son diseños, no resultados live.
 
 ## Limpiar datos y diagnosticar

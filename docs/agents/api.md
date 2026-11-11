@@ -8,7 +8,7 @@ Source and tests outrank prose; service serialization belongs to the
 
 | API / import package | Use for | Preconditions, effects and errors |
 | --- | --- | --- |
-| `EmailOnboardingHost` · `com.apexfission.android.attestra.auth.email` | Interactive auth/onboarding | Activity-scoped Compose owner, trusted API origin, validated runtime policy and link callbacks. Owns its remembered client/storage/controller; closes its client on disposal. Default ID slot is unavailable UI. |
+| `EmailOnboardingHost` · `com.apexfission.android.auth.email` | Interactive auth/onboarding | Activity-scoped Compose owner, trusted API origin, validated runtime policy and link callbacks. Owns its remembered client/storage/controller; closes its client on disposal. Default ID slot is unavailable UI. |
 | `parseVerificationLink` · `...email` | Validate incoming Android URI origin | HTTPS, expected host, `/verify-email`, default/443 port. Returns null on origin mismatch; the controller still validates proof format. Never trust arbitrary intent links. |
 | `EmailFlowController` · `...email` | Custom email UI | Inject `EmailVerificationGateway`, `AuthStorage`; optional proof/clock inputs. Mutex-serialized suspend mutations; sessions are stored only after backend success. `screen` is observed Compose state. Do not equate request acceptance with verification. |
 | `EmailVerificationApi` / `EmailHttpClient` · `...email` | Email HTTP transport | Caller owns the client; HTTPS origin. Returns structured session or `EmailApiError`; do not retry confirmation blindly without controller recovery. |
