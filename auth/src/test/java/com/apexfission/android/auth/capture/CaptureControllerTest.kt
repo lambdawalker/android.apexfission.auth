@@ -119,6 +119,22 @@ class CaptureControllerTest {
         assertEquals("OCR", c.state.value.draft?.fullName)
     }
 
+    @Test fun confirmingUnchangedCountryProtectsBlankDescendantsFromLateOcr() = runBlocking {
+        val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
+        val pending = CaptureRecord("a".repeat(32), 1, 5, "capture-v1", "sample_card", "ready",
+            9999999999, imageRevision = 4, extraction = CardExtraction("pending",
+                CardData(issuingCountry = "Mexico"), retrying = true))
+        api.record = pending; c.restore()
+        c.editCardField { it.copy(issuingCountry = "Mexico", issuingRegion = "", issuingCity = "") }
+        api.record = pending.copy(revision = 6, extraction = CardExtraction("complete",
+            CardData(fullName = "OCR", issuingCountry = "Mexico", issuingRegion = "Chihuahua", issuingCity = "Ciudad Juárez")))
+        c.awaitProcessing()
+        assertEquals("Mexico", c.state.value.draft?.issuingCountry)
+        assertEquals("", c.state.value.draft?.issuingRegion)
+        assertEquals("", c.state.value.draft?.issuingCity)
+        assertEquals("OCR", c.state.value.draft?.fullName)
+    }
+
     @Test fun pairedCaptureRetriesBothSidesAndWipesImages() = runBlocking {
         val store = Store(); val api = Gateway(store); val c = CaptureController(api, store)
         c.restore(); c.start(); c.camera(DocumentSide.FRONT)
