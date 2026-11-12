@@ -28,6 +28,7 @@ import androidx.compose.ui.semantics.contentDescription
     onSave: () -> Unit,
     onFocus: (KProperty1<CardData, String>, Boolean) -> Unit = { _, _ -> },
     onRescan: (() -> Unit)? = null,
+    onJurisdiction: ((IssuingJurisdiction) -> Unit)? = null,
 ) {
     val data = ui.draft ?: return
     Text(stringResource(R.string.auth_review_id_details), style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.onSurface)
@@ -52,7 +53,8 @@ import androidx.compose.ui.semantics.contentDescription
         CardField(stringResource(R.string.auth_document_number), data.documentNumber, ui.busy, focus = { onFocus(CardData::documentNumber, it) }) { text -> onEdit { it.copy(documentNumber = text) } }
         if (primaryIdentifier) CardField(stringResource(R.string.auth_personal_identifier), data.personalNumber, ui.busy, focus = { onFocus(CardData::personalNumber, it) }) { text -> onEdit { it.copy(personalNumber = text) } }
         IssuingJurisdictionField(IssuingJurisdiction(data.issuingCountry, data.issuingRegion, data.issuingCity), !ui.busy) { location ->
-            onEdit { it.copy(issuingCountry = location.country, issuingRegion = location.region, issuingCity = location.city) }
+            if (onJurisdiction != null) onJurisdiction(location)
+            else onEdit { it.copy(issuingCountry = location.country, issuingRegion = location.region, issuingCity = location.city) }
         }
         CardField(stringResource(R.string.auth_expiry_date), data.expiryDate, ui.busy, focus = { onFocus(CardData::expiryDate, it) }) { text -> onEdit { it.copy(expiryDate = text) } }
     }

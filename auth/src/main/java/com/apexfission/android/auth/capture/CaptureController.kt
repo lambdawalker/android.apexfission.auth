@@ -475,6 +475,14 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
     internal fun editCardField(change: (CardData) -> CardData) {
         state.value.draft?.let { editCard(change(it)) }
     }
+    internal fun confirmJurisdiction(location: IssuingJurisdiction) {
+        val ui = state.value
+        val draft = ui.draft ?: return
+        if (closed || ui.busy) return
+        // Applying the sheet confirms all three values, even when unchanged.
+        editedFields += listOf(CardData::issuingCountry, CardData::issuingRegion, CardData::issuingCity)
+        editCard(draft.copy(issuingCountry = location.country, issuingRegion = location.region, issuingCity = location.city))
+    }
     fun editCard(data: CardData) {
         val ui = state.value
         if (closed || ui.busy || ui.draft == null) return
