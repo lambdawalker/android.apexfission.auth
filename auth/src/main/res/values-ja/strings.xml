@@ -279,4 +279,26 @@
     <string name="auth_back_side">"裏面"</string>
     <string name="auth_numbers">"数字"</string>
     <string name="auth_symbols">"記号"</string>
+    <string name="auth_type_national_id">"国民身分証明書"</string>
+    <string name="auth_type_passport">"パスポート"</string>
+    <string name="auth_type_drivers_license">"運転免許証"</string>
+    <string name="auth_type_residence_permit">"在留許可証"</string>
+    <string name="auth_type_voter_id">"選挙人証"</string>
+    <string name="auth_type_other">"その他の書類"</string>
+    <string name="auth_select_document_type">"書類の種類を選択"</string>
+    <string name="auth_document_name">"書類の名称"</string>
+    <string name="auth_personal_identifier">"個人識別番号（記載がある場合）"</string>
+    <string name="auth_issued_in">"発行地"</string>
+    <string name="auth_select_issuing_location">"発行地を選択"</string>
+    <string name="auth_issuing_jurisdiction">"発行元の管轄地域"</string>
+    <string name="auth_jurisdiction_help">"出生地や住所ではなく、発行政府の所在地を選んでください。地域と市区町村は任意です。国を検索するか、印字された場所を入力してください。"</string>
+    <string name="auth_issuing_region">"州・県・地域（任意）"</string>
+    <string name="auth_issuing_city">"市区町村（任意）"</string>
+    <string name="auth_jurisdiction_parent_change">"国を変更すると地域と市区町村が消去されます。地域を変更すると市区町村が消去されます。「この場所を使用」を押すと変更が適用されます。"</string>
+    <string name="auth_use_location">"この場所を使用"</string>
+    <string name="auth_close_location">"キャンセル"</string>
+    <string name="auth_additional_details">"追加情報"</string>
+    <string name="auth_hide_additional">"追加項目を隠す"</string>
+    <string name="auth_show_additional">"追加項目を確認"</string>
+    <string name="auth_issuing_authority">"発行機関（記載がある場合）"</string>
 </resources>

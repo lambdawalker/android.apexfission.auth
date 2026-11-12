@@ -19,10 +19,12 @@ jobs:
       - name: Test signing tools
         run: uv run --with rich==14.1.0 python -m unittest discover -s scripts/signing
       - name: Verify auth translations
-        run: python3 -m unittest discover -s scripts/tests -p 'test_auth_resources.py'
+        run: |
+          python3 -m unittest discover -s scripts/tests -p 'test_auth_resources.py'
+          python3 -m unittest discover -s scripts/geography -p 'test_*.py'
       - name: Test auth and assemble app
         run: >-
-          bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
+          bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease :auth:assembleDebugAndroidTest
           -PattestraEnvironment=qa
       - name: Check explicit API override
         run: >-

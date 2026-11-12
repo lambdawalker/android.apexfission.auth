@@ -279,4 +279,26 @@
     <string name="auth_back_side">"verso"</string>
     <string name="auth_numbers">"chiffres"</string>
     <string name="auth_symbols">"symboles"</string>
+    <string name="auth_type_national_id">"Carte nationale d’identité"</string>
+    <string name="auth_type_passport">"Passeport"</string>
+    <string name="auth_type_drivers_license">"Permis de conduire"</string>
+    <string name="auth_type_residence_permit">"Titre de séjour"</string>
+    <string name="auth_type_voter_id">"Carte électorale"</string>
+    <string name="auth_type_other">"Autre document"</string>
+    <string name="auth_select_document_type">"Choisir le type de document"</string>
+    <string name="auth_document_name">"Nom du document"</string>
+    <string name="auth_personal_identifier">"Identifiant personnel (si indiqué)"</string>
+    <string name="auth_issued_in">"Délivré à"</string>
+    <string name="auth_select_issuing_location">"Choisir le lieu de délivrance"</string>
+    <string name="auth_issuing_jurisdiction">"Juridiction de délivrance"</string>
+    <string name="auth_jurisdiction_help">"Choisissez le lieu du gouvernement émetteur, pas votre lieu de naissance ni votre domicile. La région et la ville sont facultatives. Recherchez un pays ou saisissez le lieu imprimé."</string>
+    <string name="auth_issuing_region">"État / province / région (facultatif)"</string>
+    <string name="auth_issuing_city">"Ville / commune (facultatif)"</string>
+    <string name="auth_jurisdiction_parent_change">"Changer le pays efface la région et la ville. Changer la région efface la ville. Les modifications sont appliquées en touchant Utiliser ce lieu."</string>
+    <string name="auth_use_location">"Utiliser ce lieu"</string>
+    <string name="auth_close_location">"Annuler"</string>
+    <string name="auth_additional_details">"Informations complémentaires"</string>
+    <string name="auth_hide_additional">"Masquer les champs supplémentaires"</string>
+    <string name="auth_show_additional">"Vérifier les champs supplémentaires"</string>
+    <string name="auth_issuing_authority">"Autorité de délivrance (si indiquée)"</string>
 </resources>

@@ -279,4 +279,26 @@
     <string name="auth_back_side">"背面"</string>
     <string name="auth_numbers">"數字"</string>
     <string name="auth_symbols">"符號"</string>
+    <string name="auth_type_national_id">"國民身分證"</string>
+    <string name="auth_type_passport">"護照"</string>
+    <string name="auth_type_drivers_license">"駕駛執照"</string>
+    <string name="auth_type_residence_permit">"居留許可"</string>
+    <string name="auth_type_voter_id">"選民證"</string>
+    <string name="auth_type_other">"其他證件"</string>
+    <string name="auth_select_document_type">"選擇證件類型"</string>
+    <string name="auth_document_name">"證件名稱"</string>
+    <string name="auth_personal_identifier">"個人識別碼（如有印刷）"</string>
+    <string name="auth_issued_in">"簽發地"</string>
+    <string name="auth_select_issuing_location">"選擇簽發地"</string>
+    <string name="auth_issuing_jurisdiction">"簽發管轄地區"</string>
+    <string name="auth_jurisdiction_help">"請選擇簽發政府所在地，而非出生地或居住地址。地區和城市為選填。搜尋國家或輸入證件上印刷的地點。"</string>
+    <string name="auth_issuing_region">"州 / 省 / 地區（選填）"</string>
+    <string name="auth_issuing_city">"城市 / 鄉鎮（選填）"</string>
+    <string name="auth_jurisdiction_parent_change">"變更國家會清除地區和城市。變更地區會清除城市。僅在點選「使用此地點」後套用變更。"</string>
+    <string name="auth_use_location">"使用此地點"</string>
+    <string name="auth_close_location">"取消"</string>
+    <string name="auth_additional_details">"補充資訊"</string>
+    <string name="auth_hide_additional">"隱藏補充欄位"</string>
+    <string name="auth_show_additional">"核對補充欄位"</string>
+    <string name="auth_issuing_authority">"簽發機關（如有印刷）"</string>
 </resources>

@@ -279,4 +279,26 @@
     <string name="auth_back_side">"tylna"</string>
     <string name="auth_numbers">"cyfry"</string>
     <string name="auth_symbols">"symbole"</string>
+    <string name="auth_type_national_id">"Dowód osobisty"</string>
+    <string name="auth_type_passport">"Paszport"</string>
+    <string name="auth_type_drivers_license">"Prawo jazdy"</string>
+    <string name="auth_type_residence_permit">"Zezwolenie na pobyt"</string>
+    <string name="auth_type_voter_id">"Karta wyborcy"</string>
+    <string name="auth_type_other">"Inny dokument"</string>
+    <string name="auth_select_document_type">"Wybierz typ dokumentu"</string>
+    <string name="auth_document_name">"Nazwa dokumentu"</string>
+    <string name="auth_personal_identifier">"Identyfikator osobisty (jeśli podany)"</string>
+    <string name="auth_issued_in">"Wydano w"</string>
+    <string name="auth_select_issuing_location">"Wybierz miejsce wydania"</string>
+    <string name="auth_issuing_jurisdiction">"Jurysdykcja wydająca"</string>
+    <string name="auth_jurisdiction_help">"Wybierz lokalizację organu wydającego, a nie miejsce urodzenia lub zamieszkania. Region i miasto są opcjonalne. Wyszukaj kraj lub wpisz miejsce z dokumentu."</string>
+    <string name="auth_issuing_region">"Stan / prowincja / region (opcjonalnie)"</string>
+    <string name="auth_issuing_city">"Miasto / gmina (opcjonalnie)"</string>
+    <string name="auth_jurisdiction_parent_change">"Zmiana kraju usuwa region i miasto. Zmiana regionu usuwa miasto. Zmiany zostaną zastosowane po wybraniu Użyj tej lokalizacji."</string>
+    <string name="auth_use_location">"Użyj tej lokalizacji"</string>
+    <string name="auth_close_location">"Anuluj"</string>
+    <string name="auth_additional_details">"Dodatkowe dane"</string>
+    <string name="auth_hide_additional">"Ukryj dodatkowe pola"</string>
+    <string name="auth_show_additional">"Sprawdź dodatkowe pola"</string>
+    <string name="auth_issuing_authority">"Organ wydający (jeśli podany)"</string>
 </resources>

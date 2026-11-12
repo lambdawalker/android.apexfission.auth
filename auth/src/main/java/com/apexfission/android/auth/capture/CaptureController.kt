@@ -479,6 +479,9 @@ class CaptureController(private val api: CaptureGateway, private val store: Capt
         val ui = state.value
         if (closed || ui.busy || ui.draft == null) return
         editedFields += cardFields.filter { it.get(data) != it.get(ui.draft) }
+        // A location selection is atomic, including intentionally cleared descendants.
+        val jurisdictionFields = listOf(CardData::issuingCountry, CardData::issuingRegion, CardData::issuingCity)
+        if (jurisdictionFields.any { it.get(data) != it.get(ui.draft) }) editedFields += jurisdictionFields
         show(ui.copy(draft = data, reviewDirty = true, message = null))
     }
     fun resetReview() {

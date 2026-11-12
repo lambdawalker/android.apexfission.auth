@@ -279,4 +279,26 @@
     <string name="auth_back_side">"reverso"</string>
     <string name="auth_numbers">"números"</string>
     <string name="auth_symbols">"símbolos"</string>
+    <string name="auth_type_national_id">"Identificación nacional"</string>
+    <string name="auth_type_passport">"Pasaporte"</string>
+    <string name="auth_type_drivers_license">"Licencia de conducir"</string>
+    <string name="auth_type_residence_permit">"Permiso de residencia"</string>
+    <string name="auth_type_voter_id">"Credencial de elector"</string>
+    <string name="auth_type_other">"Otro documento"</string>
+    <string name="auth_select_document_type">"Selecciona el tipo de documento"</string>
+    <string name="auth_document_name">"Nombre del documento"</string>
+    <string name="auth_personal_identifier">"Identificador personal (si aparece)"</string>
+    <string name="auth_issued_in">"Expedido en"</string>
+    <string name="auth_select_issuing_location">"Selecciona el lugar de expedición"</string>
+    <string name="auth_issuing_jurisdiction">"Jurisdicción de expedición"</string>
+    <string name="auth_jurisdiction_help">"Selecciona la ubicación del gobierno emisor, no tu lugar de nacimiento ni domicilio. El estado y la ciudad son opcionales. Busca un país o escribe cualquier lugar como aparece impreso."</string>
+    <string name="auth_issuing_region">"Estado / provincia / región (opcional)"</string>
+    <string name="auth_issuing_city">"Ciudad / municipio (opcional)"</string>
+    <string name="auth_jurisdiction_parent_change">"Cambiar el país borra el estado y la ciudad. Cambiar el estado borra la ciudad. Los cambios se aplican al tocar Usar esta ubicación."</string>
+    <string name="auth_use_location">"Usar esta ubicación"</string>
+    <string name="auth_close_location">"Cancelar"</string>
+    <string name="auth_additional_details">"Datos adicionales"</string>
+    <string name="auth_hide_additional">"Ocultar campos adicionales"</string>
+    <string name="auth_show_additional">"Revisar campos adicionales"</string>
+    <string name="auth_issuing_authority">"Autoridad emisora (si aparece)"</string>
 </resources>

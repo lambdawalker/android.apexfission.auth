@@ -279,4 +279,26 @@
     <string name="auth_back_side">"do verso"</string>
     <string name="auth_numbers">"números"</string>
     <string name="auth_symbols">"símbolos"</string>
+    <string name="auth_type_national_id">"Documento nacional de identidade"</string>
+    <string name="auth_type_passport">"Passaporte"</string>
+    <string name="auth_type_drivers_license">"Carteira de habilitação"</string>
+    <string name="auth_type_residence_permit">"Autorização de residência"</string>
+    <string name="auth_type_voter_id">"Título de eleitor"</string>
+    <string name="auth_type_other">"Outro documento"</string>
+    <string name="auth_select_document_type">"Selecione o tipo de documento"</string>
+    <string name="auth_document_name">"Nome do documento"</string>
+    <string name="auth_personal_identifier">"Identificador pessoal (se impresso)"</string>
+    <string name="auth_issued_in">"Emitido em"</string>
+    <string name="auth_select_issuing_location">"Selecione o local de emissão"</string>
+    <string name="auth_issuing_jurisdiction">"Jurisdição emissora"</string>
+    <string name="auth_jurisdiction_help">"Escolha a localização do governo emissor, não o local de nascimento ou residência. Região e cidade são opcionais. Pesquise um país ou digite o local impresso."</string>
+    <string name="auth_issuing_region">"Estado / província / região (opcional)"</string>
+    <string name="auth_issuing_city">"Cidade / município (opcional)"</string>
+    <string name="auth_jurisdiction_parent_change">"Alterar o país limpa a região e a cidade. Alterar a região limpa a cidade. As alterações são aplicadas ao tocar em Usar este local."</string>
+    <string name="auth_use_location">"Usar este local"</string>
+    <string name="auth_close_location">"Cancelar"</string>
+    <string name="auth_additional_details">"Dados adicionais"</string>
+    <string name="auth_hide_additional">"Ocultar campos adicionais"</string>
+    <string name="auth_show_additional">"Revisar campos adicionais"</string>
+    <string name="auth_issuing_authority">"Autoridade emissora (se impressa)"</string>
 </resources>
