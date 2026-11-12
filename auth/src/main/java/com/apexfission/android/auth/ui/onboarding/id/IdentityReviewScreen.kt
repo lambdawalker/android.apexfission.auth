@@ -1,6 +1,9 @@
 package com.apexfission.android.auth.ui.onboarding.id
 
 import com.apexfission.android.auth.ui.onboarding.common.authText
+import com.apexfission.android.auth.capture.DocumentTypeField
+import com.apexfission.android.auth.capture.IssuingJurisdiction
+import com.apexfission.android.auth.capture.IssuingJurisdictionField
 import com.apexfission.android.auth.library.R
 import androidx.compose.ui.res.stringResource
 
@@ -32,6 +35,10 @@ data class IdentityDetails(
     val issuingCountry: String = "",
     val documentType: String = "",
     val expirationDate: String = "",
+    val issuingRegion: String = "",
+    val issuingCity: String = "",
+    val documentName: String = "",
+    val issuingAuthority: String = "",
 )
 
 /**
@@ -49,18 +56,21 @@ fun IdentityReviewScreen(
     var dateOfBirth by remember(initialDetails) { mutableStateOf(initialDetails.dateOfBirth) }
     var address by remember(initialDetails) { mutableStateOf(initialDetails.address) }
     var documentNumber by remember(initialDetails) { mutableStateOf(initialDetails.documentNumber) }
-    var issuingCountry by remember(initialDetails) { mutableStateOf(initialDetails.issuingCountry) }
     var documentType by remember(initialDetails) { mutableStateOf(initialDetails.documentType) }
     var expirationDate by remember(initialDetails) { mutableStateOf(initialDetails.expirationDate) }
 
-    fun notifyChanged() = onDetailsChanged(IdentityDetails(fullName, dateOfBirth, address, documentNumber, issuingCountry, documentType, expirationDate))
+    var location by remember(initialDetails) { mutableStateOf(IssuingJurisdiction(initialDetails.issuingCountry, initialDetails.issuingRegion, initialDetails.issuingCity)) }
+    var documentName by remember(initialDetails) { mutableStateOf(initialDetails.documentName) }
+    var issuingAuthority by remember(initialDetails) { mutableStateOf(initialDetails.issuingAuthority) }
+
+    fun notifyChanged() = onDetailsChanged(IdentityDetails(fullName, dateOfBirth, address, documentNumber, location.country, documentType, expirationDate, location.region, location.city, documentName, issuingAuthority))
 
     OnboardingFrame(
         title = stringResource(R.string.auth_review_id_details), icon = Icons.Default.Badge, step = stringResource(R.string.auth_id_check), onBack = onBack,
         primaryLabel = stringResource(R.string.auth_submit_details_for_review),
         onPrimary = {
             onSubmit(
-                IdentityDetails(fullName, dateOfBirth, address, documentNumber, issuingCountry, documentType, expirationDate)
+                IdentityDetails(fullName, dateOfBirth, address, documentNumber, location.country, documentType, expirationDate, location.region, location.city, documentName, issuingAuthority)
             )
         },
         secondaryLabel = stringResource(R.string.auth_rescan_document), onSecondary = onRescan,
@@ -75,8 +85,15 @@ fun IdentityReviewScreen(
             DetailField(stringResource(R.string.auth_residential_address), address) { address = it; notifyChanged() }
             Text(stringResource(R.string.auth_document_information), style = MaterialTheme.typography.titleSmall)
             DetailField(stringResource(R.string.auth_document_number), documentNumber) { documentNumber = it; notifyChanged() }
-            DetailField(stringResource(R.string.auth_issuing_country), issuingCountry) { issuingCountry = it; notifyChanged() }
-            DetailField(stringResource(R.string.auth_document_type), documentType) { documentType = it; notifyChanged() }
+            DocumentTypeField(documentType) { selected ->
+                if (documentName.isBlank() && documentType.isNotBlank() && com.apexfission.android.auth.capture.DocumentKind.entries.none { it.wireValue == documentType }) documentName = documentType
+                documentType = selected; notifyChanged()
+            }
+            if (com.apexfission.android.auth.capture.DocumentKind.forValue(documentType) == com.apexfission.android.auth.capture.DocumentKind.OTHER || documentName.isNotBlank()) {
+                DetailField(stringResource(R.string.auth_document_name), documentName) { documentName = it; notifyChanged() }
+            }
+            IssuingJurisdictionField(location) { location = it; notifyChanged() }
+            DetailField(stringResource(R.string.auth_issuing_authority), issuingAuthority) { issuingAuthority = it; notifyChanged() }
             DetailField(stringResource(R.string.auth_expiration_date), expirationDate) { expirationDate = it; notifyChanged() }
             BodyText(stringResource(R.string.auth_correcting_extracted_text_does_not_verify_your_identity_a_separat))
         }

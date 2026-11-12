@@ -279,4 +279,26 @@
     <string name="auth_back_side">"Rückseite"</string>
     <string name="auth_numbers">"Zahlen"</string>
     <string name="auth_symbols">"Sonderzeichen"</string>
+    <string name="auth_type_national_id">"Personalausweis"</string>
+    <string name="auth_type_passport">"Reisepass"</string>
+    <string name="auth_type_drivers_license">"Führerschein"</string>
+    <string name="auth_type_residence_permit">"Aufenthaltstitel"</string>
+    <string name="auth_type_voter_id">"Wählerausweis"</string>
+    <string name="auth_type_other">"Anderes Dokument"</string>
+    <string name="auth_select_document_type">"Dokumenttyp auswählen"</string>
+    <string name="auth_document_name">"Dokumentname"</string>
+    <string name="auth_personal_identifier">"Personenkennziffer (falls aufgedruckt)"</string>
+    <string name="auth_issued_in">"Ausgestellt in"</string>
+    <string name="auth_select_issuing_location">"Ausstellungsort auswählen"</string>
+    <string name="auth_issuing_jurisdiction">"Ausstellungsgebiet"</string>
+    <string name="auth_jurisdiction_help">"Wähle den Standort der ausstellenden Regierung, nicht Geburtsort oder Wohnadresse. Region und Stadt sind optional. Suche ein Land oder gib den aufgedruckten Ort ein."</string>
+    <string name="auth_issuing_region">"Bundesland / Provinz / Region (optional)"</string>
+    <string name="auth_issuing_city">"Stadt / Gemeinde (optional)"</string>
+    <string name="auth_jurisdiction_parent_change">"Ein Länderwechsel löscht Region und Stadt. Ein Regionswechsel löscht die Stadt. Änderungen werden erst mit Diesen Ort verwenden übernommen."</string>
+    <string name="auth_use_location">"Diesen Ort verwenden"</string>
+    <string name="auth_close_location">"Abbrechen"</string>
+    <string name="auth_additional_details">"Weitere Angaben"</string>
+    <string name="auth_hide_additional">"Weitere Felder ausblenden"</string>
+    <string name="auth_show_additional">"Weitere Felder prüfen"</string>
+    <string name="auth_issuing_authority">"Ausstellende Behörde (falls aufgedruckt)"</string>
 </resources>

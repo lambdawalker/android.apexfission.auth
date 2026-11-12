@@ -1,0 +1,15 @@
+GeoNames geographic data: https://www.geonames.org/
+Source: https://download.geonames.org/export/dump/
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Contains GeoNames data reduced to country code, administrative region name,
+and populated place name. Snapshot retrieved 2026-11-12. The city catalogue
+covers cities15000 (population over 15,000 or capitals), not every municipality.
+Names are suggestions, not a jurisdiction validation or territorial assertion.
+Manual entry remains available for missing, historical or alternative names.
+Reproduce using scripts/geography/build_catalogue.py with the two source files.
+
+Source SHA-256:
+2e4867f5397acb056ea26377601b57af37cb4c81399770225018e9e439e91ad3  admin1CodesASCII.txt
+93552f9023c8f1adcfac0f1d15d325fe235781eea8f09e60f9aad3b1bf840f3f  cities15000.zip

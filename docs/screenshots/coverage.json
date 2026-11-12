@@ -448,6 +448,54 @@
       "kind": "nonvisual-runtime",
       "scenarios": [],
       "note": "Locale-aware resource resolution only; rendered by the covered onboarding and capture components."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/capture/CardReviewForm.kt",
+      "symbol": "ReviewSection",
+      "kind": "visual-parent",
+      "scenarios": [
+        "auth:DocumentationScreenshotTest.extractedReview",
+        "auth:DocumentationScreenshotTest.manualReview"
+      ],
+      "note": "Offline themed review/editor fixture; no services or private images."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/capture/DocumentTypeField.kt",
+      "symbol": "DocumentTypeField",
+      "kind": "visual-parent",
+      "scenarios": [
+        "auth:DocumentationScreenshotTest.extractedReview",
+        "auth:DocumentationScreenshotTest.manualReview"
+      ],
+      "note": "Offline themed review/editor fixture; no services or private images."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/capture/IssuingJurisdictionField.kt",
+      "symbol": "IssuingJurisdictionField",
+      "kind": "visual-parent",
+      "scenarios": [
+        "auth:DocumentationScreenshotTest.extractedReview",
+        "auth:DocumentationScreenshotTest.manualReview"
+      ],
+      "note": "Offline themed review/editor fixture; no services or private images."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/capture/IssuingJurisdictionField.kt",
+      "symbol": "IssuingJurisdictionEditor",
+      "kind": "visual-parent",
+      "scenarios": [
+        "auth:DocumentationScreenshotTest.issuingJurisdiction"
+      ],
+      "note": "Offline themed review/editor fixture; no services or private images."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/capture/IssuingJurisdictionField.kt",
+      "symbol": "JurisdictionSelector",
+      "kind": "visual-parent",
+      "scenarios": [
+        "auth:DocumentationScreenshotTest.issuingJurisdiction"
+      ],
+      "note": "Offline themed review/editor fixture; no services or private images."
     }
   ]
 }

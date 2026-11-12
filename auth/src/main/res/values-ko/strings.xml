@@ -279,4 +279,26 @@
     <string name="auth_back_side">"뒷면"</string>
     <string name="auth_numbers">"숫자"</string>
     <string name="auth_symbols">"기호"</string>
+    <string name="auth_type_national_id">"국가 신분증"</string>
+    <string name="auth_type_passport">"여권"</string>
+    <string name="auth_type_drivers_license">"운전면허증"</string>
+    <string name="auth_type_residence_permit">"거주 허가증"</string>
+    <string name="auth_type_voter_id">"유권자 신분증"</string>
+    <string name="auth_type_other">"다른 문서"</string>
+    <string name="auth_select_document_type">"문서 종류 선택"</string>
+    <string name="auth_document_name">"문서 이름"</string>
+    <string name="auth_personal_identifier">"개인 식별 번호 (표기된 경우)"</string>
+    <string name="auth_issued_in">"발급 지역"</string>
+    <string name="auth_select_issuing_location">"발급 지역 선택"</string>
+    <string name="auth_issuing_jurisdiction">"발급 관할 지역"</string>
+    <string name="auth_jurisdiction_help">"출생지나 거주지가 아닌 발급 정부의 위치를 선택하세요. 지역과 도시는 선택 사항입니다. 국가를 검색하거나 문서에 인쇄된 장소를 입력하세요."</string>
+    <string name="auth_issuing_region">"주 / 도 / 지역 (선택 사항)"</string>
+    <string name="auth_issuing_city">"시 / 지방 자치 단체 (선택 사항)"</string>
+    <string name="auth_jurisdiction_parent_change">"국가를 바꾸면 지역과 도시가 지워집니다. 지역을 바꾸면 도시가 지워집니다. 이 위치 사용을 누를 때만 변경 사항이 적용됩니다."</string>
+    <string name="auth_use_location">"이 위치 사용"</string>
+    <string name="auth_close_location">"취소"</string>
+    <string name="auth_additional_details">"추가 정보"</string>
+    <string name="auth_hide_additional">"추가 필드 숨기기"</string>
+    <string name="auth_show_additional">"추가 필드 검토"</string>
+    <string name="auth_issuing_authority">"발급 기관 (표기된 경우)"</string>
 </resources>

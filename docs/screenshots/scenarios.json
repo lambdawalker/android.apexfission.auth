@@ -775,6 +775,24 @@
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Email-code error at narrow width and large text",
       "theme": "dark"
+    },
+    {
+      "id": "auth:DocumentationScreenshotTest.issuingJurisdiction",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt",
+      "method": "issuingJurisdiction",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "Edit issuing jurisdiction; changes apply together"
     }
   ]
 }

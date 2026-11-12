@@ -95,8 +95,13 @@ import kotlinx.coroutines.launch
         onFinalizeCapture = { scope.launch { controller.finalizeCapture(resumeSelectedUploads = true) } },
         onRetry = { scope.launch { controller.retry() } },
         onEditCard = controller::editCardField,
+        onJurisdiction = controller::confirmJurisdiction,
         onCardFieldFocus = controller::focusCardField,
         onResetReview = controller::resetReview,
+        onRescan = { scope.launch {
+            controller.retakeImages()
+            if (controller.state.value.message == null) controller.camera(DocumentSide.FRONT)
+        } },
         onEditOrigin = controller::editOrigin,
         onSaveReview = { scope.launch {
             controller.saveReview()
@@ -142,6 +147,8 @@ internal fun CaptureHostContent(
     onEditCard: ((CardData) -> CardData) -> Unit = {},
     onCardFieldFocus: (kotlin.reflect.KProperty1<CardData, String>, Boolean) -> Unit = { _, _ -> },
     onResetReview: () -> Unit = {},
+    onRescan: (() -> Unit)? = null,
+    onJurisdiction: ((IssuingJurisdiction) -> Unit)? = null,
     onEditOrigin: (String) -> Unit = {},
     onSaveReview: () -> Unit = {},
     onRestore: () -> Unit = {},
@@ -177,7 +184,7 @@ internal fun CaptureHostContent(
                 }
                 ui.message?.let { Text(authText(it), color = MaterialTheme.colorScheme.error) }
                 if (ui.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
-                CardReviewForm(ui, onEditCard, onResetReview, onEditOrigin, onSaveReview, onCardFieldFocus)
+                CardReviewForm(ui, onEditCard, onResetReview, onEditOrigin, onSaveReview, onCardFieldFocus, onRescan, onJurisdiction)
                 if (ui.message != null) TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onRestore) { Text(stringResource(R.string.auth_refresh_status)) }
                 TextButton(shape = MaterialTheme.shapes.small, enabled = !ui.busy, onClick = onCancel) { Text(stringResource(R.string.auth_cancel_and_delete_card_data)) }
                 TextButton(shape = MaterialTheme.shapes.small, onClick = { onClose(); onExit() }) { Text(stringResource(R.string.auth_continue_later)) }

@@ -45,3 +45,44 @@ son componentes internos; no contratos externos admitidos.
 Los modelos de captura serializan transporte/estado. No fabrique registros `ready`
 o `reviewed` para completar UI. Trate texto de tarjeta como no confiable; validación
 de campos no acredita su veracidad. Consulte [captura](../../identity-capture.md).
+
+## Revisión de documentos en desarrollo
+
+La revisión de `CaptureHost` agrupa los datos personales y del documento. El menú
+`CardData.documentType` es independiente de `CapturePolicy.documentType`.
+Sus valores son `national_id`, `passport`, `drivers_license`, `residence_permit`,
+`voter_id` y `other` (Otro documento); `documentName` conserva el título impreso o
+personalizado. Los tipos desconocidos usan campos genéricos. Cambiar el tipo
+conserva los demás valores. Los campos adicionales se muestran inicialmente si
+contienen datos y siguen disponibles para cualquier tipo. Las fechas se mantienen
+como aparecen impresas; los datos ausentes pueden quedar en blanco.
+
+`CardData` incorpora las claves opcionales `document_type`, `document_name`,
+`issuing_region`, `issuing_city` e `issuing_authority`. Los registros anteriores
+usan valores vacíos. Son datos para revisión, no pruebas de autenticidad del
+documento o de identidad. El contrato pertenece al [backend de captura](https://github.com/lambdawalker/go.appexfission.aws.card-capture).
+Despliegue su revisión correspondiente en el host antes de enviar las nuevas
+claves: los servidores anteriores con validación estricta las rechazan.
+Actualizar Android no actualiza AWS.
+
+La fila Expedido en abre un editor con país, estado opcional y ciudad opcional.
+El selector de país ofrece sugerencias localizadas sin conexión. Los de estado y
+ciudad buscan en una copia local de GeoNames (regiones administrativas y ciudades
+con más de 15 000 habitantes o capitales), filtrada por los niveles superiores.
+El catálogo se carga fuera del hilo principal. Los hashes de las fuentes, la
+atribución CC BY 4.0 y el script de reducción reproducible se conservan en
+`assets/geonames-NOTICE.txt` y `scripts/geography/build_catalogue.py`. Son sugerencias,
+no una autoridad sobre límites políticos ni un directorio completo de municipios.
+Los tres permiten entrada libre, incluso si el catálogo no se puede cargar.
+Cambiar un nivel superior borra sus descendientes en el editor temporal.
+Usar esta ubicación aplica la selección completa; cerrar el panel la descarta.
+Los campos de jurisdicción revisados se protegen juntos frente a resultados OCR
+posteriores. La autoridad emisora es un campo opcional separado; `origin_country`
+del titular mantiene su política y validación independientes.
+
+El formulario hereda el tema del host. No se conservan ni descargan imágenes del
+documento para miniaturas de revisión; su ciclo de carga privada no cambia.
+Volver a escanear usa la operación existente de recaptura con revisión.
+Los escenarios sin conexión cubren la revisión y el editor de ubicación. Las
+nuevas imágenes de referencia requieren renderizado, revisión y aceptación
+explícita; la validación no sustituye imágenes aceptadas automáticamente.

@@ -77,8 +77,17 @@ class DocumentationScreenshotTest {
     @PreviewTest @DocumentationPreview @Composable
     fun readDocument() { AttestraAuthTheme { OnboardingLoadingScreen(LoadingTask.READ_DOCUMENT, {}) } }
 
+    @PreviewTest @DocumentationPreview @Composable
+    fun issuingJurisdiction() {
+        AttestraAuthTheme {
+            androidx.compose.material3.Surface {
+                IssuingJurisdictionEditor(IssuingJurisdiction("Mexico", "Chihuahua", "Ciudad Juárez"), true, {}, {})
+            }
+        }
+    }
+
     private fun reviewUi(failed: Boolean): CaptureUi {
-        val extraction = if (failed) CardExtraction("failed") else CardExtraction("complete", CardData(fullName = "Sample Person", documentNumber = "DEMO-001"))
+        val extraction = if (failed) CardExtraction("failed") else CardExtraction("complete", CardData(fullName = "Sample Person", documentNumber = "DEMO-001", documentType = "voter_id", documentName = "Credencial para votar", issuingCountry = "Mexico", issuingRegion = "Chihuahua", issuingCity = "Ciudad Juárez"))
         val record = CaptureRecord("a".repeat(32), 1, 1, "sample-policy", "id_card", "ready", 9999999999, extraction = extraction)
         return CaptureUi(record = record, draft = extraction.data, draftRevision = 1, originCountry = if (failed) "" else "MX")
     }

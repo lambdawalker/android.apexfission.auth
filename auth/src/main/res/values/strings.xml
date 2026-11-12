@@ -279,4 +279,26 @@
     <string name="auth_back_side">"back"</string>
     <string name="auth_numbers">"numbers"</string>
     <string name="auth_symbols">"symbols"</string>
+    <string name="auth_type_national_id">"National ID"</string>
+    <string name="auth_type_passport">"Passport"</string>
+    <string name="auth_type_drivers_license">"Driver’s license"</string>
+    <string name="auth_type_residence_permit">"Residence permit"</string>
+    <string name="auth_type_voter_id">"Voter ID"</string>
+    <string name="auth_type_other">"Another document"</string>
+    <string name="auth_select_document_type">"Select document type"</string>
+    <string name="auth_document_name">"Document name"</string>
+    <string name="auth_personal_identifier">"Personal identifier (if printed)"</string>
+    <string name="auth_issued_in">"Issued in"</string>
+    <string name="auth_select_issuing_location">"Select issuing location"</string>
+    <string name="auth_issuing_jurisdiction">"Issuing jurisdiction"</string>
+    <string name="auth_jurisdiction_help">"Choose the government’s location, not your birthplace or home address. Region and city are optional. Search for a country or enter any location as printed."</string>
+    <string name="auth_issuing_region">"State / province / region (optional)"</string>
+    <string name="auth_issuing_city">"City / municipality (optional)"</string>
+    <string name="auth_jurisdiction_parent_change">"Changing the country clears region and city. Changing the region clears city. Changes apply only when you tap Use this location."</string>
+    <string name="auth_use_location">"Use this location"</string>
+    <string name="auth_close_location">"Cancel"</string>
+    <string name="auth_additional_details">"Additional details"</string>
+    <string name="auth_hide_additional">"Hide additional fields"</string>
+    <string name="auth_show_additional">"Review additional fields"</string>
+    <string name="auth_issuing_authority">"Issuing authority (if printed)"</string>
 </resources>

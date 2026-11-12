@@ -16,8 +16,8 @@
   },
   "docs/agents/api.md": {
     "path": "docs/es/agents/api.md",
-    "source_sha256": "d7b33865aa18500ba018f69cc34ba0ff824cde139540effc21a5b2bc8a19a715",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
+    "source_sha256": "cb735239af85b5bba57646098d6b8a9cca8c7454714ffeb5a08dd2db656c96fc",
+    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. Document review, additive wire keys, rollout order, offline GeoNames scope and atomic jurisdiction editor reviewed in both languages; 2026-11-12."
   },
   "docs/agents/recipes.md": {
     "path": "docs/es/agents/recipes.md",

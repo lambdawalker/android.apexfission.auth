@@ -137,6 +137,11 @@ fun text(requested: String): String
     @SerialName("issue_date") val issueDate: String = "",
     @SerialName("expiry_date") val expiryDate: String = "",
     @SerialName("issuing_country") val issuingCountry: String = "",
+    @SerialName("document_type") val documentType: String = "",
+    @SerialName("document_name") val documentName: String = "",
+    @SerialName("issuing_region") val issuingRegion: String = "",
+    @SerialName("issuing_city") val issuingCity: String = "",
+    @SerialName("issuing_authority") val issuingAuthority: String = "",
 )
 fun isValid(): Boolean
 fun isEmpty(): Boolean
@@ -212,6 +217,19 @@ suspend fun cancel(id: String): CaptureRecord
 class CaptureException(val status: Int, val code: String = "request_failed") : Exception("Capture request failed ($status)")
 ```
 
+## DocumentReviewModels
+
+[Source](../../auth/src/main/java/com/apexfission/android/auth/capture/DocumentReviewModels.kt)
+
+```kotlin
+package com.apexfission.android.auth.capture
+
+fun forValue(value: String): DocumentKind
+fun withCountry(value: String)
+fun withRegion(value: String)
+fun display(): String
+```
+
 ## EarlyCaptureSession
 
 [Source](../../auth/src/main/java/com/apexfission/android/auth/capture/EarlyCaptureSession.kt)
@@ -234,6 +252,19 @@ class CaptureCameraEvents(
     val stitchedPair: Boolean = false,
     val onFrontReady: (ByteArray) -> Unit = { it.fill(0) },
 )
+```
+
+## JurisdictionCatalogue
+
+[Source](../../auth/src/main/java/com/apexfission/android/auth/capture/JurisdictionCatalogue.kt)
+
+```kotlin
+package com.apexfission.android.auth.capture
+
+fun regions(country: String, locale: Locale): List<String>
+fun cities(country: String, region: String, locale: Locale): List<String>
+fun read(lines: Sequence<String>): JurisdictionCatalogue
+fun normalized(value: String): String
 ```
 
 ## SecureCaptureCheckpointStore
@@ -779,6 +810,10 @@ data class IdentityDetails(
     val issuingCountry: String = "",
     val documentType: String = "",
     val expirationDate: String = "",
+    val issuingRegion: String = "",
+    val issuingCity: String = "",
+    val documentName: String = "",
+    val issuingAuthority: String = "",
 )
 @Composable
 fun IdentityReviewScreen(

@@ -279,4 +279,26 @@
     <string name="auth_back_side">"обратная"</string>
     <string name="auth_numbers">"цифры"</string>
     <string name="auth_symbols">"символы"</string>
+    <string name="auth_type_national_id">"Национальное удостоверение личности"</string>
+    <string name="auth_type_passport">"Заграничный паспорт"</string>
+    <string name="auth_type_drivers_license">"Водительское удостоверение"</string>
+    <string name="auth_type_residence_permit">"Вид на жительство"</string>
+    <string name="auth_type_voter_id">"Удостоверение избирателя"</string>
+    <string name="auth_type_other">"Другой документ"</string>
+    <string name="auth_select_document_type">"Выберите тип документа"</string>
+    <string name="auth_document_name">"Название документа"</string>
+    <string name="auth_personal_identifier">"Личный идентификатор (если указан)"</string>
+    <string name="auth_issued_in">"Место выдачи"</string>
+    <string name="auth_select_issuing_location">"Выберите место выдачи"</string>
+    <string name="auth_issuing_jurisdiction">"Юрисдикция выдачи"</string>
+    <string name="auth_jurisdiction_help">"Выберите местонахождение выдавшего органа, а не место рождения или проживания. Регион и город необязательны. Найдите страну или введите место, указанное в документе."</string>
+    <string name="auth_issuing_region">"Штат / провинция / регион (необязательно)"</string>
+    <string name="auth_issuing_city">"Город / муниципалитет (необязательно)"</string>
+    <string name="auth_jurisdiction_parent_change">"Изменение страны очищает регион и город. Изменение региона очищает город. Изменения применяются по нажатию Использовать это место."</string>
+    <string name="auth_use_location">"Использовать это место"</string>
+    <string name="auth_close_location">"Отмена"</string>
+    <string name="auth_additional_details">"Дополнительные сведения"</string>
+    <string name="auth_hide_additional">"Скрыть дополнительные поля"</string>
+    <string name="auth_show_additional">"Проверить дополнительные поля"</string>
+    <string name="auth_issuing_authority">"Выдавший орган (если указан)"</string>
 </resources>

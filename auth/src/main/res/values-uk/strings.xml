@@ -279,4 +279,26 @@
     <string name="auth_back_side">"зворотна"</string>
     <string name="auth_numbers">"цифри"</string>
     <string name="auth_symbols">"символи"</string>
+    <string name="auth_type_national_id">"Національне посвідчення особи"</string>
+    <string name="auth_type_passport">"Закордонний паспорт"</string>
+    <string name="auth_type_drivers_license">"Посвідчення водія"</string>
+    <string name="auth_type_residence_permit">"Посвідка на проживання"</string>
+    <string name="auth_type_voter_id">"Посвідчення виборця"</string>
+    <string name="auth_type_other">"Інший документ"</string>
+    <string name="auth_select_document_type">"Виберіть тип документа"</string>
+    <string name="auth_document_name">"Назва документа"</string>
+    <string name="auth_personal_identifier">"Особистий ідентифікатор (якщо вказано)"</string>
+    <string name="auth_issued_in">"Місце видачі"</string>
+    <string name="auth_select_issuing_location">"Виберіть місце видачі"</string>
+    <string name="auth_issuing_jurisdiction">"Юрисдикція видачі"</string>
+    <string name="auth_jurisdiction_help">"Виберіть місцезнаходження органу видачі, а не місце народження чи проживання. Регіон і місто необов’язкові. Знайдіть країну або введіть місце з документа."</string>
+    <string name="auth_issuing_region">"Штат / провінція / регіон (необов’язково)"</string>
+    <string name="auth_issuing_city">"Місто / муніципалітет (необов’язково)"</string>
+    <string name="auth_jurisdiction_parent_change">"Зміна країни очищає регіон і місто. Зміна регіону очищає місто. Зміни застосовуються після натискання Використати це місце."</string>
+    <string name="auth_use_location">"Використати це місце"</string>
+    <string name="auth_close_location">"Скасувати"</string>
+    <string name="auth_additional_details">"Додаткові відомості"</string>
+    <string name="auth_hide_additional">"Приховати додаткові поля"</string>
+    <string name="auth_show_additional">"Перевірити додаткові поля"</string>
+    <string name="auth_issuing_authority">"Орган видачі (якщо вказано)"</string>
 </resources>

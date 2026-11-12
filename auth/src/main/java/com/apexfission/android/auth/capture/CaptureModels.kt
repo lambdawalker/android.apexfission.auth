@@ -34,9 +34,15 @@ import kotlinx.serialization.json.JsonNames
     @SerialName("issue_date") val issueDate: String = "",
     @SerialName("expiry_date") val expiryDate: String = "",
     @SerialName("issuing_country") val issuingCountry: String = "",
+    @SerialName("document_type") val documentType: String = "",
+    @SerialName("document_name") val documentName: String = "",
+    @SerialName("issuing_region") val issuingRegion: String = "",
+    @SerialName("issuing_city") val issuingCity: String = "",
+    @SerialName("issuing_authority") val issuingAuthority: String = "",
 ) {
     fun isValid(): Boolean = listOf(fullName, givenNames, surnames, birthDate, documentNumber,
-        personalNumber, address, issueDate, expiryDate, issuingCountry).all {
+        personalNumber, address, issueDate, expiryDate, issuingCountry, documentType, documentName,
+        issuingRegion, issuingCity, issuingAuthority).all {
         it.toByteArray(Charsets.UTF_8).size <= 512 && '\u0000' !in it && '\r' !in it
     }
     fun isEmpty(): Boolean = this == CardData()

@@ -49,3 +49,40 @@ are internal rendering/host seams, not supported external integration contracts.
 serializable transport/state types. Do not construct a forged `ready` or `reviewed`
 record to make UI finish. Keep untrusted card text as text; validation does not establish
 identity truth. See [capture guide](../identity-capture.md) for exact state handling.
+
+## Development document review
+
+The live `CaptureHost` review groups personal/document information and uses a
+`CardData.documentType` dropdown independently of `CapturePolicy.documentType`.
+Presets are `national_id`, `passport`, `drivers_license`, `residence_permit`,
+`voter_id`, and `other` (Another document); `documentName` retains a printed/custom
+title. Unknown type values use generic fields. Switching types retains all other
+values. Additional fields expand initially when populated, and remain accessible
+for any document type. Dates remain as printed; absent values may stay blank.
+
+`CardData` adds optional `document_type`, `document_name`, `issuing_region`,
+`issuing_city`, `issuing_authority` wire keys. Existing records default to blank.
+These are review data, not document/identity authenticity assertions. The backend
+contract belongs to [card capture](https://github.com/lambdawalker/go.appexfission.aws.card-capture).
+Deploy its matching revision in the host before sending new review keys; older
+strict servers reject unknown fields. Android upgrades alone do not update AWS.
+
+The Issued in row opens an editor for country, optional region and optional city.
+The country selector offers localized offline country suggestions. Region/city
+selectors search an offline GeoNames snapshot (administrative regions and cities
+above 15,000 population or capitals), filtered by selected parents. The catalogue
+loads off the main thread. Its source hashes, CC BY 4.0 attribution and reproducible
+reduction script are retained in `assets/geonames-NOTICE.txt` and
+`scripts/geography/build_catalogue.py`. It is a suggestion list, not an authority
+on political boundaries or an exhaustive municipality directory. All three support
+free text, including when the catalogue cannot load. Changing a parent clears its descendants in the temporary editor;
+Use this location applies the whole selection, while dismissal cancels it.
+Reviewed jurisdiction fields are protected together against later OCR updates.
+Issuing authority is a separate optional field, and holder `origin_country`
+retains its existing independent policy and validation.
+
+The form inherits the host theme. Document images are not retained or fetched for
+review thumbnails; the existing private-upload lifetime is unchanged. Rescan uses
+the existing versioned retake operation. Offline screenshot scenarios cover both
+the review and the location editor; new baselines require rendered review and
+explicit acceptance rather than regenerating accepted images during validation.

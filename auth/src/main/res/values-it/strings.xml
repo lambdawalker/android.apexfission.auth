@@ -279,4 +279,26 @@
     <string name="auth_back_side">"retro"</string>
     <string name="auth_numbers">"numeri"</string>
     <string name="auth_symbols">"simboli"</string>
+    <string name="auth_type_national_id">"Carta d’identità nazionale"</string>
+    <string name="auth_type_passport">"Passaporto"</string>
+    <string name="auth_type_drivers_license">"Patente di guida"</string>
+    <string name="auth_type_residence_permit">"Permesso di soggiorno"</string>
+    <string name="auth_type_voter_id">"Tessera elettorale"</string>
+    <string name="auth_type_other">"Altro documento"</string>
+    <string name="auth_select_document_type">"Seleziona il tipo di documento"</string>
+    <string name="auth_document_name">"Nome del documento"</string>
+    <string name="auth_personal_identifier">"Identificativo personale (se presente)"</string>
+    <string name="auth_issued_in">"Rilasciato a"</string>
+    <string name="auth_select_issuing_location">"Seleziona il luogo di rilascio"</string>
+    <string name="auth_issuing_jurisdiction">"Giurisdizione di rilascio"</string>
+    <string name="auth_jurisdiction_help">"Scegli la sede del governo emittente, non il luogo di nascita o la residenza. Regione e città sono facoltative. Cerca un paese o inserisci il luogo stampato."</string>
+    <string name="auth_issuing_region">"Stato / provincia / regione (facoltativo)"</string>
+    <string name="auth_issuing_city">"Città / comune (facoltativo)"</string>
+    <string name="auth_jurisdiction_parent_change">"Cambiare paese cancella regione e città. Cambiare regione cancella la città. Le modifiche si applicano toccando Usa questo luogo."</string>
+    <string name="auth_use_location">"Usa questo luogo"</string>
+    <string name="auth_close_location">"Annulla"</string>
+    <string name="auth_additional_details">"Altri dati"</string>
+    <string name="auth_hide_additional">"Nascondi gli altri campi"</string>
+    <string name="auth_show_additional">"Controlla gli altri campi"</string>
+    <string name="auth_issuing_authority">"Autorità emittente (se presente)"</string>
 </resources>
