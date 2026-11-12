@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "reviewed-baselines",
-  "source_commit": "e5f7fb9ca04ad516c5536540843afca6165d6197",
+  "source_commit": "06acc4ba31b857bf6f27cbe2ff8dc1ec06e99824",
   "inputs": {
     "files": {
       "app/build.gradle.kts": "4964b51888f8e6382376293dfb5eca5b3ea072b03c576a3d170cbf273e579d3d",
@@ -47,12 +47,12 @@
       "auth/src/androidTest/java/com/apexfission/android/auth/ui/onboarding/common/AuthMessagesTest.kt": "6f20b830b67d0ff1d4dc8da029e050fb3024615fa795e7d7cb3d07969916e022",
       "auth/src/main/AndroidManifest.xml": "b04d356d17902c3c22de02a06dafc380ce7e30a538c3bd550f5f7676efb6f4a6",
       "auth/src/main/java/com/apexfission/android/auth/capture/CaptureApi.kt": "2bdcfeb7f2e02ec181d038e43d1e39ae0f9bdd43caf4c4ce4036136e435b7caa",
-      "auth/src/main/java/com/apexfission/android/auth/capture/CaptureController.kt": "8d676ca8c2a1f6ef6ad7b16b0e60d7590c31a2328e3f6375d1c26a4a1723c072",
+      "auth/src/main/java/com/apexfission/android/auth/capture/CaptureController.kt": "cfc7947ef10f3108c2989dd77a853fefd8f3734438dd285ad7b420f0fc24774c",
       "auth/src/main/java/com/apexfission/android/auth/capture/CaptureDestination.kt": "f03324e03051de4765a30f66dd52b57f46c9c8f9424bf60de4f74671a577124b",
-      "auth/src/main/java/com/apexfission/android/auth/capture/CaptureHost.kt": "b940188785e487d3fa04c34a243a6341819b697d02459c6052aefa7b07784049",
+      "auth/src/main/java/com/apexfission/android/auth/capture/CaptureHost.kt": "9f585c592b37ff6e3e89ea519ad8e4ca67a76a182ed2dcc92246bdfeaf68a9ee",
       "auth/src/main/java/com/apexfission/android/auth/capture/CaptureModels.kt": "d5b0a6c24163b695199153668965a193c140e7e7aa1749027829114a1ee888ce",
       "auth/src/main/java/com/apexfission/android/auth/capture/CardOcrMerge.kt": "3b07a775e049662370a03c761cf796ada18e0ebf3364d8ad6cadb4cdae72141f",
-      "auth/src/main/java/com/apexfission/android/auth/capture/CardReviewForm.kt": "9eadb1b57c7ddc11651d087c807616681c68d3f56296ced30c6476d466f02ab1",
+      "auth/src/main/java/com/apexfission/android/auth/capture/CardReviewForm.kt": "1b7efe1f928229015a544cda169c7c71665173f154c6c8aa9407232801a83f34",
       "auth/src/main/java/com/apexfission/android/auth/capture/DocumentReviewModels.kt": "67b32cd1f9efb9a5adacfe9e9f8a457ee236025d69a3b471c01a2255805b8a3f",
       "auth/src/main/java/com/apexfission/android/auth/capture/DocumentTypeField.kt": "7dae6104366732729b82d0aa01b76d494735dbcc9fe1218b1b42a60cb6d89f00",
       "auth/src/main/java/com/apexfission/android/auth/capture/EarlyCaptureSession.kt": "403259649f422c33728c29284c98b1d1cb36f526fede23526343ce592acadffd",
@@ -120,7 +120,7 @@
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt": "13b94be4cd79bd89f2ce4733fad0da972901317d2672ed068a2626737623af7a",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/permission/PermissionBundleScreenshotTest.kt": "7bc8a94b66f31aaf6edfc501a5a718effb4e463bf38a76d8275a35737ce6948a",
       "auth/src/test/java/com/apexfission/android/auth/ExampleUnitTest.kt": "6165114b79973e78df76a57a49a3f05d0349a5b9406f5da6772f8ca423ce34f6",
-      "auth/src/test/java/com/apexfission/android/auth/capture/CaptureControllerTest.kt": "c5d81c208007eafe31f73265cde3003d027603d96c891df1e574ef13dec4491b",
+      "auth/src/test/java/com/apexfission/android/auth/capture/CaptureControllerTest.kt": "0d6cd802cd9f7e74163eda157a9c9ad5cb8c841da7897b33a4794d2be3d0a927",
       "auth/src/test/java/com/apexfission/android/auth/capture/CaptureDestinationTest.kt": "294bf0c93d0b57401b1c5b6677a2dd6292c8ed3a705092be30890b9505ead22e",
       "auth/src/test/java/com/apexfission/android/auth/capture/CapturePolicyContractTest.kt": "8d77bb7b64588d29d0a66a361d089cba1d33c8332f134f2c532d708fe1cd38e3",
       "auth/src/test/java/com/apexfission/android/auth/capture/CardDataContractTest.kt": "c1eb748cf5c5bfccec6eaf94c56b77956c49322c2608776fadfd0ad207ada8f0",
@@ -150,7 +150,7 @@
       "gradle.properties": "4ac2919cbfd52cbbf8763598a5ed5af65377a33f7b56a715a6212f470905e169",
       "settings.gradle.kts": "6f1ba5592d36b2c323e5449dd52849b4bbccd999e0f002e1557717b336313bd6"
     },
-    "sha256": "67879494c385e59fc4bb833841e0b2cb13d1fa66752f3ac9b0d4f961196e8376"
+    "sha256": "8619e7146ad556d4a43782803059da58bf48386668330dd15805e64ce3bbdf9b"
   },
   "toolchain": {
     "versions_sha256": "94da2d1f9f0270de0c2a1a547344b9bb890809cd261f967e5fab64987ad06603",
@@ -1522,6 +1522,6 @@
       "height": 2237
     }
   ],
-  "reviewed_by": "Codex: inspected all eight changed light/dark review and jurisdiction images; unchanged images verified by hash",
+  "reviewed_by": "CI verified that every candidate PNG matches the approved baseline archive byte for byte.",
   "archive_sha256": "147791116512d5b08c7f629262f1843b57ac92bf78618e719a4d0488f4af86c4"
 }
