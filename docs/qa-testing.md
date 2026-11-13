@@ -104,5 +104,6 @@ result screenshots do not establish those behaviors.
 
 The demo app permits screenshots and screen recordings in both authenticated
 onboarding capture and the local card capture demo. The host no longer sets
-Android's `FLAG_SECURE`. Rebuild and restart the app before comparing the two
+Android's `FLAG_SECURE`; the demo Activity explicitly clears that flag on launch,
+resume, and menu destination changes. Rebuild and restart the app before comparing the two
 viewfinders. This changes only the runnable demo host.

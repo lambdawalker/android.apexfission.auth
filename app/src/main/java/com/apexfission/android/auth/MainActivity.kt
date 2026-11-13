@@ -2,6 +2,7 @@ package com.apexfission.android.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
 import android.util.Log
 import android.widget.Toast
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        allowDemoScreenshots()
         incomingLink = intent.takeIf { it?.action == Intent.ACTION_VIEW }
             ?.data?.let { parseVerificationLink(it, BuildConfig.AUTH_LINK_HOST) }
         Log.d("EmailDebugX", "onCreate action=${intent?.action} incoming_verification_link=${incomingLink != null} configured_api=${BuildConfig.AUTH_API_BASE_URL}")
@@ -53,6 +55,7 @@ class MainActivity : ComponentActivity() {
                 if (incomingLink != null && !resetting) destination = EntryScreen.Onboarding
             }
             LaunchedEffect(destination) {
+                allowDemoScreenshots()
                 Log.d(TAG, "Showing ${destination.name} screen")
                 if (destination == EntryScreen.Onboarding && environment.configuration == null) {
                     Log.w(TAG, "Waiting for environment configuration")
@@ -118,6 +121,16 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         environment.refreshRuntimeConfiguration()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        allowDemoScreenshots()
+    }
+
+    /** This runnable demo intentionally allows viewfinder screenshots on every route. */
+    private fun allowDemoScreenshots() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun onNewIntent(intent: Intent) {
