@@ -27,9 +27,10 @@ select a backend environment. This replaces the old Python wizard and its
 `~/.attestra/associations` export convention; existing keys remain usable.
 
 Use the generated key's actual path, store password, alias, and key password with
-the `ATTESTRA_*` inputs below. The CLI does not rewrite Auth's local Gradle signing
-properties. PKCS12 generally requires identical store/key passwords; use the
-existing keystore's real values rather than changing its signing identity.
+the shared `ANDROID_KEYSTORE_*` inputs below. The encrypted setup vault remains
+owned by the CLI; Gradle consumes only the values supplied to the current build.
+PKCS12 generally requires identical store/key passwords; use the existing
+keystore's real values rather than changing its signing identity.
 
 The remaining `scripts/signing/signing.py verify-apk` command checks the approved
 certificate, package, and both published association relations. Its headless
@@ -38,11 +39,11 @@ legacy scripts; interactive setup belongs to the shared CLI.
 
 ## Build using your persistent key
 
-Signing is configured by `buildSrc/src/main/kotlin/attestra.signing.gradle.kts`, applied by the app. See [build configuration](build-configuration.md) for input sources and precedence. Do not duplicate the signing configuration in `app/build.gradle.kts`.
+Signing is provided by the shared `com.apexfission.android-repo-setup.application` Gradle plugin. Auth configures only its alias and signed-debug behavior in `app/build.gradle.kts`; the reusable keystore handling lives in `gradle.android-repo-setup`. See [build configuration](build-configuration.md) for input sources and precedence.
 
 Set these inputs in your process environment or repository-root `local.properties` (same uppercase names; environment values win per setting). See the [local.properties example](build-configuration.md#signing-settings).
 
-Set `ATTESTRA_KEYSTORE_PATH`, `ATTESTRA_KEYSTORE_PASSWORD`, and optionally `ATTESTRA_KEY_ALIAS` (default `attestra`) and `ATTESTRA_KEY_PASSWORD` (defaults to the store password). You can supply passwords through your local secret manager/session, or the ignored local.properties file; the latter stores them as plaintext. Never check them in or put them in shell history. Then:
+Set `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`, and optionally `ANDROID_KEY_ALIAS` (Auth defaults it to `attestra`) and `ANDROID_KEY_PASSWORD` (defaults to the store password). You can supply passwords through your local secret manager/session, or the ignored local.properties file; the latter stores them as plaintext. Never check them in or put them in shell history. Then:
 
 ```powershell
 .\gradlew.bat --no-configuration-cache :app:assembleDebug '-PattestraEnvironment=dev'
