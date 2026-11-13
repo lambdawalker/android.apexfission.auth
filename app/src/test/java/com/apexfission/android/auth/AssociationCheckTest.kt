@@ -15,6 +15,43 @@ class AssociationCheckTest {
         assertNull(result.warning())
     }
 
+    @Test fun matchingInstalledCertificatePassesAppLinkComparison() {
+        val document = "[${statement("handle_all_urls")},${statement("get_login_creds")}]"
+        val result = associationComparison(document, "com.example.app", setOf(fingerprint))
+        assertTrue(result.fingerprintMatch)
+        assertTrue(result.appLinks)
+        assertTrue(result.passkeys)
+        assertTrue(result.passesAppLinks)
+        assertEquals(listOf(fingerprint), result.installedFingerprints)
+        assertEquals(listOf(fingerprint), result.publishedFingerprints)
+        assertTrue(result.appLinkSummary().contains("matches"))
+    }
+
+    @Test fun wrongPublishedCertificateFailsComparison() {
+        val other = List(32) { "CD" }.joinToString(":")
+        val result = associationComparison(
+            "[${statement("handle_all_urls", cert = other)}]",
+            "com.example.app",
+            setOf(fingerprint),
+        )
+        assertFalse(result.fingerprintMatch)
+        assertFalse(result.passesAppLinks)
+        assertEquals(listOf(other), result.publishedFingerprints)
+        assertTrue(result.appLinkSummary().contains("not in the published"))
+    }
+
+    @Test fun certificateMatchWithoutAppLinkRelationStillFails() {
+        val result = associationComparison(
+            "[${statement("get_login_creds")}]",
+            "com.example.app",
+            setOf(fingerprint),
+        )
+        assertTrue(result.fingerprintMatch)
+        assertFalse(result.appLinks)
+        assertFalse(result.passesAppLinks)
+        assertTrue(result.appLinkSummary().contains("relation is missing"))
+    }
+
     @Test fun missingIdentityWarnsForBothFeatures() {
         val result = associationApproval("[${statement("handle_all_urls", packageName = "com.other.app")}]", "com.example.app", setOf(fingerprint))
         assertFalse(result.appLinks)
