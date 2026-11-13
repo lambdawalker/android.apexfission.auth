@@ -32,7 +32,7 @@ this file is for contributors. Apply the Android and system-integrated rules in
 
 ```sh
 uv run --with rich==14.1.0 python -m unittest discover -s scripts/signing
-python3 scripts/docs/inventory.py --check
+sh ./docs.sh sources check
 python3 scripts/screenshots/suite.py coverage
 python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'
 uv run --with Markdown==3.7 --with Pygments==2.18.0 python sites/test_build.py

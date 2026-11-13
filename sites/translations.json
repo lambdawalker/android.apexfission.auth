@@ -6,8 +6,8 @@
   },
   "docs/agents/quickstart.md": {
     "path": "docs/es/agents/quickstart.md",
-    "source_sha256": "6fa63f42b3e8d1f341b43708a190cf2ad8b8a7e10d60ebfd14cd0a4a430fa002",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
+    "source_sha256": "46d45978c416591be7711eacd79ba13c320113b99e6321813c1c81e42f777137",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. Source-sync comment markers reviewed; prose and executable fences unchanged, 2026-11-13."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",

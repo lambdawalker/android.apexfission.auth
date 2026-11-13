@@ -1,0 +1,338 @@
+[
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CaptureApi.kt",
+    "sha256": "2bdcfeb7f2e02ec181d038e43d1e39ae0f9bdd43caf4c4ce4036136e435b7caa",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CaptureController.kt",
+    "sha256": "cfc7947ef10f3108c2989dd77a853fefd8f3734438dd285ad7b420f0fc24774c",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CaptureDestination.kt",
+    "sha256": "f03324e03051de4765a30f66dd52b57f46c9c8f9424bf60de4f74671a577124b",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CaptureHost.kt",
+    "sha256": "9f585c592b37ff6e3e89ea519ad8e4ca67a76a182ed2dcc92246bdfeaf68a9ee",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CaptureModels.kt",
+    "sha256": "d5b0a6c24163b695199153668965a193c140e7e7aa1749027829114a1ee888ce",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CardOcrMerge.kt",
+    "sha256": "3b07a775e049662370a03c761cf796ada18e0ebf3364d8ad6cadb4cdae72141f",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/CardReviewForm.kt",
+    "sha256": "1b7efe1f928229015a544cda169c7c71665173f154c6c8aa9407232801a83f34",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/DocumentReviewModels.kt",
+    "sha256": "67b32cd1f9efb9a5adacfe9e9f8a457ee236025d69a3b471c01a2255805b8a3f",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/DocumentTypeField.kt",
+    "sha256": "7dae6104366732729b82d0aa01b76d494735dbcc9fe1218b1b42a60cb6d89f00",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/EarlyCaptureSession.kt",
+    "sha256": "403259649f422c33728c29284c98b1d1cb36f526fede23526343ce592acadffd",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/IssuingJurisdictionField.kt",
+    "sha256": "a061ac6c7893f3ffdf9bf0da564727c2dd55503b8a73cf5eec4765f1b29a2cdb",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/JurisdictionCatalogue.kt",
+    "sha256": "c639e5b655bf228bb67a5a8fcf2c78221050cd86576eccef775aee5fa86a3c57",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/capture/SecureCaptureCheckpointStore.kt",
+    "sha256": "533da7956a67a375fa2c064bbbc8efb4db6715d60336065ccc87cb925d457918",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/discovery/AppConfiguration.kt",
+    "sha256": "47646ec784edb6e766b27dea21e66581b53ce758803e0245dfee661bb7d9baa3",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/discovery/EnvironmentIndex.kt",
+    "sha256": "db7f16a7adb4804f5825d3a0d8538dcc7e7fabf83e2d449854c3a1ea5c03440d",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/discovery/OnboardingPolicy.kt",
+    "sha256": "c6d16b30acb969c58b6ce4ace1ed0809212f5bf345eabef01c4a44350abdb6bc",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/CapturePolicyPrefetch.kt",
+    "sha256": "266e078a895f07c4b2c43500aa1bc901cd68cd89d4a1123f6cb0007d09c427b3",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/EmailFlowController.kt",
+    "sha256": "ec2e1058172d974c3e0f1fded07fd596a9a5b655aae8fa808db342430f1e2633",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt",
+    "sha256": "14c92f9ad1ec9beb88a6258da94df2e3a2d7caedf940f6f3752d32b5391631c2",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/EmailVerificationApi.kt",
+    "sha256": "e5e110e6393e7a1307cb594eafe6de7052aa57c815bd3b58c880a5e2e194a6c3",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/PendingPassword.kt",
+    "sha256": "edadabe1e933345e6fa00ed358decb8d0aa7eb062c5fe47b475cf041e0146243",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/ProofGenerator.kt",
+    "sha256": "cdec45bcd6b62ee76b0b041556ab299ceffb5fe64f6a3c1c38d878924bb5cc9d",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/email/SecureAuthStorage.kt",
+    "sha256": "1949335c20ded267f85fad29d7f53cc86d575fc5d1f7bbdcb87326a511494fce",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/IdentityIntegrationUnavailable.kt",
+    "sha256": "5f5fecf67b750d30c7bff3b1753a5815db32d89d2275ed2e24df5cf519edf12e",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/IdentityModels.kt",
+    "sha256": "a68a03134541cc86f7746923d553501ce70ef79ba5bd8e659ea1aec10d08116c",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/CaptureConfirmation.kt",
+    "sha256": "685a67d8d5cf2100c244106c31f6e757d29892709c4f0d9e70b2bce090e31a7b",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCamera.kt",
+    "sha256": "e795c0e980ef1b15f12b03e5347981050d67b856f40fc70edfbf93f093886068",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCardModel.kt",
+    "sha256": "040c30bf0ec6f36a05c70ca1468a51ece766b7e5d1dbd4dfb667583439d23016",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/passkey/PasskeyRegistration.kt",
+    "sha256": "323270db40cbe03a3f863a2d7ddfb0f16d083c093bab413355f7353a18b77d77",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/passkey/ReturnAuthApi.kt",
+    "sha256": "469634a1b638a5818883e4a63d257c61d524b374ea784d2fafec618f49375f88",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt",
+    "sha256": "65a662c39669fd45cd704ea150a19690704e007dc72a862d17747e587260e168",
+    "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/AuthText.kt",
+    "sha256": "7ba77cae156764a92f8da11fd698b0e2b93db644b4e9ed3d309b3056170dc75c",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingComponents.kt",
+    "sha256": "9260b9ef9c900440fe25321517ccfd20ab2d1f66f6e7231023d17d4f9ffc481f",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingLoadingScreen.kt",
+    "sha256": "ce0e620cca7e65fb541e613ae92fa56bfa49542b44f71ee6f572373d472bdfb9",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailAttemptLimitScreen.kt",
+    "sha256": "ba6a53c3eea399526a9b3ab0a49f9936c5eca3c84c0645ecef708e0d53613a3d",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreen.kt",
+    "sha256": "fc0bd14da04770f49d23fd872046d99ca901a9ff296cba1a1b3953df5c768d75",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailLinkUnusableScreen.kt",
+    "sha256": "59f0f9ece55cbdff155a7d646bf0daa7f07ccc57d265558cd210ccb7cf2138c9",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailSessionRecoveryScreen.kt",
+    "sha256": "5c89556401726ceac6f9c7fbe01973dca5d5bef0182e8a758662bd105c3cda8a",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailStartScreen.kt",
+    "sha256": "b0b14524c21f36d3242faaaa19754c8be3ecd9702b8a77b84d230a797d3e1239",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailWaitScreen.kt",
+    "sha256": "fa4c058eef5cd2e723e1c57dff8b69e0cfccffb0a9912eda35cc0af0a5769f80",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/CardDetailsSavedScreen.kt",
+    "sha256": "c4c458d3cfe44c2880a03466f6e753e3617af6bef92db69550120d5a6bcf92ec",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityDocumentUnreadableScreen.kt",
+    "sha256": "d6e5bd8fca5b1e9130ff6c651bd0fd7f7b47413c8a862df5d1105ec212dd8777",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityReviewScreen.kt",
+    "sha256": "266e4d22610ce0068442793386a78edc3bad66468bd122df188cc55265644033",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityStartScreen.kt",
+    "sha256": "2ff4c39a3eca0f95698731cedac0b10dfb8383a74c55861e78cbd141a4885e5f",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentitySubmissionFailedScreen.kt",
+    "sha256": "9848b22d8be301a903aa1f871632015616a995ef58c151d9f9bbcfdd46b5affe",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentitySuccessScreen.kt",
+    "sha256": "712739626a4407a38dd1f89b0fd26822b61e823fee5661554705776213473551",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityUnsuccessfulScreen.kt",
+    "sha256": "e038282a14f8a7a95b71624671f8809e4b9c61eff03ae920032e244f4e00c16f",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyFailedScreen.kt",
+    "sha256": "e5146ee46bba8e1e84380c75505e960638e1ad89e4481e40ee57bbe38f64dc48",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyStartScreen.kt",
+    "sha256": "8ae12d01417e7ebd1f0c3e14ea8e3e26557786f6e23d8db3ab3c0586ae15018d",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyUnsupportedScreen.kt",
+    "sha256": "0cd52e2dacc15e21c07fd72c96cdbbc01c2f3b24a3daefc851ddda6330a7cfe7",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/password/PasswordScreen.kt",
+    "sha256": "086687e61433a49152499afacd1b6c6605b1e9d750db0ad469cb3158279103b5",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/ReturnSignInScreens.kt",
+    "sha256": "9502e29d6c061d94ca964f3311b060498aabdc3b60041c893c64a4aeb0346ad1",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/welcome/WelcomeScreen.kt",
+    "sha256": "60e108450d321ffec30f114db0da8eed6114b1efb124ac7aeedc4f0a0dd6559d",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/theme/Color.kt",
+    "sha256": "f50c3f5438c39f5d2d864d30b64d27d6913602e7aad01b9375e51b8e5c138314",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/theme/Theme.kt",
+    "sha256": "00a8acf705f07bc8494e63bd0f684ce2462d1b381451ae75490e2aa3440fd5de",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/theme/Type.kt",
+    "sha256": "1edbd4cc970852a8b85997e4fe59e5e10fc2b687c8d536e12b74e5a5634cfbb8",
+    "visibility": "public"
+  }
+]

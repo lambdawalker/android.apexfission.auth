@@ -1,0 +1,37 @@
+schema: 1
+repository: lambdawalker/android.apexfission.auth
+title: Android auth
+modules:
+  auth: attestra-auth
+tooling_ref: v0.1.16
+sources:
+  roots:
+  - auth/src/main/java
+  manifest: docs/api-inputs.json
+  groups:
+  - include:
+    - '**/*.kt'
+    intro: .project/docs/introductions/api.md
+    output: docs/agents/api-inventory.md
+  examples:
+  - source: app/src/main/java/com/apexfission/android/auth/MainActivity.kt
+    target: docs/agents/quickstart.md
+    start: <!-- host:start -->
+    end: <!-- host:end -->
+    mode: contains
+site:
+  build:
+  - python
+  - sites/build.py
+media:
+  manifests:
+  - path: docs/screenshots/documentation.json
+    base: .
+    collection: captures
+    file_key: path
+    hash_key: image_sha256
+    required_files:
+    - docs/assets/screenshots/email-start-light.png
+    - docs/assets/screenshots/read-document-dark.png
+    - docs/assets/screenshots/details-saved-light.png
+    require_dimensions: true

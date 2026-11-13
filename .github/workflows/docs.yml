@@ -23,22 +23,24 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.event_name == 'workflow_run' && 'main' || github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Record exact documentation source
         id: source
         shell: bash
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install pinned documentation tool
+        run: cargo install --locked --git https://github.com/lambdawalker/gradle.android-repo-setup.git --tag v0.1.16 android-repo-docs
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - run: pip install -r sites/requirements.txt
-      - run: python scripts/documentation_history.py verify
-      - run: python scripts/docs/inventory.py --check
-      - run: python scripts/docs/verify.py
+      - run: android-repo-docs check
       - run: python scripts/screenshots/suite.py coverage
       - run: python scripts/screenshots/suite.py verify-docs
       - run: python -m unittest discover -s scripts/screenshots -p 'test_*.py'
       - run: python sites/test_build.py
-      - run: python sites/build.py
+      - run: android-repo-docs build --check
       - uses: actions/upload-artifact@v7
         with:
           name: auth-documentation
