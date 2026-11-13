@@ -98,3 +98,11 @@ error should offer retry and return actions. Verify that no capture or upload
 requests are emitted and that reopening the demo starts fresh. Real camera and
 permission behavior require a device; injected-camera UI tests and offline
 result screenshots do not establish those behaviors.
+
+
+### Sharing capture screenshots
+
+The demo app permits screenshots and screen recordings in both authenticated
+onboarding capture and the local card capture demo. The host no longer sets
+Android's `FLAG_SECURE`. Rebuild and restart the app before comparing the two
+viewfinders. This changes only the runnable demo host.

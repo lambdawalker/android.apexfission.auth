@@ -1,8 +1,6 @@
 package com.apexfission.android.auth
 
 import android.util.Base64
-import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,24 +20,11 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 /**
- * Screen component that applies FLAG_SECURE to the window to prevent screenshots during capture.
- */
-@Composable internal fun CapturePrivacy() {
-    val window = (LocalContext.current as? ComponentActivity)?.window
-    DisposableEffect(window) {
-        val wasSecure = (window?.attributes?.flags?.and(WindowManager.LayoutParams.FLAG_SECURE) ?: 0) != 0
-        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        onDispose { if (!wasSecure) window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE) }
-    }
-}
-
-/**
  * Screen that orchestrates the live identity capture workflow by communicating with the real backend.
  */
 @Composable internal fun LiveCaptureFlow(onExit: () -> Unit, acceptedPolicy: CapturePolicy? = null) {
     val config = LocalBackendConfiguration.current
     val currentConfiguration = rememberUpdatedState(config)
-    CapturePrivacy()
     val context = LocalContext.current
     val storage = remember(context) { SecureAuthStorage(context) }
     // Unverified claims are only a local cache namespace. The server verifies the access token.
