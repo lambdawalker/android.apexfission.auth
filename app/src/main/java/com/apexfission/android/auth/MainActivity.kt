@@ -81,6 +81,9 @@ class MainActivity : ComponentActivity() {
                         onStart = { destination = EntryScreen.Onboarding },
                         onCatalog = { destination = EntryScreen.Catalog },
                         onCardCapture = { destination = EntryScreen.LocalCardCapture },
+                        applicationId = associationCheck.packageName,
+                        assetLinksUrl = associationCheck.assetLinksUrl,
+                        installedSigningFingerprints = associationCheck.installedFingerprints,
                     )
                     EntryScreen.LocalCardCapture -> LocalCardCaptureDemo(onExit = { destination = EntryScreen.Home })
                     EntryScreen.IdentityCapture -> {
