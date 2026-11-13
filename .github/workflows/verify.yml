@@ -24,7 +24,7 @@ jobs:
           python3 -m unittest discover -s scripts/geography -p 'test_*.py'
       - name: Test auth and assemble app
         run: >-
-          bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease :auth:assembleDebugAndroidTest
+          bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease :auth:assembleDebugAndroidTest :app:assembleDebugAndroidTest
           -PattestraEnvironment=qa
       - name: Check explicit API override
         run: >-
@@ -65,7 +65,9 @@ jobs:
           api-level: 35
           arch: x86_64
           disable-animations: true
-          script: bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest
+          script: |
+            bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest
+            bash gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -73,3 +75,5 @@ jobs:
           path: |
             auth/build/reports/androidTests/
             auth/build/outputs/androidTest-results/
+            app/build/reports/androidTests/
+            app/build/outputs/androidTest-results/

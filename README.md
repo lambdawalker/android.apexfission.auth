@@ -66,6 +66,8 @@ attestraLinkHost=attestrabond.com
 
 Use your own stack's `apiUrl` if it differs from this example; when `pulumi stack output apiUrl` is missing, verify the selected stack and finish `pulumi up`. These values can also be passed through CI. The link host must serve `https://HOST/.well-known/assetlinks.json` with the app's package `com.apexfission.android.auth` and signing certificate SHA-256 to make Android App Links open directly in the app. On other devices or when the app isn't associated, the website must host `/verify-email` and show the manual code screen.
 
+The launcher uses [Demo Common](https://github.com/lambdawalker/android.apexfission.demo-common) in `:app` for its themed, scrolling test menu, with onboarding, UI catalog, and account-action cards. **Delete local user** retains its confirmation and clears only local app data; all menu actions are disabled while reset runs. Demo Common is not a dependency of the reusable `:auth` module.
+
 The launcher opens a choice screen in the existing `MainActivity`: **Open onboarding** runs the live email flow, and **Open UI catalog** previews every screen without calling the backend. With no explicit API URL, Open onboarding waits for index discovery and offers Retry if unavailable; the catalog still works. The system Back action returns to the choice screen, or to the catalog list when previewing an individual screen. A valid HTTPS `/verify-email` App Link opens live onboarding directly, including when the catalog is currently visible. The manifest accepts links only for the configured host, and the activity checks the incoming origin again before handling one. Visiting a link never calls the backend with B alone.
 
 ### Verify Android App Links on a device
