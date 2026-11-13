@@ -51,22 +51,22 @@ attestraIndexUrl=https://index.example.com/v1/environments
     gradle(":app:generateDebugBuildConfig", "-PattestraIndexUrl=http://insecure.example.com",
            failure="attestraIndexUrl must be an HTTPS URL")
     env = os.environ.copy()
-    env["ATTESTRA_KEYSTORE_PASSWORD"] = "throwaway-ci-only"
-    env["ATTESTRA_KEYSTORE_PATH"] = str(Path(tmp) / "test.p12")
-    subprocess.run(["keytool", "-genkeypair", "-keystore", env["ATTESTRA_KEYSTORE_PATH"],
+    env["ANDROID_KEYSTORE_PASSWORD"] = "throwaway-ci-only"
+    env["ANDROID_KEYSTORE_PATH"] = str(Path(tmp) / "test.p12")
+    subprocess.run(["keytool", "-genkeypair", "-keystore", env["ANDROID_KEYSTORE_PATH"],
                     "-storetype", "PKCS12", "-alias", "attestra", "-keyalg", "RSA",
                     "-keysize", "2048", "-validity", "1", "-dname", "CN=CI only",
-                    "-storepass:env", "ATTESTRA_KEYSTORE_PASSWORD"], env=env, check=True,
+                    "-storepass:env", "ANDROID_KEYSTORE_PASSWORD"], env=env, check=True,
                    capture_output=True)
     gradle(":app:signingReport", "--configuration-cache", env=env,
            failure="Registered signing requires --no-configuration-cache")
     missing = env.copy()
-    del missing["ATTESTRA_KEYSTORE_PASSWORD"]
-    gradle(":app:signingReport", env=missing, failure="Set ATTESTRA_KEYSTORE_PASSWORD")
+    del missing["ANDROID_KEYSTORE_PASSWORD"]
+    gradle(":app:signingReport", env=missing, failure="Set ANDROID_KEYSTORE_PASSWORD")
     for name, value, message in [
-        ("ATTESTRA_KEYSTORE_PASSWORD", "wrong-password", "Cannot open signing keystore"),
-        ("ATTESTRA_KEY_ALIAS", "missing-alias", "ATTESTRA_KEY_ALIAS must identify"),
-        ("ATTESTRA_KEY_PASSWORD", "wrong-password", "Cannot unlock signing key"),
+        ("ANDROID_KEYSTORE_PASSWORD", "wrong-password", "Cannot open signing keystore"),
+        ("ANDROID_KEY_ALIAS", "missing-alias", "ANDROID_KEY_ALIAS must identify"),
+        ("ANDROID_KEY_PASSWORD", "wrong-password", "Cannot unlock signing key"),
     ]:
         invalid = env.copy()
         invalid[name] = value
@@ -76,19 +76,19 @@ attestraIndexUrl=https://index.example.com/v1/environments
     original = local.read_bytes() if local.exists() else None
     try:
         prefix = original.decode('utf-8') + '\n' if original is not None else ''
-        local.write_text(prefix + f"ATTESTRA_KEYSTORE_PATH={Path(env['ATTESTRA_KEYSTORE_PATH']).as_posix()}\n"
-                         + "ATTESTRA_KEYSTORE_PASSWORD=throwaway-ci-only\nATTESTRA_KEY_ALIAS=attestra\n", encoding='utf-8')
-        clean_env = {k: v for k, v in os.environ.items() if not k.startswith('ATTESTRA_KEY')}
+        local.write_text(prefix + f"ANDROID_KEYSTORE_PATH={Path(env['ANDROID_KEYSTORE_PATH']).as_posix()}\n"
+                         + "ANDROID_KEYSTORE_PASSWORD=throwaway-ci-only\nANDROID_KEY_ALIAS=attestra\n", encoding='utf-8')
+        clean_env = {k: v for k, v in os.environ.items() if not k.startswith('ANDROID_KEY')}
         gradle(":app:assembleSignedDebug", env=clean_env)
         gradle(":app:signingReport", "--configuration-cache", env=clean_env,
                failure="Registered signing requires --no-configuration-cache")
         # Every environment field must override a conflicting local value.
-        local.write_text(prefix + "ATTESTRA_KEYSTORE_PATH=missing-file.p12\n"
-                         + "ATTESTRA_KEYSTORE_PASSWORD=wrong\nATTESTRA_KEY_ALIAS=wrong\n"
-                         + "ATTESTRA_KEY_PASSWORD=wrong\n", encoding='utf-8')
+        local.write_text(prefix + "ANDROID_KEYSTORE_PATH=missing-file.p12\n"
+                         + "ANDROID_KEYSTORE_PASSWORD=wrong\nANDROID_KEY_ALIAS=wrong\n"
+                         + "ANDROID_KEY_PASSWORD=wrong\n", encoding='utf-8')
         override = env.copy()
-        override['ATTESTRA_KEY_ALIAS'] = 'attestra'
-        override['ATTESTRA_KEY_PASSWORD'] = env['ATTESTRA_KEYSTORE_PASSWORD']
+        override['ANDROID_KEY_ALIAS'] = 'attestra'
+        override['ANDROID_KEY_PASSWORD'] = env['ANDROID_KEYSTORE_PASSWORD']
         gradle(":app:assembleDebug", env=override)
     finally:
         if original is None:
@@ -100,8 +100,8 @@ attestraIndexUrl=https://index.example.com/v1/environments
     output = subprocess.check_output([str(apksigners[-1]), "verify", "--print-certs",
              "app/build/outputs/apk/signedDebug/app-signedDebug.apk"], cwd=ROOT, text=True)
     import hashlib
-    cert = subprocess.check_output(["keytool", "-exportcert", "-rfc", "-keystore", env["ATTESTRA_KEYSTORE_PATH"],
-             "-alias", "attestra", "-storepass:env", "ATTESTRA_KEYSTORE_PASSWORD"], env=env)
+    cert = subprocess.check_output(["keytool", "-exportcert", "-rfc", "-keystore", env["ANDROID_KEYSTORE_PATH"],
+             "-alias", "attestra", "-storepass:env", "ANDROID_KEYSTORE_PASSWORD"], env=env)
     pem = re.search(rb"-----BEGIN CERTIFICATE-----\s*(.*?)\s*-----END CERTIFICATE-----", cert, re.S)
     assert pem is not None
     der = base64.b64decode(re.sub(rb"\s+", b"", pem[1]), validate=True)
