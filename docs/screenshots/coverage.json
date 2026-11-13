@@ -399,7 +399,9 @@
       "kind": "direct",
       "scenarios": [
         "app:AppScreenshotTest.menu",
-        "app:AppScreenshotTest.resetting"
+        "app:AppScreenshotTest.resetting",
+        "app:AppScreenshotTest.menuWithoutBackend",
+        "app:AppScreenshotTest.menuLargeText"
       ],
       "note": "Covered with deterministic offline fixture inputs."
     },

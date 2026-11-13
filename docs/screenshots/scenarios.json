@@ -793,6 +793,42 @@
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Edit issuing jurisdiction; changes apply together"
+    },
+    {
+      "id": "app:AppScreenshotTest.menuWithoutBackend",
+      "module": "app",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "method": "menuWithoutBackend",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "menuWithoutBackend"
+    },
+    {
+      "id": "app:AppScreenshotTest.menuLargeText",
+      "module": "app",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "method": "menuLargeText",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        320,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.6,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "menuLargeText"
     }
   ]
 }
