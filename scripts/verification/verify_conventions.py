@@ -12,10 +12,19 @@ ROOT = Path(__file__).resolve().parents[2]
 def gradle(*args, env=None, failure=None):
     result = subprocess.run(["bash", "gradlew", "--no-configuration-cache", *args],
                             cwd=ROOT, env=env, text=True, capture_output=True)
+    output = result.stdout + result.stderr
     if failure:
-        assert result.returncode != 0 and failure in result.stdout + result.stderr
+        assert result.returncode != 0 and failure in output
     elif result.returncode:
-        raise RuntimeError(result.stdout + result.stderr)
+        raise RuntimeError(output)
+    return output
+
+
+def signing_unavailable(env, expected, *extra_args):
+    output = gradle(":app:tasks", "--all", *extra_args, env=env)
+    assert "[android-repo-setup] Local Android signing unavailable:" in output
+    assert expected in output
+    assert "assembleSignedDebug" not in output
 
 
 def config():
@@ -58,20 +67,27 @@ attestraIndexUrl=https://index.example.com/v1/environments
                     "-keysize", "2048", "-validity", "1", "-dname", "CN=CI only",
                     "-storepass:env", "ANDROID_KEYSTORE_PASSWORD"], env=env, check=True,
                    capture_output=True)
-    gradle(":app:signingReport", "--configuration-cache", env=env,
-           failure="Registered Android signing requires --no-configuration-cache")
+    signing_unavailable(
+        env,
+        "registered signing is disabled while Gradle configuration cache is enabled",
+        "--configuration-cache",
+    )
     missing = env.copy()
     del missing["ANDROID_KEYSTORE_PASSWORD"]
-    gradle(":app:signingReport", env=missing, failure="Set ANDROID_KEYSTORE_PASSWORD")
+    signing_unavailable(missing, "ANDROID_KEYSTORE_PASSWORD is missing")
     for name, value, message in [
-        ("ANDROID_KEYSTORE_PASSWORD", "wrong-password", "Cannot open signing keystore"),
-        ("ANDROID_KEY_ALIAS", "missing-alias", "ANDROID_KEY_ALIAS must identify"),
-        ("ANDROID_KEY_PASSWORD", "wrong-password", "Cannot unlock signing key"),
+        ("ANDROID_KEYSTORE_PASSWORD", "wrong-password",
+         "ANDROID_KEYSTORE_PASSWORD from environment variable did not unlock"),
+        ("ANDROID_KEY_ALIAS", "missing-alias",
+         "Alias 'missing-alias' from environment variable was not found"),
+        ("ANDROID_KEY_PASSWORD", "wrong-password",
+         "ANDROID_KEY_PASSWORD from environment variable did not unlock private key alias 'attestra'"),
     ]:
         invalid = env.copy()
         invalid[name] = value
-        gradle(":app:assembleSignedDebug", env=invalid, failure=message)
+        signing_unavailable(invalid, message)
     gradle(":app:assembleDebug", env=env)
+    gradle(":app:assembleSignedDebug", env=env)
     local = ROOT / "local.properties"
     original = local.read_bytes() if local.exists() else None
     try:
@@ -80,8 +96,11 @@ attestraIndexUrl=https://index.example.com/v1/environments
                          + "ANDROID_KEYSTORE_PASSWORD=throwaway-ci-only\nANDROID_KEY_ALIAS=attestra\n", encoding='utf-8')
         clean_env = {k: v for k, v in os.environ.items() if not k.startswith('ANDROID_KEY')}
         gradle(":app:assembleSignedDebug", env=clean_env)
-        gradle(":app:signingReport", "--configuration-cache", env=clean_env,
-               failure="Registered Android signing requires --no-configuration-cache")
+        signing_unavailable(
+            clean_env,
+            "registered signing is disabled while Gradle configuration cache is enabled",
+            "--configuration-cache",
+        )
         # Every environment field must override a conflicting local value.
         local.write_text(prefix + "ANDROID_KEYSTORE_PATH=missing-file.jks\n"
                          + "ANDROID_KEYSTORE_PASSWORD=wrong\nANDROID_KEY_ALIAS=wrong\n"

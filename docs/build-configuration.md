@@ -67,7 +67,7 @@ ANDROID_KEY_ALIAS=attestra
 
 File-stored passwords are plaintext; you can keep only the path/alias here and supply passwords through the environment instead. Never commit the file. Resync Studio after changes. Registered signing also requires `org.gradle.configuration-cache=false` in your user Gradle properties for IDE builds; `--no-configuration-cache` applies to command-line builds.
 
-Without a nonblank keystore path, debug keeps its normal Android debug key and release remains unsigned. With a path, both use `registered`. Missing file/password fails clearly. Pass `--no-configuration-cache`; the convention refuses registered signing with configuration caching enabled. Keep keystores outside the repository and obtain secrets from a trusted local secret provider/session. No passwords are committed by this change.
+Without a nonblank keystore path, debug keeps its normal Android debug key and release remains unsigned. When the complete signing identity is valid, debug and release use `registered`. A missing file, missing or incorrect password, invalid alias, unreadable keystore, or configuration-cache conflict does not block Gradle sync. Registered signing is simply unavailable for that sync and the shared plugin logs which input failed, where that value came from, and what to correct. Keep keystores outside the repository and obtain secrets from a trusted local secret provider/session. No passwords are committed by this change.
 
 ```powershell
 # After supplying the signing variables in the current process:
@@ -99,4 +99,4 @@ When the configured keystore exists and its store password, alias and key passwo
 
 It is debuggable, shares the debug capture-mock source and dependencies, and resolves library dependencies through their debug variants. It keeps the same application ID so approved App Links/passkey associations still match. It does not select a server environment by itself.
 
-Without a configured path the variant is absent. Invalid configured credentials fail sync with an actionable error; they do not silently fall back to the standard debug key. Correct the values and resync. Existing debug/release signing behavior is unchanged. Validation supports Java-detectable JKS/PKCS12 files and checks credentials locally without uploading them.
+Without a usable signing identity the variant is absent. Invalid configured credentials do not fail sync and do not create `signedDebug`; correct the warning's identified input and resync to make the variant appear. The normal debug variant keeps its standard Android debug signing and release keeps its existing signing state while registered signing is unavailable. Validation supports Java-detectable JKS/PKCS12 files and checks credentials locally without uploading them.
