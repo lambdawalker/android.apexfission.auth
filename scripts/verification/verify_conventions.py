@@ -59,7 +59,7 @@ attestraIndexUrl=https://index.example.com/v1/environments
                     "-storepass:env", "ANDROID_KEYSTORE_PASSWORD"], env=env, check=True,
                    capture_output=True)
     gradle(":app:signingReport", "--configuration-cache", env=env,
-           failure="Registered signing requires --no-configuration-cache")
+           failure="Registered Android signing requires --no-configuration-cache")
     missing = env.copy()
     del missing["ANDROID_KEYSTORE_PASSWORD"]
     gradle(":app:signingReport", env=missing, failure="Set ANDROID_KEYSTORE_PASSWORD")
@@ -81,7 +81,7 @@ attestraIndexUrl=https://index.example.com/v1/environments
         clean_env = {k: v for k, v in os.environ.items() if not k.startswith('ANDROID_KEY')}
         gradle(":app:assembleSignedDebug", env=clean_env)
         gradle(":app:signingReport", "--configuration-cache", env=clean_env,
-               failure="Registered signing requires --no-configuration-cache")
+               failure="Registered Android signing requires --no-configuration-cache")
         # Every environment field must override a conflicting local value.
         local.write_text(prefix + "ANDROID_KEYSTORE_PATH=missing-file.jks\n"
                          + "ANDROID_KEYSTORE_PASSWORD=wrong\nANDROID_KEY_ALIAS=wrong\n"
