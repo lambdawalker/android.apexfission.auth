@@ -210,3 +210,20 @@ and the distinction between rendering checks and approved visual baselines.
 ## Library publishing
 
 See [publishing setup and recovery](docs/releases.md). Run `python scripts/setup_github_environments.py` after installing `scripts/requirements-setup.txt` to configure GitHub deployment environments. Read [IMPORT.md](IMPORT.md) for confirmed installation choices; proposed coordinates are not a release.
+
+
+## Documentation tooling
+
+Documentation is maintained by the independently pinned `android-repo-docs` executable.
+Use `sh ./docs.sh check` on Linux/macOS or `docs.bat check` on Windows.
+The launcher installs the configured release or immutable source revision on first use;
+source pins require Rust and Git. No setup credentials are needed.
+
+- `sh ./docs.sh sources check` verifies reviewed Kotlin inputs and examples.
+- `sh ./docs.sh sources update` intentionally refreshes generated references and examples; review the diff.
+- `sh ./docs.sh build --check` builds the existing documentation site locally.
+- `sh ./docs.sh bootstrap check` verifies the launcher files against their independent pin.
+
+Configuration and project-specific introductory Markdown live in `.project/docs/`.
+Confirmed release records and archived source identities remain authoritative.
+Documentation checks do not accept images, publish artifacts, or deploy the site.

@@ -27,6 +27,7 @@ Offline previews use synthetic inputs and do not contact a backend.
 The existing `:app` dependency is `implementation(project(":auth"))`.
 This is the host call shape (a fragment, not a standalone Activity):
 
+<!-- host:start -->
 ```kotlin
 EmailOnboardingHost(
     apiBaseUrl = config.apiUrl,
@@ -42,6 +43,7 @@ EmailOnboardingHost(
     },
 )
 ```
+<!-- host:end -->
 
 For a complete compiled implementation and imports, read
 [MainActivity](../../app/src/main/java/com/apexfission/android/auth/MainActivity.kt),

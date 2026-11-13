@@ -27,3 +27,4 @@ __pycache__/
 /sites/dist/
 /sites/preview/
 /app/src/screenshotTestDebug/reference/
+/.project/docs/cache/

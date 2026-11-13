@@ -52,8 +52,8 @@ retains the selected guide, navigation order and Development scope.
 ## Maintenance checks
 
 ```sh
-python3 scripts/docs/inventory.py
-python3 scripts/docs/inventory.py --check
+sh ./docs.sh sources update
+sh ./docs.sh sources check
 python3 scripts/screenshots/suite.py coverage
 python3 scripts/screenshots/suite.py verify-docs
 uv run --with Markdown==3.7 --with Pygments==2.18.0 python sites/test_build.py
