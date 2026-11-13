@@ -3,7 +3,7 @@ title: Attestra Auth
 modules:
   auth: attestra-auth
 key_alias: attestra
-tooling_ref: 1da53392b262c7c3129d2bd645dfd7b34ead81e1
+tooling_ref: 'v0.1.23'
 workflows:
   module: auth
   app_module: app
