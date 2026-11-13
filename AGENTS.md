@@ -35,8 +35,9 @@ uv run --with rich==14.1.0 python -m unittest discover -s scripts/signing
 sh ./docs.sh sources check
 python3 scripts/screenshots/suite.py coverage
 python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'
-uv run --with Markdown==3.7 --with Pygments==2.18.0 python sites/test_build.py
-uv run --with Markdown==3.7 --with Pygments==2.18.0 python sites/build.py
+python3 sites/test_build.py
+sh ./docs.sh build --check
+python3 sites/test_build.py --output
 bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
 ```
 

@@ -72,7 +72,7 @@ light/dark gallery and refresh commands.
 
 | Email setup | Document processing | Confirmed save |
 | --- | --- | --- |
-| <img src="assets/screenshots/email-start-light.png" alt="Email setup in light theme" width="220"> | <img src="assets/screenshots/read-document-dark.png" alt="Document reading in dark theme" width="220"> | <img src="assets/screenshots/details-saved-light.png" alt="Server-confirmed saved details in light theme" width="220"> |
+| ![Email setup in light theme](assets/screenshots/email-start-light.png) | ![Document reading in dark theme](assets/screenshots/read-document-dark.png) | ![Server-confirmed saved details in light theme](assets/screenshots/details-saved-light.png) |
 
 ## Early OCR and retakes
 

@@ -3,7 +3,7 @@ repository: lambdawalker/android.apexfission.auth
 title: Android auth
 modules:
   auth: attestra-auth
-tooling_ref: v0.1.20
+tooling_ref: '1da53392b262c7c3129d2bd645dfd7b34ead81e1'
 sources:
   roots:
   - auth/src/main/java
@@ -20,9 +20,133 @@ sources:
     end: <!-- host:end -->
     mode: contains
 site:
-  build:
-  - python
-  - sites/build.py
+  backend: astro
+  base_url: https://lambdawalker.github.io/android.apexfission.auth/
+  pages:
+    AGENTS.md: contributing
+    AI_INTEGRATION_GUIDE.md: ai-integration
+    IMPORT.md: installation
+    README.md: project
+    docs/agents/api-inventory.md: api-inventory
+    docs/agents/api.md: api
+    docs/agents/concepts.md: concepts
+    docs/agents/coverage.md: coverage
+    docs/agents/demos.md: demos
+    docs/agents/evaluation.md: evaluation
+    docs/agents/index.md: ''
+    docs/agents/limitations.md: limitations
+    docs/agents/migration.md: migration
+    docs/agents/quickstart.md: quickstart
+    docs/agents/recipes.md: recipes
+    docs/agents/troubleshooting.md: troubleshooting
+    docs/android-signing.md: android-signing
+    docs/build-configuration.md: build-configuration
+    docs/environment-discovery.md: environment-discovery
+    docs/identity-capture.md: identity-capture
+    docs/identity/README.md: identity/overview
+    docs/identity/http-contract.md: identity/http-contract
+    docs/qa-testing.md: qa-testing
+    docs/releases.md: releases
+    docs/runtime-configuration.md: runtime-configuration
+    docs/screenshots.md: screenshots
+    sites/README.md: site-maintenance
+  translation_manifest: sites/translations.json
+  translation_paths:
+    docs/agents/index.md: docs/es/agents/index.md
+    docs/agents/quickstart.md: docs/es/agents/quickstart.md
+    docs/agents/concepts.md: docs/es/agents/concepts.md
+    docs/agents/api.md: docs/es/agents/api.md
+    docs/agents/recipes.md: docs/es/agents/recipes.md
+    docs/agents/limitations.md: docs/es/agents/limitations.md
+    docs/agents/troubleshooting.md: docs/es/agents/troubleshooting.md
+    docs/agents/migration.md: docs/es/agents/migration.md
+    docs/agents/demos.md: docs/es/agents/demos.md
+    IMPORT.md: docs/es/IMPORT.md
+    docs/agents/api-inventory.md: docs/es/agents/api-inventory.md
+    docs/agents/coverage.md: docs/es/agents/coverage.md
+    docs/agents/evaluation.md: docs/es/agents/evaluation.md
+  aliases:
+  - source: AGENTS.md
+    html: '{language}/main/AGENTS.html'
+    raw: raw/{language}/main/AGENTS.md
+  - source: AI_INTEGRATION_GUIDE.md
+    html: '{language}/main/AI_INTEGRATION_GUIDE.html'
+    raw: raw/{language}/main/AI_INTEGRATION_GUIDE.md
+  - source: IMPORT.md
+    html: '{language}/main/IMPORT.html'
+    raw: raw/{language}/main/IMPORT.md
+  - source: README.md
+    html: '{language}/main/README.html'
+    raw: raw/{language}/main/README.md
+  - source: docs/agents/api-inventory.md
+    html: '{language}/main/docs/agents/api-inventory.html'
+    raw: raw/{language}/main/docs/agents/api-inventory.md
+  - source: docs/agents/api.md
+    html: '{language}/main/docs/agents/api.html'
+    raw: raw/{language}/main/docs/agents/api.md
+  - source: docs/agents/concepts.md
+    html: '{language}/main/docs/agents/concepts.html'
+    raw: raw/{language}/main/docs/agents/concepts.md
+  - source: docs/agents/coverage.md
+    html: '{language}/main/docs/agents/coverage.html'
+    raw: raw/{language}/main/docs/agents/coverage.md
+  - source: docs/agents/demos.md
+    html: '{language}/main/docs/agents/demos.html'
+    raw: raw/{language}/main/docs/agents/demos.md
+  - source: docs/agents/evaluation.md
+    html: '{language}/main/docs/agents/evaluation.html'
+    raw: raw/{language}/main/docs/agents/evaluation.md
+  - source: docs/agents/index.md
+    html: '{language}/main/docs/agents/index.html'
+    raw: raw/{language}/main/docs/agents/index.md
+  - source: docs/agents/limitations.md
+    html: '{language}/main/docs/agents/limitations.html'
+    raw: raw/{language}/main/docs/agents/limitations.md
+  - source: docs/agents/migration.md
+    html: '{language}/main/docs/agents/migration.html'
+    raw: raw/{language}/main/docs/agents/migration.md
+  - source: docs/agents/quickstart.md
+    html: '{language}/main/docs/agents/quickstart.html'
+    raw: raw/{language}/main/docs/agents/quickstart.md
+  - source: docs/agents/recipes.md
+    html: '{language}/main/docs/agents/recipes.html'
+    raw: raw/{language}/main/docs/agents/recipes.md
+  - source: docs/agents/troubleshooting.md
+    html: '{language}/main/docs/agents/troubleshooting.html'
+    raw: raw/{language}/main/docs/agents/troubleshooting.md
+  - source: docs/android-signing.md
+    html: '{language}/main/docs/android-signing.html'
+    raw: raw/{language}/main/docs/android-signing.md
+  - source: docs/build-configuration.md
+    html: '{language}/main/docs/build-configuration.html'
+    raw: raw/{language}/main/docs/build-configuration.md
+  - source: docs/environment-discovery.md
+    html: '{language}/main/docs/environment-discovery.html'
+    raw: raw/{language}/main/docs/environment-discovery.md
+  - source: docs/identity-capture.md
+    html: '{language}/main/docs/identity-capture.html'
+    raw: raw/{language}/main/docs/identity-capture.md
+  - source: docs/identity/README.md
+    html: '{language}/main/docs/identity/README.html'
+    raw: raw/{language}/main/docs/identity/README.md
+  - source: docs/identity/http-contract.md
+    html: '{language}/main/docs/identity/http-contract.html'
+    raw: raw/{language}/main/docs/identity/http-contract.md
+  - source: docs/qa-testing.md
+    html: '{language}/main/docs/qa-testing.html'
+    raw: raw/{language}/main/docs/qa-testing.md
+  - source: docs/releases.md
+    html: '{language}/main/docs/releases.html'
+    raw: raw/{language}/main/docs/releases.md
+  - source: docs/runtime-configuration.md
+    html: '{language}/main/docs/runtime-configuration.html'
+    raw: raw/{language}/main/docs/runtime-configuration.md
+  - source: docs/screenshots.md
+    html: '{language}/main/docs/screenshots.html'
+    raw: raw/{language}/main/docs/screenshots.md
+  - source: sites/README.md
+    html: '{language}/main/sites/README.html'
+    raw: raw/{language}/main/sites/README.md
 media:
   manifests:
   - path: docs/screenshots/documentation.json

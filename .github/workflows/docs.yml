@@ -30,17 +30,20 @@ jobs:
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: dtolnay/rust-toolchain@stable
       - name: Install pinned documentation tool
-        run: cargo install --locked --git https://github.com/lambdawalker/gradle.android-repo-setup.git --tag v0.1.20 android-repo-docs
+        run: cargo install --locked --git https://github.com/lambdawalker/gradle.android-repo-setup.git --rev 1da53392b262c7c3129d2bd645dfd7b34ead81e1 android-repo-docs
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - run: pip install -r sites/requirements.txt
       - run: android-repo-docs check
       - run: python scripts/screenshots/suite.py coverage
       - run: python scripts/screenshots/suite.py verify-docs
       - run: python -m unittest discover -s scripts/screenshots -p 'test_*.py'
       - run: python sites/test_build.py
       - run: android-repo-docs build --check
+      - run: python sites/test_build.py --output
       - uses: actions/upload-artifact@v7
         with:
           name: auth-documentation

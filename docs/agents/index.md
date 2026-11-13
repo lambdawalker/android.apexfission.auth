@@ -17,7 +17,7 @@ and finish only after the server acknowledges saved details.
 
 | Start | Processing | Saved |
 | --- | --- | --- |
-| <img src="../assets/screenshots/email-start-light.png" alt="Email setup; synthetic light-theme preview" width="210"> | <img src="../assets/screenshots/read-document-dark.png" alt="Document reading; synthetic dark-theme preview" width="210"> | <img src="../assets/screenshots/details-saved-light.png" alt="Saved details; synthetic light-theme preview" width="210"> |
+| ![Email setup; synthetic light-theme preview](../assets/screenshots/email-start-light.png) | ![Document reading; synthetic dark-theme preview](../assets/screenshots/read-document-dark.png) | ![Saved details; synthetic light-theme preview](../assets/screenshots/details-saved-light.png) |
 
 See [demos and recovery scenarios](demos.md) for actions and expected outcomes.
 
