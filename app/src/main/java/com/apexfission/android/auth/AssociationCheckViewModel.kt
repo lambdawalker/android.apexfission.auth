@@ -85,6 +85,8 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
                             context.packageName,
                             fingerprints.toSet(),
                         ).warning()
+                    } catch (_: Exception) {
+                        "Couldn't check this build's domain association. Check connectivity or hosting; App Links and passkey approval is unknown."
                     } finally {
                         connection.disconnect()
                     }
