@@ -19,7 +19,7 @@ Gradle.
 
 ## Endpoint settings
 
-Every public setting uses the same precedence: **Gradle project property → selected exported file → script default**. Gradle project properties include `-P` and normal Gradle properties files. An explicit empty value remains an override; required export fields still reject blanks.
+Every public setting uses the same precedence: **Gradle project property → selected exported file → declared binding default**. Gradle project properties include `-P` and normal Gradle properties files. An explicit empty value remains an override; required export fields still reject blanks.
 
 `attestraConfigFile` is a Gradle property pointing to a backend-generated UTF-8 `.properties` file. Relative paths resolve from the repository root. The file must exist and retain the existing required environment/API/host/region/Cognito/capture fields.
 
@@ -58,7 +58,7 @@ Signing inputs use **process environment variable → root `local.properties` �
 For Android Studio, add the following to the repository-root `local.properties`, preserving any existing `sdk.dir` line. This file is already ignored by Git. Use forward slashes in Windows paths (or double each backslash); Java properties interpret single backslashes as escapes.
 
 ```properties
-ANDROID_KEYSTORE_PATH=C:/Users/D/.attestra/signing/dev.p12
+ANDROID_KEYSTORE_PATH=C:/Users/D/.projects/android.apexfission.auth/secrets/attestra-setup-1234567890abcdef.jks
 ANDROID_KEYSTORE_PASSWORD=your-keystore-password
 ANDROID_KEY_ALIAS=attestra
 # Optional if different from the store password:
