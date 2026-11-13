@@ -50,7 +50,7 @@ Set `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`, and optionally `ANDROI
 .\gradlew.bat --no-configuration-cache :app:assembleDebug '-PattestraEnvironment=dev'
 ```
 
-After Gradle validates the keystore credentials, the **signedDebug** variant also appears in Android Studio. Build it with `:app:assembleSignedDebug --no-configuration-cache`; see [signed debug variant](build-configuration.md#signed-debug-variant).
+After Gradle validates the complete keystore identity, the **signedDebug** variant appears in Android Studio. If the file, store password, alias, key password, or certificate is unusable, sync still succeeds and the variant stays absent; the shared plugin prints a focused warning describing the failed input and its source. Build a valid configuration with `:app:assembleSignedDebug --no-configuration-cache`; see [signed debug variant](build-configuration.md#signed-debug-variant).
 
 Both debug and release builds use the selected key when its path is supplied. Without it, normal debug signing and the existing unsigned release behavior remain. Disable the Gradle configuration cache when supplying signing secrets. The fingerprint comes from the certificate and stays the same across builds; a different key may require reinstalling the app, losing local app data.
 
