@@ -40,7 +40,7 @@ jobs:
           : "${ANDROID_KEYSTORE_PASSWORD:?Set ANDROID_KEYSTORE_PASSWORD}"
           : "${EXPECTED_SHA256:?Set the approved ANDROID_SIGNING_SHA256}"
           : "${APP_LINK_HOST:?Set ATTESTRA_LINK_HOST to the environment app hostname}"
-          export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/attestra-signing.p12"
+          export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/attestra-signing.jks"
           trap 'rm -f "$ANDROID_KEYSTORE_PATH"; rm -rf .gradle/configuration-cache' EXIT
           umask 077
           printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_PATH"
