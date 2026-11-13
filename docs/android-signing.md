@@ -29,8 +29,9 @@ select a backend environment. This replaces the old Python wizard and its
 Use the generated key's actual path, store password, alias, and key password with
 the shared `ANDROID_KEYSTORE_*` inputs below. The encrypted setup vault remains
 owned by the CLI; Gradle consumes only the values supplied to the current build.
-PKCS12 generally requires identical store/key passwords; use the existing
-keystore's real values rather than changing its signing identity.
+New keys created by the shared CLI default to JKS. Existing JKS or PKCS12
+keystores can still be reused; use their real passwords rather than changing the
+signing identity.
 
 The remaining `scripts/signing/signing.py verify-apk` command checks the approved
 certificate, package, and both published association relations. Its headless
