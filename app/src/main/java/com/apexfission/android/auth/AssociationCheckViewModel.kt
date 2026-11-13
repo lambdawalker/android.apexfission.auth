@@ -31,6 +31,7 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
         private set
     var diagnosticState by mutableStateOf<AppLinkDiagnosticState>(AppLinkDiagnosticState.Checking)
         private set
+    private var checking = false
 
     val packageName: String get() = getApplication<Application>().packageName
     val assetLinksUrl: String
@@ -41,10 +42,12 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
     }
 
     fun refresh() {
-        if (diagnosticState == AppLinkDiagnosticState.Checking) return
+        if (checking) return
+        checking = true
         diagnosticState = AppLinkDiagnosticState.Checking
         warning = null
         viewModelScope.launch {
+            try {
             val context = getApplication<Application>()
             val fingerprints = try {
                 withContext(Dispatchers.IO) {
@@ -138,6 +141,9 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
                     message = message,
                 )
                 warning = "Couldn't check this build's domain association. $message"
+            }
+            } finally {
+                checking = false
             }
         }
     }
