@@ -83,7 +83,7 @@ attestraIndexUrl=https://index.example.com/v1/environments
         gradle(":app:signingReport", "--configuration-cache", env=clean_env,
                failure="Registered signing requires --no-configuration-cache")
         # Every environment field must override a conflicting local value.
-        local.write_text(prefix + "ANDROID_KEYSTORE_PATH=missing-file.p12\n"
+        local.write_text(prefix + "ANDROID_KEYSTORE_PATH=missing-file.jks\n"
                          + "ANDROID_KEYSTORE_PASSWORD=wrong\nANDROID_KEY_ALIAS=wrong\n"
                          + "ANDROID_KEY_PASSWORD=wrong\n", encoding='utf-8')
         override = env.copy()
