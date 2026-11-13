@@ -7,8 +7,8 @@ entornos, actualización al volver al primer plano, almacenamiento y captura.
 ## Compilar y ejecutar
 
 ```sh
-git clone https://github.com/lambdawalker/android.attestra.auth.git
-cd android.attestra.auth
+git clone https://github.com/lambdawalker/android.apexfission.auth.git
+cd android.apexfission.auth
 ./gradlew :app:assembleDebug -PattestraEnvironment=qa
 ./gradlew :app:installDebug -PattestraEnvironment=qa
 ```

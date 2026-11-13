@@ -17,7 +17,7 @@ el servidor confirme los datos guardados.
 
 | Inicio | Procesamiento | Guardado |
 | --- | --- | --- |
-| <img src="../../assets/screenshots/email-start-light.png" alt="Correo; interfaz inglesa clara y datos sintéticos" width="210"> | <img src="../../assets/screenshots/read-document-dark.png" alt="Lectura; interfaz inglesa oscura y datos sintéticos" width="210"> | <img src="../../assets/screenshots/details-saved-light.png" alt="Guardado; interfaz inglesa clara y datos sintéticos" width="210"> |
+| ![Correo; interfaz inglesa clara y datos sintéticos](../../assets/screenshots/email-start-light.png) | ![Lectura; interfaz inglesa oscura y datos sintéticos](../../assets/screenshots/read-document-dark.png) | ![Guardado; interfaz inglesa clara y datos sintéticos](../../assets/screenshots/details-saved-light.png) |
 
 Consulte [demos y recuperación](demos.md) para acciones y resultados esperados.
 

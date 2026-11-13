@@ -6,3 +6,6 @@
 # Keep the small, curated documentation UI screenshots in ordinary Git.
 # They render directly in Markdown and do not need a separate LFS download.
 docs/assets/screenshots/*.png -filter -diff -merge -text
+
+# Legacy documentation URL copies are the same small reviewed Git assets.
+sites/astro/public/assets/docs/assets/screenshots/*.png -filter -diff -merge -text

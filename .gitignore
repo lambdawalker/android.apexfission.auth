@@ -28,3 +28,5 @@ __pycache__/
 /sites/preview/
 /app/src/screenshotTestDebug/reference/
 /.project/docs/cache/
+/sites/.astro-app-*/
+/sites/.astro-build-*/

@@ -1,13 +1,13 @@
 {
   "docs/agents/index.md": {
     "path": "docs/es/agents/index.md",
-    "source_sha256": "97c5c8e0278a41531965af500d6619e46951ceea672eee95ecae8103eceb828a",
-    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
+    "source_sha256": "a5da4c0fdd592ab35c5222c45676eae0416687f738c8a740e376637decc160d2",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links. English and Spanish walkthrough reviewed together on 2026-11-13: replace image HTML with Markdown while preserving synthetic-data labels, alt text, image paths and executable fences for the shared Astro renderer."
   },
   "docs/agents/quickstart.md": {
     "path": "docs/es/agents/quickstart.md",
-    "source_sha256": "46d45978c416591be7711eacd79ba13c320113b99e6321813c1c81e42f777137",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. Source-sync comment markers reviewed; prose and executable fences unchanged, 2026-11-13."
+    "source_sha256": "a3a8adcd0fdb3531ed8b88673d6bfb061d8508678c2582522703d42f316b9fa1",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. Source-sync comment markers reviewed; prose and executable fences unchanged, 2026-11-13. Canonical and Spanish clone commands reviewed together on 2026-11-13: use the actual android.apexfission.auth repository and checkout directory; executable fences remain identical between languages."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",

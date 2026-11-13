@@ -1,67 +1,125 @@
-import tempfile
-from pathlib import Path
+"""Auth-owned contracts for the shared renderer; no local Markdown rendering."""
+import hashlib
 import json
+import re
+import sys
 import unittest
-from unittest.mock import patch
-import build
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+OUTPUT = '--output' in sys.argv
+if OUTPUT:
+    sys.argv.remove('--output')
+BASE = '/android.apexfission.auth/'
 
 
-class SiteContracts(unittest.TestCase):
-    def test_raw_links_stay_in_selected_language_and_scope(self):
-        text='[Guide](concepts.md#resources)\n\n```text\n[x](missing.md)\n```\n`[x](missing.md)`'
-        out=build.raw_markdown(text,'docs/agents/index.md','es',{'docs/agents/concepts.md':''})
-        self.assertIn('/raw/es/main/docs/agents/concepts.md#resources',out)
-        self.assertIn('```text\n[x](missing.md)\n```',out)
-        self.assertIn('`[x](missing.md)`',out)
-
-    def test_spanish_relative_links_map_to_same_canonical_page(self):
-        out=build.resolve('docs/es/agents/index.md','quickstart.md','es',{'docs/agents/quickstart.md':''})
-        self.assertIn('/es/main/docs/agents/quickstart.html',out)
-        out=build.resolve('docs/es/agents/index.md','../IMPORT.md','es',{'IMPORT.md':''})
-        self.assertIn('/es/main/IMPORT.html',out)
-
-    def test_raw_html_images_are_rebased_without_touching_fences(self):
-        text='<img src="../assets/screenshots/email-start-light.png" alt="sample">\n```html\n<img src="missing.png">\n```'
-        out=build.raw_markdown(text,'docs/agents/index.md','en',{})
-        self.assertIn('/assets/docs/assets/screenshots/email-start-light.png',out)
-        self.assertIn('<img src="missing.png">',out)
-
-    def test_missing_local_target_fails(self):
-        with self.assertRaises(ValueError):build.resolve('README.md','missing.md','en',{})
-
-    def test_source_and_agent_navigation_are_distinct(self):
-        out=build.raw_markdown('[x](https://github.com/a/b/blob/main/docs/index.md)','README.md','en',{})
-        self.assertIn('https://raw.githubusercontent.com/a/b/main/docs/index.md',out)
-
-    def test_stale_translation_falls_back_to_same_english_text(self):
-        english='# English\n\nCurrent contract.'
-        text,missing=build.translated('missing-guide.md',english,'es')
-        self.assertTrue(missing);self.assertEqual(english,text)
-
-    def test_fresh_translations_preserve_code_fences(self):
-        docs=build.sources()
-        manifest=json.loads((build.ROOT/'sites/translations.json').read_text())
-        self.assertGreaterEqual(len(manifest),10)
-        for path in manifest:
-            text,fallback=build.translated(path,docs[path],'es')
-            self.assertFalse(fallback,path)
-            self.assertNotEqual(text,docs[path])
-
-    def test_no_fictional_stable_release(self):
-        catalog=json.loads((build.ROOT/'sites/versions.json').read_text())
-        self.assertEqual([],catalog['releases'])
-        self.assertEqual('development',catalog['channels'][0]['kind'])
-
-    def test_unknown_release_cannot_silently_render_main(self):
-        catalog=json.loads((build.ROOT/'sites/versions.json').read_text())
-        catalog['releases']=[{'version':'1.0.0'}]
-        with self.assertRaises(ValueError):build.validate_catalog(catalog)
-
-    def test_stale_real_translation_keeps_current_canonical_scope(self):
-        path='docs/agents/api.md';english=build.sources()[path]
-        with patch.object(build,'sha',return_value='not-the-reviewed-hash'):
-            text,fallback=build.translated(path,english,'es')
-        self.assertTrue(fallback);self.assertEqual(english,text)
+def page_map():
+    text = (ROOT / '.project/docs/config.yaml').read_text()
+    section = text.split('  pages:\n', 1)[1].split('  translation_manifest:', 1)[0]
+    return {path: slug.strip("\"'") for path, slug in re.findall(r'^    (.+): (.*)$', section, re.M)}
 
 
-if __name__=='__main__':unittest.main()
+class SourceContracts(unittest.TestCase):
+    def test_wide_documentation_remains_in_shared_navigation(self):
+        pages = page_map()
+        self.assertEqual(27, len(pages))
+        for path in ['README.md', 'AGENTS.md', 'AI_INTEGRATION_GUIDE.md', 'docs/identity/http-contract.md',
+                     'docs/screenshots.md', 'docs/android-signing.md', 'docs/runtime-configuration.md', 'sites/README.md']:
+            self.assertIn(path, pages)
+            self.assertTrue((ROOT / path).is_file())
+        self.assertEqual('', pages['docs/agents/index.md'])
+
+    def test_reviewed_translations_preserve_hashes_provenance_and_code(self):
+        manifest = json.loads((ROOT / 'sites/translations.json').read_text())
+        self.assertEqual(10, len(manifest))
+        fences = lambda text: re.findall(r'^(?:```|~~~)[^\n]*\n.*?^(?:```|~~~)', text, re.M | re.S)
+        for path, record in manifest.items():
+            canonical = (ROOT / path).read_text()
+            translated = (ROOT / record['path']).read_text()
+            self.assertEqual(record['source_sha256'], hashlib.sha256(canonical.encode()).hexdigest(), path)
+            self.assertTrue(record['provenance'], path)
+            self.assertEqual(fences(canonical), fences(translated), path)
+            self.assertNotEqual(canonical, translated, path)
+
+    def test_legacy_image_paths_match_reviewed_canonical_assets(self):
+        captures = json.loads((ROOT / 'docs/screenshots/documentation.json').read_text())['captures']
+        for capture in captures:
+            canonical = ROOT / capture['path']
+            legacy = ROOT / 'sites/astro/public/assets' / capture['path']
+            self.assertEqual(canonical.read_bytes(), legacy.read_bytes(), legacy)
+            self.assertEqual(capture['image_sha256'], hashlib.sha256(legacy.read_bytes()).hexdigest())
+
+    def test_no_fictional_published_release(self):
+        catalog = json.loads((ROOT / 'sites/versions.json').read_text())
+        self.assertEqual([], catalog['releases'])
+        self.assertEqual(['development'], [channel['kind'] for channel in catalog['channels']])
+        records = list((ROOT / 'docs/releases/history').glob('*.json'))
+        self.assertEqual([], records)
+
+    def test_backend_and_identity_are_explicit(self):
+        config = (ROOT / '.project/docs/config.yaml').read_text()
+        self.assertIn('  backend: astro', config)
+        self.assertIn('  base_url: https://lambdawalker.github.io/android.apexfission.auth/', config)
+        self.assertNotIn('sites/build.py', config)
+        self.assertIn('  translation_manifest: sites/translations.json', config)
+
+
+@unittest.skipUnless(OUTPUT, 'run with --output after shared build')
+class OutputContracts(unittest.TestCase):
+    def test_all_guides_and_old_human_raw_aliases_resolve(self):
+        for language in ['en', 'es']:
+            for source, slug in page_map().items():
+                scope = ROOT / f'sites/dist/{language}/auth/development'
+                page = scope / slug / 'index.html'
+                self.assertTrue(page.is_file(), page)
+                alias = ROOT / f'sites/dist/{language}/main/{source[:-3]}.html'
+                self.assertTrue(alias.is_file(), alias)
+                target = BASE + f'{language}/auth/development/' + (slug + '/' if slug else '')
+                self.assertIn(target, alias.read_text())
+                raw = scope / 'raw' / f'{slug or "index"}.md'
+                old_raw = ROOT / f'sites/dist/raw/{language}/main/{source}'
+                self.assertEqual(raw.read_bytes(), old_raw.read_bytes(), old_raw)
+
+    def test_reviewed_spanish_and_same_source_fallback(self):
+        spanish = (ROOT / 'sites/dist/es/auth/development/index.html').read_text()
+        self.assertIn('Autenticación Android de Attestra', spanish)
+        self.assertNotIn('La traducción está ausente o desactualizada', spanish)
+        for image in ['email-start-light.png', 'read-document-dark.png', 'details-saved-light.png']:
+            self.assertIn(image, spanish)
+        raw = (ROOT / 'sites/dist/es/auth/development/raw/identity/http-contract.md').read_text()
+        self.assertIn('La traducción está ausente o desactualizada', raw)
+        self.assertIn('Development (unreleased)', raw)
+
+    def test_spanish_links_retain_scope_and_actual_source(self):
+        raw = (ROOT / 'sites/dist/es/auth/development/raw/index.md').read_text()
+        self.assertIn(BASE + 'es/auth/development/raw/quickstart.md', raw)
+        self.assertIn(BASE + 'es/auth/development/raw/contributing.md', raw)
+        self.assertNotIn('github.com/lambdawalker/android.attestra.auth', raw)
+        self.assertNotIn('/docs/es/assets/', raw)
+
+    def test_untranslated_spanish_siblings_use_same_scope_english_fallback(self):
+        scope = ROOT / 'sites/dist/es/auth/development/raw'
+        for guide in ['api', 'index']:
+            raw = (scope / f'{guide}.md').read_text()
+            self.assertIn(BASE + 'es/auth/development/raw/api-inventory.md', raw)
+            self.assertNotIn('/docs/es/agents/api-inventory.md', raw)
+        raw = (scope / 'index.md').read_text()
+        for guide in ['coverage', 'evaluation']:
+            self.assertIn(BASE + f'es/auth/development/raw/{guide}.md', raw)
+            self.assertNotIn(f'/docs/es/agents/{guide}.md', raw)
+
+    def test_discovery_and_development_only_metadata(self):
+        dist = ROOT / 'sites/dist'
+        for path in ['agents/index.md', 'IMPORT.md', 'llms.txt', 'versions.json']:
+            self.assertTrue((dist / path).is_file(), path)
+        for capture in json.loads((ROOT / 'docs/screenshots/documentation.json').read_text())['captures']:
+            self.assertEqual((ROOT / capture['path']).read_bytes(), (dist / 'assets' / capture['path']).read_bytes())
+        scopes = json.loads((dist / 'versions.json').read_text())
+        self.assertEqual(2, len(scopes))
+        self.assertEqual({'en', 'es'}, {scope['language'] for scope in scopes})
+        self.assertTrue(all(scope['development'] and scope['version'] == 'development' for scope in scopes))
+        self.assertTrue(all(len(scope['pages']) == 27 for scope in scopes))
+
+
+if __name__ == '__main__':
+    unittest.main()
