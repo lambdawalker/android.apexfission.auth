@@ -3,7 +3,7 @@ repository: lambdawalker/android.apexfission.auth
 title: Android auth
 modules:
   auth: attestra-auth
-tooling_ref: v0.1.16
+tooling_ref: v0.1.20
 sources:
   roots:
   - auth/src/main/java
