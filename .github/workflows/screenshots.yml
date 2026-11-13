@@ -1,27 +1,19 @@
-name: Render documentation screenshots
+name: Verify Attestra Auth
+
 on:
   pull_request:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      mode:
-        description: 'Generate candidates for review, or validate accepted baselines'
-        type: choice
-        options: [candidates, validate]
-        default: candidates
-concurrency:
-  group: screenshots-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
-  render:
-    runs-on: ubuntu-latest
+  verify:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -29,32 +21,33 @@ jobs:
             17
             25
       - uses: gradle/actions/setup-gradle@v5
-      - name: Verify required scenarios and coverage
-        run: |
-          python3 scripts/screenshots/suite.py coverage
-          python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'
-      - name: Generate candidates without accepting them
+      - name: Build and lint the library
+        run: ./gradlew :auth:assembleRelease :auth:lintDebug :app:assembleDebug :app:lintDebug --no-daemon
+      - name: Render candidates or validate approved screenshots
         shell: bash
-        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'candidates'
         run: |
-          bash gradlew :auth:updateDebugScreenshotTest :app:updateDebugScreenshotTest --stacktrace
-          python3 scripts/screenshots/suite.py candidates
-          python3 scripts/screenshots/review.py | tee -a "$GITHUB_STEP_SUMMARY"
-      - name: Restore reviewed baseline inputs
-        if: github.event_name != 'workflow_dispatch' || inputs.mode != 'candidates'
-        run: python3 scripts/screenshots/suite.py restore
-      - name: Compare with accepted baselines without updating
-        if: github.event_name != 'workflow_dispatch' || inputs.mode != 'candidates'
-        run: bash gradlew :auth:validateDebugScreenshotTest :app:validateDebugScreenshotTest --stacktrace
-      - name: Upload candidate images and comparison reports
+          set -euo pipefail
+          reference=auth/src/screenshotTestDebug/reference
+          task=:auth:validateDebugScreenshotTest
+          if ! git ls-files -- "$reference" | awk '/\.png$/ { found = 1 } END { exit !found }'; then
+            task=:auth:updateDebugScreenshotTest
+          fi
+          ./gradlew "$task" --no-daemon
+          mkdir -p screenshot-manifest
+          git rev-parse HEAD > screenshot-manifest/source.txt
+          : > screenshot-manifest/images.sha256
+          if [[ -d "$reference" ]]; then
+            find "$reference" -name '*.png' -type f -print0 | sort -z |
+              xargs -0 -r sha256sum > screenshot-manifest/images.sha256
+          fi
+          test "$(wc -l < screenshot-manifest/images.sha256)" -eq 70
+      - name: Upload screenshots and test reports
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: onboarding-screenshots
+          name: auth-screenshot-results
           path: |
-            docs/generated/screenshots/
+            screenshot-manifest/
+            auth/src/screenshotTestDebug/reference/
             auth/build/reports/screenshotTest/
             auth/build/outputs/screenshotTest-results/
-            app/build/reports/screenshotTest/
-            app/build/outputs/screenshotTest-results/
-          if-no-files-found: warn

@@ -1,15 +1,8 @@
-// BEGIN MAVEN PUBLICATION ONLY
-import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
-import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.SourcesJar
-import org.gradle.api.publish.PublishingExtension
+import java.util.zip.ZipFile
 
-// END MAVEN PUBLICATION ONLY
 plugins {
-// BEGIN MAVEN PUBLICATION ONLY
-    id("com.vanniktech.maven.publish")
-// END MAVEN PUBLICATION ONLY
     id("com.android.library")
+    id("com.apexfission.android-repo-setup")
     alias(libs.plugins.screenshot)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
@@ -100,27 +93,30 @@ android.androidResources.noCompress += "tflite"
 // BEGIN MAVEN PUBLICATION ONLY
 
 
-// Only the auth release variant is a publication. app is local.
-val jitpackTagSuffix = if (providers.gradleProperty("jitpackScopedTag").orNull == "true") "-jitpack" else ""
-val jitpackBuild = providers.gradleProperty("jitpackBuild").orElse("false").map(String::toBoolean)
-val projectUrl = "https://github.com/lambdawalker/android.attestra.auth"
+// Public publication still requires an owner-selected license. Only the isolated
+// unsigned verification repository may use fixture POM metadata.
+val verificationPublication = gradle.startParameter.taskNames.any {
+    it.endsWith(":publishAllPublicationsToVerificationRepository")
+}
+val projectUrl = "https://github.com/lambdawalker/android.apexfission.auth"
 val pomLicenseName = providers.gradleProperty("POM_LICENSE_NAME").orElse("")
 val pomLicenseUrl = providers.gradleProperty("POM_LICENSE_URL").orElse("")
 mavenPublishing {
-    coordinates(
-        if (jitpackBuild.get()) "com.github.lambdawalker" else providers.gradleProperty("GROUP").get(),
-        if (jitpackBuild.get()) "android.attestra.auth" else providers.gradleProperty("POM_ARTIFACT_ID").get(),
-        if (jitpackBuild.get()) "auth~v${project.version}$jitpackTagSuffix" else project.version.toString()
-    )
-    configure(AndroidSingleVariantLibrary(variant = "release", javadocJar = JavadocJar.Empty(), sourcesJar = SourcesJar.Sources()))
-    if (!jitpackBuild.get()) publishToMavenCentral()
-    if (!jitpackBuild.get() && providers.gradleProperty("signingInMemoryKey").isPresent) signAllPublications()
     pom {
         name.set("Attestra Auth")
         description.set("Android email, passkey and identity-capture onboarding for Attestra.")
         inceptionYear.set("2026")
         url.set(projectUrl)
-        licenses { license { name.set(pomLicenseName); url.set(pomLicenseUrl) } }
+        licenses {
+            license {
+                name.set(pomLicenseName.map {
+                    it.ifBlank { if (verificationPublication) "CI validation fixture only" else "" }
+                })
+                url.set(pomLicenseUrl.map {
+                    it.ifBlank { if (verificationPublication) "https://example.invalid/license" else "" }
+                })
+            }
+        }
         developers { developer {
             id.set("lambdawalker")
             name.set("David Garcia")
@@ -129,24 +125,34 @@ mavenPublishing {
         scm {
             url.set(projectUrl)
             connection.set("scm:git:$projectUrl.git")
-            developerConnection.set("scm:git:ssh://git@github.com/lambdawalker/android.attestra.auth.git")
+            developerConnection.set("scm:git:ssh://git@github.com/lambdawalker/android.apexfission.auth.git")
         }
     }
 }
-tasks.withType<com.vanniktech.maven.publish.tasks.JavadocJar>().configureEach {
-    from(rootProject.file("README.md"))
-    from(rootProject.file("docs/agents")) { include("**/*.md"); into("guides") }
-    from(rootProject.file("LICENSE"))
-}
-tasks.withType<org.gradle.jvm.tasks.Jar>().configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
-}
-extensions.configure<PublishingExtension> {
-    repositories.maven {
-        name = "verification"
-        url = rootProject.layout.buildDirectory.dir("verification-repository").get().asFile.toURI()
+// Auth bundles assets from a separately pinned model AAR. Its class archive must
+// never be merged, and the generic Git-backed asset contract cannot represent it.
+val verifyBundledCardModel = tasks.register("verifyBundledCardModel") {
+    dependsOn("assembleRelease")
+    doLast {
+        ZipFile(cardModelAssets.singleFile).use { model ->
+            ZipFile(layout.buildDirectory.file("outputs/aar/auth-release.aar").get().asFile).use { output ->
+                val entries = model.entries().asSequence().filter {
+                    !it.isDirectory && it.name.startsWith("assets/") && it.name.endsWith(".tflite")
+                }.toList()
+                require(entries.isNotEmpty()) { "Pinned model AAR contains no TFLite assets" }
+                entries.forEach { source ->
+                    val expected = model.getInputStream(source).use { it.readBytes() }
+                    val packaged = requireNotNull(output.getEntry(source.name)) { "Missing bundled model: ${source.name}" }
+                    val actual = output.getInputStream(packaged).use { it.readBytes() }
+                    require(expected.contentEquals(actual)) { "Bundled model differs from the pinned model AAR" }
+                    require(actual.size > 8 && actual.copyOfRange(4, 8).contentEquals("TFL3".toByteArray())) { "Invalid TFLite asset" }
+                }
+            }
+        }
     }
+}
+tasks.withType<org.gradle.api.publish.maven.tasks.AbstractPublishToMaven>().configureEach {
+    dependsOn(verifyBundledCardModel)
 }
 val verifyPublicationLicense = tasks.register("verifyPublicationLicense") {
     doLast {
@@ -157,7 +163,7 @@ val verifyPublicationLicense = tasks.register("verifyPublicationLicense") {
 }
 tasks.configureEach {
     if (name.contains("MavenCentral", ignoreCase = true)) {
-        dependsOn(rootProject.tasks.named("verifyPublicationReservation"), verifyPublicationLicense)
+        dependsOn(verifyPublicationLicense, verifyBundledCardModel)
     }
     if (this is org.gradle.api.publish.maven.tasks.PublishToMavenLocal) dependsOn(verifyPublicationLicense)
 }

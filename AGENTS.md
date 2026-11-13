@@ -28,10 +28,25 @@ this file is for contributors. Apply the Android and system-integrated rules in
 - Update API/feature coverage, relevant guides, screenshots and tests with behavior.
   Do not hand-edit generated `sites/dist/`, API inventory or candidate manifests.
 
+## Shared tooling
+
+Use `.project/setup/config.yaml` and generated `setup.sh` / `setup.bat` for shared
+setup, signing, release and workflow operations. Keep independent documentation
+configuration under `.project/docs/`. Do not restore duplicated Python release
+engines or wizards. Preserve Auth-specific signed APK association verification,
+backend configuration checks, device tests and manual screenshot acceptance.
+The source pin matches the docs pin because released v0.1.21 rejects its expanded
+Astro configuration. No package or remote environment changes are authorized by
+ordinary tooling validation.
+
 ## Checks
 
 ```sh
-uv run --with rich==14.1.0 python -m unittest discover -s scripts/signing
+sh ./setup.sh bootstrap check
+sh ./setup.sh workflows --check
+sh ./setup.sh publishing-config check
+sh ./setup.sh module-release verify
+python3 -m unittest discover -s scripts/signing
 sh ./docs.sh sources check
 python3 scripts/screenshots/suite.py coverage
 python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'

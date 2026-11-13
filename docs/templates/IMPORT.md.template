@@ -1,4 +1,4 @@
-<!-- Generated from confirmed auth metadata and docs/templates/IMPORT.md.template. Run python scripts/module_release.py generate. -->
+<!-- Generated from confirmed auth metadata and docs/templates/IMPORT.md.template. Run sh ./setup.sh module-release generate. -->
 # Integrate Attestra auth
 
 Only publicly confirmed releases appear below. Tags, local verification builds and

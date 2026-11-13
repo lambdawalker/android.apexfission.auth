@@ -1,199 +1,91 @@
 # Publish Attestra auth
 
-This tooling adapts the destination registry, Python terminal wizard and journaled
-release protocol from `android.apexfission.carddetector` to **`:auth` only**.
-The demo `:app` is never a Maven publication.
-No auth package has been published or confirmed by this change.
+The shared `android-repo-setup` CLI owns setup, workflow generation, destination
+configuration, release identities, reservations, confirmation and recovery.
+Only `:auth` is published; `:app` remains the runnable demo. See [confirmed
+installation](../IMPORT.md); no release is inferred from a local build.
 
-## Before the first release
+## Tooling and ownership
 
-1. Choose the actual project license. Commit its text and set `POM_LICENSE_NAME`
-   and `POM_LICENSE_URL` in `gradle.properties`. They are deliberately blank:
-   the reference's Apache license does not grant a license to this project.
-   JitPack must read this public metadata from tagged source, not GitHub secrets.
-2. Review the proposed Central identity `io.github.lambdawalker:attestra-auth`.
-   Verify ownership of `io.github.lambdawalker` in the Central Portal. Edit the
-   authoritative `GROUP`/`POM_ARTIFACT_ID` before the first tag if necessary;
-   adjust the allowed artifact in `scripts/module_release.py` when renaming.
-3. Create a Central Portal publishing user token (username/password pair).
-   Generate a GPG signing key, distribute its public key as Central requires,
-   and export the private key to an ASCII-armored file outside this repository.
-4. Run the setup wizard below. It creates `maven-central`, `jitpack`, and
-   `delayed-docs`; the latter gets a 15-minute wait timer when newly created.
-5. Check repository Actions permissions and tag/main rules. The automatic
-   `GITHUB_TOKEN` needs contents write for immutable tags, journals and confirmed
-   installation commits. Protected branches/rulesets may reject bot writes;
-   do not use a bypass token. Preserve the journals and reconcile through the
-   repository's approved review process if an atomic finalization push is blocked.
+Run `sh ./setup.sh` or `setup.bat` from any working directory. The generated
+launcher locates this repository and installs the pinned tool. The immutable pin
+in `.project/setup/config.yaml` matches the standalone documentation tool's source:
+released v0.1.21 cannot read Auth's expanded Astro page/alias configuration.
+Source pins require Git and Rust/Cargo. The separately installed Gradle publishing
+plugins use v0.1.20, matching the Demo Common reference integration.
 
-## Configure environments
+- `.project/setup/config.yaml`: repository, module, app, toolchain and verification contract.
+- `.project/setup/repositories.yml`: destination IDs and GitHub environments.
+- `gradle.properties`: Central identity and owner-selected public license metadata.
+- `docs/templates/IMPORT.md.template`: installation prose; the CLI renders confirmed records.
+- `.project/verification/checks.json`: immutable-source preflight commands.
+- `scripts/signing/`: Auth APK/association verification and headless CI certificate fixtures.
+- `scripts/screenshots/`: Auth scenario coverage, manual acceptance and visual review.
+- `scripts/geography/`, `scripts/verification/`: Auth-specific dataset and build checks.
 
-Use Python 3.12+ from the repository root. On Windows `python`/`py` can be used.
+The generated Documentation workflow uses the shared main-only Pages policy and
+`github-pages` environment, replacing the old `DOCS_PAGES_ENABLED` switch. Review
+that hosting policy before merging.
 
-```sh
-python -m pip install -r scripts/requirements-setup.txt
-python scripts/setup_github_environments.py
-```
+Generic release engines and interactive Python wizards have been removed. Retained
+helpers implement Attestra behavior the shared CLI does not supply. Historical
+release tags retain their original source and scripts.
 
-With uv, dependencies can remain isolated:
+## Before the first public release
 
-```sh
-uv run --with-requirements scripts/requirements-setup.txt python scripts/setup_github_environments.py
-```
+Choose and commit the actual project license; set `POM_LICENSE_NAME` and
+`POM_LICENSE_URL`. They remain deliberately blank. Public/local publication rejects
+missing license metadata. An isolated unsigned verification publication uses
+explicit fixture POM metadata; it grants no license or publication authorization.
+Review the proposed Central identity `io.github.lambdawalker:attestra-auth` and
+verify namespace ownership. JitPack uses the configured repository name.
 
-The default repository is `lambdawalker/android.attestra.auth`; `--repo owner/name`
-is available for forks. The wizard **asks for a GitHub token** in a masked field.
-Use a fine-grained token restricted to this repository with Administration and
-Environments read/write, and authorize any required organization SSO. A classic
-`repo` token also works. This setup token stays in memory and is never saved or
-installed as a publishing credential. Do not paste it into a PR or commit it.
-
-| Environment | Variables | Secrets |
-| --- | --- | --- |
-| `maven-central` | `MAVEN_REPOSITORY_URL`, default `https://repo.maven.apache.org/maven2` (public verification endpoint) | `MAVEN_CENTRAL_USERNAME`, `MAVEN_CENTRAL_PASSWORD`, `SIGNING_IN_MEMORY_KEY`, optional `SIGNING_IN_MEMORY_KEY_PASSWORD` |
-| `jitpack` | None | None; public JitPack requires no publishing token |
-| `delayed-docs` | None; new environment has a 15-minute wait timer | None |
-
-The signing key prompt takes a **file path**, reads the full multiline key, and
-encrypts the secret with GitHub's public key before upload. Blank preserves an
-existing value. Required missing values cannot be skipped. The review page shows
-setting names and nonsecret changes before any writes. Partial or uncertain writes
-are reported by name so rerunning can inspect the actual state safely.
-Existing environments and protection rules are preserved. In particular, an existing
-`delayed-docs` timer is not changed: inspect it in Settings > Environments and set
-15 minutes if needed. Timer availability depends on your GitHub plan and repository
-visibility. Required reviewers or branch restrictions may introduce additional gates;
-the wizard does not remove them. No live repository environments were configured or
-inspected as part of adding these scripts.
-
-The public registry is `publishing/repositories.yml`. After changing it run:
+Run setup interactively only when ready to configure remote environments:
 
 ```sh
-python scripts/publishing_config.py generate
-python scripts/publishing_config.py check
+sh ./setup.sh setup-github-environments
+sh ./setup.sh signing
 ```
 
-## Publish
+The publishing wizard preserves existing values and protection rules. Central uses
+`MAVEN_CENTRAL_USERNAME`, `MAVEN_CENTRAL_PASSWORD`, `SIGNING_IN_MEMORY_KEY` and optional
+`SIGNING_IN_MEMORY_KEY_PASSWORD`. Public JitPack is secret-free. The `delayed-docs`
+environment must have the 15-minute timer; inspect existing environments because
+setup must not silently weaken their protections. No environment setup or package
+publication is performed as part of this migration.
 
-After review and merge, open **Actions → Publish Attestra auth → Run workflow**
-on `main`. Select `maven-central` or `jitpack`. There is one optional `version`
-field and a JitPack pending-attempt checkbox. The module is fixed internally.
-
-- First blank version selects `0.1.0`.
-- Blank with unchanged release inputs reuses the latest semantic version and
-  its original source commit. If this destination already confirms it, it is a no-op.
-- Blank with changed release inputs increments the latest destination patch, e.g.
-  `0.1.9` becomes `0.1.10`.
-- An explicit stable `X.Y.Z` must be newer than every reserved or confirmed identity at the selected destination.
-  It is a new version request, never a recovery shortcut. Prereleases and snapshots
-  are not stable releases under this policy.
-
-Inputs include auth main source/resources, packaged README/agent guides, buildSrc,
-build scripts, dependency catalog, wrapper/toolchain, license, release helpers and
-registry. Demo/mock-only sources, generated IMPORT and confirmation records are
-excluded. Protocol/script changes conservatively allocate a new identity.
-
-The workflow validates an unsigned publication before reserving `auth/vX.Y.Z-DESTINATION` and
-an annotated `release-pending/...` journal atomically. Tags are immutable. A Central
-upload-started marker is pushed before the plugin upload; an unresolved attempt
-blocks another upload. Maven Central credentials are exposed only to preflight and
-the signed upload step. Public JitPack never receives Central secrets.
-
-Central uses `:auth:publishAndReleaseToMavenCentral`, then a separate secret-free
-environment delay, then public verification for up to 40 minutes. The environment
-wait holds no runner or mutation lock; the publishing plugin may itself wait for
-Central validation while its runner is active. Publishing and automatic/manual
-finalization share one repository-wide job concurrency group. GitHub concurrency
-is not a durable FIFO queue; pending runs may be superseded, so journals remain
-necessary.
-
-JitPack installs exactly one unsigned release publication in MavenLocal from a
-canonical `auth/vX.Y.Z-jitpack` tag. Its consumer version is **`auth~vX.Y.Z-jitpack`**, at
-`com.github.lambdawalker:android.attestra.auth`; this is distinct from Central's
-semantic version string. An artifact request starts the remote build, which is
-polled for up to 30 minutes. Provider-reported success must identify the reserved
-full commit SHA and all required public artifacts must validate. Provider provenance
-is trusted within these limits; tags alone do not prove public availability.
-
-Both destinations require POM, AAR, Kotlin sources and text documentation. Central
-also requires Gradle metadata and detached signatures. Public Central artifacts
-must match the pre-upload SHA-256 journal; signature armor is checked, **not**
-cryptographically verified. JitPack may omit Gradle metadata; its independently
-rebuilt ZIP hashes are recorded after verification instead of compared to local
-ZIP hashes. Checks validate coordinates, pinned permissions/detector dependencies,
-Java 17 auth classes and non-pointer bundled model assets. Public model files are
-also compared with source-specific asset hashes stored in the reservation.
-
-## Recovery
-
-Use **Actions → Finalize Attestra auth release** with the same destination and
-existing semantic version. It never rebuilds or uploads to Central. It reads the
-durable reservation, checks source identity, polls public artifacts and atomically
-updates confirmed records, immutable history and generated `IMPORT.md` on main.
-It can run during the environment delay; later automatic finalization is a no-op.
-Repeated completed/older finalization does not overwrite newer installation facts.
-An external JitPack request can start the same tagged build if not cached; recovery
-never invokes force-rebuild/delete APIs or moves the canonical tag.
-
-After validation failure before reservation, fix the cause and rerun normally.
-After an upload timeout, inspect the retained Actions log and Central Portal;
-the request may have succeeded. **Do not delete attempt markers or blindly upload
-again.** Partial public artifacts and propagation timeouts retain their journals
-and do not change installation recommendations. Rerun the finalizer after checking
-the outcome. A definitively rejected Central attempt needs owner reconciliation:
-verify the entire artifact set is absent and the Portal deployment cannot publish,
-archive the journal, then clear only its pending/upload-started refs through the
-approved maintenance process. Never delete or move the canonical source tag.
-
-For a terminal JitPack error at the exact reserved commit, the next Publish run
-can archive its pending journal only after confirming every intended artifact is
-absent and selecting a newer version/corrected descendant source. Unknown, queued,
-source-mismatched or partially public builds keep their journal.
-
-## Installation and documentation
-
-`IMPORT.md` is generated from `docs/templates/IMPORT.md.template` and confirmed
-records. After the first scoped confirmation it shows each destination’s latest version and source, with Kotlin/Groovy/catalog/Maven examples and JitPack dependency
-repository declarations. No proposed coordinate is advertised as available.
+## Generate and verify configuration
 
 ```sh
-python scripts/module_release.py generate
-python scripts/module_release.py verify
+sh ./setup.sh bootstrap check
+sh ./setup.sh workflows --check
+sh ./setup.sh publishing-config check
+sh ./setup.sh module-release verify
+sh ./setup.sh setup check
 ```
 
-Equivalent Gradle tasks are `generateImportDocs` and `verifyImportDocs`.
-Confirmation archives are `docs/releases/history/auth/X.Y.Z.json`; these preserve
-source/documentation identities and destination artifact hashes independently of
-latest pointers. The existing guide website remains explicitly Development/main;
-these archives are publication evidence, not full historical guide snapshots.
-A successful publishing/finalization workflow refreshes the current site from the
-latest main, including confirmed IMPORT. It does not depend on a bot push event.
+`setup check` also evaluates Android modules with Gradle. After reviewing a tooling
+upgrade, run `workflows --overwrite`, `publishing-config generate` and
+`bootstrap generate --overwrite`, then commit the generated changes. Keep Auth's
+custom `verify.yml`, `signed-build.yml`, `auth-screenshots.yml` and screenshot
+candidate workflow: they cover backend environments, public signing associations,
+device flows and explicit baseline acceptance beyond generic CLI checks.
 
-## Verification without publishing
+## Publish and recover
 
-```sh
-python -m pip install -r scripts/requirements-setup.txt
-python -m unittest discover -s scripts/tests -v
-python scripts/publishing_config.py check
-python scripts/module_release.py verify
-bash gradlew :auth:testDebugUnitTest :auth:assembleRelease :auth:publishAllPublicationsToVerificationRepository -PreleaseModule=auth -PreleaseVersion=0.1.0 '-PPOM_LICENSE_NAME=CI validation fixture only' -PPOM_LICENSE_URL=https://example.invalid/license
-```
+Use **Publish** from `main`, select the destination, and leave the
+version blank for shared identity selection. Changed build inputs require a newer
+version; destinations reuse the exact immutable source for the same version.
+The shared engine reserves before upload and keeps uncertain upload journals.
+Central upload is followed by the separate environment delay and public artifact
+confirmation. JitPack confirmation checks the tagged source. Model assets are
+compared against the pinned model AAR before publication; model classes are not
+added to the runtime.
 
-The CI-only license parameters above do not declare a project license. For the
-unsigned JitPack layout add `-PjitpackBuild=true` and set
-`RELEASE_REPOSITORY=jitpack` when running `check-local`. Neither verification
-repository task uploads packages or reserves tags. The CI matrix verifies both
-layouts without credentials and runs Python tooling tests on Linux and Windows.
+Use **SUB - Finalize Attestra Auth release** to finish a previously uploaded version without
+uploading again. Use **Reconcile failed JitPack attempts** to preview stale attempts
+before applying any proven-failure reconciliation. Never delete pending markers
+merely because a job failed. Follow the [shared recovery contract](https://github.com/lambdawalker/gradle.android-repo-setup/blob/main/docs/release-reconciliation.md).
 
-References: [plugin Central setup](https://github.com/vanniktech/gradle-maven-publish-plugin/blob/0.37.0/docs/central.md),
-[JitPack build configuration](https://docs.jitpack.io/building/),
-[JitPack API](https://docs.jitpack.io/api/),
-[GitHub environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment).
-
-## Destination-scoped publishing and recovery
-
-Enter plain `X.Y.Z` in the workflow. Maven Central reserves `auth/vX.Y.Z-maven-central` and keeps `X.Y.Z` in its dependency coordinates. JitPack reserves `auth/vX.Y.Z-jitpack` and publishes consumer version `auth~vX.Y.Z-jitpack`. The same semantic version can identify different commits on different destinations. Existing tags, journals, and published coordinates remain valid.
-
-Leave **allow_pending_jitpack** off for normal releases. Enable it only to publish an explicit newer JitPack version while an older pending attempt remains unresolved. The workflow preserves the older tags and journals, checks their source provenance, and keeps upload-started markers and artifact verification enforced. Maven publishing does not use this checkbox.
-
-Use the dedicated **Finalize** workflow from the current release branch for an already reserved version. It verifies the original artifact source and only then updates installation metadata. New archive entries are scoped to the destination, so two providers with the same semantic version can retain separate source and documentation revisions.
+Confirmed metadata and installation guides advance only after public verification.
+Documentation generation and deployment do not publish Maven artifacts.

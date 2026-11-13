@@ -15,9 +15,8 @@ jobs:
             25
       # Use the hosted Android SDK; AGP resolves the pinned SDK components.
       - uses: gradle/actions/setup-gradle@v5
-      - uses: astral-sh/setup-uv@v7
       - name: Test signing tools
-        run: uv run --with rich==14.1.0 python -m unittest discover -s scripts/signing
+        run: python3 -m unittest discover -s scripts/signing
       - name: Verify auth translations
         run: |
           python3 -m unittest discover -s scripts/tests -p 'test_auth_resources.py'

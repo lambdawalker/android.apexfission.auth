@@ -1,4 +1,4 @@
-<!-- Generado a partir de metadatos confirmados de auth. La plantilla canónica es docs/templates/IMPORT.md.template. -->
+<!-- Generado a partir de metadatos confirmados de auth. La plantilla canónica es docs/templates/IMPORT.md.template. Regenerar con sh ./setup.sh module-release generate. -->
 # Integrar Attestra auth
 
 Solo aparecen versiones confirmadas públicamente. Las etiquetas, compilaciones

@@ -17,7 +17,7 @@ Use **signedDebug** for local end-to-end tests. The variant appears after Gradle
 
 Each developer keeps a personal keystore and password. Teammates do not need to share one private key. Dev and QA can approve multiple certificate fingerprints for the same application ID, `com.apexfission.android.auth`.
 
-1. Run `signing.bat` on Windows or `./signing.sh` on Linux/macOS. Generate a key once; use Export for an existing key.
+1. Run `signing.bat` on Windows or `./signing.sh` on Linux/macOS. Use the shared CLI APK key operation and reuse an existing keystore to preserve its fingerprint.
 2. Select the intended environment. The wizard exports public JSON and copies it to `~/.attestra/associations/<environment>/developer-associations.json`.
 3. In the Go repository, run setup for that environment. For an already-completed environment, use `setup.bat -force-setup`. Review the discovered package and fingerprints before approving them. Setup merges additions without removing existing approvals and deploys the public association file. This requires the backend domain-associations feature.
 4. Configure signing in Android Studio using the [signing guide](android-signing.md), sync Gradle and select **signedDebug** in Build Variants. Select the correct environment through the documented Gradle settings or exported environment properties.

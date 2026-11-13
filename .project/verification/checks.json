@@ -1,0 +1,7 @@
+{
+  "release_validation": [
+    ["sh", "./docs.sh", "check"],
+    ["python3", "scripts/screenshots/suite.py", "coverage"],
+    ["python3", "-m", "unittest", "discover", "-s", "scripts/screenshots", "-p", "test_*.py"]
+  ]
+}
