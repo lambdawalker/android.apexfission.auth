@@ -12,16 +12,20 @@ annotation class AppDocumentationPreview
 
 class AppScreenshotTest {
     @PreviewTest @AppDocumentationPreview @Composable
-    fun menu() { AttestraAuthTheme { OnboardingEntryScreen(true, false, null, {}, {}, {}) } }
+    fun menu() { AttestraAuthTheme { OnboardingEntryScreen(true, false, null, {}, {}, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
-    fun resetting() { AttestraAuthTheme { OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}) } }
+    fun resetting() { AttestraAuthTheme { OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
-    fun menuWithoutBackend() { AttestraAuthTheme { OnboardingEntryScreen(false, false, null, {}, {}, {}) } }
+    fun menuWithoutBackend() { AttestraAuthTheme { OnboardingEntryScreen(false, false, null, {}, {}, {}, {}) } }
     @PreviewTest
     @Preview(name = "NarrowLight", widthDp = 320, heightDp = 852, fontScale = 1.6f, uiMode = Configuration.UI_MODE_NIGHT_NO)
     @Preview(name = "NarrowDark", widthDp = 320, heightDp = 852, fontScale = 1.6f, uiMode = Configuration.UI_MODE_NIGHT_YES)
     @Composable
-    fun menuLargeText() { AttestraAuthTheme { OnboardingEntryScreen(true, false, null, {}, {}, {}) } }
+    fun menuLargeText() { AttestraAuthTheme { OnboardingEntryScreen(true, false, null, {}, {}, {}, {}) } }
+    @PreviewTest @AppDocumentationPreview @Composable
+    fun localCaptureComplete() { AttestraAuthTheme { LocalCardCaptureResult(true, {}, {}) } }
+    @PreviewTest @AppDocumentationPreview @Composable
+    fun localCaptureFailure() { AttestraAuthTheme { LocalCardCaptureResult(false, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
     fun configurationLoading() { AttestraAuthTheme { EnvironmentStatusScreen(true, null, {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable

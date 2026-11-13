@@ -84,3 +84,17 @@ This checks whether Android routes to the app; without a request and proof, it c
 Before considering onboarding verified, exercise a fresh same-device email, resend/newest-email behavior, expired/invalid links, app restart, and relevant passkey/OTP flows. Cross-device email confirmation needs a deployed browser fallback; do not count publishing assetlinks.json as implementing that page. Record the environment, variant, installed fingerprint, Android version, device verification output and observed result. Do not include live email proofs, OTPs or passwords in reports.
 
 Official references: [Verify Android App Links](https://developer.android.com/training/app-links/verify-applinks) and [Android Debug Bridge](https://developer.android.com/tools/adb).
+
+
+## Local card capture component demo
+
+Open **Card capture → Open card capture demo** in the app test menu. No account
+or available backend is required. Allow camera permission, capture the front,
+continue to the back, and exercise review, independent retakes, and the auto/manual
+capture toggle. Confirming shows **Capture complete** and discards the encoded
+images. **Try again** starts a new camera instance; cancel or Back returns to the
+menu. Repeat with permission denied and with a device without a camera. A capture
+error should offer retry and return actions. Verify that no capture or upload
+requests are emitted and that reopening the demo starts fresh. Real camera and
+permission behavior require a device; injected-camera UI tests and offline
+result screenshots do not establish those behaviors.

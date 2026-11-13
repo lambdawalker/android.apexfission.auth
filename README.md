@@ -13,6 +13,15 @@ claimed live until a Pages deployment succeeds. See [site maintenance](sites/REA
 
 ## Test ID capture and preview UI
 
+For the component alone, choose **Open card capture demo** from the test menu.
+It opens the same permission-gated front/back camera with auto/manual capture,
+review, and retakes, without requiring environment configuration or sign-in.
+Confirming discards the captured bytes and shows a local completion screen with
+**Try again** and **Back to demo menu**. It does not create capture records,
+upload images, run backend OCR, or save a session. Cancel or system Back returns
+to the menu. This playground is separate from the authenticated ID capture flow.
+
+
 Install either app variant and use onboarding with a signed-in account and matching backend configuration. The UI catalog also provides a direct capture entry, using the same live backend flow. The local mock module and its scenario selector have been removed. For offline UI inspection, use the catalog screens or Android Studio previews; see [preview and screenshot guidance](docs/screenshots.md).
 
 The `:auth` library includes identity capture and requires **Android 9 (API 28)**, as does the demo app. Builds use compile SDK 37 and Java 17. See the [identity guide](docs/identity/README.md) for lifecycle behavior, recovery scenarios, and remaining device checks.

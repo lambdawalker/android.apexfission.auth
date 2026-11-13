@@ -498,6 +498,26 @@
         "auth:DocumentationScreenshotTest.issuingJurisdiction"
       ],
       "note": "Offline themed review/editor fixture; no services or private images."
+    },
+    {
+      "source": "app/src/main/java/com/apexfission/android/auth/LocalCardCaptureDemo.kt",
+      "symbol": "LocalCardCaptureDemo",
+      "kind": "runtime-delegation",
+      "scenarios": [
+        "app:AppScreenshotTest.localCaptureComplete",
+        "app:AppScreenshotTest.localCaptureFailure"
+      ],
+      "note": "Real IdentityCamera is permission gated and requires device testing; result states have offline fixtures. This entry never constructs backend clients or capture controllers."
+    },
+    {
+      "source": "app/src/main/java/com/apexfission/android/auth/LocalCardCaptureDemo.kt",
+      "symbol": "LocalCardCaptureResult",
+      "kind": "direct",
+      "scenarios": [
+        "app:AppScreenshotTest.localCaptureComplete",
+        "app:AppScreenshotTest.localCaptureFailure"
+      ],
+      "note": "Offline success and failure fixtures in light and dark mode; no camera, storage, or network services."
     }
   ]
 }

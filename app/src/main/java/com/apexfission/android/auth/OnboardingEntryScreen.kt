@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.AppRegistration
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Widgets
@@ -41,6 +42,7 @@ internal fun OnboardingEntryScreen(
     onDeleteLocalUser: () -> Unit,
     onStart: () -> Unit,
     onCatalog: () -> Unit,
+    onCardCapture: () -> Unit,
 ) {
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     DemoScreen(
@@ -80,6 +82,21 @@ internal fun OnboardingEntryScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.small,
                 ) { Text("Open UI catalog") }
+            }
+        }
+        item(key = "local_card_capture") {
+            DemoCard {
+                CardTitle(title = "Card capture", icon = Icons.Outlined.PhotoCamera)
+                Text(
+                    "Try front/back capture, review, and retakes on this device. No sign-in or backend is needed. Images are discarded after confirmation or exit.",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                OutlinedButton(
+                    onClick = onCardCapture,
+                    enabled = !resetting,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.small,
+                ) { Text("Open card capture demo") }
             }
         }
         item(key = "account_actions") {
@@ -124,7 +141,8 @@ private fun OnboardingEntryScreenPreview() {
             resetMessage = null,
             onDeleteLocalUser = {},
             onStart = {},
-            onCatalog = {}
+            onCatalog = {},
+            onCardCapture = {}
         )
     }
 }

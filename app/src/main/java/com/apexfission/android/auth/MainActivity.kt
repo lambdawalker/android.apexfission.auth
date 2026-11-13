@@ -22,7 +22,7 @@ import com.apexfission.android.auth.ui.onboarding.OnboardingBusinessActions
 import com.apexfission.android.auth.ui.onboarding.OnboardingCatalog
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 
-private enum class EntryScreen { Home, Catalog, Onboarding, IdentityCapture }
+private enum class EntryScreen { Home, Catalog, Onboarding, IdentityCapture, LocalCardCapture }
 
 class MainActivity : ComponentActivity() {
     private companion object { const val TAG = "EmailDebugX" }
@@ -77,7 +77,9 @@ class MainActivity : ComponentActivity() {
                         },
                         onStart = { destination = EntryScreen.Onboarding },
                         onCatalog = { destination = EntryScreen.Catalog },
+                        onCardCapture = { destination = EntryScreen.LocalCardCapture },
                     )
+                    EntryScreen.LocalCardCapture -> LocalCardCaptureDemo(onExit = { destination = EntryScreen.Home })
                     EntryScreen.IdentityCapture -> {
                         val config = environment.configuration
                         if (config != null) CompositionLocalProvider(LocalBackendConfiguration provides config) {
