@@ -35,8 +35,10 @@ jobs:
       - name: Exercise persistent signing with an ephemeral test certificate
         env:
           ATTESTRA_KEYSTORE_PASSWORD: ci-test-only-password
+          ANDROID_KEYSTORE_PASSWORD: ci-test-only-password
         run: |
           export ATTESTRA_KEYSTORE_PATH="$RUNNER_TEMP/attestra-test.p12"
+          export ANDROID_KEYSTORE_PATH="$ATTESTRA_KEYSTORE_PATH"
           trap 'rm -f "$ATTESTRA_KEYSTORE_PATH"; rm -rf .gradle/configuration-cache' EXIT
           python3 scripts/signing/signing.py generate --keystore "$ATTESTRA_KEYSTORE_PATH" --output "$RUNNER_TEMP/association-test.json"
           bash gradlew --no-configuration-cache :app:assembleRelease -PattestraEnvironment=qa
