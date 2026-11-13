@@ -220,7 +220,7 @@ and the distinction between rendering checks and approved visual baselines.
 
 ## Library publishing
 
-See [publishing setup and recovery](docs/releases.md). Run `python scripts/setup_github_environments.py` after installing `scripts/requirements-setup.txt` to configure GitHub deployment environments. Read [IMPORT.md](IMPORT.md) for confirmed installation choices; proposed coordinates are not a release.
+See [publishing setup and recovery](docs/releases.md). Run `sh ./setup.sh setup-github-environments` (or `setup.bat setup-github-environments`) to configure GitHub deployment environments. Read [IMPORT.md](IMPORT.md) for confirmed installation choices; proposed coordinates are not a release.
 
 
 ## Documentation tooling

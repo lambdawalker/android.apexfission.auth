@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["rich==14.1.0"]
+# dependencies = []
 # ///
 """Local signing setup and public association verification; no private-key upload."""
 import argparse
@@ -215,7 +215,7 @@ def verify(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=False)
-    commands.add_parser("wizard", help="guided interactive signing setup (default)")
+
     for name in ("generate", "export"):
         p = commands.add_parser(name)
         if name == "generate":
@@ -234,16 +234,8 @@ def main():
     p.add_argument("--aapt")
     args = parser.parse_args()
     try:
-        if args.command in (None, "wizard"):
-            if not sys.stdin.isatty():
-                parser.error("The wizard requires an interactive terminal; use generate, export or verify-apk for automation")
-            try:
-                from wizard import wizard
-            except ModuleNotFoundError as error:
-                if error.name != "rich":
-                    raise
-                raise RuntimeError("Run with uv run scripts/signing/signing.py to install the wizard dependencies") from None
-            return wizard()
+        if args.command is None:
+            parser.error("Interactive setup moved to sh ./setup.sh signing (or setup.bat signing)")
         if args.command == "verify-apk": verify(args)
         else:
             export(args, args.command == "generate")

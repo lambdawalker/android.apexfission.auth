@@ -46,10 +46,11 @@ the actual project base. Hosting or redirecting the old project base itself requ
 owner configuration at that old host; this migration does not claim it is deployed.
 
 The Documentation workflow builds read-only on PRs and main pushes and uploads an
-artifact. Deployment retains `DOCS_PAGES_ENABLED == 'true'`, trusted-main checks,
-Pages/id-token permissions only in the deployment job, deployment serialization and
-the current-main SHA guard. The owner must separately enable Pages and authorize
-hosting. A documentation retry cannot publish an Android package or redeploy AWS.
+Pages artifact. The shared generated workflow deploys only from main, through the
+`github-pages` environment, with Pages/id-token permissions confined to deployment,
+deployment serialization and the current-main SHA guard. It uses the CLI's standard
+deployment policy rather than the old `DOCS_PAGES_ENABLED` switch; configure Pages
+and environment protections before enabling hosting. A documentation retry cannot publish an Android package or redeploy AWS.
 
 ## Versions, translations and compatibility paths
 

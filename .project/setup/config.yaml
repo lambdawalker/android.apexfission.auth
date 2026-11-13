@@ -1,0 +1,24 @@
+repository: lambdawalker/android.apexfission.auth
+title: Attestra Auth
+modules:
+  auth: attestra-auth
+key_alias: attestra
+tooling_ref: 1da53392b262c7c3129d2bd645dfd7b34ead81e1
+workflows:
+  module: auth
+  app_module: app
+  title: Attestra Auth
+  java_version: '25'
+  screenshot_count: 70
+  documentation_command: sh ./docs.sh build --check && python3 sites/test_build.py --output
+  screenshot_check_command: sh ./docs.sh check && python3 scripts/screenshots/suite.py coverage
+  release_validation_command: sh ./setup.sh release-validate --source "$SOURCE_SHA"
+verification:
+  class_prefix: com/apexfission/android/auth/
+  required_api_artifacts: []
+  bytecode_major: 61
+bootstrap:
+  jitpack: true
+signing:
+  application_ids:
+  - com.apexfission.android.auth

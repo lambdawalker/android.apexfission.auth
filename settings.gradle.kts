@@ -1,4 +1,11 @@
 pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id in setOf("com.apexfission.android-repo-setup.root", "com.apexfission.android-repo-setup")) {
+                requested.version?.let { useModule("com.github.lambdawalker:gradle.android-repo-setup:$it") }
+            }
+        }
+    }
     repositories {
         google {
             content {
@@ -9,6 +16,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven("https://jitpack.io") { content { includeModule("com.github.lambdawalker", "gradle.android-repo-setup") } }
     }
 }
 plugins {
@@ -23,6 +31,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Apexfission Auth"
+rootProject.name = "android.apexfission.auth"
 include(":app")
 include(":auth")
