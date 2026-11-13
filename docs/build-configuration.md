@@ -1,17 +1,25 @@
 # App build configuration
 
-`app/build.gradle.kts` declares the app's identity, SDK levels, dependencies and UI build features. Feature configuration is in precompiled Kotlin script plugins, automatically compiled by Gradle from `buildSrc`:
+`app/build.gradle.kts` declares the app's identity, SDK levels, dependencies and
+Attestra-specific bindings. Reusable application conventions come from the
+published `com.apexfission.android-repo-setup.application` plugin in
+`gradle.android-repo-setup`.
 
-| Plugin / script under `buildSrc/src/main/kotlin` | Responsibility |
+The shared plugin owns two generic mechanisms:
+
+| Convention | Responsibility |
 |---|---|
-| `attestra.endpoints.gradle.kts` | Environment selection, index/static API URL, App Link host, exported Cognito/capture settings and BuildConfig fields |
-| `attestra.signing.gradle.kts` | Optional persistent signing identity for debug and release |
+| `endpoints` | Reads public runtime properties, validates them, and binds them to `BuildConfig` fields and/or manifest placeholders |
+| `signing` | Validates an optional persistent Android keystore and configures debug/release signing plus the optional `signedDebug` variant |
 
-The app applies `id("attestra.endpoints")` and `id("attestra.signing")`. Each convention applies the Android application plugin idempotently. AGP's version still has one source: `gradle/libs.versions.toml`, imported by `buildSrc/settings.gradle.kts`. The other Android modules use unversioned plugin IDs because buildSrc supplies AGP on the shared build classpath.
+Auth declares its Attestra property names, defaults, validation rules, manifest
+placeholder, default signing alias, and debug-source reuse in `app/build.gradle.kts`.
+The encrypted setup-vault format remains private to the CLI and is not parsed by
+Gradle.
 
 ## Endpoint settings
 
-Every public setting uses the same precedence: **Gradle project property → selected exported file → script default**. Gradle project properties include `-P` and normal Gradle properties files. An explicit empty value remains an override; required export fields still reject blanks.
+Every public setting uses the same precedence: **Gradle project property → selected exported file → declared binding default**. Gradle project properties include `-P` and normal Gradle properties files. An explicit empty value remains an override; required export fields still reject blanks.
 
 `attestraConfigFile` is a Gradle property pointing to a backend-generated UTF-8 `.properties` file. Relative paths resolve from the repository root. The file must exist and retain the existing required environment/API/host/region/Cognito/capture fields.
 
@@ -42,19 +50,19 @@ Signing inputs use **process environment variable → root `local.properties` �
 
 | Environment variable / local.properties key | Behavior |
 |---|---|
-| `ATTESTRA_KEYSTORE_PATH` | Enables registered signing; relative paths resolve from the repository root |
-| `ATTESTRA_KEYSTORE_PASSWORD` | Required when the path is supplied |
-| `ATTESTRA_KEY_ALIAS` | Defaults to `attestra` |
-| `ATTESTRA_KEY_PASSWORD` | Defaults to the store password |
+| `ANDROID_KEYSTORE_PATH` | Enables registered signing; relative paths resolve from the repository root |
+| `ANDROID_KEYSTORE_PASSWORD` | Required when the path is supplied |
+| `ANDROID_KEY_ALIAS` | Defaults to `attestra` |
+| `ANDROID_KEY_PASSWORD` | Defaults to the store password |
 
 For Android Studio, add the following to the repository-root `local.properties`, preserving any existing `sdk.dir` line. This file is already ignored by Git. Use forward slashes in Windows paths (or double each backslash); Java properties interpret single backslashes as escapes.
 
 ```properties
-ATTESTRA_KEYSTORE_PATH=C:/Users/D/.attestra/signing/dev.p12
-ATTESTRA_KEYSTORE_PASSWORD=your-keystore-password
-ATTESTRA_KEY_ALIAS=attestra
+ANDROID_KEYSTORE_PATH=C:/Users/D/.projects/android.apexfission.auth/secrets/attestra-setup-1234567890abcdef.jks
+ANDROID_KEYSTORE_PASSWORD=your-keystore-password
+ANDROID_KEY_ALIAS=attestra
 # Optional if different from the store password:
-# ATTESTRA_KEY_PASSWORD=your-key-password
+# ANDROID_KEY_PASSWORD=your-key-password
 ```
 
 File-stored passwords are plaintext; you can keep only the path/alias here and supply passwords through the environment instead. Never commit the file. Resync Studio after changes. Registered signing also requires `org.gradle.configuration-cache=false` in your user Gradle properties for IDE builds; `--no-configuration-cache` applies to command-line builds.
@@ -66,13 +74,20 @@ Without a nonblank keystore path, debug keeps its normal Android debug key and r
 .\gradlew.bat --no-configuration-cache :app:assembleDebug '-PattestraEnvironment=dev'
 ```
 
-Studio must inherit these variables when launched; typing them in the embedded terminal doesn't update the IDE process. The signing convention does not integrate the separate signing-vault plugin or install its dependencies. Register the chosen certificate in the environment's assetlinks.json before testing App Links/passkeys.
+Studio must inherit these variables when launched; typing them in the embedded terminal doesn't update the IDE process. The Gradle plugin deliberately does not open the encrypted setup vault; the CLI owns that secret store. Register the chosen certificate in the environment's assetlinks.json before testing App Links/passkeys.
 
 ## Adding another feature
 
-Add a focused `attestra.<feature>.gradle.kts` under the same buildSrc source directory and apply its ID in the app. Keep inputs, validation and generated Android configuration together. Do not add credentials to the public endpoint resolver. Do not duplicate dependency/plugin versions; use the shared catalog in the buildSrc build script.
+Add Attestra-specific public bindings to the `androidRepoSetup { endpoints { ... } }`
+configuration in `app/build.gradle.kts`. If a mechanism is useful across Android
+applications, generalize it in `gradle.android-repo-setup` instead of creating a
+new project-local precompiled convention script. Keep credentials out of endpoint
+bindings because those values are compiled into the APK.
 
-CI runs `scripts/verification/verify_conventions.py`: default/index mode, exported values, explicit overrides, invalid inputs, signing-cache rejection and a real APK signed with a disposable certificate. This does not deploy infrastructure or register that certificate with any environment.
+CI runs `scripts/verification/verify_conventions.py`: default/index mode, exported
+values, explicit overrides, invalid inputs, signing-cache rejection and a real APK
+signed with a disposable certificate. This does not deploy infrastructure or
+register that certificate with any environment.
 
 ## Signed debug variant
 
