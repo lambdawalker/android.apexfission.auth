@@ -25,7 +25,6 @@ internal fun LocalCardCaptureDemo(
         onError: () -> Unit,
         onCancel: () -> Unit,
     ) -> Unit = { captured, error, cancel ->
-        CapturePrivacy()
         IdentityCamera(onCaptured = captured, onError = error, onCancel = cancel)
     },
 ) {

@@ -70,7 +70,7 @@ started. Synthetic sample pixels illustrate legacy front/back confirmation only.
 Production-source previews remain IDE conveniences. Screenshot fixtures in the
 separate source sets are discoverable wrappers for runtime-owned visual content.
 The coverage manifest distinguishes direct, parent-helper, runtime-delegation and
-nonvisual (`FLAG_SECURE`) cases; it does not claim to render live services.
+runtime cases; it does not claim to render live services.
 
 Camera streams, Android system dialogs, focus, inference, navigation, privacy-window
 behavior and lifecycle/process restoration require separate device/backend tests.

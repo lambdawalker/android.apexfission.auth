@@ -377,13 +377,6 @@
     },
     {
       "source": "app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt",
-      "symbol": "CapturePrivacy",
-      "kind": "nonvisual-runtime",
-      "scenarios": [],
-      "note": "No visual output; FLAG_SECURE requires device verification."
-    },
-    {
-      "source": "app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt",
       "symbol": "LiveCaptureFlow",
       "kind": "runtime-delegation",
       "scenarios": [
