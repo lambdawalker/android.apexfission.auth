@@ -41,6 +41,42 @@ class OnboardingEntryScreenTest {
     }
 
     @Test
+    fun appLinkDiagnosticsShowsPassingInstalledBuild() {
+        val fingerprint = List(32) { "AB" }.joinToString(":")
+        compose.setContent {
+            AttestraAuthTheme {
+                OnboardingEntryScreen(
+                    hasBackend = true,
+                    resetting = false,
+                    resetMessage = null,
+                    onDeleteLocalUser = {},
+                    onStart = {},
+                    onCatalog = {},
+                    onCardCapture = {},
+                    applicationId = "com.apexfission.android.auth",
+                    assetLinksUrl = "https://dev.attestrabond.com/.well-known/assetlinks.json",
+                    appLinkDiagnosticState = AppLinkDiagnosticState.Ready(
+                        AssociationComparison(
+                            packageName = "com.apexfission.android.auth",
+                            installedFingerprints = listOf(fingerprint),
+                            publishedFingerprints = listOf(fingerprint),
+                            fingerprintMatch = true,
+                            appLinks = true,
+                            passkeys = true,
+                        )
+                    ),
+                )
+            }
+        }
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("App Link verification"))
+        compose.onNodeWithText("App Link verification").assertIsDisplayed()
+        compose.onNodeWithText("PASS").assertIsDisplayed()
+        compose.onNodeWithText("✓ Certificate match").assertIsDisplayed()
+        compose.onNodeWithText("✓ App Links relation").assertIsDisplayed()
+        compose.onNodeWithText(fingerprint).assertIsDisplayed()
+    }
+
+    @Test
     fun localDeletionRequiresConfirmationAndCanBeCancelled() {
         var deletions = 0
         compose.setContent {
