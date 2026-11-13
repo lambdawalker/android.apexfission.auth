@@ -829,6 +829,42 @@
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "menuLargeText"
+    },
+    {
+      "id": "app:AppScreenshotTest.localCaptureComplete",
+      "module": "app",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "method": "localCaptureComplete",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "Local card capture complete; images discarded"
+    },
+    {
+      "id": "app:AppScreenshotTest.localCaptureFailure",
+      "module": "app",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "method": "localCaptureFailure",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "Local card capture failure and retry"
     }
   ]
 }

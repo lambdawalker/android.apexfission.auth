@@ -22,15 +22,19 @@ class OnboardingEntryScreenTest {
     fun catalogAndOnboardingRemainReachableWithoutBackend() {
         var starts = 0
         var catalogs = 0
+        var captures = 0
         compose.setContent {
             AttestraAuthTheme {
-                OnboardingEntryScreen(false, false, null, {}, { starts++ }, { catalogs++ })
+                OnboardingEntryScreen(false, false, null, {}, { starts++ }, { catalogs++ }, { captures++ })
             }
         }
         compose.onNodeWithText("Open onboarding").performClick()
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Open UI catalog"))
         compose.onNodeWithText("Open UI catalog").performClick()
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("Open card capture demo"))
+        compose.onNodeWithText("Open card capture demo").performClick()
         compose.runOnIdle {
+            assertEquals(1, captures)
             assertEquals(1, starts)
             assertEquals(1, catalogs)
         }
@@ -41,7 +45,7 @@ class OnboardingEntryScreenTest {
         var deletions = 0
         compose.setContent {
             AttestraAuthTheme {
-                OnboardingEntryScreen(true, false, null, { deletions++ }, {}, {})
+                OnboardingEntryScreen(true, false, null, { deletions++ }, {}, {}, {})
             }
         }
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Delete local user"))
@@ -60,12 +64,14 @@ class OnboardingEntryScreenTest {
     fun resetDisablesNavigationAndDeletionAndShowsStatus() {
         compose.setContent {
             AttestraAuthTheme {
-                OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {})
+                OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}, {})
             }
         }
         compose.onNodeWithText("Open onboarding").assertIsNotEnabled()
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Open UI catalog"))
         compose.onNodeWithText("Open UI catalog").assertIsNotEnabled()
+        compose.onNode(hasScrollAction()).performScrollToNode(hasText("Open card capture demo"))
+        compose.onNodeWithText("Open card capture demo").assertIsNotEnabled()
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Deleting local data…"))
         compose.onNodeWithText("Deleting local data…").assertIsNotEnabled()
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Clearing local data"))

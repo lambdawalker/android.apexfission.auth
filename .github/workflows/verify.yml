@@ -67,7 +67,7 @@ jobs:
           disable-animations: true
           script: |
             bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest
-            bash gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest
+            bash gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest,com.apexfission.android.auth.LocalCardCaptureDemoTest
       - uses: actions/upload-artifact@v7
         if: always()
         with:
