@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.AppRegistration
 import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.Fingerprint
 import androidx.compose.material.icons.outlined.Widgets
 import com.apexfission.android.democommon.CardTitle
 import com.apexfission.android.democommon.DemoCard
@@ -29,6 +31,7 @@ import com.apexfission.android.democommon.DemoScreen
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 
 /**
@@ -43,6 +46,9 @@ internal fun OnboardingEntryScreen(
     onStart: () -> Unit,
     onCatalog: () -> Unit,
     onCardCapture: () -> Unit,
+    applicationId: String = "",
+    assetLinksUrl: String = "",
+    installedSigningFingerprints: List<String> = emptyList(),
 ) {
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     DemoScreen(
@@ -97,6 +103,59 @@ internal fun OnboardingEntryScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.small,
                 ) { Text("Open card capture demo") }
+            }
+        }
+        if (applicationId.isNotBlank()) {
+            item(key = "app_link_diagnostics") {
+                DemoCard {
+                    CardTitle(title = "App Link diagnostics", icon = Icons.Outlined.Fingerprint)
+                    Text(
+                        "Compare this installed build with the Android association published for the configured domain.",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text("Package", style = MaterialTheme.typography.labelMedium)
+                    SelectionContainer {
+                        Text(
+                            applicationId,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontFamily = FontFamily.Monospace,
+                        )
+                    }
+                    Text("Installed signing certificate · SHA-256", style = MaterialTheme.typography.labelMedium)
+                    if (installedSigningFingerprints.isEmpty()) {
+                        Text(
+                            "Reading installed signing certificate…",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    } else {
+                        SelectionContainer {
+                            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                installedSigningFingerprints.forEach { fingerprint ->
+                                    Text(
+                                        fingerprint,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        fontFamily = FontFamily.Monospace,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    if (assetLinksUrl.isNotBlank()) {
+                        Text("Published association", style = MaterialTheme.typography.labelMedium)
+                        SelectionContainer {
+                            Text(
+                                assetLinksUrl,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    Text(
+                        "The installed SHA-256 value must appear under target.sha256_cert_fingerprints for this package in assetlinks.json.",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
         item(key = "account_actions") {
