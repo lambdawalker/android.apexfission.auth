@@ -7,25 +7,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
 import java.net.URI
 import java.security.MessageDigest
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+internal sealed interface AppLinkDiagnosticState {
+    data object Checking : AppLinkDiagnosticState
+    data class Ready(val comparison: AssociationComparison) : AppLinkDiagnosticState
+    data class Failed(
+        val installedFingerprints: List<String>,
+        val message: String,
+    ) : AppLinkDiagnosticState
+}
 
 /** One advisory check per activity ViewModel lifetime, retained through configuration changes. */
 class AssociationCheckViewModel(application: Application) : AndroidViewModel(application) {
-    private data class Result(
-        val fingerprints: List<String>,
-        val warning: String?,
-    )
-
     var warning by mutableStateOf<String?>(null)
         private set
-    var installedFingerprints by mutableStateOf<List<String>>(emptyList())
+    var diagnosticState by mutableStateOf<AppLinkDiagnosticState>(AppLinkDiagnosticState.Checking)
         private set
 
     val packageName: String get() = getApplication<Application>().packageName
@@ -33,19 +37,42 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
         get() = "https://${BuildConfig.AUTH_LINK_HOST}/.well-known/assetlinks.json"
 
     init {
+        refresh()
+    }
+
+    fun refresh() {
+        if (diagnosticState == AppLinkDiagnosticState.Checking) return
+        diagnosticState = AppLinkDiagnosticState.Checking
+        warning = null
         viewModelScope.launch {
-            val result = try {
+            val context = getApplication<Application>()
+            val fingerprints = try {
                 withContext(Dispatchers.IO) {
-                    val context = getApplication<Application>()
                     @Suppress("DEPRECATION")
                     val info = context.packageManager.getPackageInfo(
                         context.packageName,
                         PackageManager.GET_SIGNING_CERTIFICATES,
                     )
-                    val fingerprints = info.signingInfo?.apkContentsSigners.orEmpty()
+                    info.signingInfo?.apkContentsSigners.orEmpty()
                         .map { signature -> signingFingerprint(signature.toByteArray()) }
                         .distinct()
                         .sorted()
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                emptyList()
+            }
+
+            if (fingerprints.isEmpty()) {
+                val message = "Could not read the installed APK signing certificate."
+                diagnosticState = AppLinkDiagnosticState.Failed(emptyList(), message)
+                warning = message
+                return@launch
+            }
+
+            try {
+                val comparison = withContext(Dispatchers.IO) {
                     val url = URI(
                         "https",
                         BuildConfig.AUTH_LINK_HOST,
@@ -53,18 +80,22 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
                         null,
                     ).toURL()
                     val connection = url.openConnection() as HttpURLConnection
-                    val warning = try {
+                    try {
                         connection.instanceFollowRedirects = false
                         connection.connectTimeout = 10_000
                         connection.readTimeout = 10_000
                         connection.useCaches = false
-                        check(connection.responseCode == 200) { "Association endpoint unavailable" }
+                        check(connection.responseCode == 200) {
+                            "assetlinks.json returned HTTP ${connection.responseCode}"
+                        }
                         check(
                             connection.contentType
                                 ?.substringBefore(';')
                                 ?.trim()
                                 ?.equals("application/json", ignoreCase = true) == true
-                        ) { "Expected JSON response" }
+                        ) {
+                            "assetlinks.json did not return application/json"
+                        }
                         val bytes = connection.inputStream.use { input ->
                             val output = ByteArrayOutputStream()
                             val buffer = ByteArray(8192)
@@ -79,36 +110,43 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
                             }
                             output.toByteArray()
                         }
-                        check(bytes.size <= 1_048_576) { "Association response too large" }
-                        associationApproval(
-                            bytes.toString(Charsets.UTF_8),
-                            context.packageName,
-                            fingerprints.toSet(),
-                        ).warning()
-                    } catch (_: Exception) {
-                        "Couldn't check this build's domain association. Check connectivity or hosting; App Links and passkey approval is unknown."
+                        check(bytes.size <= 1_048_576) {
+                            "assetlinks.json response is larger than 1 MiB"
+                        }
+                        associationComparison(
+                            document = bytes.toString(Charsets.UTF_8),
+                            packageName = context.packageName,
+                            fingerprints = fingerprints.toSet(),
+                        )
                     } finally {
                         connection.disconnect()
                     }
-                    Result(fingerprints, warning)
                 }
+                diagnosticState = AppLinkDiagnosticState.Ready(comparison)
+                warning = AssociationApproval(
+                    appLinks = comparison.appLinks,
+                    passkeys = comparison.passkeys,
+                ).warning()
             } catch (cancelled: CancellationException) {
                 throw cancelled
-            } catch (_: Exception) {
-                Result(
-                    installedFingerprints,
-                    "Couldn't check this build's domain association. Check connectivity or hosting; App Links and passkey approval is unknown.",
+            } catch (error: Exception) {
+                val message = error.message
+                    ?.takeIf { it.isNotBlank() }
+                    ?: "Could not load or parse assetlinks.json"
+                diagnosticState = AppLinkDiagnosticState.Failed(
+                    installedFingerprints = fingerprints,
+                    message = message,
                 )
+                warning = "Couldn't check this build's domain association. $message"
             }
-            installedFingerprints = result.fingerprints
-            warning = result.warning
         }
     }
 
-    fun consumeWarning() { warning = null }
+    fun consumeWarning() {
+        warning = null
+    }
 }
 
 internal fun signingFingerprint(certificate: ByteArray): String =
     MessageDigest.getInstance("SHA-256").digest(certificate)
         .joinToString(":") { byte -> "%02X".format(byte.toInt() and 0xff) }
-
