@@ -834,6 +834,66 @@ fun IdentityCamera(
 )
 ```
 
+## `auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt`
+
+[Source](../../auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt)
+
+```kotlin
+package com.apexfission.android.auth.identity.capture
+import android.Manifest
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.apexfission.android.auth.library.R
+import com.apexfission.android.auth.ui.onboarding.common.LoadingTask
+import com.apexfission.android.auth.ui.onboarding.common.OnboardingLoadingScreen
+import com.apexfission.android.permission.recipe.PermissionStatus
+import com.apexfission.android.permission.ui.DefaultPermissionPage
+import com.apexfission.android.permission.ui.PermissionBundleScreen
+import com.apexfission.android.permission.ui.PermissionDescription
+import com.apexfission.android.permission.ui.PermissionOverviewMode
+
+@Composable
+fun IdentityCameraAfterDisclosure(
+    onCaptured: (ByteArray, ByteArray) -> Unit,
+    onError: () -> Unit,
+    onCancel: () -> Unit,
+    onImagesReady: ((ByteArray, ByteArray) -> Unit)? = null,
+    onImagesInvalidated: () -> Unit = {},
+    onConfirmed: () -> Unit = {},
+    stitchedPair: Boolean = false,
+    onFrontReady: (ByteArray) -> Unit = { it.fill(0) },
+)
+```
+
 ## `auth/src/main/java/com/apexfission/android/auth/passkey/PasskeyRegistration.kt`
 
 [Source](../../auth/src/main/java/com/apexfission/android/auth/passkey/PasskeyRegistration.kt)

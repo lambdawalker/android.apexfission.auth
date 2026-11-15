@@ -38,6 +38,16 @@ The app selects the disclosure using the device language, with English fallback.
 
 After scanning, the review form requires a Country of origin selection: Canada, United States, Mexico, Guatemala or Belize. This user-selected value is independent of the document’s OCR issuing country and is saved as `origin_country`. It is not inferred from device locale. Both values remain editable before saving.
 
+## Camera permission after the disclosure
+
+The live host uses `IdentityCameraAfterDisclosure` only inside the policy-checked camera slot. The existing disclosure explains camera use. Selecting **Continue to capture** now leads directly to Android's permission prompt when needed, without another application explanation/Continue page. The original `IdentityCamera` API and standalone camera demo keep their explanation-first behavior.
+
+An existing permission grant opens the camera immediately. The first request waits until the host is resumed and runs only once per entry; the attempt marker survives UI recreation, but a cached flag never grants camera access. Denial opens the shared permission library's explicit retry or Settings recovery. Returning from Settings rechecks the actual grant. No camera hardware keeps the existing unavailable screen. Cancel, failed launch and revocation remain recoverable.
+
+The new entry must be called only after the user has seen and accepted a disclosure explaining camera use. It does not grant consent, create a capture, or bypass backend policy checks. Restoring processing or opening saved details does not instantiate this camera slot and therefore does not request permission.
+
+Validation covers routing combinations, offline light/dark recovery screenshots, and Android recovery-button interaction. Native prompt dismissal, rotation while the prompt is open, OS-specific denied/permanent-denial behavior, grant in Settings and actual capture still need a real-device smoke test.
+
 ## Direct capture and review
 
 After sign-in, onboarding fetches the capture policy in parallel with account status when ID capture is enabled. The disclosure screen can reuse or join that request for the same session and backend. The prefetch expires after two minutes. If it fails, the screen fetches the policy directly.

@@ -521,6 +521,28 @@
         "app:AppScreenshotTest.localCaptureFailure"
       ],
       "note": "Offline success and failure fixtures in light and dark mode; no camera, storage, or network services."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt",
+      "symbol": "IdentityCameraAfterDisclosure",
+      "kind": "runtime-delegation",
+      "scenarios": [
+        "auth:CameraPermissionScreenshotTest.retry",
+        "auth:CameraPermissionScreenshotTest.settings",
+        "auth:DocumentationScreenshotTest.prepareCapture",
+        "auth:SupplementalScreenshotTest.noCamera"
+      ],
+      "note": "Runtime delegates to covered camera, loading, and recovery visuals. Native permission and rotation behavior require device checks."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt",
+      "symbol": "CameraPermissionRecovery",
+      "kind": "direct",
+      "scenarios": [
+        "auth:CameraPermissionScreenshotTest.retry",
+        "auth:CameraPermissionScreenshotTest.settings"
+      ],
+      "note": "Production retry and Settings recovery visual rendered offline in light and dark modes."
     }
   ]
 }
