@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Скрыть дополнительные поля"</string>
     <string name="auth_show_additional">"Проверить дополнительные поля"</string>
     <string name="auth_issuing_authority">"Выдавший орган (если указан)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Безопасность аккаунта</string>
+    <string name="auth_task_another_method">Использовать другой способ</string>
+    <string name="auth_task_checking_passkey">Ключ доступа сохранён. Проверяем настройку аккаунта…</string>
+    <string name="auth_task_connection">Не удалось подключиться. Введённые данные сохранены на экране.</string>
+    <string name="auth_task_enter_code">Введите код входа из письма.</string>
+    <string name="auth_task_invalid_code">Не удалось проверить код. Проверьте его или запросите новый.</string>
+    <string name="auth_task_opening_passkey">Следуйте инструкциям на устройстве…</string>
+    <string name="auth_task_passkey_status_retry">Ваш ключ доступа сохранён. Повторите проверку настройки аккаунта.</string>
+    <string name="auth_task_request_failed">Не удалось завершить. Повторите попытку или используйте другой способ.</string>
+    <string name="auth_task_retry_in">Повторить попытку можно через %1$d секунд.</string>
+    <string name="auth_task_saving_passkey">Сохраняем ключ доступа…</string>
+    <string name="auth_task_secure_account">Защитите свой аккаунт</string>
+    <string name="auth_task_sending_code">Отправляем код…</string>
+    <string name="auth_task_service_unavailable">Сервис временно недоступен. Повторите попытку.</string>
+    <string name="auth_task_setup_cancelled">Настройка ключа доступа отменена. Можно повторить попытку.</string>
+    <string name="auth_task_setup_unsupported">Ключи доступа недоступны на этом устройстве. Завершите этот шаг на поддерживаемом устройстве.</string>
+    <string name="auth_task_signin_cancelled">Вход с ключом доступа отменён. Повторите попытку или выберите другой способ.</string>
+    <string name="auth_task_signin_unsupported">Вход с ключом доступа недоступен. Выберите другой способ.</string>
+    <string name="auth_task_signing_in">Выполняется вход…</string>
+    <string name="auth_task_throttled">Слишком много попыток. Подождите перед следующей попыткой.</string>
+    <string name="auth_task_verifying_code">Проверяем код…</string>
+    <string name="auth_task_password_added">Пароль сохранён.</string>
+    <string name="auth_task_saving_password">Сохраняем пароль…</string>
 </resources>

@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Weitere Felder ausblenden"</string>
     <string name="auth_show_additional">"Weitere Felder prüfen"</string>
     <string name="auth_issuing_authority">"Ausstellende Behörde (falls aufgedruckt)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Kontosicherheit</string>
+    <string name="auth_task_another_method">Andere Methode verwenden</string>
+    <string name="auth_task_checking_passkey">Passkey gespeichert. Kontoeinrichtung wird geprüft…</string>
+    <string name="auth_task_connection">Verbindung nicht möglich. Ihre Eingaben sind noch vorhanden.</string>
+    <string name="auth_task_enter_code">Geben Sie den Anmeldecode aus Ihrer E-Mail ein.</string>
+    <string name="auth_task_invalid_code">Der Code konnte nicht bestätigt werden. Prüfen Sie ihn oder fordern Sie einen neuen an.</string>
+    <string name="auth_task_opening_passkey">Folgen Sie den Anweisungen auf Ihrem Gerät…</string>
+    <string name="auth_task_passkey_status_retry">Ihr Passkey wurde gespeichert. Versuchen Sie erneut, die Kontoeinrichtung zu prüfen.</string>
+    <string name="auth_task_request_failed">Der Vorgang konnte nicht abgeschlossen werden. Versuchen Sie es erneut oder nutzen Sie eine andere Methode.</string>
+    <string name="auth_task_retry_in">Sie können es in %1$d Sekunden erneut versuchen.</string>
+    <string name="auth_task_saving_passkey">Passkey wird gespeichert…</string>
+    <string name="auth_task_secure_account">Sichern Sie Ihr Konto</string>
+    <string name="auth_task_sending_code">Code wird gesendet…</string>
+    <string name="auth_task_service_unavailable">Der Dienst ist vorübergehend nicht verfügbar. Versuchen Sie es erneut.</string>
+    <string name="auth_task_setup_cancelled">Die Passkey-Einrichtung wurde abgebrochen. Sie können es erneut versuchen.</string>
+    <string name="auth_task_setup_unsupported">Passkeys sind auf diesem Gerät nicht verfügbar. Verwenden Sie ein unterstütztes Gerät für diesen Schritt.</string>
+    <string name="auth_task_signin_cancelled">Die Passkey-Anmeldung wurde abgebrochen. Versuchen Sie es erneut oder wählen Sie eine andere Methode.</string>
+    <string name="auth_task_signin_unsupported">Die Passkey-Anmeldung ist nicht verfügbar. Wählen Sie eine andere Methode.</string>
+    <string name="auth_task_signing_in">Anmeldung läuft…</string>
+    <string name="auth_task_throttled">Zu viele Versuche. Bitte warten Sie vor dem nächsten Versuch.</string>
+    <string name="auth_task_verifying_code">Code wird überprüft…</string>
+    <string name="auth_task_password_added">Passwort gespeichert.</string>
+    <string name="auth_task_saving_password">Passwort wird gespeichert…</string>
 </resources>

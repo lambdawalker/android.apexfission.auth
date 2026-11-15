@@ -17,6 +17,24 @@ import io.ktor.http.content.TextContent
 import org.junit.Test
 
 class ReturnAuthApiTest {
+    @Test fun failedResponsesRetainSafeStatusAndRetryMetadataOnly() = runBlocking {
+        val client = HttpClient(MockEngine {
+            respond("sensitive provider diagnostic", HttpStatusCode.TooManyRequests,
+                headersOf("Retry-After", "120"))
+        }) { install(ContentNegotiation) { json(EmailHttpClient.json) } }
+        try {
+            try {
+                ReturnAuthApi("https://example.com", client).start("person@example.test", false)
+                error("Expected throttling")
+            } catch (error: SignInError) {
+                assertEquals(429, error.httpStatus)
+                assertEquals(120L, error.retryAfterSeconds)
+                assertFalse(error.expired)
+                assertFalse(error.toString().contains("sensitive"))
+            }
+        } finally { client.close() }
+    }
+
     @Test fun passwordRequestsUseDedicatedEndpointsAndBearerOnlyForEnrollment() = runBlocking {
         val client = HttpClient(MockEngine { request ->
             val body = (request.body as TextContent).text

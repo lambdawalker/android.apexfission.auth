@@ -92,7 +92,7 @@
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/discovery/OnboardingPolicy.kt",
-    "sha256": "c6d16b30acb969c58b6ce4ace1ed0809212f5bf345eabef01c4a44350abdb6bc",
+    "sha256": "4b420fe5bb653f94ab9d216120532ba650c374214b71de3aca485beb0913f2a2",
     "visibility": "public"
   },
   {
@@ -110,7 +110,7 @@
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt",
-    "sha256": "7c1b3c21a7c40a9432b0dfd6907eb4c80e7c73444c911f82324ed98f5bec6cd1",
+    "sha256": "56a55c9435c8952323ea1855f7332f3ab84cc5552b60ecd23ea69af28dea086d",
     "visibility": "public"
   },
   {
@@ -188,14 +188,38 @@
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/passkey/ReturnAuthApi.kt",
-    "sha256": "469634a1b638a5818883e4a63d257c61d524b374ea784d2fafec618f49375f88",
+    "sha256": "0990eaa1bba898dd306ba3bf87a12bfad857301fb40e4678bd023ea02e352de5",
     "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/signin/PasskeyTask.kt",
+    "sha256": "8ea66e0b44af43bee1dc33ca9455806d2287950cbc2c4e7e2cb8c12e2e334b41",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/signin/ReturningSignInTransport.kt",
+    "sha256": "5a168e4f8a4ff1b38e012cb1111074bc6f79ac9a3a90183757252caed48ff1da",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/signin/SignInTask.kt",
+    "sha256": "5665e81d5be1a94bcc2098c8288d636185c9c40a0861e28b2ebc7f9613f06107",
+    "visibility": "nonpublic"
   },
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt",
     "sha256": "f2477d5785fe517458d40e2cede82d6fcab3413ec984381f6d64bf89e5186cc1",
     "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/account/AccountTaskScreen.kt",
+    "sha256": "5b0b40d7332f0d4244b37532644c983eb63862bcafefcb8cc41d4f5b7bd1dfce",
+    "visibility": "nonpublic"
   },
   {
     "guide": null,
@@ -242,7 +266,7 @@
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailStartScreen.kt",
-    "sha256": "b0b14524c21f36d3242faaaa19754c8be3ecd9702b8a77b84d230a797d3e1239",
+    "sha256": "87bba8a1e7d3a062843c2c51b679519903bb531d18260188a8de0cb745e103cf",
     "visibility": "public"
   },
   {
@@ -306,6 +330,12 @@
     "visibility": "public"
   },
   {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyTaskScreen.kt",
+    "sha256": "d70596760ab179f7da825dfacb00bc5f41ad1bd41606fb841507392bcd76c88f",
+    "visibility": "nonpublic"
+  },
+  {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyUnsupportedScreen.kt",
     "sha256": "0cd52e2dacc15e21c07fd72c96cdbbc01c2f3b24a3daefc851ddda6330a7cfe7",
@@ -314,7 +344,7 @@
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/password/PasswordScreen.kt",
-    "sha256": "086687e61433a49152499afacd1b6c6605b1e9d750db0ad469cb3158279103b5",
+    "sha256": "ef77a4797381f0d61472b380fbe5769c301465c212a89ec6dc97e6258f17bbc0",
     "visibility": "public"
   },
   {
@@ -322,6 +352,12 @@
     "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/ReturnSignInScreens.kt",
     "sha256": "59580e84ff6d4b1968f7ec3c5ffd669c8f0cfdefc4ac8b35cfeb5bd912400581",
     "visibility": "public"
+  },
+  {
+    "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/SignInTaskScreen.kt",
+    "sha256": "f30d1165a165750ee0aa6f92bd0e31202a848cdba04e396e18472b51a9e63453",
+    "visibility": "nonpublic"
   },
   {
     "guide": "docs/agents/api-inventory.md",

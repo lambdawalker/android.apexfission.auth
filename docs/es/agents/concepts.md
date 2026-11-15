@@ -71,3 +71,9 @@ compatibilidad; las pantallas de la biblioteca resuelven los mensajes conocidos 
 renderizar, incluidos sus argumentos. El texto del anfitrión o servicio que no coincida con un mensaje conocido se conserva.
 Una UI personalizada que consume esos String directamente debe localizar sus mensajes.
 Los avisos de captura siguen siendo contenido proporcionado por el servicio.
+
+## Inicio de sesión persistente y configuración opcional
+
+El anfitrión conserva los datos de correo y contraseña del inicio de sesión en una tarea solo en memoria mientras se realizan las solicitudes. Los errores recuperables aparecen junto al formulario; solo las acciones explícitas reintentan la autenticación o reenvían un código. Los datos se borran al completar, cambiar de método, cuenta o entorno, o salir. La cancelación y recuperación de la llave de acceso permanecen en la pantalla de seguridad; si la credencial se guardó pero falló la consulta de estado, se reintenta la consulta y no se abre otra vez el proveedor.
+
+`OnboardingPolicy.nextRequired` limita el flujo activo a los requisitos obligatorios y a la confirmación del servidor. `optionalAccountSteps` ofrece las opciones pendientes desde la cuenta ya configurada, mientras `next` conserva la secuencia anterior para consumidores personalizados. Las pantallas públicas existentes siguen disponibles para anfitriones personalizados y vistas del catálogo. No se persisten códigos ni contraseñas para sobrevivir a la recreación del proceso.

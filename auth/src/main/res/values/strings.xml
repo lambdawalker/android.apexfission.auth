@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Hide additional fields"</string>
     <string name="auth_show_additional">"Review additional fields"</string>
     <string name="auth_issuing_authority">"Issuing authority (if printed)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Account security</string>
+    <string name="auth_task_another_method">Use another method</string>
+    <string name="auth_task_checking_passkey">Passkey saved. Checking account setup…</string>
+    <string name="auth_task_connection">Could not connect. Your information is still here.</string>
+    <string name="auth_task_enter_code">Enter the sign-in code from your email.</string>
+    <string name="auth_task_invalid_code">We could not verify that code. Check it or request a new one.</string>
+    <string name="auth_task_opening_passkey">Follow the instructions on your device…</string>
+    <string name="auth_task_passkey_status_retry">Your passkey was saved. Retry to check your account setup.</string>
+    <string name="auth_task_request_failed">Could not finish. Try again or use another method.</string>
+    <string name="auth_task_retry_in">You can try again in %1$d seconds.</string>
+    <string name="auth_task_saving_passkey">Saving your passkey…</string>
+    <string name="auth_task_secure_account">Secure your account</string>
+    <string name="auth_task_sending_code">Sending code…</string>
+    <string name="auth_task_service_unavailable">The service is temporarily unavailable. Try again.</string>
+    <string name="auth_task_setup_cancelled">Passkey setup was cancelled. You can try again.</string>
+    <string name="auth_task_setup_unsupported">Passkeys are not available on this device. Use a supported device to complete this step.</string>
+    <string name="auth_task_signin_cancelled">Passkey sign-in was cancelled. Try again or choose another method.</string>
+    <string name="auth_task_signin_unsupported">Passkey sign-in is not available. Choose another method.</string>
+    <string name="auth_task_signing_in">Signing in…</string>
+    <string name="auth_task_throttled">Too many attempts. Please wait before trying again.</string>
+    <string name="auth_task_verifying_code">Verifying code…</string>
+    <string name="auth_task_password_added">Password saved.</string>
+    <string name="auth_task_saving_password">Saving your password…</string>
 </resources>

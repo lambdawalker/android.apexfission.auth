@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"隐藏补充字段"</string>
     <string name="auth_show_additional">"核对补充字段"</string>
     <string name="auth_issuing_authority">"签发机关（如有印刷）"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">账户安全</string>
+    <string name="auth_task_another_method">使用其他方式</string>
+    <string name="auth_task_checking_passkey">通行密钥已保存。正在检查账户设置…</string>
+    <string name="auth_task_connection">无法连接。您输入的信息仍然保留。</string>
+    <string name="auth_task_enter_code">请输入电子邮件中的登录验证码。</string>
+    <string name="auth_task_invalid_code">无法验证该代码。请检查代码或申请新的验证码。</string>
+    <string name="auth_task_opening_passkey">请按照设备上的说明操作…</string>
+    <string name="auth_task_passkey_status_retry">您的通行密钥已保存。请重试以检查账户设置。</string>
+    <string name="auth_task_request_failed">未能完成。请重试或使用其他方式。</string>
+    <string name="auth_task_retry_in">您可以在 %1$d 秒后重试。</string>
+    <string name="auth_task_saving_passkey">正在保存通行密钥…</string>
+    <string name="auth_task_secure_account">保护您的账户</string>
+    <string name="auth_task_sending_code">正在发送验证码…</string>
+    <string name="auth_task_service_unavailable">服务暂时不可用。请重试。</string>
+    <string name="auth_task_setup_cancelled">通行密钥设置已取消。您可以重试。</string>
+    <string name="auth_task_setup_unsupported">此设备不支持通行密钥。请使用支持的设备完成此步骤。</string>
+    <string name="auth_task_signin_cancelled">通行密钥登录已取消。请重试或选择其他方式。</string>
+    <string name="auth_task_signin_unsupported">无法使用通行密钥登录。请选择其他方式。</string>
+    <string name="auth_task_signing_in">正在登录…</string>
+    <string name="auth_task_throttled">尝试次数过多。请稍后重试。</string>
+    <string name="auth_task_verifying_code">正在验证代码…</string>
+    <string name="auth_task_password_added">密码已保存。</string>
+    <string name="auth_task_saving_password">正在保存密码…</string>
 </resources>

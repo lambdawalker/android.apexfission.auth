@@ -28,7 +28,11 @@ import kotlinx.serialization.json.JsonElement
 @Serializable private data class PasswordAnswer(val email: String, val session: String, val password: String)
 @Serializable private data class PasswordRequest(val password: String)
 @Serializable data class PasswordRegistered(@SerialName("password_registered") val passwordRegistered: Boolean)
-class SignInError(val expired: Boolean = false) : Exception(if (expired) "sign_in_required" else "authentication_failed")
+class SignInError(
+    val expired: Boolean = false,
+    val httpStatus: Int = if (expired) 401 else 400,
+    val retryAfterSeconds: Long? = null,
+) : Exception(if (expired) "sign_in_required" else "authentication_failed")
 
 class ReturnAuthApi(baseUrl: String, private val client: HttpClient) {
     private val root = baseUrl.trimEnd('/').also { require(it.startsWith("https://")) }
@@ -36,7 +40,11 @@ class ReturnAuthApi(baseUrl: String, private val client: HttpClient) {
         val response = client.post("$root/auth/$path", block)
         val text = response.bodyAsText()
         Log.d("EmailDebugX", "auth/$path HTTP ${response.status.value} trace_id=${response.headers["x-request-id"]}")
-        if (response.status.value != 200) throw SignInError(response.status.value == 401)
+        if (response.status.value != 200) throw SignInError(
+            expired = response.status.value == 401,
+            httpStatus = response.status.value,
+            retryAfterSeconds = response.headers["Retry-After"]?.toLongOrNull()?.coerceIn(1L, 3_600L),
+        )
         return EmailHttpClient.json.decodeFromString(text)
     }
     suspend fun start(email: String, passkey: Boolean): SignInChallenge = checked(if (passkey) "passkey/start" else "email/start") {

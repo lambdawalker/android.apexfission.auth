@@ -34,3 +34,7 @@ Las URLs del backend, las propiedades Gradle `attestra*`, las variables `ATTESTR
 los nombres del almacenamiento privado y los alias de firma conservan sus contratos.
 El nombre del repositorio y las coordenadas de publicación son independientes del
 paquete Kotlin; este cambio no renombra el repositorio ni publica artefactos.
+
+## Inicio de sesión persistente y seguridad de la cuenta
+
+El anfitrión activo `EmailOnboardingHost` ahora presenta la configuración opcional pendiente como acciones de la cuenta después de que el servidor confirme los requisitos obligatorios. Los anfitriones personalizados que usan `OnboardingPolicy.next` conservan la secuencia anterior; pueden usar `nextRequired` y `optionalAccountSteps` para adoptar el nuevo comportamiento. Las funciones públicas de las pantallas anteriores siguen disponibles, pero el anfitrión activo usa estado transitorio y mensajes en el formulario. Conservar una contraseña o un código no implica recuperarlos después de finalizar el proceso. El componente compartido de verificación y las versiones de dependencias y herramientas no cambian.

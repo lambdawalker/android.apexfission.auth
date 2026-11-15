@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Ukryj dodatkowe pola"</string>
     <string name="auth_show_additional">"Sprawdź dodatkowe pola"</string>
     <string name="auth_issuing_authority">"Organ wydający (jeśli podany)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Bezpieczeństwo konta</string>
+    <string name="auth_task_another_method">Użyj innej metody</string>
+    <string name="auth_task_checking_passkey">Klucz dostępu zapisany. Sprawdzanie konfiguracji konta…</string>
+    <string name="auth_task_connection">Nie udało się połączyć. Wprowadzone dane są nadal dostępne.</string>
+    <string name="auth_task_enter_code">Wpisz kod logowania z wiadomości e-mail.</string>
+    <string name="auth_task_invalid_code">Nie udało się zweryfikować kodu. Sprawdź go lub poproś o nowy.</string>
+    <string name="auth_task_opening_passkey">Postępuj zgodnie z instrukcjami na urządzeniu…</string>
+    <string name="auth_task_passkey_status_retry">Klucz dostępu został zapisany. Ponów sprawdzenie konfiguracji konta.</string>
+    <string name="auth_task_request_failed">Nie udało się zakończyć. Spróbuj ponownie lub użyj innej metody.</string>
+    <string name="auth_task_retry_in">Możesz spróbować ponownie za %1$d sekund.</string>
+    <string name="auth_task_saving_passkey">Zapisywanie klucza dostępu…</string>
+    <string name="auth_task_secure_account">Zabezpiecz swoje konto</string>
+    <string name="auth_task_sending_code">Wysyłanie kodu…</string>
+    <string name="auth_task_service_unavailable">Usługa jest tymczasowo niedostępna. Spróbuj ponownie.</string>
+    <string name="auth_task_setup_cancelled">Konfiguracja klucza dostępu została anulowana. Możesz spróbować ponownie.</string>
+    <string name="auth_task_setup_unsupported">Klucze dostępu nie są dostępne na tym urządzeniu. Użyj obsługiwanego urządzenia, aby ukończyć ten krok.</string>
+    <string name="auth_task_signin_cancelled">Logowanie kluczem dostępu zostało anulowane. Spróbuj ponownie lub wybierz inną metodę.</string>
+    <string name="auth_task_signin_unsupported">Logowanie kluczem dostępu jest niedostępne. Wybierz inną metodę.</string>
+    <string name="auth_task_signing_in">Logowanie…</string>
+    <string name="auth_task_throttled">Zbyt wiele prób. Poczekaj przed ponowną próbą.</string>
+    <string name="auth_task_verifying_code">Weryfikowanie kodu…</string>
+    <string name="auth_task_password_added">Hasło zapisane.</string>
+    <string name="auth_task_saving_password">Zapisywanie hasła…</string>
 </resources>

@@ -23,8 +23,8 @@ import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
  * Component providing an outlined text field configured for password input with policy validation feedback.
  */
 @Composable
-fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPolicy? = null, optional: Boolean = false) {
-    OutlinedTextField(value = value, onValueChange = onChange,
+fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPolicy? = null, optional: Boolean = false, enabled: Boolean = true) {
+    OutlinedTextField(value = value, onValueChange = onChange, enabled = enabled,
         label = { Text(if (optional) stringResource(R.string.auth_password_optional) else stringResource(R.string.auth_password)) },
         singleLine = true, visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), modifier = Modifier.fillMaxWidth())
@@ -44,14 +44,16 @@ fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPol
 @Composable
 fun PasswordScreen(value: String, onChange: (String) -> Unit, onSubmit: () -> Unit,
     onBack: () -> Unit, error: String?, policy: PasswordPolicy? = null,
-    optional: Boolean = false, onSkip: () -> Unit = {}, signIn: Boolean = false) {
+    optional: Boolean = false, onSkip: () -> Unit = {}, signIn: Boolean = false, busyMessage: String? = null, saved: Boolean = false, onCheckStatus: () -> Unit = {}) {
     OnboardingFrame(title = if (signIn) stringResource(R.string.auth_sign_in_with_password) else stringResource(R.string.auth_set_your_password), icon = Icons.Default.Lock,
         step = stringResource(R.string.auth_account), onBack = onBack,
-        primaryLabel = if (signIn) stringResource(R.string.auth_sign_in) else stringResource(R.string.auth_save_password),
-        primaryEnabled = value.isNotEmpty() && (policy == null || policy.problems(value).isEmpty()), onPrimary = onSubmit,
-        secondaryLabel = if (optional) stringResource(R.string.auth_skip_for_now) else null, onSecondary = onSkip) {
+        primaryLabel = busyMessage ?: if (saved) stringResource(R.string.auth_retry_account_status) else if (signIn) stringResource(R.string.auth_sign_in) else stringResource(R.string.auth_save_password),
+        primaryEnabled = busyMessage == null && (saved || (value.isNotEmpty() && (policy == null || policy.problems(value).isEmpty()))), onPrimary = if (saved) onCheckStatus else onSubmit,
+        secondaryLabel = if (optional) stringResource(R.string.auth_skip_for_now) else null, onSecondary = onSkip, secondaryEnabled = busyMessage == null) {
         OnboardingCard {
-            PasswordField(value, onChange, policy)
+            if (saved) BodyText(stringResource(R.string.auth_task_password_added))
+            else PasswordField(value, onChange, policy, enabled = busyMessage == null)
+            if (busyMessage != null) BodyText(busyMessage)
             if (error != null) BodyText(error)
         }
     }
