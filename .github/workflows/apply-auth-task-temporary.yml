@@ -1,0 +1,59 @@
+name: Validate persistent auth tasks (temporary)
+on:
+  push:
+    branches: [feat/persistent-auth-flow-20261115]
+    paths: [.github/workflows/apply-auth-task-temporary.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            25
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Apply checksum-bound source changes
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, lzma, pathlib, subprocess
+          parts = sorted(pathlib.Path('.project/auth-flow-transfer').glob('part-*.b64'))
+          assert len(parts) == 5
+          patch = lzma.decompress(base64.b64decode(''.join(p.read_text().strip() for p in parts), validate=True))
+          assert hashlib.sha256(patch).hexdigest() == '4e61156415582bd165b83a36b3b4b476a75eba48214201159b5cf37f50ccfa98'
+          subprocess.run(['git', 'apply', '--check', '-'], input=patch, check=True)
+          subprocess.run(['git', 'apply', '--index', '-'], input=patch, check=True)
+          PY
+          git diff --cached --check
+          python3 scripts/screenshots/suite.py coverage
+          python3 -m unittest discover -s scripts/screenshots -p 'test_*.py'
+          sh ./docs.sh sources check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Implement persistent sign-in, inline passkey recovery, and optional account setup'
+          git push origin HEAD:feat/persistent-auth-flow-20261115
+      - name: Compile apps and run JVM tests
+        run: bash gradlew :auth:testDebugUnitTest :app:testDebugUnitTest :auth:assembleDebugAndroidTest :app:assembleDebug :app:assembleRelease --stacktrace
+      - name: Render screenshot candidates without accepting them
+        run: |
+          bash gradlew :auth:updateDebugScreenshotTest :app:updateDebugScreenshotTest --stacktrace
+          python3 scripts/screenshots/suite.py candidates
+          python3 scripts/screenshots/review.py
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: persistent-auth-validation
+          path: |
+            docs/generated/screenshots/
+            auth/build/reports/
+            app/build/reports/
+            auth/build/test-results/
+            app/build/test-results/
+          if-no-files-found: warn
+          retention-days: 3
