@@ -198,13 +198,14 @@ internal fun EmailOneTimeCodeField(
     contentDescriptionText: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    autoFocus: Boolean = true,
 ) {
     val focus = remember { FocusRequester() }
     val clipboard = LocalClipboardManager.current
     val autofillManager = LocalAutofillManager.current
     val update: (String) -> Unit = { raw -> onValueChange(normalizeEmailOneTimeCode(raw)) }
 
-    LaunchedEffect(Unit) { focus.requestFocus() }
+    LaunchedEffect(autoFocus) { if (autoFocus) focus.requestFocus() }
     DisposableEffect(autofillManager) {
         onDispose { autofillManager?.cancel() }
     }
