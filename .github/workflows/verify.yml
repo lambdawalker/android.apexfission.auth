@@ -63,8 +63,11 @@ jobs:
       - name: Exercise document review on Android
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 34
+          target: aosp_atd
           arch: x86_64
+          emulator-boot-timeout: 900
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
             bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest
