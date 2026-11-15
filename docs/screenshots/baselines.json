@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "status": "reviewed-baselines",
-  "source_commit": "cbc9f98a89ec40de74875233e865cc220dba1f08",
+  "source_commit": "ffcdcf4ac0f88903d4b8590d6d12e92ddadc35f9",
   "inputs": {
     "files": {
-      "app/build.gradle.kts": "8f23095bd382a9f1adcc49f374876e89d3e612b245055516c010c628a922ad9b",
+      "app/build.gradle.kts": "aa3ae378af219f6e4909d5f7e86afb4b6c8122ffe4dd916db8e1f40a6f15318d",
       "app/src/androidTest/java/com/apexfission/android/auth/DemoWindowSecurityTest.kt": "cced42528259578063640e66ad05165259e44fd9978b881983bcb1fa9bfa5baa",
       "app/src/androidTest/java/com/apexfission/android/auth/ExampleInstrumentedTest.kt": "e8314ddc7ea65c8f7502b4fca481682ff7f5e59cf56789245f1e9960186c4182",
       "app/src/androidTest/java/com/apexfission/android/auth/LocalCardCaptureDemoTest.kt": "108f4a3e69c9a13f55996bbdb128c252e7aaa151622d7960db4149baf5300021",
@@ -16,11 +16,11 @@
       "app/src/main/java/com/apexfission/android/auth/EnvironmentViewModel.kt": "84d1831fa5bd4a1de42fb7042da0614542f186126abb072a29199d657b76737d",
       "app/src/main/java/com/apexfission/android/auth/IdentityRuntime.kt": "9d6b5e4a1e88a28831b4ce0e3ddac5aee1ff617317942cf143512671b1654549",
       "app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt": "0eabace5a654d3b70eb60cf217e9adec26f47c6629e47ee557266659eb46c7f5",
-      "app/src/main/java/com/apexfission/android/auth/LocalCardCaptureDemo.kt": "ceb21637c38d2edd596e442548f20ffc69e79eec5e0ca469d2427656950183e4",
+      "app/src/main/java/com/apexfission/android/auth/LocalCardCaptureDemo.kt": "96852897ca5e6817bc4f7aa96a0aedcd3f8c58ae53edf1ecb98d3075ead6e8af",
       "app/src/main/java/com/apexfission/android/auth/LocalUserReset.kt": "55be89eb978685b3952549273e55565e076d125064654e5dfc1e791199ff9362",
       "app/src/main/java/com/apexfission/android/auth/LocalUserResetViewModel.kt": "2283bbf7c8205013b5c2cbd9b3776601937c614ca4f9584e78535bd3760f656e",
       "app/src/main/java/com/apexfission/android/auth/MainActivity.kt": "f961c127c184108fd86f9797e8ad8d79a10ff0eecaadee891f5e8dcf73c64e18",
-      "app/src/main/java/com/apexfission/android/auth/OnboardingEntryScreen.kt": "1d44c4244a278359ffa6e8240380e82dc0195f9c76f176f97ab38375f8599c76",
+      "app/src/main/java/com/apexfission/android/auth/OnboardingEntryScreen.kt": "7699eee3e1e37a649e3f270f74b66e609090d426690c9e520acddb8868e6601f",
       "app/src/main/res/drawable/ic_launcher_background.xml": "ed423c73a6f40a4d2909f0901e60527b3a807cd59e1b5593bcaae1808b1c6321",
       "app/src/main/res/drawable/ic_launcher_foreground.xml": "01d1a6a6c1234eb7fe270d097eb283d72b9c95ae5118886f1b6573aad280f1f7",
       "app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml": "88f7653499ef524126ea5018a99baf9cc3269e7e584d6205dfdd76db39f39cc0",
@@ -45,10 +45,11 @@
       "app/src/test/java/com/apexfission/android/auth/BackendConfigurationTest.kt": "75553a134625d47ee411e5313bca02903e423c4c1ce81c826a092f83ef61c83f",
       "app/src/test/java/com/apexfission/android/auth/ExampleUnitTest.kt": "6165114b79973e78df76a57a49a3f05d0349a5b9406f5da6772f8ca423ce34f6",
       "app/src/test/java/com/apexfission/android/auth/LocalUserResetTest.kt": "67ba5afcc4e8dbcf3b48a0d15e79ea0569c1d7e80e3c533cd0e5acc88353718a",
-      "auth/build.gradle.kts": "901d56063dfbf514f806bf82fad5669f112bdf755ee912a77f0c79ece1418ca7",
+      "auth/build.gradle.kts": "5bf3b3f090b13a2083787b2dd4baa155f1fad20d60451f16d0306b1eb92e6005",
       "auth/src/androidTest/java/com/apexfission/android/auth/ExampleInstrumentedTest.kt": "1bdf6637f21dcfae1380c17fcb65ac6e364327ae8b9e569e25dea8bd6bf3f2d2",
       "auth/src/androidTest/java/com/apexfission/android/auth/capture/DocumentReviewUiTest.kt": "7fff3b74d24f38eca9e345507fc366f067b2299aa7487c4de6d0beb597652f55",
       "auth/src/androidTest/java/com/apexfission/android/auth/identity/capture/CameraPermissionRecoveryUiTest.kt": "6ee2ec943d5b5ab053ca7db8ec8ba07fabee9526d24b7cd419852a304c15b466",
+      "auth/src/androidTest/java/com/apexfission/android/auth/signin/AuthTaskScreensTest.kt": "d2c2acbcbafb1aa0fb4fa8dc48e1deeecd730a401d6cffac66c1166cc09feaff",
       "auth/src/androidTest/java/com/apexfission/android/auth/ui/onboarding/common/AuthMessagesTest.kt": "6f20b830b67d0ff1d4dc8da029e050fb3024615fa795e7d7cb3d07969916e022",
       "auth/src/main/AndroidManifest.xml": "b04d356d17902c3c22de02a06dafc380ce7e30a538c3bd550f5f7676efb6f4a6",
       "auth/src/main/java/com/apexfission/android/auth/capture/CaptureApi.kt": "2bdcfeb7f2e02ec181d038e43d1e39ae0f9bdd43caf4c4ce4036136e435b7caa",
@@ -66,10 +67,10 @@
       "auth/src/main/java/com/apexfission/android/auth/capture/SecureCaptureCheckpointStore.kt": "533da7956a67a375fa2c064bbbc8efb4db6715d60336065ccc87cb925d457918",
       "auth/src/main/java/com/apexfission/android/auth/discovery/AppConfiguration.kt": "47646ec784edb6e766b27dea21e66581b53ce758803e0245dfee661bb7d9baa3",
       "auth/src/main/java/com/apexfission/android/auth/discovery/EnvironmentIndex.kt": "db7f16a7adb4804f5825d3a0d8538dcc7e7fabf83e2d449854c3a1ea5c03440d",
-      "auth/src/main/java/com/apexfission/android/auth/discovery/OnboardingPolicy.kt": "c6d16b30acb969c58b6ce4ace1ed0809212f5bf345eabef01c4a44350abdb6bc",
+      "auth/src/main/java/com/apexfission/android/auth/discovery/OnboardingPolicy.kt": "4b420fe5bb653f94ab9d216120532ba650c374214b71de3aca485beb0913f2a2",
       "auth/src/main/java/com/apexfission/android/auth/email/CapturePolicyPrefetch.kt": "266e078a895f07c4b2c43500aa1bc901cd68cd89d4a1123f6cb0007d09c427b3",
       "auth/src/main/java/com/apexfission/android/auth/email/EmailFlowController.kt": "69396061ddc3ba2b1b915578490ebb626703c89fc7d1a93557f021219c240e50",
-      "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt": "7c1b3c21a7c40a9432b0dfd6907eb4c80e7c73444c911f82324ed98f5bec6cd1",
+      "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt": "d546117d03fa245c4f878a50d2f0c0e0ac884e469052fbb7e2af66ed4fa9ad61",
       "auth/src/main/java/com/apexfission/android/auth/email/EmailVerificationApi.kt": "0723f02d71eae2068dda62b67c2004f94091e9cd5667cebcf4924d14b8154d4e",
       "auth/src/main/java/com/apexfission/android/auth/email/PendingPassword.kt": "edadabe1e933345e6fa00ed358decb8d0aa7eb062c5fe47b475cf041e0146243",
       "auth/src/main/java/com/apexfission/android/auth/email/ProofGenerator.kt": "cdec45bcd6b62ee76b0b041556ab299ceffb5fe64f6a3c1c38d878924bb5cc9d",
@@ -82,17 +83,21 @@
       "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt": "7e3ba7cd277998bf115b4ba8c319db3121d8af86d2ba2cbec14384648d96cd7c",
       "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCardModel.kt": "040c30bf0ec6f36a05c70ca1468a51ece766b7e5d1dbd4dfb667583439d23016",
       "auth/src/main/java/com/apexfission/android/auth/passkey/PasskeyRegistration.kt": "323270db40cbe03a3f863a2d7ddfb0f16d083c093bab413355f7353a18b77d77",
-      "auth/src/main/java/com/apexfission/android/auth/passkey/ReturnAuthApi.kt": "469634a1b638a5818883e4a63d257c61d524b374ea784d2fafec618f49375f88",
+      "auth/src/main/java/com/apexfission/android/auth/passkey/ReturnAuthApi.kt": "0990eaa1bba898dd306ba3bf87a12bfad857301fb40e4678bd023ea02e352de5",
+      "auth/src/main/java/com/apexfission/android/auth/signin/PasskeyTask.kt": "8ea66e0b44af43bee1dc33ca9455806d2287950cbc2c4e7e2cb8c12e2e334b41",
+      "auth/src/main/java/com/apexfission/android/auth/signin/ReturningSignInTransport.kt": "5a168e4f8a4ff1b38e012cb1111074bc6f79ac9a3a90183757252caed48ff1da",
+      "auth/src/main/java/com/apexfission/android/auth/signin/SignInTask.kt": "5665e81d5be1a94bcc2098c8288d636185c9c40a0861e28b2ebc7f9613f06107",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt": "f2477d5785fe517458d40e2cede82d6fcab3413ec984381f6d64bf89e5186cc1",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/account/AccountTaskScreen.kt": "5b0b40d7332f0d4244b37532644c983eb63862bcafefcb8cc41d4f5b7bd1dfce",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/AuthText.kt": "7ba77cae156764a92f8da11fd698b0e2b93db644b4e9ed3d309b3056170dc75c",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingComponents.kt": "1c64432e9b713b5f938b6c38a5cdbd1484dbd122ea143ac306fa996bcb74fc90",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingComponents.kt": "b61d5c1222fe29284a9823f1f4299ef2ab26770fde6457a347c9fc30dfd18819",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingLoadingScreen.kt": "ce0e620cca7e65fb541e613ae92fa56bfa49542b44f71ee6f572373d472bdfb9",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailAttemptLimitScreen.kt": "ba6a53c3eea399526a9b3ab0a49f9936c5eca3c84c0645ecef708e0d53613a3d",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreen.kt": "2fe9c0562aba1178f0da47d397b3753f4b22f6126bf0dd4774c1a467d9085e90",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailLinkUnusableScreen.kt": "59f0f9ece55cbdff155a7d646bf0daa7f07ccc57d265558cd210ccb7cf2138c9",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailSessionRecoveryScreen.kt": "5c89556401726ceac6f9c7fbe01973dca5d5bef0182e8a758662bd105c3cda8a",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailStartScreen.kt": "b0b14524c21f36d3242faaaa19754c8be3ecd9702b8a77b84d230a797d3e1239",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailWaitScreen.kt": "000dc479ada9e4a3ec9495bbb4e0bcd987c0772eca42e2f9ab6ba495875fe097",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailStartScreen.kt": "87bba8a1e7d3a062843c2c51b679519903bb531d18260188a8de0cb745e103cf",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailWaitScreen.kt": "961d19c6679d6a42b2668916af69cb274bdd43e39b0b78962108d2f0228f07a2",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/CardDetailsSavedScreen.kt": "c4c458d3cfe44c2880a03466f6e753e3617af6bef92db69550120d5a6bcf92ec",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityDocumentUnreadableScreen.kt": "d6e5bd8fca5b1e9130ff6c651bd0fd7f7b47413c8a862df5d1105ec212dd8777",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityReviewScreen.kt": "266e4d22610ce0068442793386a78edc3bad66468bd122df188cc55265644033",
@@ -102,27 +107,30 @@
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityUnsuccessfulScreen.kt": "e038282a14f8a7a95b71624671f8809e4b9c61eff03ae920032e244f4e00c16f",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyFailedScreen.kt": "e5146ee46bba8e1e84380c75505e960638e1ad89e4481e40ee57bbe38f64dc48",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyStartScreen.kt": "8ae12d01417e7ebd1f0c3e14ea8e3e26557786f6e23d8db3ab3c0586ae15018d",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyTaskScreen.kt": "d70596760ab179f7da825dfacb00bc5f41ad1bd41606fb841507392bcd76c88f",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyUnsupportedScreen.kt": "0cd52e2dacc15e21c07fd72c96cdbbc01c2f3b24a3daefc851ddda6330a7cfe7",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/password/PasswordScreen.kt": "086687e61433a49152499afacd1b6c6605b1e9d750db0ad469cb3158279103b5",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/ReturnSignInScreens.kt": "ec02489587689e59ba67de163c0f046804b4693fe34050c644ba99d6f98f77cf",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/password/PasswordScreen.kt": "ef77a4797381f0d61472b380fbe5769c301465c212a89ec6dc97e6258f17bbc0",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/ReturnSignInScreens.kt": "59580e84ff6d4b1968f7ec3c5ffd669c8f0cfdefc4ac8b35cfeb5bd912400581",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/SignInTaskScreen.kt": "1a573fe35adc536c8dbdd007136beadcada870bfd5486541907b1a3810247ecd",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/welcome/WelcomeScreen.kt": "60e108450d321ffec30f114db0da8eed6114b1efb124ac7aeedc4f0a0dd6559d",
       "auth/src/main/java/com/apexfission/android/auth/ui/theme/Color.kt": "f50c3f5438c39f5d2d864d30b64d27d6913602e7aad01b9375e51b8e5c138314",
       "auth/src/main/java/com/apexfission/android/auth/ui/theme/Theme.kt": "00a8acf705f07bc8494e63bd0f684ce2462d1b381451ae75490e2aa3440fd5de",
       "auth/src/main/java/com/apexfission/android/auth/ui/theme/Type.kt": "1edbd4cc970852a8b85997e4fe59e5e10fc2b687c8d536e12b74e5a5634cfbb8",
-      "auth/src/main/res/values/strings.xml": "0a7e387a4898af8322dbdbdc7e02009e507d6befedf15ddd058aa6611a0c1f4f",
-      "auth/src/main/res/values-de/strings.xml": "d121a8b863a570786d914c2b73fb3a9cdc89da3226c292f5c8a70a00a5db9740",
-      "auth/src/main/res/values-es/strings.xml": "dc46fbf18df10339f866b09072a4051a232857fe4002b39e5d99b63bbdcce365",
-      "auth/src/main/res/values-fr/strings.xml": "3dbd7b460c485bcca001280a8b5637c5bdb85639a3c54eb6712c5386d7d82734",
-      "auth/src/main/res/values-it/strings.xml": "0f7e607eeac8cd4750bb91ab07fd48e4cd66fa7f6da58ffc5761dcf90bc71948",
-      "auth/src/main/res/values-ja/strings.xml": "ac08303e7e169da3c7fb0382c255aa2c8e2fdc53b357a6afbafb2ecee7b82d31",
-      "auth/src/main/res/values-ko/strings.xml": "3066b11c659209a9135f748060e22a11c1af4ab4453ff9ae30963864999cdc7e",
-      "auth/src/main/res/values-pl/strings.xml": "67e9fcf921fbaa6ba7a80b66d3a56ee273dd410dbd7668deff64611d9d8304ea",
-      "auth/src/main/res/values-pt/strings.xml": "c7a701c09bc766c5338bd9a8387faa409238c927f5b69aa965af149eed198de0",
-      "auth/src/main/res/values-ru/strings.xml": "6beb19b61b35b9c4f222edcaca98e57d4c6f2c7bda7980035ce3101c4c2d1c6a",
-      "auth/src/main/res/values-uk/strings.xml": "ae0053ba194ef75820be1c7f525e58fff25a3e0f63c19a0152f5295dcb09b923",
-      "auth/src/main/res/values-zh-rCN/strings.xml": "0de1fbb53b7839a33bc75efb5e56fd07e77e406c7ff9bb28a89198167519be65",
-      "auth/src/main/res/values-zh-rTW/strings.xml": "f4180883959880cc6f4ffed9d7b7f742bde14c4b82d8f5927130d6ac87986577",
+      "auth/src/main/res/values/strings.xml": "5f40389a85fbd487edfd5a74c84244e02f43d814558be6427b11fad547a507d3",
+      "auth/src/main/res/values-de/strings.xml": "d56b2283c67073bfbf534ef59056752b641a3b60e8c3e1275195f3cfb1cbc4c5",
+      "auth/src/main/res/values-es/strings.xml": "cf805c9b279a5f81b4fb3e9d0ea3b898ed46529d4b390654766c2111e2ef10fc",
+      "auth/src/main/res/values-fr/strings.xml": "59095506600e6d189804870db29594f98eae18ebfb18db1168e35c6e885258ad",
+      "auth/src/main/res/values-it/strings.xml": "81a68fdb64161136655c5c790291f4fc20ed80e232d637a1f49d31e7836ab137",
+      "auth/src/main/res/values-ja/strings.xml": "f412305c5e3537b1c313e1cb280409234570a8193d6e09d8133e3576ef690ebf",
+      "auth/src/main/res/values-ko/strings.xml": "cc3a41f1edcf5e10a5aa9cd4ec6f115a6b1308554a0f4aa86ea8ea909eacb455",
+      "auth/src/main/res/values-pl/strings.xml": "961690895aa56acc24fad4ce4071655a8f2fd776273b6bff533f64b6333c93ae",
+      "auth/src/main/res/values-pt/strings.xml": "0273b25e330162105a12ba92a6fc9a76120a7809a7dca33a64df251cb0d996b0",
+      "auth/src/main/res/values-ru/strings.xml": "10352973a5ae7f89b4e290ea1c1269a8f107da72ffb605b8c835e3ef39ff2ed4",
+      "auth/src/main/res/values-uk/strings.xml": "4396690400658c0e6d3d913773602d91e4494fa519c20574e606eb21b17b65b9",
+      "auth/src/main/res/values-zh-rCN/strings.xml": "16351c74a54a9a21f36300d3b746fc74ba43ed7586b17f8e30e7efc90c7458e6",
+      "auth/src/main/res/values-zh-rTW/strings.xml": "55d1560c4c289148cdbc8ffcc066c19fb5ba498f6a4fdbecd1a084bc5dd46543",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/identity/capture/CameraPermissionScreenshotTest.kt": "6aa174c2fbf0b4f95c3901f882fce9f9fedd58ac556d7390fe930a7a27bce895",
+      "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt": "7dcf9ed26d00dbb71b5d942f162eef787ca05492ec6f648d47b7517172cf56e1",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt": "8d51d5b2ef4805db4b09c21a876106fa0ef391306e29e70e1fa738b10158b3d0",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt": "131f2ac9f7cea506b1568c14c74b82fbf933706382f2fa29c501dfc47b81d4cb",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt": "13b94be4cd79bd89f2ce4733fad0da972901317d2672ed068a2626737623af7a",
@@ -138,6 +146,7 @@
       "auth/src/test/java/com/apexfission/android/auth/discovery/AppConfigurationTest.kt": "44ca18e0f265599a0342be8ff8b15d1b7eb2368cb618c5d9ac3613f491ce02e9",
       "auth/src/test/java/com/apexfission/android/auth/discovery/EnvironmentIndexTest.kt": "ad3c011a138f31255be0cee0dc6ee9574c2aaad761de9d651f360534ddc4a492",
       "auth/src/test/java/com/apexfission/android/auth/discovery/OnboardingPolicyTest.kt": "22f7cbb520d5907f8c635765d5df40360e47831c10eb2497f28a64ce38b53eec",
+      "auth/src/test/java/com/apexfission/android/auth/discovery/RequiredOnlyPolicyTest.kt": "9a4b6e226500ee535cac6dd2738bf0bc84ef5ee5868d45472ae5e3821973779d",
       "auth/src/test/java/com/apexfission/android/auth/email/CapturePolicyPrefetchTest.kt": "07e1514137f53cc7f4c4ec824884fe872adaac4032680d5d6f32a47b0474c7c5",
       "auth/src/test/java/com/apexfission/android/auth/email/EmailFlowControllerTest.kt": "fcd6f5b2c2747644d32e12f8faa2d4816187bc21aaa19e2a53b80c9fe2cc8a7d",
       "auth/src/test/java/com/apexfission/android/auth/email/EmailVerificationApiTest.kt": "bd714fc5c0cca0fef2f9d1e77182b8cdc2ac1739642fc15ca169ccd4ba85c684",
@@ -146,19 +155,20 @@
       "auth/src/test/java/com/apexfission/android/auth/identity/capture/CameraPermissionRouteTest.kt": "0d064cc0a97c2c8cdc0b3d643b0a7379dcf22b9c405d35c04f9bdc3885b1ea41",
       "auth/src/test/java/com/apexfission/android/auth/identity/capture/IdentityCameraCompatibility.kt": "47cd383b8910f65eea5c5f38d8b5f9777dd6ab2701778480be059950e501177d",
       "auth/src/test/java/com/apexfission/android/auth/passkey/PasskeyRegistrationApiTest.kt": "03019e55aea69bc91d9488985c6bd86cc53d761e979028aa73955cbc7a44fc44",
-      "auth/src/test/java/com/apexfission/android/auth/passkey/ReturnAuthApiTest.kt": "6bbb701d43d1dacc300e92ac5eb1ebaf9baaeda947b27df950c9bd954da0fc73",
-      "auth/src/test/java/com/apexfission/android/auth/ui/onboarding/common/EmailOneTimeCodeFieldTest.kt": "d1ef6f974600b81bcdce6db0337dc696debc9044042697d7a07a735c44e0b8a3",
+      "auth/src/test/java/com/apexfission/android/auth/passkey/ReturnAuthApiTest.kt": "f557ce0c9cc176e8496c3c646f766e349f3fd89e8618fdff7067c65d38880cba",
+      "auth/src/test/java/com/apexfission/android/auth/signin/PasskeyTaskTest.kt": "572c2c2c4a331a294e4adc8e0b5327361e5c33d2ecdc08f7f7e6e60d156c283e",
+      "auth/src/test/java/com/apexfission/android/auth/signin/SignInTaskTest.kt": "2dfd55601473a88e1a8cb41228ff2f799a03260d4f4cf29ac753a10501f751aa",
       "build.gradle.kts": "04d1b51701c287ce9cfbb271b65bf07510584a6fc533e2c55a877d57c5f1408f",
-      "docs/screenshots/scenarios.json": "5bde4155ddd6ba24628f4fa64f2fbb5121595b9066aa144338427c2bed3ee3fd",
-      "gradle/libs.versions.toml": "aac32e8c0243a94517d07cab35920a8ca3e567ebc14b3d66e5ba4f71010e5a79",
+      "docs/screenshots/scenarios.json": "098fe1fbe74358a53118eccc69350145f366bcb4e66a55d3ba164deccb858093",
+      "gradle/libs.versions.toml": "7e44272b53584a4b9c1cacdeefca41325cae07986d7ed92c80cefdcdfcc4be70",
       "gradle/wrapper/gradle-wrapper.properties": "8d8a9c29d44a5921d120d615c953d4c33cd10b60d7945f8cc0644c8b3f391b4f",
       "gradle.properties": "4ac2919cbfd52cbbf8763598a5ed5af65377a33f7b56a715a6212f470905e169",
       "settings.gradle.kts": "8edde5fe7976743576a7afb0b1c14637e68658560b5fc5b9528b94aff721a9e0"
     },
-    "sha256": "4d4ca41d69add1b508dfc47cd23df005ba054039ecec00581b4d271dabc2f5d6"
+    "sha256": "43c48e1f3d94ef8713d6208570474c84d5b10c389b251f9651446da967baa8ea"
   },
   "toolchain": {
-    "versions_sha256": "aac32e8c0243a94517d07cab35920a8ca3e567ebc14b3d66e5ba4f71010e5a79",
+    "versions_sha256": "7e44272b53584a4b9c1cacdeefca41325cae07986d7ed92c80cefdcdfcc4be70",
     "renderer": "Compose screenshot alpha16",
     "java": "openjdk version \"25.0.5\" 2026-10-20 LTS",
     "platform": "Linux host layoutlib; no device",
@@ -231,6 +241,363 @@
       "locale": "en",
       "font_scale": 1.0,
       "sha256": "21e5a324de9fccfd2dd0fc34e3d229d80cec94db0a16ccce692a2e170ad4ad9e",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/codeEntry_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.codeEntry",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "8aa5843a7d8f72ad6c37c876a72bd92125847cbc181ecab701edb4ef0da7b47d",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/codeEntry_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.codeEntry",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "62ba718e862854edd6c8a426a38499d336e28a86ee30ce7897317e320814527a",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/completedAccount_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.completedAccount",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "a9c0de839f9551c75297109f67cb70e4e2d999f51c5144e56bf67af644e64d90",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/completedAccount_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.completedAccount",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "13f60a6969764a9606af92d86e3636d464d13310bd193f0f9f51186d0ce59540",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/connectionRecovery_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.connectionRecovery",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "9fdaa213f01c302e59f8c55c76fe0757c03a3c2282089a849e2641c9b344a56d",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/connectionRecovery_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.connectionRecovery",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "ab937f82e9dccc67a9ec5a090106db3ff5829eea62426a55e5e5530d7d75c331",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/methodChoice_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.methodChoice",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "7df1eea25eec8c52faecdfbeb2c35e5af829535f61a662df6be2e10b4206ec41",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/methodChoice_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.methodChoice",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "23a37a808a8225dfa252aaada339bf407d5697f7c225996180e152453211759e",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/narrowCodeRecovery_Narrow large text_ce7faae6_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.narrowCodeRecovery",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "fixture-default",
+      "viewport_dp": [
+        320,
+        740
+      ],
+      "locale": "en",
+      "font_scale": 1.3,
+      "sha256": "c1645608d1b54c86e26ef8c4b8b5f117d7b00eb6fb956b6d4a9cdf31e19fbf53",
+      "width": 840,
+      "height": 1943
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeyCancelled_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeyCancelled",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "86ce9cf649db7492bbe9db9c7ece5ba8ad25cb7be6930ff8c1b10d7d76be9786",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeyCancelled_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeyCancelled",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "20dfe59a93f834b73732483beab2f057f61194678d2d517aae919cbdda6889da",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeyReady_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeyReady",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "a7508d2fd0dddbd0ea9b7b9fd94363607c4f1785b1325b357f7cc894b92d21c4",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeyReady_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeyReady",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "5dfe3e31987bb128ce5e2591983f80a214b9d9a3eb4a0043186703bccf95f3c0",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeySavedStatusRetry_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeySavedStatusRetry",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "9916f1f430ec65a2a3fc35c8458ba06d2e2f68e0edf3de1c91a6d463e02ea7b0",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeySavedStatusRetry_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeySavedStatusRetry",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "6335ae8a713ddba40a0216586307d09c9293c1027006725b9bc191604ea7c403",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeyUnsupportedRequired_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeyUnsupportedRequired",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "bbd238a9e311633877892fa6666f36d621a082cc5ad348d99580e8a8bf68fc99",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passkeyUnsupportedRequired_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passkeyUnsupportedRequired",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "b1ba950732779f1ae098fbe70972566611648cdb5c828f390283248f1e650273",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passwordRecovery_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passwordRecovery",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "d4784d2e8e3b67229440a9a327f8b300226ff842dc930ad849a94fe89141f4c2",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/passwordRecovery_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.passwordRecovery",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "de6eb69b5e8034d6bcccbc411711ef4e8fdf2a2513f99b53ce270d567d421390",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/verifyingCode_Dark_e7358aa4_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.verifyingCode",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "dark",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "497d1565abb7ce32a3e1ead84fb16b6807bc3354c50e959c2fb3b6041a865b37",
+      "width": 1032,
+      "height": 2237
+    },
+    {
+      "path": "auth/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest/verifyingCode_Light_64b0ec47_0.png",
+      "scenario": "auth:AuthTaskScreenshotTest.verifyingCode",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "theme": "light",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "sha256": "1e00068816b895b15a2865773bf9c0daa4edf7d5a891eae14a12c3b26e176aa7",
       "width": 1032,
       "height": 2237
     },
@@ -859,7 +1226,7 @@
       ],
       "locale": "en",
       "font_scale": 1.0,
-      "sha256": "d335a369ca6db4f4574d945261511af70820c0db0fd0a2e4ba943191538ef6cc",
+      "sha256": "eddc0187e4eb15457b486afeb50ff6763e4c03dc1b3c8ab671734825317b4097",
       "width": 1032,
       "height": 2237
     },
@@ -876,7 +1243,7 @@
       ],
       "locale": "en",
       "font_scale": 1.0,
-      "sha256": "723d29be527a4f0e4e2e65a3452f12df8658fdee5c7a86de44808330b8a6a774",
+      "sha256": "21543448969b2d793de44c82fa3017b93d1bcd41812c140fb223cf3f7caab3ca",
       "width": 1032,
       "height": 2237
     },
@@ -1731,6 +2098,6 @@
       "height": 2237
     }
   ],
-  "reviewed_by": "OpenAI visual review 2026-11-15: inspected Retry and Settings in light/dark; legible controls, no clipping, expected recovery actions. Existing 88 PNGs unchanged. Native dialogs not claimed.",
-  "archive_sha256": "a7378cdfd501f65d22bce8d32feb36e32a110ba7f36f2faa2de23307e74655a7"
+  "reviewed_by": "2026-11-15: inspected 21 new auth-task images and 2 legacy code-card label comparisons; re-reviewed all 9 responsive-layout changes after fixing the 320dp/font1.3 recipient squeeze. Native dialog behavior is not claimed by these previews.",
+  "archive_sha256": "3a35815def8ac5aea3893846494041d1eef882d9b3ff2fc347a86feb3e45364d"
 }
