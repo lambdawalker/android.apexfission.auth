@@ -47,7 +47,6 @@ import androidx.compose.ui.platform.LocalResources
 import com.apexfission.android.auth.ui.onboarding.common.LoadingTask
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingLoadingScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailAttemptLimitScreen
-import com.apexfission.android.auth.ui.onboarding.email.EmailCodeScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailLinkUnusableScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailSessionRecoveryScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailStartScreen
@@ -95,6 +94,9 @@ fun EmailOnboardingHost(
         EmailFlowController(EmailVerificationApi(apiBaseUrl, client), storage)
     }
     val scope = rememberCoroutineScope()
+    // Transient only: never persist email codes in saved instance state.
+    var verificationCode by remember(apiBaseUrl) { mutableStateOf("") }
+    LaunchedEffect(controller.lastEmailAtMillis) { verificationCode = "" }
     var clock by remember { mutableLongStateOf(System.currentTimeMillis()) }
     val passkeyApi = remember(apiBaseUrl, client) { PasskeyRegistrationApi(apiBaseUrl, client) }
     val passkeyManager = remember(activityContext) { AndroidPasskeyManager(activityContext) }
@@ -344,7 +346,14 @@ fun EmailOnboardingHost(
     }
     val canResend = clock >= controller.lastEmailAtMillis + 60_000
     val resend = { scope.launch { controller.resend() }; Unit }
-    val changeEmail = { capturePolicyPrefetch.clear(); clearPassword(); skipped = emptySet(); passwordError = null; controller.changeEmail() }
+    val changeEmail = {
+        verificationCode = ""
+        capturePolicyPrefetch.clear()
+        clearPassword()
+        skipped = emptySet()
+        passwordError = null
+        controller.changeEmail()
+    }
     val passwordSignIn: () -> Unit = {
         val entered = password
         clearPassword()
@@ -406,17 +415,28 @@ fun EmailOnboardingHost(
             } else null)
         is EmailScreen.Wait -> EmailWaitScreen(
             email = screen.email,
+            code = verificationCode,
+            onCodeChange = { verificationCode = it },
+            onVerify = { scope.launch { controller.confirmCode(verificationCode) } },
             onBack = changeEmail,
             onResend = resend,
             onChangeEmail = changeEmail,
-            onEnterCode = controller::enterCode,
             canResend = canResend,
             resendHelp = screen.help ?: if (canResend) null else resources.getString(R.string.auth_you_can_request_another_email_in_a_minute),
             onSignIn = { clearPassword(); returnEmail = screen.email; returnMode = "choice" },
         )
-        is EmailScreen.Code -> EmailCodeScreen(
-            screen.email, changeEmail, { scope.launch { controller.confirmCode(it) } }, resend,
-            error = screen.error, attemptsRemaining = screen.attemptsRemaining, canResend = canResend,
+        is EmailScreen.Code -> EmailWaitScreen(
+            email = screen.email,
+            code = verificationCode,
+            onCodeChange = { verificationCode = it },
+            onVerify = { scope.launch { controller.confirmCode(verificationCode) } },
+            onBack = changeEmail,
+            onResend = resend,
+            onChangeEmail = changeEmail,
+            error = screen.error,
+            attemptsRemaining = screen.attemptsRemaining,
+            canResend = canResend,
+            resendHelp = if (canResend) null else resources.getString(R.string.auth_you_can_request_another_email_in_a_minute),
         )
         is EmailScreen.Limit -> EmailAttemptLimitScreen(
             screen.email, changeEmail, resend, changeEmail, canRequestEmail = canResend,
@@ -465,12 +485,40 @@ fun EmailOnboardingHost(
                 BodyText(resources.getString(R.string.auth_we_could_not_confirm_that_setup_is_complete_retry_to_get_the_late))
             }
         }
-        is EmailScreen.Loading -> OnboardingLoadingScreen(
-            when (screen.task) {
-                LoadingStep.REQUEST_EMAIL -> LoadingTask.REQUEST_EMAIL
-                LoadingStep.CONFIRM_EMAIL -> LoadingTask.CONFIRM_EMAIL
-                LoadingStep.RESEND_EMAIL -> LoadingTask.RESEND_EMAIL
-            }, onBack = {},
-        )
+        is EmailScreen.Loading -> {
+            val previous = screen.verification
+            if (previous is EmailScreen.Wait || previous is EmailScreen.Code) {
+                val email = when (previous) {
+                    is EmailScreen.Wait -> previous.email
+                    is EmailScreen.Code -> previous.email
+                    else -> ""
+                }
+                EmailWaitScreen(
+                    email = email,
+                    code = verificationCode,
+                    onCodeChange = { verificationCode = it },
+                    onVerify = {},
+                    onBack = {},
+                    onResend = {},
+                    onChangeEmail = {},
+                    canResend = false,
+                    error = (previous as? EmailScreen.Code)?.error,
+                    attemptsRemaining = (previous as? EmailScreen.Code)?.attemptsRemaining,
+                    busyMessage = if (screen.task == LoadingStep.RESEND_EMAIL) {
+                        resources.getString(R.string.auth_resend_email)
+                    } else {
+                        resources.getString(R.string.auth_verifying_your_email)
+                    },
+                )
+            } else {
+                OnboardingLoadingScreen(
+                    when (screen.task) {
+                        LoadingStep.REQUEST_EMAIL -> LoadingTask.REQUEST_EMAIL
+                        LoadingStep.CONFIRM_EMAIL -> LoadingTask.CONFIRM_EMAIL
+                        LoadingStep.RESEND_EMAIL -> LoadingTask.RESEND_EMAIL
+                    }, onBack = {},
+                )
+            }
+        }
     }
 }
