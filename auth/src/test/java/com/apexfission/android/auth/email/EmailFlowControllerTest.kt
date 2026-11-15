@@ -58,17 +58,27 @@ class EmailFlowControllerTest {
             now = { 1_000L },
         )
         controller.start("person@example.test")
-        assertTrue(controller.screen is EmailScreen.Wait)
+        val waiting = controller.screen as EmailScreen.Wait
+        assertEquals(token, waiting.requestId)
 
-        controller.enterCode()
-        val codeScreen = controller.screen as EmailScreen.Code
-        assertEquals(token, codeScreen.requestId)
-        assertEquals(null, codeScreen.tokenB)
-
+        // Code entry is available immediately without an Enter code navigation.
         controller.confirmCode("000123")
         assertEquals(1, api.localCodeCalls)
         assertEquals(0, api.manualCalls)
         assertTrue(controller.screen is EmailScreen.Verified)
+    }
+
+    @Test fun invalidCodeEnteredFromWaitPreservesVerificationContext() = runBlocking {
+        val api = FakeApi()
+        val store = MemoryStorage()
+        val controller = EmailFlowController(api, store, now = { 1_000L })
+        controller.start("person@example.test")
+        controller.confirmCode("12")
+        assertEquals(0, api.localCodeCalls)
+        val retry = controller.screen as EmailScreen.Code
+        assertEquals(token, retry.requestId)
+        assertEquals(null, retry.tokenB)
+        assertTrue(retry.error!!.contains("six-digit"))
     }
 
     @Test fun failedLinkOnInitiatingDeviceFallsBackToAAndNewestCode() = runBlocking {

@@ -26,7 +26,7 @@ sealed interface EmailScreen {
     data class Unusable(val email: String, val requestId: String?) : EmailScreen
     data object Recovery : EmailScreen
     data object Verified : EmailScreen
-    data class Loading(val task: LoadingStep) : EmailScreen
+    data class Loading(val task: LoadingStep, val verification: EmailScreen? = null) : EmailScreen
 }
 
 enum class LoadingStep { REQUEST_EMAIL, CONFIRM_EMAIL, RESEND_EMAIL }
@@ -129,7 +129,11 @@ class EmailFlowController(
     }
 
     suspend fun confirmCode(code: String) = exclusive {
-        val current = screen as? EmailScreen.Code ?: return@exclusive
+        val current = when (val visible = screen) {
+            is EmailScreen.Code -> visible
+            is EmailScreen.Wait -> EmailScreen.Code(visible.email, visible.requestId)
+            else -> return@exclusive
+        }
         if (!code.matches(Regex("[0-9]{6}"))) {
             Log.d("EmailDebugX", "Manual code rejected by local format validation")
             screen = current.copy(error = "Enter the six-digit code in your email.")
@@ -151,7 +155,7 @@ class EmailFlowController(
             "EmailDebugX",
             "Submitting manual confirmation code proof=${if (current.tokenB != null) "B+C" else "A+C"}",
         )
-        screen = EmailScreen.Loading(LoadingStep.CONFIRM_EMAIL)
+        screen = EmailScreen.Loading(LoadingStep.CONFIRM_EMAIL, current)
         try {
             val session = if (current.tokenB != null) {
                 api.confirmCode(current.requestId, current.tokenB, code)
@@ -197,17 +201,27 @@ class EmailFlowController(
             return@exclusive
         }
         Log.d("EmailDebugX", "Requesting another verification email")
-        screen = EmailScreen.Loading(LoadingStep.RESEND_EMAIL)
+        screen = EmailScreen.Loading(LoadingStep.RESEND_EMAIL, previous)
         try {
             api.resend(id)
             lastEmailAtMillis = now()
-            screen = EmailScreen.Wait(email, id, "If a new email arrives, open its latest link.")
+            // A client with only the former link's B must reopen the new link:
+            // resend rotates B and C together.
+            screen = if (previous is EmailScreen.Code && previous.tokenB != null) {
+                EmailScreen.Unusable(email, id)
+            } else {
+                EmailScreen.Wait(email, id, "Use the code or link from the newest email.")
+            }
             Log.d("EmailDebugX", "Verification email resent")
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (error: Exception) {
             Log.e("EmailDebugX", "Resend failed", error)
-            screen = EmailScreen.Wait(email, id, "We couldn't request another email. Please try again.")
+            screen = when (previous) {
+                is EmailScreen.Code -> previous.copy(error = "We couldn't request another email. Please try again.")
+                is EmailScreen.Wait -> previous.copy(help = "We couldn't request another email. Please try again.")
+                else -> EmailScreen.Wait(email, id, "We couldn't request another email. Please try again.")
+            }
         }
     }
 

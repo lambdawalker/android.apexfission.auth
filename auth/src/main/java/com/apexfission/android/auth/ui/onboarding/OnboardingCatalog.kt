@@ -93,6 +93,7 @@ private val catalogItems = listOf(
 @Composable
 fun OnboardingCatalog(actions: OnboardingBusinessActions) {
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
+    var sampleVerificationCode by androidx.compose.runtime.remember { mutableStateOf("") }
     val back = { selected = null }
     BackHandler(enabled = selected != null) { selected = null }
     val sampleEmail = "name@example.invalid"
@@ -123,11 +124,13 @@ fun OnboardingCatalog(actions: OnboardingBusinessActions) {
     when (selected) {
         "email_start" -> EmailStartScreen(back, actions::requestEmail)
         "email_wait" -> EmailWaitScreen(
-            sampleEmail,
-            back,
-            actions::resendEmail,
-            { selected = "email_start" },
-            { selected = "email_code" },
+            email = sampleEmail,
+            code = sampleVerificationCode,
+            onCodeChange = { sampleVerificationCode = it },
+            onVerify = { actions.confirmWithCode(sampleVerificationCode) },
+            onBack = back,
+            onResend = actions::resendEmail,
+            onChangeEmail = { selected = "email_start" },
         )
         "email_code" -> EmailCodeScreen(sampleEmail, back, actions::confirmWithCode, actions::resendEmail)
         "email_wrong" -> EmailCodeScreen(

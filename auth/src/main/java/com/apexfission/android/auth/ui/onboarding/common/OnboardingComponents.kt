@@ -197,13 +197,15 @@ internal fun EmailOneTimeCodeField(
     onValueChange: (String) -> Unit,
     contentDescriptionText: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    autoFocus: Boolean = true,
 ) {
     val focus = remember { FocusRequester() }
     val clipboard = LocalClipboardManager.current
     val autofillManager = LocalAutofillManager.current
     val update: (String) -> Unit = { raw -> onValueChange(normalizeEmailOneTimeCode(raw)) }
 
-    LaunchedEffect(Unit) { focus.requestFocus() }
+    LaunchedEffect(autoFocus) { if (autoFocus) focus.requestFocus() }
     DisposableEffect(autofillManager) {
         onDispose { autofillManager?.cancel() }
     }
@@ -215,6 +217,7 @@ internal fun EmailOneTimeCodeField(
         BasicTextField(
             value = value,
             onValueChange = update,
+            enabled = enabled,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true,
             modifier = Modifier
@@ -251,6 +254,7 @@ internal fun EmailOneTimeCodeField(
             },
         )
         TextButton(
+            enabled = enabled,
             onClick = {
                 clipboard.getText()?.text?.let(update)
                 focus.requestFocus()

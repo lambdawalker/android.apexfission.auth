@@ -508,7 +508,7 @@ sealed interface EmailScreen {
     data class Unusable(val email: String, val requestId: String?) : EmailScreen
     data object Recovery : EmailScreen
     data object Verified : EmailScreen
-    data class Loading(val task: LoadingStep) : EmailScreen
+    data class Loading(val task: LoadingStep, val verification: EmailScreen? = null) : EmailScreen
 }
 enum class LoadingStep {
     REQUEST_EMAIL,
@@ -589,7 +589,6 @@ import androidx.compose.ui.platform.LocalResources
 import com.apexfission.android.auth.ui.onboarding.common.LoadingTask
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingLoadingScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailAttemptLimitScreen
-import com.apexfission.android.auth.ui.onboarding.email.EmailCodeScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailLinkUnusableScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailSessionRecoveryScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailStartScreen
@@ -1150,24 +1149,12 @@ fun EmailAttemptLimitScreenPreview()
 
 ```kotlin
 package com.apexfission.android.auth.ui.onboarding.email
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.platform.LocalAutofillManager
 import androidx.compose.ui.tooling.preview.Preview
-import com.apexfission.android.auth.library.R
-import com.apexfission.android.auth.ui.onboarding.common.BodyText
-import com.apexfission.android.auth.ui.onboarding.common.EmailOneTimeCodeField
-import com.apexfission.android.auth.ui.onboarding.common.OnboardingCard
-import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
-import com.apexfission.android.auth.ui.onboarding.common.authText
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 
 @Composable
@@ -1280,31 +1267,37 @@ fun EmailStartScreenPreview()
 
 ```kotlin
 package com.apexfission.android.auth.ui.onboarding.email
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apexfission.android.auth.library.R
 import com.apexfission.android.auth.ui.onboarding.common.BodyText
+import com.apexfission.android.auth.ui.onboarding.common.EmailOneTimeCodeField
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingCard
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
+import com.apexfission.android.auth.ui.onboarding.common.authText
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 
 @Composable
 fun EmailWaitScreen(
     email: String,
+    code: String,
+    onCodeChange: (String) -> Unit,
+    onVerify: () -> Unit,
     onBack: () -> Unit,
     onResend: () -> Unit,
     onChangeEmail: () -> Unit,
-    onEnterCode: () -> Unit,
     canResend: Boolean = true,
     resendHelp: String? = null,
+    error: String? = null,
+    attemptsRemaining: Int? = null,
+    busyMessage: String? = null,
+    autoFocus: Boolean = false,
     onSignIn: (() -> Unit)? = null,
 )
 @Preview(showBackground = true, backgroundColor = 0xFF0F131B)
