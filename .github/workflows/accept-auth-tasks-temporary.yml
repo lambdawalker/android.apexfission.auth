@@ -1,0 +1,41 @@
+name: Record reviewed persistent auth screenshots (temporary)
+on:
+  push:
+    branches: [feat/persistent-auth-flow-20261115]
+    paths: [.github/workflows/accept-auth-tasks-temporary.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  accept-reviewed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v7
+        with:
+          run-id: 43768420542
+          name: responsive-auth-candidates
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: .
+      - name: Verify the exact inspected render inputs and accept reviewed pixels
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          manifest = json.loads(pathlib.Path('docs/generated/screenshots/manifest.json').read_text())
+          assert manifest['source_commit'] == 'ffcdcf4ac0f88903d4b8590d6d12e92ddadc35f9'
+          assert manifest['inputs']['sha256'] == '43c48e1f3d94ef8713d6208570474c84d5b10c389b251f9651446da967baa8ea'
+          assert len(manifest['images']) == 113
+          PY
+          python3 scripts/screenshots/suite.py accept --directory docs/generated/screenshots --reviewed-by '2026-11-15: inspected 21 new auth-task images and 2 legacy code-card label comparisons; re-reviewed all 9 responsive-layout changes after fixing the 320dp/font1.3 recipient squeeze. Native dialog behavior is not claimed by these previews.'
+          python3 scripts/screenshots/suite.py restore
+          python3 scripts/screenshots/suite.py verify-docs
+      - name: Commit reviewed references only
+        run: |
+          git add docs/screenshots/baselines.zip docs/screenshots/baselines.json docs/screenshots/documentation.json docs/assets/screenshots
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Accept reviewed persistent auth task light-dark and narrow-layout baselines'
+          git push origin HEAD:feat/persistent-auth-flow-20261115
