@@ -32,6 +32,32 @@ class DocumentReviewUiTest {
         compose.onNodeWithText(text(R.string.auth_use_location)).performScrollTo().performClick()
         compose.runOnIdle { assertEquals(IssuingJurisdiction("Canada"), saved) }
     }
+    @Test fun reopeningSavedDetailsShowsEditableReviewInsteadOfDoneScreen() {
+        val card = CardData(fullName = "Sample Person")
+        val record = CaptureRecord(
+            id = "a".repeat(32),
+            evidenceVersion = 1,
+            revision = 1,
+            policyVersion = "v1",
+            documentType = "id_card",
+            state = "ready",
+            expiresAt = 9999999999,
+            extraction = CardExtraction("complete"),
+            reviewed = ReviewedCard(card, 123, "MX"),
+        )
+        compose.setContent {
+            MaterialTheme {
+                CaptureHostContent(
+                    ui = CaptureUi(record = record, draft = card, originCountry = "MX"),
+                    onExit = {},
+                    reviewSavedDetails = true,
+                )
+            }
+        }
+        compose.onNodeWithText(text(R.string.auth_save_and_continue)).assertExists()
+        compose.onNodeWithText(text(R.string.auth_done)).assertDoesNotExist()
+    }
+
     @Test fun lateOcrCannotReplaceUnappliedSheetEdits() {
         val value = androidx.compose.runtime.mutableStateOf(IssuingJurisdiction("Mexico"))
         var saved: IssuingJurisdiction? = null

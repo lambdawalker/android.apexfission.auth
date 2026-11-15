@@ -9,5 +9,8 @@ internal fun DirectIdentityCapture(onExit: () -> Unit) = LiveCaptureFlow(onExit)
 
 /** Keeps the policy accepted during onboarding attached to capture. */
 @Composable
-internal fun AccountIdentityFlow(acceptedPolicy: CapturePolicy?, onExit: () -> Unit) =
-    LiveCaptureFlow(onExit, acceptedPolicy)
+internal fun AccountIdentityFlow(
+    acceptedPolicy: CapturePolicy?,
+    onExit: () -> Unit,
+    openSavedDetailsOnEntry: Boolean = false,
+) = LiveCaptureFlow(onExit, acceptedPolicy, openSavedDetailsOnEntry)

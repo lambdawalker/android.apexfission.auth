@@ -48,13 +48,14 @@ import kotlinx.coroutines.launch
     allowNewCapture: Boolean = true,
     earlyCamera: (@Composable (CaptureCameraEvents) -> Unit)?,
     camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit = { _, _, _ -> },
+    openSavedDetailsOnEntry: Boolean = false,
 ) {
     val ui by controller.state.collectAsState()
     val language = LocalConfiguration.current.locales[0].language
     val scope = rememberCoroutineScope()
     val early = remember(controller, scope) { EarlyCaptureSession(controller, scope) }
     DisposableEffect(early) { onDispose { early.close() } }
-    var reviewSavedDetails by remember(controller) { mutableStateOf(false) }
+    var reviewSavedDetails by remember(controller, openSavedDetailsOnEntry) { mutableStateOf(openSavedDetailsOnEntry) }
     var initializing by remember(controller) { mutableStateOf(true) }
     var refreshGeneration by remember(controller) { mutableIntStateOf(0) }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -105,7 +106,12 @@ import kotlinx.coroutines.launch
         onEditOrigin = controller::editOrigin,
         onSaveReview = { scope.launch {
             controller.saveReview()
-            if (controller.state.value.hasSavedReview()) reviewSavedDetails = false
+            // Only the exact server-acknowledged data and origin may complete the task.
+            // No separate Done screen is needed after the user chose Save and continue.
+            if (controller.state.value.hasSavedReview()) {
+                controller.close()
+                onExit()
+            }
         } },
         onRestore = { scope.launch { controller.restore(); refreshGeneration++ } },
         onCancel = { scope.launch { controller.cancel() } },

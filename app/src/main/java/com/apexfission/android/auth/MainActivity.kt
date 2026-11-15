@@ -112,6 +112,9 @@ class MainActivity : ComponentActivity() {
                                 link = incomingLink,
                                 onLinkConsumed = ::clearIncomingLink,
                                 identityContent = { _, policy, exit -> AccountIdentityFlow(policy, exit) },
+                                identityReviewContent = { _, policy, exit ->
+                                    AccountIdentityFlow(policy, exit, openSavedDetailsOnEntry = true)
+                                },
                                 onPasskeyDeferred = { destination = EntryScreen.Home; clearIncomingLink() },
                             )
                             }
