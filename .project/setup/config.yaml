@@ -22,3 +22,21 @@ bootstrap:
 signing:
   application_ids:
   - com.apexfission.android.auth
+android_modules:
+  app:
+    path: :app
+    directory: app
+    kind: application
+    selected: true
+    namespace: com.apexfission.android.auth
+    application_ids:
+    - com.apexfission.android.auth
+    screenshots: true
+  auth:
+    path: :auth
+    directory: auth
+    kind: library
+    selected: false
+    namespace: com.apexfission.android.auth.library
+    application_ids: []
+    screenshots: true
