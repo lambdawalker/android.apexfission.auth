@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Masquer les champs supplémentaires"</string>
     <string name="auth_show_additional">"Vérifier les champs supplémentaires"</string>
     <string name="auth_issuing_authority">"Autorité de délivrance (si indiquée)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Sécurité du compte</string>
+    <string name="auth_task_another_method">Utiliser une autre méthode</string>
+    <string name="auth_task_checking_passkey">Clé d’accès enregistrée. Vérification de la configuration du compte…</string>
+    <string name="auth_task_connection">Connexion impossible. Vos informations sont toujours présentes.</string>
+    <string name="auth_task_enter_code">Saisissez le code de connexion reçu par e-mail.</string>
+    <string name="auth_task_invalid_code">Ce code n’a pas pu être vérifié. Vérifiez-le ou demandez-en un nouveau.</string>
+    <string name="auth_task_opening_passkey">Suivez les instructions sur votre appareil…</string>
+    <string name="auth_task_passkey_status_retry">Votre clé d’accès a été enregistrée. Réessayez de vérifier la configuration du compte.</string>
+    <string name="auth_task_request_failed">Impossible de terminer. Réessayez ou utilisez une autre méthode.</string>
+    <string name="auth_task_retry_in">Vous pourrez réessayer dans %1$d secondes.</string>
+    <string name="auth_task_saving_passkey">Enregistrement de votre clé d’accès…</string>
+    <string name="auth_task_secure_account">Sécurisez votre compte</string>
+    <string name="auth_task_sending_code">Envoi du code…</string>
+    <string name="auth_task_service_unavailable">Le service est temporairement indisponible. Réessayez.</string>
+    <string name="auth_task_setup_cancelled">La configuration de la clé d’accès a été annulée. Vous pouvez réessayer.</string>
+    <string name="auth_task_setup_unsupported">Les clés d’accès ne sont pas disponibles sur cet appareil. Utilisez un appareil compatible pour terminer cette étape.</string>
+    <string name="auth_task_signin_cancelled">La connexion par clé d’accès a été annulée. Réessayez ou choisissez une autre méthode.</string>
+    <string name="auth_task_signin_unsupported">La connexion par clé d’accès n’est pas disponible. Choisissez une autre méthode.</string>
+    <string name="auth_task_signing_in">Connexion en cours…</string>
+    <string name="auth_task_throttled">Trop de tentatives. Patientez avant de réessayer.</string>
+    <string name="auth_task_verifying_code">Vérification du code…</string>
+    <string name="auth_task_password_added">Mot de passe enregistré.</string>
+    <string name="auth_task_saving_password">Enregistrement de votre mot de passe…</string>
 </resources>

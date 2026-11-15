@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Приховати додаткові поля"</string>
     <string name="auth_show_additional">"Перевірити додаткові поля"</string>
     <string name="auth_issuing_authority">"Орган видачі (якщо вказано)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Безпека облікового запису</string>
+    <string name="auth_task_another_method">Використати інший спосіб</string>
+    <string name="auth_task_checking_passkey">Ключ доступу збережено. Перевіряємо налаштування облікового запису…</string>
+    <string name="auth_task_connection">Не вдалося підключитися. Введені дані залишилися на екрані.</string>
+    <string name="auth_task_enter_code">Введіть код входу з електронного листа.</string>
+    <string name="auth_task_invalid_code">Не вдалося перевірити код. Перевірте його або запросіть новий.</string>
+    <string name="auth_task_opening_passkey">Дотримуйтеся вказівок на пристрої…</string>
+    <string name="auth_task_passkey_status_retry">Ваш ключ доступу збережено. Повторіть перевірку налаштувань облікового запису.</string>
+    <string name="auth_task_request_failed">Не вдалося завершити. Спробуйте ще раз або скористайтеся іншим способом.</string>
+    <string name="auth_task_retry_in">Повторити спробу можна через %1$d секунд.</string>
+    <string name="auth_task_saving_passkey">Зберігаємо ключ доступу…</string>
+    <string name="auth_task_secure_account">Захистіть обліковий запис</string>
+    <string name="auth_task_sending_code">Надсилаємо код…</string>
+    <string name="auth_task_service_unavailable">Сервіс тимчасово недоступний. Спробуйте ще раз.</string>
+    <string name="auth_task_setup_cancelled">Налаштування ключа доступу скасовано. Можна спробувати ще раз.</string>
+    <string name="auth_task_setup_unsupported">Ключі доступу недоступні на цьому пристрої. Скористайтеся підтримуваним пристроєм, щоб завершити цей крок.</string>
+    <string name="auth_task_signin_cancelled">Вхід із ключем доступу скасовано. Спробуйте ще раз або виберіть інший спосіб.</string>
+    <string name="auth_task_signin_unsupported">Вхід із ключем доступу недоступний. Виберіть інший спосіб.</string>
+    <string name="auth_task_signing_in">Виконується вхід…</string>
+    <string name="auth_task_throttled">Забагато спроб. Зачекайте перед наступною спробою.</string>
+    <string name="auth_task_verifying_code">Перевіряємо код…</string>
+    <string name="auth_task_password_added">Пароль збережено.</string>
+    <string name="auth_task_saving_password">Зберігаємо пароль…</string>
 </resources>

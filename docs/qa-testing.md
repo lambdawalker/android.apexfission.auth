@@ -108,3 +108,11 @@ onboarding capture and the local card capture demo. The host no longer sets
 Android's `FLAG_SECURE`; the demo Activity explicitly clears that flag on launch,
 resume, and menu destination changes. Rebuild and restart the app before comparing the two
 viewfinders. This changes only the runnable demo host.
+
+## Persistent auth task acceptance
+
+Use synthetic accounts. Exercise email-code and password sign-in with airplane mode, a 503 response, rejected credentials and 429/Retry-After. Verify the form/input remains, controls block overlapping submissions, and no retry sends an email unless Resend is selected. Check leading-zero code paste, method/account changes clearing secrets, and a late response after leaving the task. A successful resend must clear the old code and use the new challenge.
+
+Cancel the native passkey provider and retry on the same security screen. Required setup must not expose Do this later. After acknowledged registration, fail the account-status read and confirm Retry checks status without reopening the provider. From a completed optional-only account, verify passkey/password/ID actions remain reachable without forced skip pages. Reopen the app during a temporary refresh outage and confirm the stored session is not erased solely by a transport failure.
+
+Run `AuthTaskScreensTest` on the emulator, plus real-device provider cancellation, keyboard/autofill, rotation and task-exit smoke checks. Screenshot candidates do not exercise native dialogs. Credentials are intentionally not restored after process death.

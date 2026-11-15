@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Ocultar campos adicionales"</string>
     <string name="auth_show_additional">"Revisar campos adicionales"</string>
     <string name="auth_issuing_authority">"Autoridad emisora (si aparece)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Seguridad de la cuenta</string>
+    <string name="auth_task_another_method">Usar otro método</string>
+    <string name="auth_task_checking_passkey">Llave de acceso guardada. Comprobando la configuración de la cuenta…</string>
+    <string name="auth_task_connection">No se pudo conectar. La información que ingresaste sigue aquí.</string>
+    <string name="auth_task_enter_code">Ingresa el código de inicio de sesión de tu correo.</string>
+    <string name="auth_task_invalid_code">No pudimos verificar ese código. Revísalo o solicita uno nuevo.</string>
+    <string name="auth_task_opening_passkey">Sigue las instrucciones de tu dispositivo…</string>
+    <string name="auth_task_passkey_status_retry">Tu llave de acceso se guardó. Reintenta para comprobar la configuración de la cuenta.</string>
+    <string name="auth_task_request_failed">No se pudo completar. Reintenta o usa otro método.</string>
+    <string name="auth_task_retry_in">Puedes reintentar en %1$d segundos.</string>
+    <string name="auth_task_saving_passkey">Guardando tu llave de acceso…</string>
+    <string name="auth_task_secure_account">Protege tu cuenta</string>
+    <string name="auth_task_sending_code">Enviando código…</string>
+    <string name="auth_task_service_unavailable">El servicio no está disponible temporalmente. Reintenta.</string>
+    <string name="auth_task_setup_cancelled">Se canceló la configuración de la llave de acceso. Puedes reintentar.</string>
+    <string name="auth_task_setup_unsupported">Las llaves de acceso no están disponibles en este dispositivo. Usa un dispositivo compatible para completar este paso.</string>
+    <string name="auth_task_signin_cancelled">Se canceló el inicio de sesión con llave de acceso. Reintenta o elige otro método.</string>
+    <string name="auth_task_signin_unsupported">El inicio de sesión con llave de acceso no está disponible. Elige otro método.</string>
+    <string name="auth_task_signing_in">Iniciando sesión…</string>
+    <string name="auth_task_throttled">Demasiados intentos. Espera antes de reintentar.</string>
+    <string name="auth_task_verifying_code">Verificando código…</string>
+    <string name="auth_task_password_added">Contraseña guardada.</string>
+    <string name="auth_task_saving_password">Guardando tu contraseña…</string>
 </resources>

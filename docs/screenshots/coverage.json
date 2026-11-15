@@ -59,7 +59,12 @@
         "auth:DocumentationScreenshotTest.emailRecovery",
         "auth:DocumentationScreenshotTest.passkeyStart",
         "auth:DocumentationScreenshotTest.password",
-        "auth:DocumentationScreenshotTest.returnSignIn"
+        "auth:DocumentationScreenshotTest.returnSignIn",
+        "auth:AuthTaskScreenshotTest.methodChoice",
+        "auth:AuthTaskScreenshotTest.verifyingCode",
+        "auth:AuthTaskScreenshotTest.connectionRecovery",
+        "auth:AuthTaskScreenshotTest.passkeyCancelled",
+        "auth:AuthTaskScreenshotTest.completedAccount"
       ],
       "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
     },
@@ -533,6 +538,41 @@
         "auth:CameraPermissionScreenshotTest.settings"
       ],
       "note": "Production retry and Settings recovery visual rendered offline in light and dark modes."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/SignInTaskScreen.kt",
+      "symbol": "SignInTaskScreen",
+      "kind": "direct",
+      "scenarios": [
+        "auth:AuthTaskScreenshotTest.methodChoice",
+        "auth:AuthTaskScreenshotTest.codeEntry",
+        "auth:AuthTaskScreenshotTest.verifyingCode",
+        "auth:AuthTaskScreenshotTest.connectionRecovery",
+        "auth:AuthTaskScreenshotTest.passwordRecovery",
+        "auth:AuthTaskScreenshotTest.narrowCodeRecovery"
+      ],
+      "note": "Offline synthetic task states; native prompts and network behavior are tested separately."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/passkey/PasskeyTaskScreen.kt",
+      "symbol": "PasskeyTaskScreen",
+      "kind": "direct",
+      "scenarios": [
+        "auth:AuthTaskScreenshotTest.passkeyReady",
+        "auth:AuthTaskScreenshotTest.passkeyCancelled",
+        "auth:AuthTaskScreenshotTest.passkeyUnsupportedRequired",
+        "auth:AuthTaskScreenshotTest.passkeySavedStatusRetry"
+      ],
+      "note": "Offline synthetic task states; native prompts and network behavior are tested separately."
+    },
+    {
+      "source": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/account/AccountTaskScreen.kt",
+      "symbol": "AccountTaskScreen",
+      "kind": "direct",
+      "scenarios": [
+        "auth:AuthTaskScreenshotTest.completedAccount"
+      ],
+      "note": "Offline synthetic task states; native prompts and network behavior are tested separately."
     }
   ]
 }

@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Ocultar campos adicionais"</string>
     <string name="auth_show_additional">"Revisar campos adicionais"</string>
     <string name="auth_issuing_authority">"Autoridade emissora (se impressa)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Segurança da conta</string>
+    <string name="auth_task_another_method">Usar outro método</string>
+    <string name="auth_task_checking_passkey">Chave de acesso salva. Verificando a configuração da conta…</string>
+    <string name="auth_task_connection">Não foi possível conectar. Suas informações continuam aqui.</string>
+    <string name="auth_task_enter_code">Digite o código de acesso recebido por e-mail.</string>
+    <string name="auth_task_invalid_code">Não foi possível verificar o código. Confira-o ou solicite um novo.</string>
+    <string name="auth_task_opening_passkey">Siga as instruções no seu dispositivo…</string>
+    <string name="auth_task_passkey_status_retry">Sua chave de acesso foi salva. Tente novamente verificar a configuração da conta.</string>
+    <string name="auth_task_request_failed">Não foi possível concluir. Tente novamente ou use outro método.</string>
+    <string name="auth_task_retry_in">Você poderá tentar novamente em %1$d segundos.</string>
+    <string name="auth_task_saving_passkey">Salvando sua chave de acesso…</string>
+    <string name="auth_task_secure_account">Proteja sua conta</string>
+    <string name="auth_task_sending_code">Enviando código…</string>
+    <string name="auth_task_service_unavailable">O serviço está temporariamente indisponível. Tente novamente.</string>
+    <string name="auth_task_setup_cancelled">A configuração da chave de acesso foi cancelada. Você pode tentar novamente.</string>
+    <string name="auth_task_setup_unsupported">Chaves de acesso não estão disponíveis neste dispositivo. Use um dispositivo compatível para concluir esta etapa.</string>
+    <string name="auth_task_signin_cancelled">O acesso com chave de acesso foi cancelado. Tente novamente ou escolha outro método.</string>
+    <string name="auth_task_signin_unsupported">O acesso com chave de acesso não está disponível. Escolha outro método.</string>
+    <string name="auth_task_signing_in">Entrando…</string>
+    <string name="auth_task_throttled">Muitas tentativas. Aguarde antes de tentar novamente.</string>
+    <string name="auth_task_verifying_code">Verificando código…</string>
+    <string name="auth_task_password_added">Senha salva.</string>
+    <string name="auth_task_saving_password">Salvando sua senha…</string>
 </resources>

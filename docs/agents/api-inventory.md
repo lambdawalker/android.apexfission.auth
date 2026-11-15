@@ -473,6 +473,8 @@ enum class OnboardingStep {
 ) {
     fun validate()
     fun next(status: AccountStatus, skipped: Set<OnboardingStep> = emptySet()): OnboardingStep
+    fun nextRequired(status: AccountStatus): OnboardingStep
+    fun optionalAccountSteps(status: AccountStatus): Set<OnboardingStep>
     companion object {
         fun legacy(capture: Boolean)
     }
@@ -557,25 +559,21 @@ import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
 import com.apexfission.android.auth.ui.onboarding.common.BodyText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
+import com.apexfission.android.auth.signin.*
+import com.apexfission.android.auth.ui.onboarding.signin.SignInTaskScreen
+import com.apexfission.android.auth.ui.onboarding.passkey.PasskeyTaskScreen
+import com.apexfission.android.auth.ui.onboarding.account.AccountTaskScreen
+import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.CancellationException
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.util.Base64
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import com.apexfission.android.auth.passkey.ReturnAuthApi
-import com.apexfission.android.auth.passkey.SignInChallenge
-import com.apexfission.android.auth.ui.onboarding.signin.ReturnSignInScreen
-import com.apexfission.android.auth.ui.onboarding.signin.ReturnEmailCodeScreen
 import androidx.compose.runtime.mutableStateOf
 import com.apexfission.android.auth.passkey.AndroidPasskeyManager
 import com.apexfission.android.auth.passkey.PasskeyRegistrationApi
-import com.apexfission.android.auth.passkey.PasskeyApiException
-import com.apexfission.android.auth.passkey.PasskeyCancelled
-import com.apexfission.android.auth.passkey.PasskeyUnsupported
-import com.apexfission.android.auth.ui.onboarding.passkey.PasskeyFailedScreen
-import com.apexfission.android.auth.ui.onboarding.passkey.PasskeyUnsupportedScreen
 import com.apexfission.android.auth.ui.onboarding.id.IdentityStartScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -591,10 +589,8 @@ import com.apexfission.android.auth.ui.onboarding.common.LoadingTask
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingLoadingScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailAttemptLimitScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailLinkUnusableScreen
-import com.apexfission.android.auth.ui.onboarding.email.EmailSessionRecoveryScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailStartScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailWaitScreen
-import com.apexfission.android.auth.ui.onboarding.passkey.PasskeyStartScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
@@ -964,7 +960,11 @@ import kotlinx.serialization.json.JsonElement
     @SerialName("onboarding_complete") val onboardingComplete: Boolean = false,
 )
 @Serializable data class PasswordRegistered(@SerialName("password_registered") val passwordRegistered: Boolean)
-class SignInError(val expired: Boolean = false) : Exception(if (expired) "sign_in_required" else "authentication_failed")
+class SignInError(
+    val expired: Boolean = false,
+    val httpStatus: Int = if (expired) 401 else 400,
+    val retryAfterSeconds: Long? = null,
+) : Exception(if (expired) "sign_in_required" else "authentication_failed")
 class ReturnAuthApi(baseUrl: String, private val client: HttpClient) {
     suspend fun start(email: String, passkey: Boolean): SignInChallenge
     suspend fun finishEmail(email: String, session: String, code: String): AuthSession
@@ -1674,11 +1674,11 @@ import androidx.compose.material3.MaterialTheme
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 
 @Composable
-fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPolicy? = null, optional: Boolean = false)
+fun PasswordField(value: String, onChange: (String) -> Unit, policy: PasswordPolicy? = null, optional: Boolean = false, enabled: Boolean = true)
 @Composable
 fun PasswordScreen(value: String, onChange: (String) -> Unit, onSubmit: () -> Unit,
     onBack: () -> Unit, error: String?, policy: PasswordPolicy? = null,
-    optional: Boolean = false, onSkip: () -> Unit = {}, signIn: Boolean = false)
+    optional: Boolean = false, onSkip: () -> Unit = {}, signIn: Boolean = false, busyMessage: String? = null, saved: Boolean = false, onCheckStatus: () -> Unit = {})
 ```
 
 ## `auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/ReturnSignInScreens.kt`

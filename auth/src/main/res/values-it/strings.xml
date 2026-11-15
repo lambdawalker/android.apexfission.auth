@@ -305,4 +305,29 @@
     <string name="auth_hide_additional">"Nascondi gli altri campi"</string>
     <string name="auth_show_additional">"Controlla gli altri campi"</string>
     <string name="auth_issuing_authority">"Autorità emittente (se presente)"</string>
+
+    <!-- Persistent sign-in and optional account security. -->
+    <string name="auth_task_account_security">Sicurezza dell’account</string>
+    <string name="auth_task_another_method">Usa un altro metodo</string>
+    <string name="auth_task_checking_passkey">Passkey salvata. Verifica della configurazione dell’account…</string>
+    <string name="auth_task_connection">Connessione non riuscita. I dati inseriti sono ancora qui.</string>
+    <string name="auth_task_enter_code">Inserisci il codice di accesso ricevuto via email.</string>
+    <string name="auth_task_invalid_code">Impossibile verificare il codice. Controllalo o richiedine uno nuovo.</string>
+    <string name="auth_task_opening_passkey">Segui le istruzioni sul tuo dispositivo…</string>
+    <string name="auth_task_passkey_status_retry">La passkey è stata salvata. Riprova a verificare la configurazione dell’account.</string>
+    <string name="auth_task_request_failed">Impossibile completare. Riprova o usa un altro metodo.</string>
+    <string name="auth_task_retry_in">Puoi riprovare tra %1$d secondi.</string>
+    <string name="auth_task_saving_passkey">Salvataggio della passkey…</string>
+    <string name="auth_task_secure_account">Proteggi il tuo account</string>
+    <string name="auth_task_sending_code">Invio del codice…</string>
+    <string name="auth_task_service_unavailable">Il servizio è temporaneamente non disponibile. Riprova.</string>
+    <string name="auth_task_setup_cancelled">La configurazione della passkey è stata annullata. Puoi riprovare.</string>
+    <string name="auth_task_setup_unsupported">Le passkey non sono disponibili su questo dispositivo. Usa un dispositivo compatibile per completare questo passaggio.</string>
+    <string name="auth_task_signin_cancelled">L’accesso con passkey è stato annullato. Riprova o scegli un altro metodo.</string>
+    <string name="auth_task_signin_unsupported">L’accesso con passkey non è disponibile. Scegli un altro metodo.</string>
+    <string name="auth_task_signing_in">Accesso in corso…</string>
+    <string name="auth_task_throttled">Troppi tentativi. Attendi prima di riprovare.</string>
+    <string name="auth_task_verifying_code">Verifica del codice…</string>
+    <string name="auth_task_password_added">Password salvata.</string>
+    <string name="auth_task_saving_password">Salvataggio della password…</string>
 </resources>

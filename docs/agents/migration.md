@@ -37,3 +37,7 @@ Backend URLs, `attestra*` Gradle properties, `ATTESTRA_*` configuration variable
 private storage names and signing aliases retain their existing contracts.
 The repository name and publication coordinates are independent of the Kotlin
 namespace; no repository rename or artifact publication is performed here.
+
+## Persistent sign-in and account security
+
+The live `EmailOnboardingHost` now presents incomplete optional enrollment as account actions after server-confirmed required completion. Custom hosts using `OnboardingPolicy.next` retain the previous optional-offer sequence; opt into `nextRequired` and `optionalAccountSteps` to match the new behavior. Public legacy sign-in/passkey screen functions remain available, but the live host uses transient task state and inline feedback. Retained passwords/codes are never a promise of process-death restoration. The shared code-verification component and all dependency/toolchain pins are unchanged.

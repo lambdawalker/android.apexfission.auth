@@ -33,6 +33,17 @@ fun EmailStartScreen(onBack: () -> Unit, onContinue: (String) -> Unit, error: St
     passwordContent: (@Composable () -> Unit)? = null, passwordValid: Boolean = true,
     onEmailChanged: () -> Unit = {}) {
     var email by rememberSaveable { mutableStateOf("") }
+    EmailStartScreen(email, { email = it; onEmailChanged() }, onBack, onContinue, error,
+        onExistingAccount, passwordContent, passwordValid)
+}
+
+/** Controlled live entry retains the email when switching between signup and sign-in. */
+@Composable
+internal fun EmailStartScreen(
+    email: String, onEmailChange: (String) -> Unit, onBack: () -> Unit,
+    onContinue: (String) -> Unit, error: String? = null, onExistingAccount: (() -> Unit)? = null,
+    passwordContent: (@Composable () -> Unit)? = null, passwordValid: Boolean = true,
+) {
     var attempted by rememberSaveable { mutableStateOf(false) }
     val valid = Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
     OnboardingFrame(
@@ -46,7 +57,7 @@ fun EmailStartScreen(onBack: () -> Unit, onContinue: (String) -> Unit, error: St
         OnboardingCard {
             BodyText(stringResource(R.string.auth_enter_your_email_to_get_a_confirmation_link_and_a_six_digit_code))
             OutlinedTextField(
-                value = email, onValueChange = { email = it; onEmailChanged() }, label = { Text(stringResource(R.string.auth_email_address)) },
+                value = email, onValueChange = onEmailChange, label = { Text(stringResource(R.string.auth_email_address)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 singleLine = true, isError = attempted && !valid,
                 supportingText = {

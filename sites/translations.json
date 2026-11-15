@@ -11,8 +11,8 @@
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
-    "source_sha256": "645225f213cdc568a0b9b301b7bcb1ba6f898af6cdba2b25a175d05833216ae5",
-    "provenance": "Spanish resource ownership reviewed against bounded color JPEGs and borrowed-versus-owned image cleanup; 2026-11-06."
+    "source_sha256": "1e42ca4e698454ac2d77e471e8dc76342c3a594c158b74e2d6a16de9128e8fa3",
+    "provenance": "Spanish resource ownership reviewed against bounded color JPEGs and borrowed-versus-owned image cleanup; 2026-11-06. 2026-11-15: reviewed English and Spanish persistent sign-in, transient input ownership, inline passkey recovery and optional account routing together."
   },
   "docs/agents/api.md": {
     "path": "docs/es/agents/api.md",
@@ -36,8 +36,8 @@
   },
   "docs/agents/migration.md": {
     "path": "docs/es/agents/migration.md",
-    "source_sha256": "c8d753ff02fad04eecdce2f0d2e1b8bd5a1ff45bf5899ae45c935e34cbf0f5f5",
-    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
+    "source_sha256": "7a244c65a08700d2cd1c002e09d424ab28171bebbc323849ac85217323465011",
+    "provenance": "Spanish consumer translation reviewed against canonical contracts; 2026-10-30. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. 2026-11-15: reviewed English and Spanish persistent sign-in, transient input ownership, inline passkey recovery and optional account routing together."
   },
   "docs/agents/demos.md": {
     "path": "docs/es/agents/demos.md",

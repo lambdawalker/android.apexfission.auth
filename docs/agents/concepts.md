@@ -74,3 +74,9 @@ String APIs retain their existing English values for compatibility; library scre
 resolve known messages at rendering time, including formatted arguments. Unrecognized host/service
 text passes through unchanged. A custom UI consuming controller strings directly
 owns its localization. Capture disclosures remain service-provided content.
+
+## Persistent sign-in and optional account setup
+
+The live host keeps returning email/password inputs in a memory-only task while requests run. Recoverable errors stay beside the form; only explicit actions retry authentication or resend a code. Input clears on success, method/account/environment changes and exit. Passkey cancellation and recovery remain on the security screen; a saved credential followed by a failed status refresh offers a status retry, not another provider sheet.
+
+`OnboardingPolicy.nextRequired` gates the live journey on required facts and server completion. `optionalAccountSteps` exposes incomplete optional enrollment from the completed account, while `next` retains the earlier optional-offer sequence for custom consumers. Existing public screen entry points remain available for custom hosts and catalog previews. No code/password is persisted to survive process recreation.

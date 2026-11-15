@@ -901,6 +901,204 @@
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Camera permission recovery: explicit Settings action"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.methodChoice",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "methodChoice",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: methodChoice"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.codeEntry",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "codeEntry",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: codeEntry"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.verifyingCode",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "verifyingCode",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: verifyingCode"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.connectionRecovery",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "connectionRecovery",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: connectionRecovery"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.passwordRecovery",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "passwordRecovery",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: passwordRecovery"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.passkeyReady",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "passkeyReady",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: passkeyReady"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.passkeyCancelled",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "passkeyCancelled",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: passkeyCancelled"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.passkeyUnsupportedRequired",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "passkeyUnsupportedRequired",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: passkeyUnsupportedRequired"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.passkeySavedStatusRetry",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "passkeySavedStatusRetry",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: passkeySavedStatusRetry"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.completedAccount",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "completedAccount",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: completedAccount"
+    },
+    {
+      "id": "auth:AuthTaskScreenshotTest.narrowCodeRecovery",
+      "module": "auth",
+      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/AuthTaskScreenshotTest.kt",
+      "method": "narrowCodeRecovery",
+      "variants": 1,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        320,
+        740
+      ],
+      "locale": "en",
+      "font_scale": 1.3,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "static state; no live services",
+      "caption": "Persistent auth task: narrowCodeRecovery"
     }
   ]
 }

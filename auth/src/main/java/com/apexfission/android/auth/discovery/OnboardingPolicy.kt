@@ -64,6 +64,19 @@ enum class OnboardingStep { PASSWORD, PASSKEY, ID_CAPTURE, REFRESH, COMPLETE }
         steps.firstOrNull { it.second == Requirement.OPTIONAL && !it.third && it.first !in skipped }?.let { return it.first }
         return if (status.onboardingComplete) OnboardingStep.COMPLETE else OnboardingStep.REFRESH
     }
+    /** Host route for the required journey; optional setup belongs to explicit account actions. */
+    fun nextRequired(status: AccountStatus): OnboardingStep = next(status, setOf(
+        OnboardingStep.PASSWORD, OnboardingStep.PASSKEY, OnboardingStep.ID_CAPTURE))
+
+    /** Never expose optional actions as a substitute for unmet requirements or server completion. */
+    fun optionalAccountSteps(status: AccountStatus): Set<OnboardingStep> {
+        if (nextRequired(status) != OnboardingStep.COMPLETE) return emptySet()
+        return listOf(Triple(OnboardingStep.PASSWORD, password, status.passwordRegistered),
+            Triple(OnboardingStep.PASSKEY, passkey, status.passkeyRegistered),
+            Triple(OnboardingStep.ID_CAPTURE, idCapture, status.idCaptured))
+            .filter { it.second == Requirement.OPTIONAL && !it.third }.map { it.first }.toSet()
+    }
+
     companion object {
         fun legacy(capture: Boolean) = OnboardingPolicy(if (capture) Requirement.OPTIONAL else Requirement.DISABLED,
             Requirement.REQUIRED, Requirement.DISABLED, PasswordPlacement.HIDDEN, PasswordPolicy())
