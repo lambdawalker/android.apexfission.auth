@@ -80,12 +80,11 @@ fun EmailOnboardingHost(
     onPasskeyDeferred: () -> Unit,
     onboarding: OnboardingPolicy? = null,
     onRetryConfiguration: () -> Unit = {},
+    // Keep identityContent as the final parameter for existing trailing-lambda clients.
+    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
     identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
         com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)
     },
-    // Optional entry for users explicitly reopening saved details; existing consumers
-    // keep their identityContent integration without a source-breaking signature change.
-    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
 ) {
     val activityContext: Context = LocalContext.current
     val resources = LocalResources.current
