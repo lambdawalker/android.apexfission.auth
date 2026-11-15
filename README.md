@@ -238,3 +238,8 @@ source pins require Rust and Git. No setup credentials are needed.
 Configuration and project-specific introductory Markdown live in `.project/docs/`.
 Confirmed release records and archived source identities remain authoritative.
 Documentation checks do not accept images, publish artifacts, or deploy the site.
+
+## License
+
+Project-owned code in all modules is licensed under the [Apache License 2.0](LICENSE).
+Third-party dependencies and bundled data retain their respective licenses and attribution notices.
