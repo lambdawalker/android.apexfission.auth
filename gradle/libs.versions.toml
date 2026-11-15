@@ -18,7 +18,7 @@ ktor = "3.6.0"
 kotlinxSerialization = "1.11.0"
 
 [libraries]
-apexfission-ui-common = { module = "com.apexfission.android:ui-common", version = "0.0.0-SNAPSHOT" }
+apexfission-ui-common = { module = "com.github.lambdawalker:android.ui.common", version = "ui-common~v0.1.0-jitpack" }
 screenshot-validation-api = { module = "com.android.tools.screenshot:screenshot-validation-api", version.ref = "screenshot" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

@@ -34,12 +34,3 @@ dependencyResolutionManagement {
 rootProject.name = "android.apexfission.auth"
 include(":app")
 include(":auth")
-
-// Temporary source integration until UI Common has a confirmed published release.
-providers.gradleProperty("uiCommonCheckout").orNull?.let { checkout ->
-    includeBuild(checkout) {
-        dependencySubstitution {
-            substitute(module("com.apexfission.android:ui-common")).using(project(":ui-common"))
-        }
-    }
-}

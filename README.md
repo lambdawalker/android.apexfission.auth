@@ -246,4 +246,4 @@ Third-party dependencies and bundled data retain their respective licenses and a
 
 ## UI Common migration
 
-This branch uses UI Common source integration pending its first confirmed release. See [migration instructions](docs/ui-common-migration.md) before building or publishing.
+UI Common is pinned to its confirmed JitPack release `ui-common~v0.1.0-jitpack`. See [migration instructions](docs/ui-common-migration.md) for dependency coordinates and validation.
