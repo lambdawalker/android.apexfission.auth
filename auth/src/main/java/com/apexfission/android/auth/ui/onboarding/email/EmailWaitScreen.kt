@@ -34,6 +34,7 @@ fun EmailWaitScreen(
     error: String? = null,
     attemptsRemaining: Int? = null,
     busyMessage: String? = null,
+    autoFocus: Boolean = false,
     onSignIn: (() -> Unit)? = null,
 ) {
     val busy = busyMessage != null
@@ -64,6 +65,7 @@ fun EmailWaitScreen(
                 onValueChange = onCodeChange,
                 contentDescriptionText = stringResource(R.string.auth_six_digit_confirmation_code),
                 enabled = !busy,
+                autoFocus = autoFocus,
             )
             if (busyMessage != null) {
                 BodyText(busyMessage)
