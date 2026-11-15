@@ -1,6 +1,13 @@
 package com.apexfission.android.auth.signin
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
@@ -11,6 +18,7 @@ import com.apexfission.android.auth.ui.onboarding.passkey.PasskeyTaskScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailStartScreen
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,6 +40,25 @@ class AuthTaskScreensTest {
         compose.onNode(hasSetTextAction()).assertTextContains("001234")
         compose.onNodeWithText(text(R.string.auth_try_again)).performClick()
         compose.runOnIdle { assertEquals(1, submitted) }
+    }
+
+    @Test fun narrowLargeTextKeepsRecipientAtFullWidthAboveTheChangeAction() {
+        val address = "person@example.test"
+        compose.setContent {
+            val density = LocalDensity.current
+            CompositionLocalProvider(LocalDensity provides Density(density.density, fontScale = 1.3f)) {
+                Box(Modifier.width(320.dp)) {
+                    AttestraAuthTheme {
+                        SignInTaskScreen(SignInTaskState(email = address, code = "001234", stage = SignInStage.CODE),
+                            100_000, null, {}, {}, {}, {}, {}, {}, {}, {})
+                    }
+                }
+            }
+        }
+        val recipient = compose.onNodeWithText(address).fetchSemanticsNode().boundsInRoot
+        val change = compose.onNodeWithText(text(R.string.auth_change_email_address)).fetchSemanticsNode().boundsInRoot
+        assertTrue("Recipient must have more room than the change action", recipient.width > change.width)
+        assertTrue("Change action must be below the complete address", change.top >= recipient.bottom)
     }
 
     @Test fun signupAddressCarriesIntoSignInWithoutRetyping() {

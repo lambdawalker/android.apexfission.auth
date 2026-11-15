@@ -110,7 +110,7 @@
   {
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt",
-    "sha256": "56a55c9435c8952323ea1855f7332f3ab84cc5552b60ecd23ea69af28dea086d",
+    "sha256": "d546117d03fa245c4f878a50d2f0c0e0ac884e469052fbb7e2af66ed4fa9ad61",
     "visibility": "public"
   },
   {
@@ -356,7 +356,7 @@
   {
     "guide": null,
     "path": "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/signin/SignInTaskScreen.kt",
-    "sha256": "f30d1165a165750ee0aa6f92bd0e31202a848cdba04e396e18472b51a9e63453",
+    "sha256": "1a573fe35adc536c8dbdd007136beadcada870bfd5486541907b1a3810247ecd",
     "visibility": "nonpublic"
   },
   {

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.platform.LocalAutofillManager
@@ -76,9 +77,12 @@ internal fun SignInTaskScreen(
         if (notice != null) Text(notice, style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
         if (state.stage != SignInStage.METHODS) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(state.email, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
-                TextButton(enabled = !state.busy, onClick = { autofill?.cancel(); onChooseMethod() }) {
+            // Give the full recipient its own line; the action must not squeeze it on
+            // narrow screens or when accessibility text scaling is enabled.
+            Column(Modifier.fillMaxWidth()) {
+                Text(state.email, modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodyMedium)
+                TextButton(enabled = !state.busy, modifier = Modifier.align(Alignment.End),
+                    onClick = { autofill?.cancel(); onChooseMethod() }) {
                     Text(stringResource(R.string.auth_change_email_address))
                 }
             }

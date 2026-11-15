@@ -167,7 +167,7 @@ fun EmailOnboardingHost(
     val exit = {
         hostGeneration++
         returnTask.close()
-        passkeyTask.reset()
+        passkeyTask.close()
         capturePolicyPrefetch.clear()
         clearPassword()
         onPasskeyDeferred()
