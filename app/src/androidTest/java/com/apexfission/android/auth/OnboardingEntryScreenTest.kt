@@ -68,12 +68,15 @@ class OnboardingEntryScreenTest {
                 )
             }
         }
-        compose.onNode(hasScrollAction()).performScrollToNode(hasText("App Link verification"))
-        compose.onNodeWithText("App Link verification").assertIsDisplayed()
-        compose.onNodeWithText("PASS").assertIsDisplayed()
-        compose.onNodeWithText("✓ Certificate match").assertIsDisplayed()
-        compose.onNodeWithText("✓ App Links relation").assertIsDisplayed()
-        compose.onNodeWithText(fingerprint).assertIsDisplayed()
+        fun assertVisible(text: String) {
+            compose.onNode(hasScrollAction()).performScrollToNode(hasText(text))
+            compose.onNodeWithText(text).assertIsDisplayed()
+        }
+        assertVisible("App Link verification")
+        assertVisible("PASS")
+        assertVisible("✓ Certificate match")
+        assertVisible("✓ App Links relation")
+        assertVisible(fingerprint)
     }
 
     @Test
