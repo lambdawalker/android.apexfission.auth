@@ -46,5 +46,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "Regenerate auth API inventory for unified verification"
+            git fetch origin feat/email-verification-low-friction-20261114
+            git rebase origin/feat/email-verification-low-friction-20261114
             git push origin HEAD:feat/email-verification-low-friction-20261114
           fi
