@@ -32,12 +32,11 @@ EmailOnboardingHost(
     onRetryConfiguration = environment::refreshRuntimeConfiguration,
     link = incomingLink,
     onLinkConsumed = ::clearIncomingLink,
-    identityContent = { _, policy, exit ->
-        AccountIdentityFlow(policy, exit)
+    identityContent = { _, policy, exit -> AccountIdentityFlow(policy, exit) },
+    identityReviewContent = { _, policy, exit ->
+        AccountIdentityFlow(policy, exit, openSavedDetailsOnEntry = true)
     },
-    onPasskeyDeferred = {
-        destination = EntryScreen.Home; clearIncomingLink()
-    },
+    onPasskeyDeferred = { destination = EntryScreen.Home; clearIncomingLink() },
 )
 ```
 
@@ -47,7 +46,7 @@ La implementación completa que CI compila está en
 y [LiveCaptureFlow](../../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt).
 `AccountIdentityFlow` es código del anfitrión de ejemplo, no una API exportada de auth.
 Implemente sus responsabilidades equivalentes; no importe componentes internos del ejemplo.
-El slot `identityContent` predeterminado muestra indisponibilidad, no una captura funcional.
+El slot `identityContent` predeterminado muestra indisponibilidad, no una captura funcional. `identityReviewContent` es opcional y abre directamente el formulario de detalles guardados; mantenga `identityContent` para los consumidores existentes.
 
 ## Responsabilidades del anfitrión
 
