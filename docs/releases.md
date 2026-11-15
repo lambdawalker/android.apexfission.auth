@@ -33,10 +33,12 @@ release tags retain their original source and scripts.
 
 ## Before the first public release
 
-Choose and commit the actual project license; set `POM_LICENSE_NAME` and
-`POM_LICENSE_URL`. They remain deliberately blank. Public/local publication rejects
-missing license metadata. An isolated unsigned verification publication uses
-explicit fixture POM metadata; it grants no license or publication authorization.
+All project-owned modules use [Apache 2.0](../LICENSE). `POM_LICENSE_NAME` and
+`POM_LICENSE_URL` in `gradle.properties` provide the same license for verification
+and public POMs; no fixture license is substituted. Public/local publication still
+rejects missing metadata. Bundled GeoNames data retains its CC BY 4.0 attribution
+in `auth/src/main/assets/geonames-NOTICE.txt`. Selecting a license does not confirm
+a release or authorize publication.
 Review the proposed Central identity `io.github.lambdawalker:attestra-auth` and
 verify namespace ownership. JitPack uses the configured repository name.
 

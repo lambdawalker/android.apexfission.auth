@@ -132,11 +132,7 @@ android.androidResources.noCompress += "tflite"
 // BEGIN MAVEN PUBLICATION ONLY
 
 
-// Public publication still requires an owner-selected license. Only the isolated
-// unsigned verification repository may use fixture POM metadata.
-val verificationPublication = gradle.startParameter.taskNames.any {
-    it.endsWith(":publishAllPublicationsToVerificationRepository")
-}
+// The owner-selected Apache 2.0 license is shared by all project modules.
 val projectUrl = "https://github.com/lambdawalker/android.apexfission.auth"
 val pomLicenseName = providers.gradleProperty("POM_LICENSE_NAME").orElse("")
 val pomLicenseUrl = providers.gradleProperty("POM_LICENSE_URL").orElse("")
@@ -148,12 +144,8 @@ mavenPublishing {
         url.set(projectUrl)
         licenses {
             license {
-                name.set(pomLicenseName.map {
-                    it.ifBlank { if (verificationPublication) "CI validation fixture only" else "" }
-                })
-                url.set(pomLicenseUrl.map {
-                    it.ifBlank { if (verificationPublication) "https://example.invalid/license" else "" }
-                })
+                name.set(pomLicenseName)
+                url.set(pomLicenseUrl)
             }
         }
         developers { developer {
@@ -196,7 +188,7 @@ tasks.withType<org.gradle.api.publish.maven.tasks.AbstractPublishToMaven>().conf
 val verifyPublicationLicense = tasks.register("verifyPublicationLicense") {
     doLast {
         require(pomLicenseName.get().isNotBlank() && pomLicenseUrl.get().startsWith("https://")) {
-            "Owner must set POM_LICENSE_NAME/POM_LICENSE_URL in gradle.properties before publishing; no license is inferred"
+            "Missing publication license metadata; restore POM_LICENSE_NAME/POM_LICENSE_URL in gradle.properties to match LICENSE"
         }
     }
 }
