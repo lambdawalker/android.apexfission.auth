@@ -1,0 +1,33 @@
+name: Inspect auth lint
+on:
+  push:
+    branches:
+      - feat/direct-email-code-entry
+    paths:
+      - .github/workflows/inspect-auth-lint.yml
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            25
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Generate lint report
+        shell: bash
+        run: |
+          set +e
+          ./gradlew :auth:lintRelease --no-daemon
+          status=$?
+          echo "lint_exit=$status"
+          report=auth/build/intermediates/lint_intermediate_text_report/release/lintReportRelease/lint-results-release.txt
+          if [ -f "$report" ]; then
+            cat "$report"
+          fi
+          exit 0
