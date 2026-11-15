@@ -1,0 +1,503 @@
+diff --git a/.github/workflows/verify.yml b/.github/workflows/verify.yml
+index bbeae5f..506897f 100644
+--- a/.github/workflows/verify.yml
++++ b/.github/workflows/verify.yml
+@@ -70,7 +70,7 @@ jobs:
+           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+           disable-animations: true
+           script: |
+-            bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest
++            bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest,com.apexfission.android.auth.identity.capture.CameraPermissionRecoveryUiTest
+             bash gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest,com.apexfission.android.auth.LocalCardCaptureDemoTest,com.apexfission.android.auth.DemoWindowSecurityTest
+       - uses: actions/upload-artifact@v7
+         if: always()
+diff --git a/app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt b/app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt
+index 8338d89..a52f94e 100644
+--- a/app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt
++++ b/app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt
+@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
+ import com.apexfission.android.auth.capture.*
+ import com.apexfission.android.auth.email.EmailHttpClient
+ import com.apexfission.android.auth.email.SecureAuthStorage
+-import com.apexfission.android.auth.identity.capture.IdentityCamera
++import com.apexfission.android.auth.identity.capture.IdentityCameraAfterDisclosure
+ import kotlinx.serialization.json.jsonObject
+ import kotlinx.serialization.json.jsonPrimitive
+ 
+@@ -64,7 +64,9 @@ import kotlinx.serialization.jsonPrimitive
+         allowNewCapture = !openSavedDetailsOnEntry && config.canStartCapture(),
+         openSavedDetailsOnEntry = openSavedDetailsOnEntry,
+         earlyCamera = { events ->
+-            IdentityCamera(
++            // CaptureHost only enters this slot after policy-checked capture admission.
++            // Resuming processing or saved details never reaches the permission request.
++            IdentityCameraAfterDisclosure(
+                 onCaptured = { front, back -> events.onImagesReady(front, back); events.onConfirmed() },
+                 onError = events.onError, onCancel = events.onCancel,
+                 onImagesReady = events.onImagesReady,
+diff --git a/auth/src/androidTest/java/com/apexfission/android/auth/identity/capture/CameraPermissionRecoveryUiTest.kt b/auth/src/androidTest/java/com/apexfission/android/auth/identity/capture/CameraPermissionRecoveryUiTest.kt
+new file mode 100644
+index 0000000..a7d1928
+--- /dev/null
++++ b/auth/src/androidTest/java/com/apexfission/android/auth/identity/capture/CameraPermissionRecoveryUiTest.kt
+@@ -0,0 +1,38 @@
++package com.apexfission.android.auth.identity.capture
++
++import androidx.compose.ui.test.junit4.createComposeRule
++import androidx.compose.ui.test.onNodeWithText
++import androidx.compose.ui.test.performClick
++import androidx.test.platform.app.InstrumentationRegistry
++import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
++import com.apexfission.android.permission.R
++import org.junit.Assert.assertEquals
++import org.junit.Rule
++import org.junit.Test
++
++class CameraPermissionRecoveryUiTest {
++    @get:Rule val compose = createComposeRule()
++    private fun text(id: Int) = InstrumentationRegistry.getInstrumentation().targetContext.getString(id)
++
++    @Test fun denialRequiresAnExplicitRetryInsteadOfRequestingDuringComposition() {
++        var requests = 0
++        var settings = 0
++        compose.setContent {
++            AttestraAuthTheme { CameraPermissionRecovery(true, { requests++ }, { settings++ }, {}) }
++        }
++        compose.runOnIdle { assertEquals(0, requests); assertEquals(0, settings) }
++        compose.onNodeWithText(text(R.string.permission_bundle_retry)).performClick()
++        compose.runOnIdle { assertEquals(1, requests); assertEquals(0, settings) }
++    }
++
++    @Test fun blockedPermissionOpensSettingsOnlyAfterUserChoosesIt() {
++        var requests = 0
++        var settings = 0
++        compose.setContent {
++            AttestraAuthTheme { CameraPermissionRecovery(false, { requests++ }, { settings++ }, {}) }
++        }
++        compose.runOnIdle { assertEquals(0, settings) }
++        compose.onNodeWithText(text(R.string.permission_open_settings)).performClick()
++        compose.runOnIdle { assertEquals(0, requests); assertEquals(1, settings) }
++    }
++}
+diff --git a/auth/src/main/java/com/apexfission/android/auth/identity/capture/CameraPermissionRoute.kt b/auth/src/main/java/com/apexfission/android/auth/identity/capture/CameraPermissionRoute.kt
+new file mode 100644
+index 0000000..41da854
+--- /dev/null
++++ b/auth/src/main/java/com/apexfission/android/auth/identity/capture/CameraPermissionRoute.kt
+@@ -0,0 +1,20 @@
++package com.apexfission.android.auth.identity.capture
++
++/** Routing only; Android remains the authority for hardware and permission grants. */
++internal enum class CameraPermissionRoute { NO_CAMERA, CAMERA, REQUEST, WAIT, RECOVERY }
++
++/** The caller has already shown the disclosure. An attempted request must never auto-repeat. */
++internal fun cameraPermissionRoute(
++    hasCamera: Boolean,
++    granted: Boolean,
++    attempted: Boolean,
++    inFlight: Boolean,
++    foreground: Boolean,
++): CameraPermissionRoute = when {
++    !hasCamera -> CameraPermissionRoute.NO_CAMERA
++    granted -> CameraPermissionRoute.CAMERA
++    inFlight -> CameraPermissionRoute.WAIT
++    attempted -> CameraPermissionRoute.RECOVERY
++    !foreground -> CameraPermissionRoute.WAIT
++    else -> CameraPermissionRoute.REQUEST
++}
+diff --git a/auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt b/auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt
+new file mode 100644
+index 0000000..f69e657
+--- /dev/null
++++ b/auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt
+@@ -0,0 +1,175 @@
++package com.apexfission.android.auth.identity.capture
++
++import android.Manifest
++import android.app.Activity
++import android.content.ActivityNotFoundException
++import android.content.Context
++import android.content.ContextWrapper
++import android.content.Intent
++import android.content.pm.PackageManager
++import android.net.Uri
++import android.provider.Settings
++import androidx.activity.compose.rememberLauncherForActivityResult
++import androidx.activity.result.contract.ActivityResultContracts
++import androidx.compose.foundation.layout.fillMaxSize
++import androidx.compose.foundation.layout.safeDrawingPadding
++import androidx.compose.material.icons.Icons
++import androidx.compose.material.icons.filled.PhotoCamera
++import androidx.compose.runtime.Composable
++import androidx.compose.runtime.DisposableEffect
++import androidx.compose.runtime.LaunchedEffect
++import androidx.compose.runtime.getValue
++import androidx.compose.runtime.mutableStateOf
++import androidx.compose.runtime.remember
++import androidx.compose.runtime.rememberUpdatedState
++import androidx.compose.runtime.saveable.rememberSaveable
++import androidx.compose.runtime.setValue
++import androidx.compose.ui.Modifier
++import androidx.compose.ui.platform.LocalContext
++import androidx.compose.ui.res.stringResource
++import androidx.core.app.ActivityCompat
++import androidx.core.content.ContextCompat
++import androidx.lifecycle.Lifecycle
++import androidx.lifecycle.LifecycleEventObserver
++import androidx.lifecycle.compose.LocalLifecycleOwner
++import com.apexfission.android.auth.library.R
++import com.apexfission.android.auth.ui.onboarding.common.LoadingTask
++import com.apexfission.android.auth.ui.onboarding.common.OnboardingLoadingScreen
++import com.apexfission.android.permission.recipe.PermissionStatus
++import com.apexfission.android.permission.ui.DefaultPermissionPage
++import com.apexfission.android.permission.ui.PermissionBundleScreen
++import com.apexfission.android.permission.ui.PermissionDescription
++import com.apexfission.android.permission.ui.PermissionOverviewMode
++
++/**
++ * Camera entry after a user has accepted a disclosure explaining camera use.
++ * Requests Android permission once, without a second app explanation/Continue page.
++ * Call only when capture is actually needed, not when restoring processing or saved details.
++ * Existing [IdentityCamera] entries retain their explanation-first behavior.
++ */
++@Composable
++fun IdentityCameraAfterDisclosure(
++    onCaptured: (ByteArray, ByteArray) -> Unit,
++    onError: () -> Unit,
++    onCancel: () -> Unit,
++    onImagesReady: ((ByteArray, ByteArray) -> Unit)? = null,
++    onImagesInvalidated: () -> Unit = {},
++    onConfirmed: () -> Unit = {},
++    stitchedPair: Boolean = false,
++    onFrontReady: (ByteArray) -> Unit = { it.fill(0) },
++) {
++    val context = LocalContext.current
++    val activity = remember(context) { context.capturePermissionActivity() }
++    val lifecycle = LocalLifecycleOwner.current.lifecycle
++    val currentError by rememberUpdatedState(onError)
++    val hasCamera = remember(context) { context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) }
++    fun isGranted() = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
++    fun needsRationale() = activity?.let { ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.CAMERA) } == true
++
++    // Save only the attempt marker, never permission authority. Recreating the UI
++    // must not launch another prompt; a lost result has explicit recovery instead.
++    var attempted by rememberSaveable { mutableStateOf(false) }
++    var inFlight by remember { mutableStateOf(false) }
++    var granted by remember(context) { mutableStateOf(isGranted()) }
++    var canAskAgain by remember(activity) { mutableStateOf(needsRationale()) }
++    var foreground by remember(lifecycle) { mutableStateOf(lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) }
++    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
++        // Recheck the actual grant rather than treating a callback as permission.
++        granted = isGranted()
++        canAskAgain = needsRationale()
++        attempted = true
++        inFlight = false
++    }
++    DisposableEffect(lifecycle, context) {
++        val observer = LifecycleEventObserver { _, event ->
++            foreground = lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
++            if (event == Lifecycle.Event.ON_RESUME) {
++                granted = isGranted()
++                canAskAgain = needsRationale()
++            }
++        }
++        lifecycle.addObserver(observer)
++        onDispose { lifecycle.removeObserver(observer) }
++    }
++    val requestPermission: () -> Unit = {
++        if (!inFlight && foreground) {
++            attempted = true
++            inFlight = true
++            try {
++                launcher.launch(Manifest.permission.CAMERA)
++            } catch (_: IllegalStateException) {
++                inFlight = false
++                currentError()
++            } catch (_: SecurityException) {
++                inFlight = false
++                currentError()
++            }
++        }
++    }
++    val route = cameraPermissionRoute(hasCamera, granted, attempted, inFlight, foreground)
++    LaunchedEffect(route) {
++        if (route == CameraPermissionRoute.REQUEST) requestPermission()
++    }
++    when (route) {
++        CameraPermissionRoute.CAMERA, CameraPermissionRoute.NO_CAMERA -> IdentityCamera(
++            onCaptured = onCaptured,
++            onError = onError,
++            onCancel = onCancel,
++            onImagesReady = onImagesReady,
++            onImagesInvalidated = onImagesInvalidated,
++            onConfirmed = onConfirmed,
++            stitchedPair = stitchedPair,
++            onFrontReady = onFrontReady,
++        )
++        CameraPermissionRoute.REQUEST, CameraPermissionRoute.WAIT ->
++            OnboardingLoadingScreen(LoadingTask.PREPARE_CAPTURE, onBack = onCancel)
++        CameraPermissionRoute.RECOVERY -> CameraPermissionRecovery(
++            canAskAgain = canAskAgain,
++            onRequest = requestPermission,
++            onSettings = {
++                try {
++                    context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
++                        Uri.fromParts("package", context.packageName, null)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
++                } catch (_: ActivityNotFoundException) {
++                    currentError()
++                } catch (_: SecurityException) {
++                    currentError()
++                }
++            },
++            onCancel = onCancel,
++        )
++    }
++}
++
++/** Pure recovery content shared by runtime, previews and screenshot tests. */
++@Composable
++internal fun CameraPermissionRecovery(
++    canAskAgain: Boolean,
++    onRequest: () -> Unit,
++    onSettings: () -> Unit,
++    onCancel: () -> Unit,
++) {
++    PermissionBundleScreen(
++        permissions = listOf(PermissionDescription(Manifest.permission.CAMERA) {
++            DefaultPermissionPage(
++                stringResource(R.string.auth_camera), Icons.Default.PhotoCamera,
++                title = stringResource(R.string.auth_scan_both_sides_of_your_id),
++                body = stringResource(R.string.auth_allow_the_camera_to_capture_the_front_and_back_you_can_cancel_and),
++            )
++        }),
++        statuses = listOf(if (canAskAgain) PermissionStatus.RationaleRequired else PermissionStatus.PermanentlyDenied),
++        onBack = onCancel,
++        onNotNow = onCancel,
++        onRequest = onRequest,
++        onOpenSettings = onSettings,
++        overviewMode = PermissionOverviewMode.Hide,
++        autoAdvance = false,
++        modifier = Modifier.fillMaxSize().safeDrawingPadding(),
++    )
++}
++
++private tailrec fun Context.capturePermissionActivity(): Activity? = when (this) {
++    is Activity -> this
++    is ContextWrapper -> if (baseContext === this) null else baseContext.capturePermissionActivity()
++    else -> null
++}
+diff --git a/auth/src/screenshotTest/kotlin/com/apexfission/android/auth/identity/capture/CameraPermissionScreenshotTest.kt b/auth/src/screenshotTest/kotlin/com/apexfission/android/auth/identity/capture/CameraPermissionScreenshotTest.kt
+new file mode 100644
+index 0000000..74e738a
+--- /dev/null
++++ b/auth/src/screenshotTest/kotlin/com/apexfission/android/auth/identity/capture/CameraPermissionScreenshotTest.kt
+@@ -0,0 +1,15 @@
++package com.apexfission.android.auth.identity.capture
++
++import androidx.compose.runtime.Composable
++import com.android.tools.screenshot.PreviewTest
++import com.apexfission.android.auth.ui.onboarding.DocumentationPreview
++import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
++
++/** Only the production visual: no permission launcher, hardware, camera or account. */
++class CameraPermissionScreenshotTest {
++    @PreviewTest @DocumentationPreview @Composable
++    fun retry() { AttestraAuthTheme { CameraPermissionRecovery(true, {}, {}, {}) } }
++
++    @PreviewTest @DocumentationPreview @Composable
++    fun settings() { AttestraAuthTheme { CameraPermissionRecovery(false, {}, {}, {}) } }
++}
+diff --git a/auth/src/test/java/com/apexfission/android/auth/identity/capture/CameraPermissionRouteTest.kt b/auth/src/test/java/com/apexfission/android/auth/identity/capture/CameraPermissionRouteTest.kt
+new file mode 100644
+index 0000000..b282763
+--- /dev/null
++++ b/auth/src/test/java/com/apexfission/android/auth/identity/capture/CameraPermissionRouteTest.kt
+@@ -0,0 +1,48 @@
++package com.apexfission.android.auth.identity.capture
++
++import org.junit.Assert.assertEquals
++import org.junit.Assert.assertTrue
++import org.junit.Test
++
++class CameraPermissionRouteTest {
++    private fun route(hasCamera: Boolean = true, granted: Boolean = false, attempted: Boolean = false,
++                      inFlight: Boolean = false, foreground: Boolean = true) =
++        cameraPermissionRoute(hasCamera, granted, attempted, inFlight, foreground)
++
++    @Test fun acceptedDisclosureGoesDirectlyToNativeRequest() {
++        assertEquals(CameraPermissionRoute.REQUEST, route())
++    }
++    @Test fun existingGrantBypassesPermissionInteraction() {
++        assertEquals(CameraPermissionRoute.CAMERA, route(granted = true))
++    }
++    @Test fun anOutstandingRequestWaitsInsteadOfLaunchingAgain() {
++        assertEquals(CameraPermissionRoute.WAIT, route(attempted = true, inFlight = true))
++    }
++    @Test fun deniedPermissionOffersRecoveryWithoutAutomaticRetry() {
++        assertEquals(CameraPermissionRoute.RECOVERY, route(attempted = true))
++    }
++    @Test fun restoredAttemptWithNoCallbackDoesNotRelaunchOrWaitForever() {
++        assertEquals(CameraPermissionRoute.RECOVERY, route(attempted = true, inFlight = false))
++    }
++    @Test fun backgroundEntryWaitsForForegroundBeforePrompting() {
++        assertEquals(CameraPermissionRoute.WAIT, route(foreground = false))
++        assertEquals(CameraPermissionRoute.REQUEST, route(foreground = true))
++    }
++    @Test fun grantedSettingsResultOpensCameraButDeniedSettingsResultDoesNot() {
++        assertEquals(CameraPermissionRoute.CAMERA, route(granted = true, attempted = true))
++        assertEquals(CameraPermissionRoute.RECOVERY, route(granted = false, attempted = true))
++    }
++    @Test fun noCameraKeepsTheExistingUnavailableFallback() {
++        assertEquals(CameraPermissionRoute.NO_CAMERA, route(hasCamera = false))
++    }
++    @Test fun allStateCombinationsPreserveGrantAndSingleRequestBoundaries() {
++        for (camera in listOf(false, true)) for (granted in listOf(false, true))
++        for (attempted in listOf(false, true)) for (pending in listOf(false, true))
++        for (foreground in listOf(false, true)) {
++            val result = route(camera, granted, attempted, pending, foreground)
++            assertEquals(camera && granted, result == CameraPermissionRoute.CAMERA)
++            assertTrue(result != CameraPermissionRoute.REQUEST || (camera && !granted && !attempted && !pending && foreground))
++            assertTrue(camera || result == CameraPermissionRoute.NO_CAMERA)
++        }
++    }
++}
+diff --git a/docs/identity-capture.md b/docs/identity-capture.md
+index 1dbbd82..ece8739 100644
+--- a/docs/identity-capture.md
++++ b/docs/identity-capture.md
+@@ -38,6 +38,16 @@ The app selects the disclosure using the device language, with English fallback.
+ 
+ After scanning, the review form requires a Country of origin selection: Canada, United States, Mexico, Guatemala or Belize. This user-selected value is independent of the document’s OCR issuing country and is saved as `origin_country`. It is not inferred from device locale. Both values remain editable before saving.
+ 
++## Camera permission after the disclosure
++
++The live host uses `IdentityCameraAfterDisclosure` only inside the policy-checked camera slot. The existing disclosure explains camera use. Selecting **Continue to capture** now leads directly to Android's permission prompt when needed, without another application explanation/Continue page. The original `IdentityCamera` API and standalone camera demo keep their explanation-first behavior.
++
++An existing permission grant opens the camera immediately. The first request waits until the host is resumed and runs only once per entry; the attempt marker survives UI recreation, but a cached flag never grants camera access. Denial opens the shared permission library's explicit retry or Settings recovery. Returning from Settings rechecks the actual grant. No camera hardware keeps the existing unavailable screen. Cancel, failed launch and revocation remain recoverable.
++
++The new entry must be called only after the user has seen and accepted a disclosure explaining camera use. It does not grant consent, create a capture, or bypass backend policy checks. Restoring processing or opening saved details does not instantiate this camera slot and therefore does not request permission.
++
++Validation covers routing combinations, offline light/dark recovery screenshots, and Android recovery-button interaction. Native prompt dismissal, rotation while the prompt is open, OS-specific denied/permanent-denial behavior, grant in Settings and actual capture still need a real-device smoke test.
++
+ ## Direct capture and review
+ 
+ After sign-in, onboarding fetches the capture policy in parallel with account status when ID capture is enabled. The disclosure screen can reuse or join that request for the same session and backend. The prefetch expires after two minutes. If it fails, the screen fetches the policy directly.
+diff --git a/docs/screenshots/coverage.json b/docs/screenshots/coverage.json
+index 2b5c134..49e32eb 100644
+--- a/docs/screenshots/coverage.json
++++ b/docs/screenshots/coverage.json
+@@ -521,6 +521,28 @@
+         "app:AppScreenshotTest.localCaptureFailure"
+       ],
+       "note": "Offline success and failure fixtures in light and dark mode; no camera, storage, or network services."
++    },
++    {
++      "source": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt",
++      "symbol": "IdentityCameraAfterDisclosure",
++      "kind": "runtime-delegation",
++      "scenarios": [
++        "auth:CameraPermissionScreenshotTest.retry",
++        "auth:CameraPermissionScreenshotTest.settings",
++        "auth:DocumentationScreenshotTest.prepareCapture",
++        "auth:SupplementalScreenshotTest.noCamera"
++      ],
++      "note": "Runtime delegates to covered camera, loading, and recovery visuals. Native permission and rotation behavior require device checks."
++    },
++    {
++      "source": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt",
++      "symbol": "CameraPermissionRecovery",
++      "kind": "direct",
++      "scenarios": [
++        "auth:CameraPermissionScreenshotTest.retry",
++        "auth:CameraPermissionScreenshotTest.settings"
++      ],
++      "note": "Production retry and Settings recovery visual rendered offline in light and dark modes."
+     }
+   ]
+ }
+diff --git a/docs/screenshots/scenarios.json b/docs/screenshots/scenarios.json
+index 56dc6e6..a474d1e 100644
+--- a/docs/screenshots/scenarios.json
++++ b/docs/screenshots/scenarios.json
+@@ -865,6 +865,42 @@
+       "density": "renderer default; recorded output dimensions",
+       "animation": "renderer-controlled; permission autoAdvance=false",
+       "caption": "Local card capture failure and retry"
++    },
++    {
++      "id": "auth:CameraPermissionScreenshotTest.retry",
++      "module": "auth",
++      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/identity/capture/CameraPermissionScreenshotTest.kt",
++      "method": "retry",
++      "variants": 2,
++      "capture_kind": "component-preview",
++      "status": "implemented-ui",
++      "viewport_dp": [
++        393,
++        852
++      ],
++      "locale": "en",
++      "font_scale": 1.0,
++      "density": "renderer default; recorded output dimensions",
++      "animation": "renderer-controlled; permission autoAdvance=false",
++      "caption": "Camera permission denied: explicit retry"
++    },
++    {
++      "id": "auth:CameraPermissionScreenshotTest.settings",
++      "module": "auth",
++      "fixture": "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/identity/capture/CameraPermissionScreenshotTest.kt",
++      "method": "settings",
++      "variants": 2,
++      "capture_kind": "component-preview",
++      "status": "implemented-ui",
++      "viewport_dp": [
++        393,
++        852
++      ],
++      "locale": "en",
++      "font_scale": 1.0,
++      "density": "renderer default; recorded output dimensions",
++      "animation": "renderer-controlled; permission autoAdvance=false",
++      "caption": "Camera permission recovery: explicit Settings action"
+     }
+   ]
+ }
+diff --git a/docs/superpowers/plans/2026-11-15-camera-disclosure-permission.md b/docs/superpowers/plans/2026-11-15-camera-disclosure-permission.md
+new file mode 100644
+index 0000000..8cf138b
+--- /dev/null
++++ b/docs/superpowers/plans/2026-11-15-camera-disclosure-permission.md
+@@ -0,0 +1,33 @@
++# Camera disclosure and permission implementation plan
++
++> Implement inline with test-driven checks and verify the resulting branch before claiming completion.
++
++**Goal:** After the user accepts the ID-capture disclosure, open Android's camera permission prompt without another application explanation/Continue screen.
++
++**Architecture:** Add an explicit `IdentityCameraAfterDisclosure` entry that gates the existing camera. Only the live capture host uses it, when its policy-checked controller actually requests camera content. The existing `IdentityCamera` API and standalone demo keep their current permission explanation. Reuse the pinned permission library for denied/blocked recovery, and Android's result launcher for the first request.
++
++**Tech stack:** Existing Kotlin/Compose, Activity Result API, lifecycle observers and pinned permissions library. No dependency or toolchain changes.
++
++**Scope and alternatives:** Requesting permission in the generic onboarding host would also prompt during restored processing or custom non-camera integrations. Updating the shared permission library would require a separate release. The explicit camera entry is the smallest change that avoids both. The user's approved friction audit supplies the UX requirement; these implementation choices are local defaults.
++
++## Constraints and review focus
++
++- Keep server disclosure/version checks, capture admission and final onboarding authority unchanged.
++- Never instantiate camera content without a current grant; no-camera devices retain their existing fallback.
++- Request once per entry, not on recomposition, denial, rotation or foreground resume.
++- Keep retry, cancel and explicit Settings recovery after denial. Recheck the grant when returning from Settings.
++- A saved review or already-processing capture must not request camera access.
++- No live service requests, camera initialization or permission launches in screenshot fixtures.
++
++## Tasks
++
++- [x] Test the permission-routing decision first: initial request, existing grant, in-flight, denied, rotated/restored, background and no-camera cases. Observe the first-request regression fail against the old explanation-first decision.
++- [x] Add the smallest route implementation and native Compose adapter; wire only `LiveCaptureFlow` to the new opt-in camera entry. Preserve all existing camera entry signatures.
++- [x] Add light/dark recovery previews, coverage mapping and screenshot scenarios using the same production recovery visual. Update capture guidance with source/deployment limits.
++- [ ] Run local Kotlin decision checks and repository Python checks; run full Gradle unit/build/device compilation and screenshot/docs validation in CI. Generate source inventory with the pinned CLI, inspect changed screenshots, and remove one-time maintenance jobs before delivery.
++
++## Evidence
++
++Record actual test outputs and CI status in the PR. A host screenshot is not evidence of native permission-dialog behavior or real-camera correctness.
++
++Local evidence: 41 Kotlin routing cases passed; 8 screenshot-tool tests and 3 resource tests passed; coverage is 56 composables / 50 scenarios / 92 images. The convention checker invokes Gradle and cannot complete in the offline local container; CI must run it with the pinned toolchain. No native permission-dialog result is claimed.
