@@ -339,6 +339,7 @@ fun EmailOnboardingHost(
     }
     val screen = if (authenticated) EmailScreen.Verified else controller.screen
     LaunchedEffect(screen) {
+        if (screen == EmailScreen.Verified) verificationCode = ""
         while (screen is EmailScreen.Wait || screen is EmailScreen.Code || screen is EmailScreen.Limit || screen is EmailScreen.Unusable) {
             clock = System.currentTimeMillis()
             delay(1_000)
