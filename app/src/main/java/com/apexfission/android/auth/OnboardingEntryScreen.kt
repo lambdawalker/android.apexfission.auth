@@ -31,9 +31,9 @@ import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Fingerprint
 import androidx.compose.material.icons.outlined.Widgets
-import com.apexfission.android.democommon.CardTitle
-import com.apexfission.android.democommon.DemoCard
-import com.apexfission.android.democommon.DemoScreen
+import com.apexfission.android.ui.common.SectionHeading
+import com.apexfission.android.ui.common.ContentCard
+import com.apexfission.android.ui.common.CatalogScreen
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -60,14 +60,14 @@ internal fun OnboardingEntryScreen(
     onRecheckAppLinks: () -> Unit = {},
 ) {
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
-    DemoScreen(
+    CatalogScreen(
         title = "Attestra test menu",
-        welcomeNote = "Choose a flow to test. Your saved progress stays on this device until you reset it.",
+        description = "Choose a flow to test. Your saved progress stays on this device until you reset it.",
         eyebrow = "AUTHENTICATION",
     ) {
         item(key = "onboarding") {
-            DemoCard {
-                CardTitle(title = "Onboarding", icon = Icons.Outlined.AppRegistration)
+            ContentCard {
+                SectionHeading(title = "Onboarding", icon = Icons.Outlined.AppRegistration)
                 Text(
                     "In development · Start or resume email confirmation, passkey setup, and ID capture.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -85,8 +85,8 @@ internal fun OnboardingEntryScreen(
             }
         }
         item(key = "ui_catalog") {
-            DemoCard {
-                CardTitle(title = "UI catalog", icon = Icons.Outlined.Widgets)
+            ContentCard {
+                SectionHeading(title = "UI catalog", icon = Icons.Outlined.Widgets)
                 Text(
                     "Preview authentication screens without calling the backend. The live ID capture entry requires a configured backend and sign-in.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -100,8 +100,8 @@ internal fun OnboardingEntryScreen(
             }
         }
         item(key = "local_card_capture") {
-            DemoCard {
-                CardTitle(title = "Card capture", icon = Icons.Outlined.PhotoCamera)
+            ContentCard {
+                SectionHeading(title = "Card capture", icon = Icons.Outlined.PhotoCamera)
                 Text(
                     "Try front/back capture, review, and retakes on this device. No sign-in or backend is needed. Images are discarded after confirmation or exit.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -306,8 +306,8 @@ internal fun OnboardingEntryScreen(
             }
         }
         item(key = "account_actions") {
-            DemoCard {
-                CardTitle(title = "Account actions", icon = Icons.Outlined.DeleteOutline)
+            ContentCard {
+                SectionHeading(title = "Account actions", icon = Icons.Outlined.DeleteOutline)
                 OutlinedButton(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.small) {
                     Text("Sign in · Not implemented")
                 }

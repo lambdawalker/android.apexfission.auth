@@ -73,6 +73,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.apexfission.ui.common)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

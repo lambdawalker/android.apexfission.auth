@@ -1075,7 +1075,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.Button
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -1091,30 +1090,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.autofill.ContentType
-import androidx.compose.ui.autofill.contentType
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalAutofillManager
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -1340,8 +1324,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apexfission.android.auth.library.R
 import com.apexfission.android.auth.ui.onboarding.common.BodyText
-import com.apexfission.android.auth.ui.onboarding.common.EmailOneTimeCodeField
-import com.apexfission.android.auth.ui.onboarding.common.OnboardingCard
+import com.apexfission.android.ui.common.CodeVerificationCard
+import androidx.compose.ui.autofill.ContentType
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
 import com.apexfission.android.auth.ui.onboarding.common.authText
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
@@ -1724,7 +1708,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.apexfission.android.auth.library.R
 import com.apexfission.android.auth.ui.onboarding.common.BodyText
-import com.apexfission.android.auth.ui.onboarding.common.EmailOneTimeCodeField
+import com.apexfission.android.ui.common.CodeVerificationCard
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingCard
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
 import com.apexfission.android.auth.ui.onboarding.common.authText

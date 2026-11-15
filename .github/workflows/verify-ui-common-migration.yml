@@ -1,0 +1,33 @@
+name: UI Common published integration
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published-integration:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: true
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            21
+            25
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Validate against published UI Common
+        run: ./gradlew :auth:testDebugUnitTest :app:assembleDebug :auth:assembleDebugAndroidTest --no-daemon --no-configuration-cache
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-common-integration-reports
+          path: '**/build/reports'
+          if-no-files-found: warn
