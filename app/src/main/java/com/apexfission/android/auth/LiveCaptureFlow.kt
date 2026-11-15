@@ -22,7 +22,11 @@ import kotlinx.serialization.json.jsonPrimitive
 /**
  * Screen that orchestrates the live identity capture workflow by communicating with the real backend.
  */
-@Composable internal fun LiveCaptureFlow(onExit: () -> Unit, acceptedPolicy: CapturePolicy? = null) {
+@Composable internal fun LiveCaptureFlow(
+    onExit: () -> Unit,
+    acceptedPolicy: CapturePolicy? = null,
+    openSavedDetailsOnEntry: Boolean = false,
+) {
     val config = LocalBackendConfiguration.current
     val currentConfiguration = rememberUpdatedState(config)
     val context = LocalContext.current
@@ -55,7 +59,10 @@ import kotlinx.serialization.json.jsonPrimitive
     CaptureHost(controller, {
         if (controller.state.value.signInRequired) storage.clearSession()
         onExit()
-    }, startCaptureOnEntry = true, acceptedPolicy = acceptedPolicy, requireReviewedPolicy = true, allowNewCapture = config.canStartCapture(),
+    }, startCaptureOnEntry = !openSavedDetailsOnEntry, acceptedPolicy = acceptedPolicy,
+        requireReviewedPolicy = !openSavedDetailsOnEntry,
+        allowNewCapture = !openSavedDetailsOnEntry && config.canStartCapture(),
+        openSavedDetailsOnEntry = openSavedDetailsOnEntry,
         earlyCamera = { events ->
             IdentityCamera(
                 onCaptured = { front, back -> events.onImagesReady(front, back); events.onConfirmed() },

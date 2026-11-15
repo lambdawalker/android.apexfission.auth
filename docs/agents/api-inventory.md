@@ -146,6 +146,7 @@ import kotlinx.coroutines.launch
     allowNewCapture: Boolean = true,
     earlyCamera: (@Composable (CaptureCameraEvents) -> Unit)?,
     camera: @Composable ((ByteArray, ByteArray) -> Unit, () -> Unit, () -> Unit) -> Unit = { _, _, _ -> },
+    openSavedDetailsOnEntry: Boolean = false,
 )
 @Preview(name = "Dark Theme", showBackground = true, backgroundColor = 0xFF0F131B)
 @Composable
@@ -607,6 +608,8 @@ fun EmailOnboardingHost(
     onPasskeyDeferred: () -> Unit,
     onboarding: OnboardingPolicy? = null,
     onRetryConfiguration: () -> Unit = {},
+    // Keep identityContent as the final parameter for existing trailing-lambda clients.
+    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
     identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
         com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)
     },

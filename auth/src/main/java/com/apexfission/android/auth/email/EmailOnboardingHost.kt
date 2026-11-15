@@ -80,6 +80,8 @@ fun EmailOnboardingHost(
     onPasskeyDeferred: () -> Unit,
     onboarding: OnboardingPolicy? = null,
     onRetryConfiguration: () -> Unit = {},
+    // Keep identityContent as the final parameter for existing trailing-lambda clients.
+    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
     identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
         com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)
     },
@@ -102,6 +104,7 @@ fun EmailOnboardingHost(
     val passkeyManager = remember(activityContext) { AndroidPasskeyManager(activityContext) }
     val returnApi = remember(apiBaseUrl, client) { ReturnAuthApi(apiBaseUrl, client) }
     var passkeyScreen by remember(apiBaseUrl) { mutableStateOf("refresh") }
+    var reviewSavedDetailsRequested by remember(apiBaseUrl) { mutableStateOf(false) }
     val capturePolicyPrefetch = remember(apiBaseUrl, client, scope) {
         CapturePolicyPrefetch(scope) { token ->
             // This transport only reads policy. LiveCaptureFlow owns the image transport.
@@ -458,25 +461,42 @@ fun EmailOnboardingHost(
                 required = onboarding.passkey == Requirement.REQUIRED)
             "recovery" -> EmailSessionRecoveryScreen(exit, { clearPassword(); returnMode = "choice" })
             "identity" -> IdentityStartScreen(exit, {
-                capturePolicy?.let { acceptedCapturePolicy = it; passkeyScreen = "identity_flow" }
+                capturePolicy?.let {
+                    acceptedCapturePolicy = it
+                    reviewSavedDetailsRequested = false
+                    passkeyScreen = "identity_flow"
+                }
             }, { skip(OnboardingStep.ID_CAPTURE) },
                 passkeyAdded = status?.passkeyRegistered == true, required = onboarding.idCapture == Requirement.REQUIRED,
                 capturePolicy = capturePolicy, policyLoading = capturePolicyLoading, policyError = capturePolicyError,
                 requireDisclosure = true, onRetryPolicy = { capturePolicyPrefetch.clear(); capturePolicyRefresh++ })
-            "identity_flow" -> identityContent(status?.passkeyRegistered == true, acceptedCapturePolicy) {
-                // Both successful capture and cancellation only trigger a server read.
-                if (storage.session() == null) {
-                    capturePolicyPrefetch.clear()
-                    clearPassword()
-                    status = null
-                    authenticated = false
-                    returnMode = "choice"
-                    returnError = resources.getString(R.string.auth_sign_in_to_resume_your_capture)
-                } else scope.launch { refreshStatus() }
+            "identity_flow" -> {
+                val renderIdentity = if (reviewSavedDetailsRequested) identityReviewContent ?: identityContent else identityContent
+                renderIdentity(status?.passkeyRegistered == true, acceptedCapturePolicy) {
+                    reviewSavedDetailsRequested = false
+                    // Both successful capture and cancellation trigger server-authoritative routing.
+                    if (storage.session() == null) {
+                        capturePolicyPrefetch.clear()
+                        clearPassword()
+                        status = null
+                        authenticated = false
+                        returnMode = "choice"
+                        returnError = resources.getString(R.string.auth_sign_in_to_resume_your_capture)
+                    } else {
+                        passkeyScreen = "refreshing"
+                        scope.launch { refreshStatus() }
+                    }
+                }
             }
             "welcome" -> OnboardingFrame(resources.getString(R.string.auth_welcome_to_attestra), Icons.Default.Lock, resources.getString(R.string.auth_your_account), exit,
                 primaryLabel = if (status?.idCaptured == true) resources.getString(R.string.auth_review_id_details) else resources.getString(R.string.auth_refresh_account_status),
-                onPrimary = { if (status?.idCaptured == true) { acceptedCapturePolicy = null; passkeyScreen = "identity_flow" } else scope.launch { refreshStatus() } }) {
+                onPrimary = {
+                    if (status?.idCaptured == true) {
+                        acceptedCapturePolicy = null
+                        reviewSavedDetailsRequested = true
+                        passkeyScreen = "identity_flow"
+                    } else scope.launch { refreshStatus() }
+                }) {
                 BodyText(resources.getString(R.string.auth_your_account_setup_is_complete))
                 if (status?.idCaptured == true) BodyText(resources.getString(R.string.auth_document_captured_this_does_not_assert_identity_verification))
             }

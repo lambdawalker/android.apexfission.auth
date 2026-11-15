@@ -54,13 +54,13 @@ Deploy the backend manual-review change before releasing this client: ready capt
 
 ## Save and finish
 
-The form submits the edited card fields and required country of origin through the authenticated review endpoint. Save and continue is disabled during requests and for empty/invalid input. Only a server-confirmed `reviewed` record matching the current draft and origin opens **Details saved**. The screen offers Done (return to the account flow) and Review details (correct the saved values). This finishes the document-data step, not identity verification.
+The form submits the edited card fields and required country of origin through the authenticated review endpoint. Save and continue is disabled during requests and for empty/invalid input. Only a server-confirmed `reviewed` record matching the current draft and origin allows automatic return to the account flow after **Save and continue**. No extra Done action is required after a successful save. Previously saved reviews remain available through **Review ID details**, which opens the editable form directly without a preliminary Details saved screen. This finishes the document-data step, not identity verification.
 
-Network failures, invalid input and revision conflicts stay on the form with the edits intact. An uncertain save can be reconciled by Refresh status: if the server stored the exact draft, completion is safe; different server values never silently discard local edits. Returning after restart also recognizes an already saved review. Reopening a saved form permits corrections; Save and continue stores changes before returning to the finish screen.
+Network failures, invalid input and revision conflicts stay on the form with the edits intact. An uncertain save can be reconciled by Refresh status: if the server stored the exact draft, completion is safe; different server values never silently discard local edits. Returning after restart also recognizes an already saved review. Reopening a saved form permits corrections; Save and continue stores changes before returning to the account flow.
 
-Capture readiness and `onboarding_complete` are separate backend facts and are not proof that the review form has been saved. The client uses `reviewed` for this finish screen. No new completion endpoint or identity approval is introduced.
+Capture readiness and `onboarding_complete` are separate backend facts and are not proof that the review form has been saved. The client uses the server-confirmed `reviewed` record to decide when to continue, never just the HTTP response or a button tap. No new completion endpoint or identity approval is introduced.
 
-Smoke test both successful extraction and failed-extraction manual entry: save, confirm Details saved, reopen/correct, save again, leave/re-enter, then repeat with an offline save and stale revision. Real camera/device and deployed API checks remain required.
+Smoke test both successful extraction and failed-extraction manual entry: save, confirm automatic return to account, open Review ID details directly, correct and save again, leave/re-enter, then repeat with an offline save and stale revision. Real camera/device and deployed API checks remain required.
 
 
 ## Screen examples

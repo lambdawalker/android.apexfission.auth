@@ -35,12 +35,11 @@ EmailOnboardingHost(
     onRetryConfiguration = environment::refreshRuntimeConfiguration,
     link = incomingLink,
     onLinkConsumed = ::clearIncomingLink,
-    identityContent = { _, policy, exit ->
-        AccountIdentityFlow(policy, exit)
+    identityContent = { _, policy, exit -> AccountIdentityFlow(policy, exit) },
+    identityReviewContent = { _, policy, exit ->
+        AccountIdentityFlow(policy, exit, openSavedDetailsOnEntry = true)
     },
-    onPasskeyDeferred = {
-        destination = EntryScreen.Home; clearIncomingLink()
-    },
+    onPasskeyDeferred = { destination = EntryScreen.Home; clearIncomingLink() },
 )
 ```
 <!-- host:end -->
@@ -51,7 +50,7 @@ For a complete compiled implementation and imports, read
 and [LiveCaptureFlow](../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt).
 `AccountIdentityFlow` is sample-host wiring, not an exported auth-library symbol.
 Use the same responsibilities in your host instead of importing sample internals.
-The default `identityContent` shows an unavailable message, not a capture implementation.
+The default `identityContent` shows an unavailable message, not a capture implementation. The optional `identityReviewContent` opens previously saved details directly, while existing consumers can continue to supply only `identityContent`.
 
 ## Required host responsibilities
 

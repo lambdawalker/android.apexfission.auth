@@ -6,8 +6,8 @@
   },
   "docs/agents/quickstart.md": {
     "path": "docs/es/agents/quickstart.md",
-    "source_sha256": "a3a8adcd0fdb3531ed8b88673d6bfb061d8508678c2582522703d42f316b9fa1",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. Source-sync comment markers reviewed; prose and executable fences unchanged, 2026-11-13. Canonical and Spanish clone commands reviewed together on 2026-11-13: use the actual android.apexfission.auth repository and checkout directory; executable fences remain identical between languages."
+    "source_sha256": "b2df501867ec51e100f8d77cba15912953be652b5363c90ceb7b6357b53c1f00",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. Source-sync comment markers reviewed; prose and executable fences unchanged, 2026-11-13. Canonical and Spanish clone commands reviewed together on 2026-11-13: use the actual android.apexfission.auth repository and checkout directory; executable fences remain identical between languages. 2026-11-14: reviewed English and Spanish Kotlin host examples for optional direct saved-details entry and source-compatible fallback."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
