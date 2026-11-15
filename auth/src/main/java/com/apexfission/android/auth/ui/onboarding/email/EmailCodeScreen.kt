@@ -34,6 +34,7 @@ fun EmailCodeScreen(
         error = error,
         attemptsRemaining = attemptsRemaining,
         canResend = canResend,
+        autoFocus = true,
     )
 }
 
