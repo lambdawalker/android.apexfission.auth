@@ -2,11 +2,13 @@ package com.apexfission.android.auth
 
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
@@ -68,12 +70,15 @@ class OnboardingEntryScreenTest {
                 )
             }
         }
-        compose.onNode(hasScrollAction()).performScrollToNode(hasText("App Link verification"))
-        compose.onNodeWithText("App Link verification").assertIsDisplayed()
-        compose.onNodeWithText("PASS").assertIsDisplayed()
-        compose.onNodeWithText("✓ Certificate match").assertIsDisplayed()
-        compose.onNodeWithText("✓ App Links relation").assertIsDisplayed()
-        compose.onNodeWithText(fingerprint).assertIsDisplayed()
+        fun assertVisible(text: String) {
+            compose.onNode(hasScrollAction()).performScrollToNode(hasText(text))
+            compose.onNodeWithText(text).assertIsDisplayed()
+        }
+        assertVisible("App Link verification")
+        assertVisible("PASS")
+        assertVisible("✓ Certificate match")
+        assertVisible("✓ App Links relation")
+        compose.onAllNodesWithText(fingerprint).assertCountEquals(2)
     }
 
     @Test

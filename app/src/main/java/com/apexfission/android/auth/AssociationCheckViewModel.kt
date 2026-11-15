@@ -26,22 +26,22 @@ internal sealed interface AppLinkDiagnosticState {
 }
 
 /** One advisory check per activity ViewModel lifetime, retained through configuration changes. */
-class AssociationCheckViewModel(application: Application) : AndroidViewModel(application) {
-    var warning by mutableStateOf<String?>(null)
+internal class AssociationCheckViewModel(application: Application) : AndroidViewModel(application) {
+    internal var warning by mutableStateOf<String?>(null)
         private set
-    var diagnosticState by mutableStateOf<AppLinkDiagnosticState>(AppLinkDiagnosticState.Checking)
+    internal var diagnosticState by mutableStateOf<AppLinkDiagnosticState>(AppLinkDiagnosticState.Checking)
         private set
     private var checking = false
 
-    val packageName: String get() = getApplication<Application>().packageName
-    val assetLinksUrl: String
+    internal val packageName: String get() = getApplication<Application>().packageName
+    internal val assetLinksUrl: String
         get() = "https://${BuildConfig.AUTH_LINK_HOST}/.well-known/assetlinks.json"
 
     init {
         refresh()
     }
 
-    fun refresh() {
+    internal fun refresh() {
         if (checking) return
         checking = true
         diagnosticState = AppLinkDiagnosticState.Checking
@@ -148,7 +148,7 @@ class AssociationCheckViewModel(application: Application) : AndroidViewModel(app
         }
     }
 
-    fun consumeWarning() {
+    internal fun consumeWarning() {
         warning = null
     }
 }
