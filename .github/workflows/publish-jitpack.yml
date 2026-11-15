@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 60
     environment: ${{ inputs.environment }}
     concurrency:
-      group: auth-release
+      group: android-repository-release
       cancel-in-progress: false
     env:
       RELEASE_REPOSITORY: jitpack

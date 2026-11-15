@@ -1,14 +1,13 @@
 {
-  "build-signed-demo-apk.yml": "f00c837826d317c9f4a5ceac49d3fa870f927b1d389db4d537ab332035c63781",
-  "documentation.yml": "a7f29bb518487083e3d2fabfb9f8e3325670210b61d8e1787cb5833bf3012e57",
-  "finalize-release.yml": "cbdbe6f9f3e06a700547e60c3c244e62f137a8969a73782002649b2a2ec838d5",
-  "publish-demo-common.yml": "e2fe8fb26fb096e3798f5ef6687c2e2992ca46b96a64e7b19fbde9143912eb86",
-  "publish-jitpack.yml": "858cc4172f5adf1f9808ad4094433040fba656008b2e7b447505f9d4dd3f075a",
-  "publish-library.yml": "1c07083190187ac9ff853267a184d4ba1d3c02485727e0c7840999aa9859e537",
-  "reconcile-failed-jitpack.yml": "e506e08beec1465c13de1fd49ad73581516ac6ce0ce01c187f75cdfb2a2a7d3e",
-  "screenshots.yml": "37000eb39570bd0262119039baba96741871cd60e7631a652042d16d3cb5a144",
-  "unit-tests.yml": "8a0be9ca0804bfb6cd8528f23755fae8b322cd5cfeb63f1d873e8f593ae7790e",
+  "documentation.yml": "12b4253958708693170494aef5b041ca3bf8454b08ec5f448cda836c2ced1817",
+  "finalize-release.yml": "0cf227f73261473dd33d512331cfec2fa13f1cb0835e5147afa0ad4be395d359",
+  "publish-auth.yml": "aaca0bb84036c41f7053ae6e5354f9f2fd4f2768f6317aa2d3e5a3658a2e16a3",
+  "publish-jitpack.yml": "45fc1a9950c5921578165e1c323ecd002899bb0e22a7ccf2f59fdbbf809d4557",
+  "publish-library.yml": "e817f20e019c3e67ff0ac5c9234b82be2ab985a2d481ff478ca0b8940a9a5516",
+  "reconcile-failed-jitpack-auth.yml": "5b38929da98f7d82834272dafeef979e85abbc517b7e7004b69df5b616c113cf",
+  "screenshots-auth.yml": "967b3c95dbf302dc524fca8d250cfa64ca2ba42beadac10563ffe81745fdba2c",
+  "unit-tests.yml": "8221895eb664f6b64f36148b9593fc8e2121f624e993ac410c638a8d278e5c05",
   "update-workflows.yml": "be0f4e0715f6e7b36418a75166e22a7df3898cab6eb00979743830e5b8af9429",
   "verify-localization.yml": "e3684c53ae3279e32895807ef050c2c1734c60047d7cad575aba2d491e3c4bce",
-  "verify-release-tooling.yml": "5420f20ec3bf65d309790f5d35842f4fb8acbd0306ca3cae40a466dfb324c928"
+  "verify-release-tooling-auth.yml": "5420f20ec3bf65d309790f5d35842f4fb8acbd0306ca3cae40a466dfb324c928"
 }

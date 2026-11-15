@@ -73,7 +73,7 @@ jobs:
       RELEASE_PUBLISHER: ${{ needs.configuration.outputs.publisher }}
     # Shared with automatic/manual finalization; the delay never holds this lock.
     concurrency:
-      group: auth-release
+      group: android-repository-release
       cancel-in-progress: false
     outputs:
       skip: ${{ steps.release.outputs.skip }}
