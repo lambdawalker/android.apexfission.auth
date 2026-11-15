@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "reviewed-baselines",
-  "source_commit": "fa89154b5e2b331214e94666f13b1e8c417eb698",
+  "source_commit": "ae2b2fb6f651afe0c155f418f8b658709027ae6a",
   "inputs": {
     "files": {
       "app/build.gradle.kts": "8f23095bd382a9f1adcc49f374876e89d3e612b245055516c010c628a922ad9b",
@@ -67,8 +67,8 @@
       "auth/src/main/java/com/apexfission/android/auth/discovery/EnvironmentIndex.kt": "db7f16a7adb4804f5825d3a0d8538dcc7e7fabf83e2d449854c3a1ea5c03440d",
       "auth/src/main/java/com/apexfission/android/auth/discovery/OnboardingPolicy.kt": "c6d16b30acb969c58b6ce4ace1ed0809212f5bf345eabef01c4a44350abdb6bc",
       "auth/src/main/java/com/apexfission/android/auth/email/CapturePolicyPrefetch.kt": "266e078a895f07c4b2c43500aa1bc901cd68cd89d4a1123f6cb0007d09c427b3",
-      "auth/src/main/java/com/apexfission/android/auth/email/EmailFlowController.kt": "7123fc51c594da266be2858a14e7802399915f281cc1a3f6f0a1db5974a58fd8",
-      "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt": "8f4698dfab27122e31156aa29ced046c785bbe4aec0a57282f545b165131e73c",
+      "auth/src/main/java/com/apexfission/android/auth/email/EmailFlowController.kt": "69396061ddc3ba2b1b915578490ebb626703c89fc7d1a93557f021219c240e50",
+      "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt": "da3c0d03872436644295791c5145b6768a2dede63c5e84dd2abefc069e26c6de",
       "auth/src/main/java/com/apexfission/android/auth/email/EmailVerificationApi.kt": "0723f02d71eae2068dda62b67c2004f94091e9cd5667cebcf4924d14b8154d4e",
       "auth/src/main/java/com/apexfission/android/auth/email/PendingPassword.kt": "edadabe1e933345e6fa00ed358decb8d0aa7eb062c5fe47b475cf041e0146243",
       "auth/src/main/java/com/apexfission/android/auth/email/ProofGenerator.kt": "cdec45bcd6b62ee76b0b041556ab299ceffb5fe64f6a3c1c38d878924bb5cc9d",
@@ -80,16 +80,16 @@
       "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCardModel.kt": "040c30bf0ec6f36a05c70ca1468a51ece766b7e5d1dbd4dfb667583439d23016",
       "auth/src/main/java/com/apexfission/android/auth/passkey/PasskeyRegistration.kt": "323270db40cbe03a3f863a2d7ddfb0f16d083c093bab413355f7353a18b77d77",
       "auth/src/main/java/com/apexfission/android/auth/passkey/ReturnAuthApi.kt": "469634a1b638a5818883e4a63d257c61d524b374ea784d2fafec618f49375f88",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt": "604a6aa229cf0a292330e20b59ad196e0967f06218e5672190c15caae28ae191",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/OnboardingCatalog.kt": "f2477d5785fe517458d40e2cede82d6fcab3413ec984381f6d64bf89e5186cc1",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/AuthText.kt": "7ba77cae156764a92f8da11fd698b0e2b93db644b4e9ed3d309b3056170dc75c",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingComponents.kt": "e6f1ce599c06e827ba3ecaf5347aa5c5de71f05bf53ee9221d551e40c4548fbe",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingComponents.kt": "1c64432e9b713b5f938b6c38a5cdbd1484dbd122ea143ac306fa996bcb74fc90",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/common/OnboardingLoadingScreen.kt": "ce0e620cca7e65fb541e613ae92fa56bfa49542b44f71ee6f572373d472bdfb9",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailAttemptLimitScreen.kt": "ba6a53c3eea399526a9b3ab0a49f9936c5eca3c84c0645ecef708e0d53613a3d",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreen.kt": "d4c9b9273fc2905c8a163a9d5b2e7e5165f9c946486b57d3b0ac468f70910ba0",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreen.kt": "2fe9c0562aba1178f0da47d397b3753f4b22f6126bf0dd4774c1a467d9085e90",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailLinkUnusableScreen.kt": "59f0f9ece55cbdff155a7d646bf0daa7f07ccc57d265558cd210ccb7cf2138c9",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailSessionRecoveryScreen.kt": "5c89556401726ceac6f9c7fbe01973dca5d5bef0182e8a758662bd105c3cda8a",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailStartScreen.kt": "b0b14524c21f36d3242faaaa19754c8be3ecd9702b8a77b84d230a797d3e1239",
-      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailWaitScreen.kt": "1f97eeb6bee883d627d30a546a62ed2b8fdde738ef183a58ce08b5970b3f9374",
+      "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/email/EmailWaitScreen.kt": "000dc479ada9e4a3ec9495bbb4e0bcd987c0772eca42e2f9ab6ba495875fe097",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/CardDetailsSavedScreen.kt": "c4c458d3cfe44c2880a03466f6e753e3617af6bef92db69550120d5a6bcf92ec",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityDocumentUnreadableScreen.kt": "d6e5bd8fca5b1e9130ff6c651bd0fd7f7b47413c8a862df5d1105ec212dd8777",
       "auth/src/main/java/com/apexfission/android/auth/ui/onboarding/id/IdentityReviewScreen.kt": "266e4d22610ce0068442793386a78edc3bad66468bd122df188cc55265644033",
@@ -119,7 +119,7 @@
       "auth/src/main/res/values-uk/strings.xml": "ae0053ba194ef75820be1c7f525e58fff25a3e0f63c19a0152f5295dcb09b923",
       "auth/src/main/res/values-zh-rCN/strings.xml": "0de1fbb53b7839a33bc75efb5e56fd07e77e406c7ff9bb28a89198167519be65",
       "auth/src/main/res/values-zh-rTW/strings.xml": "f4180883959880cc6f4ffed9d7b7f742bde14c4b82d8f5927130d6ac87986577",
-      "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt": "8e80b62a5cd16a80f0a84d5536a3732a25f143acc37745e18046baa3afc02d8c",
+      "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/DocumentationScreenshotTest.kt": "8d51d5b2ef4805db4b09c21a876106fa0ef391306e29e70e1fa738b10158b3d0",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/SupplementalScreenshotTest.kt": "131f2ac9f7cea506b1568c14c74b82fbf933706382f2fa29c501dfc47b81d4cb",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/auth/ui/onboarding/email/EmailCodeScreenshotTest.kt": "13b94be4cd79bd89f2ce4733fad0da972901317d2672ed068a2626737623af7a",
       "auth/src/screenshotTest/kotlin/com/apexfission/android/permission/PermissionBundleScreenshotTest.kt": "7bc8a94b66f31aaf6edfc501a5a718effb4e463bf38a76d8275a35737ce6948a",
@@ -135,7 +135,7 @@
       "auth/src/test/java/com/apexfission/android/auth/discovery/EnvironmentIndexTest.kt": "ad3c011a138f31255be0cee0dc6ee9574c2aaad761de9d651f360534ddc4a492",
       "auth/src/test/java/com/apexfission/android/auth/discovery/OnboardingPolicyTest.kt": "22f7cbb520d5907f8c635765d5df40360e47831c10eb2497f28a64ce38b53eec",
       "auth/src/test/java/com/apexfission/android/auth/email/CapturePolicyPrefetchTest.kt": "07e1514137f53cc7f4c4ec824884fe872adaac4032680d5d6f32a47b0474c7c5",
-      "auth/src/test/java/com/apexfission/android/auth/email/EmailFlowControllerTest.kt": "5a0576d450b7b4df1f06408dbc2fee33c77b1aad75cf6ea078b305ac247a31bd",
+      "auth/src/test/java/com/apexfission/android/auth/email/EmailFlowControllerTest.kt": "fcd6f5b2c2747644d32e12f8faa2d4816187bc21aaa19e2a53b80c9fe2cc8a7d",
       "auth/src/test/java/com/apexfission/android/auth/email/EmailVerificationApiTest.kt": "bd714fc5c0cca0fef2f9d1e77182b8cdc2ac1739642fc15ca169ccd4ba85c684",
       "auth/src/test/java/com/apexfission/android/auth/email/PendingPasswordTest.kt": "15a602be140428af193e62109b3d0f945bd3c8fc0aef35ee9ab2aa09484ae1a7",
       "auth/src/test/java/com/apexfission/android/auth/email/ProofGeneratorTest.kt": "fefb0fa4838e56a1067e798b8706a8ec4211a315071a9f5384076da4e4bc81b4",
@@ -150,7 +150,7 @@
       "gradle.properties": "4ac2919cbfd52cbbf8763598a5ed5af65377a33f7b56a715a6212f470905e169",
       "settings.gradle.kts": "8edde5fe7976743576a7afb0b1c14637e68658560b5fc5b9528b94aff721a9e0"
     },
-    "sha256": "f77163482945fff69a0eb01a4a13ac8c14ffc7fc7ae0995a465aeb31f6d0f64e"
+    "sha256": "09945013f42afd62d8037a540d475aab2bec621f58ae8e2e5a5d90e822e8f958"
   },
   "toolchain": {
     "versions_sha256": "aac32e8c0243a94517d07cab35920a8ca3e567ebc14b3d66e5ba4f71010e5a79",
@@ -173,7 +173,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "9ad617a6e0086e8e0bba625193db9e876caa7bce30772fe55cd5c3b4b28f2019",
       "width": 1032,
       "height": 2237
@@ -190,7 +190,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "099ad3eb2768667b74c7ad472f03b13aa3754e5ae85522df70cef7ba9ab9a80b",
       "width": 1032,
       "height": 2237
@@ -207,7 +207,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "fc6caaab9e4a9a75d4816c7e1984137bd3fb57bea4f3bfa9783e858ac8823a0c",
       "width": 1032,
       "height": 2237
@@ -224,7 +224,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "5b5a5f1768f5b1c48719e105758b63a88a61e31f01b281b08ed9117f66474399",
       "width": 1032,
       "height": 2237
@@ -241,7 +241,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "2ffde2fde2359709fdef125143df5780b14ce4e40f41b91573271f28fcefb632",
       "width": 1032,
       "height": 2237
@@ -258,7 +258,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "3217c9dcb0643b675088ad8192aedf57e7d95fe7229ae052462b3410ad583355",
       "width": 1032,
       "height": 2237
@@ -275,7 +275,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "efd76040abbde521aa6de298fbac75cbbc9a69dd26e19113f007ed6468998950",
       "width": 1032,
       "height": 2237
@@ -292,7 +292,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "c585fe1f78d1652679ebb9ff10d9a8768a0fd2ff0a5c4d31a1d355523a211b67",
       "width": 1032,
       "height": 2237
@@ -309,7 +309,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "2088e4c14be8e4b8b783266e0989d7cf3d1acdca1870c99beba2a13390031237",
       "width": 1032,
       "height": 2237
@@ -326,7 +326,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "2d53e2e7920b40b382fed9d6098fed4578958f258ae3223870eb6faa719efce8",
       "width": 1032,
       "height": 2237
@@ -343,8 +343,8 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
-      "sha256": "585dc7e5e82a3419911ada766c7bf2e541f27cceee0b3b54a52823f52c0e86d0",
+      "font_scale": 1.0,
+      "sha256": "b2c1724c48c812433decceaabb945ec435204efd00d9fd5372e868d602aacec5",
       "width": 1032,
       "height": 2237
     },
@@ -360,8 +360,8 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
-      "sha256": "8a8be4f69782ccd91fece896276990af776ee5b9b8c32bcc1b15b6700a47e8c0",
+      "font_scale": 1.0,
+      "sha256": "fa4e861084558e33a44c6eca05a18eee715d91d142d861f62f6003e11aa62f74",
       "width": 1032,
       "height": 2237
     },
@@ -377,7 +377,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "1cc2ffe17d883c5bfe4733ba28f3bd5abf8f80451d17db4ec5c5e7e4f4239c62",
       "width": 1032,
       "height": 2237
@@ -394,7 +394,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "bd68f4e75d3cf23d6b26885fbacf5b0bdfef07d5e386103f2588638854725295",
       "width": 1032,
       "height": 2237
@@ -411,7 +411,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "ab2180ff2dadbe932e2d486dd25fbc560bc8ce4b2189eaad22090585c15d5957",
       "width": 1032,
       "height": 2237
@@ -428,7 +428,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "a80945054c4800824928d2d5fbe5e8ffca90de6537b3396431282107b804b2db",
       "width": 1032,
       "height": 2237
@@ -445,7 +445,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "b9abf6ff3795975434d34e980f6427db68fded6429bc17e5a9df5b64ad848462",
       "width": 1032,
       "height": 2237
@@ -462,7 +462,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "bc0c316ec15eede86e25a4a531eba3e841dee35b532188bf088a01cfd6e0ee9e",
       "width": 1032,
       "height": 2237
@@ -479,7 +479,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "a5bd72eda0d4d8d975989d5ccfeb4d8cb09ac26bc9cc318c2a41f198b0aaf4c2",
       "width": 1032,
       "height": 2237
@@ -496,7 +496,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "f979767850ac87356d57de266dda5063308a799325387ff1556d041067fab4cb",
       "width": 1032,
       "height": 2237
@@ -513,7 +513,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "c20e0dc3d2d8cc1532f27bf0318b4ee32b0e213f277cf4d2cff5a6b8136bcd05",
       "width": 1032,
       "height": 2237
@@ -530,7 +530,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "ad79e52b44d4acdd43917a762cc007d1c3bee27de154097e66bf1ba0ae5ebf58",
       "width": 1032,
       "height": 2237
@@ -547,7 +547,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "8b927581eee570fd6a6c5c0744a46eb8aae41f072572bd5aa640268a7f4562d7",
       "width": 1032,
       "height": 2237
@@ -564,7 +564,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "63e89a1c73640a95eae97cf613de1f336849417559a243bc4582212fe95659e6",
       "width": 1032,
       "height": 2237
@@ -581,7 +581,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "7874d55dbb32117fdb33f0fbb7f5a336dd50c9b312261da1007c38b8a398e4e5",
       "width": 1032,
       "height": 2237
@@ -598,7 +598,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "85a99edd26ff1cead6f4e919f97cad267691253e0318c5f8603f49f882b9436a",
       "width": 1032,
       "height": 2237
@@ -615,7 +615,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "455a16736df431219479a58c9aea88bec56498281f0d152c66abcbc660486072",
       "width": 1032,
       "height": 2237
@@ -632,7 +632,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "2835122009f4c08c6d9e6684d52920e0a2dde9e6891b8c7fcb203175b6ca63e8",
       "width": 1032,
       "height": 2237
@@ -649,7 +649,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "c2122c0a9ccca0db5ec01c77a9eb641e358dea7e15bafbb82a0065da92d87451",
       "width": 1032,
       "height": 2237
@@ -666,7 +666,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "d0e2ff7a1e7d1d4a6c64cc8f474f8e3eca2488da21e3d004d9dacffbfdde08dc",
       "width": 1032,
       "height": 2237
@@ -683,7 +683,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "fed46bf1eb7d91ac4e648b0aeb7eab8e420379053ab49f16b3c958bfc4f24705",
       "width": 1032,
       "height": 2237
@@ -700,7 +700,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "d7667fa696f3a2cd9f8fc354bdf22b224082266272b15b8b2776684ff79672eb",
       "width": 1032,
       "height": 2237
@@ -717,7 +717,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "9b98bc627ad84323ae5380bdf17d5f9f788f686b2e39cb4dc29eb15bcd3a2163",
       "width": 1032,
       "height": 2237
@@ -734,7 +734,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "3f2ff0ed3f0c6c65c6ef45f41325485dadf24c7e4909b0adf5a569d007c8e340",
       "width": 1032,
       "height": 2237
@@ -751,7 +751,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "d3b9be2304309291cd4e5c3c2ceefc764bd0bbf726d4a96dffaa98941fc3230c",
       "width": 1032,
       "height": 2237
@@ -768,7 +768,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "5652799eaed88d3e4645efd0a8df7412a87d81db61db3094dfe5fc884efeb974",
       "width": 1032,
       "height": 2237
@@ -785,7 +785,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "d335a369ca6db4f4574d945261511af70820c0db0fd0a2e4ba943191538ef6cc",
       "width": 1032,
       "height": 2237
@@ -802,7 +802,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "723d29be527a4f0e4e2e65a3452f12df8658fdee5c7a86de44808330b8a6a774",
       "width": 1032,
       "height": 2237
@@ -819,7 +819,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "dea53c1619b4fcd769910837671334ac15d136e60886ac0b6d2c76324d2609b0",
       "width": 1032,
       "height": 2237
@@ -836,7 +836,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "620588cd267bc23ac4880f6532e5cdb7ea12d2fe3a2fe5e9a831c84090d3d7fe",
       "width": 1032,
       "height": 2237
@@ -853,7 +853,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "cee560676cd0d95335c2e550b3f9f169a6e161150b0ea94b98c9923643791392",
       "width": 1032,
       "height": 2237
@@ -870,7 +870,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "c13429cf00787b85e14ec4b558d6e57f606ec975d2203a21631517070c38e0e0",
       "width": 1032,
       "height": 2237
@@ -887,7 +887,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "6d9e9222d463c409e483ffc1205782ad5e5a00e3bcb287e95825903ef1184c5a",
       "width": 1032,
       "height": 2237
@@ -904,7 +904,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "c84200b511f66cca81c8434b5960a41551e6d3bbf572f7361afc0faf1c4221c5",
       "width": 1032,
       "height": 2237
@@ -921,7 +921,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "28adc2721cb51dabb4772d1ac36746d185b18f147cef31060fc5dba2fef6fa56",
       "width": 1032,
       "height": 2237
@@ -938,7 +938,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "9665094346eb18a7bde56378163f9fb3abc1d4f237195018bbe66c9c2da232c7",
       "width": 1032,
       "height": 2237
@@ -955,7 +955,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "4e99226038e56e565813d1b73306eec529c27c197207391c4d3f28c1ca0c09ec",
       "width": 1032,
       "height": 2237
@@ -972,7 +972,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "f9709194406ce2927962ab856a332a8f80adc878ccab0b5069884c1161090d19",
       "width": 1032,
       "height": 2237
@@ -989,7 +989,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "72636f66bcfb82d536aa32d719126e28cd153a50a4afa06e406dc543a40a2e64",
       "width": 1032,
       "height": 2237
@@ -1006,7 +1006,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "25e885b949519011adbbe5dbc4d7ab3b327e52d0c0f8f14bef09628c7ea4f185",
       "width": 1032,
       "height": 2237
@@ -1023,7 +1023,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "600e3fe269b29e9e93635e281c431fe1a80af6a83e59f8e9f7ac24ba07573d8b",
       "width": 1032,
       "height": 2237
@@ -1040,7 +1040,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "16bc43fb7683398888e6a0b7a8e746babc1514dda8ed562d4ca3348533c88d42",
       "width": 1032,
       "height": 2237
@@ -1057,7 +1057,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "2abb2eeffda986e6c03d66d9f83161669866fa6d9f72ee384d1b057784c5ebf9",
       "width": 1032,
       "height": 2237
@@ -1074,7 +1074,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "9a7eff5158dac4af0b32e00365883b7482d1a85cf0256cc2905a1e179ad4f1f8",
       "width": 1032,
       "height": 2237
@@ -1091,7 +1091,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "e4905adc84d8d3fbd9cfa3bf2d105dc3a66b6f006b0aa63d747b39d398b32417",
       "width": 1032,
       "height": 2237
@@ -1108,7 +1108,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "e266566e8c160a09de992e9901c541624efaa371200f5cae2742b95f6cc96ff5",
       "width": 1032,
       "height": 2237
@@ -1125,7 +1125,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "e09ee593064807fcd7a5dfdbf626ab960d441986a0f01be66eba51c5139edbb8",
       "width": 1032,
       "height": 2237
@@ -1142,7 +1142,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "b0230b83931e1987e5b5fe3c4bafcdb18fee877f3842aa57bbe52329e3b09eea",
       "width": 1032,
       "height": 2237
@@ -1160,7 +1160,7 @@
       ],
       "locale": "en",
       "font_scale": 1.3,
-      "sha256": "bf19a4cab8f4439f2b11a9aeccda810184fe1506148e2b9a75f1f537737f9fd9",
+      "sha256": "a88a250f61796f53f31ebf7db8c3be44b6a13352a8d56cff7dd5efb4d9829cda",
       "width": 840,
       "height": 1943
     },
@@ -1176,7 +1176,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "8175eb969405cecbe8505d89cb3e5e27137d38d34a9da8fd380eb40dc27e9d97",
       "width": 1032,
       "height": 2237
@@ -1193,7 +1193,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "bc9a3793a85b208e2e10b137e19dbc02c183b3481d2e907b3d35c43c88dd18e7",
       "width": 1032,
       "height": 2237
@@ -1210,7 +1210,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "7c2c7e17d2cdcf1e7bc286aef51851004a0d7f2978950d0b8684fe9677284fdb",
       "width": 1032,
       "height": 2237
@@ -1227,7 +1227,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "e0978debc5e44186b98f744e313debd6ae09d88b04fb45d88ebd400d08005f67",
       "width": 1032,
       "height": 2237
@@ -1244,8 +1244,8 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
-      "sha256": "769d22ac131deb7abd505a800a6c29c4f98a2c35ef063b587a36b5fcd9c93939",
+      "font_scale": 1.0,
+      "sha256": "7dc47e50ae716fa26aa6bee5409b99997c673a059f3afe4da5e720e1b00ac1d2",
       "width": 1032,
       "height": 2237
     },
@@ -1261,8 +1261,8 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
-      "sha256": "82bf7ad77254db99301aea3aa093fc8f78f690f5c7fd8a73b65def844c5314b9",
+      "font_scale": 1.0,
+      "sha256": "113a36af7e90dba1728ecf14235c64581ce99ce6051228e857a952cd53063553",
       "width": 1032,
       "height": 2237
     },
@@ -1278,8 +1278,8 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
-      "sha256": "790bd9ad0149836025cc5071f22f8a560510ddf0ca1ebb8d14cb4dd7524142f4",
+      "font_scale": 1.0,
+      "sha256": "0792d954fbe07c2026a2850c51f82430c157cc2985f45bb1a1a1016252338ce4",
       "width": 1032,
       "height": 2237
     },
@@ -1295,7 +1295,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "07189e3a72678817b15a5576679d7dff32f1dace9bfa66f0793a5ba84ae9103b",
       "width": 1032,
       "height": 2237
@@ -1312,7 +1312,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "2c1883a31ce74849e8d3c57c016e8a9b88a7a93c7cb0a7766e91c32f3a0818ba",
       "width": 1032,
       "height": 2237
@@ -1329,7 +1329,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "6efa8aeb988eef5bdf03a98a1651657b9d639ab969d7eac45ab51650d56e5d5c",
       "width": 1032,
       "height": 2237
@@ -1346,7 +1346,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "d248af8f31a30f3b31671452ba836f0fd397db21ec80a3952becda696349c830",
       "width": 1032,
       "height": 2237
@@ -1363,7 +1363,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "3b4de0a28de664e17225e893932d53da3848b25aae8f47aa24a5fdac9260c684",
       "width": 1032,
       "height": 2237
@@ -1380,7 +1380,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "1a29aaaee8bb4b6dcfa390b8061d06f3970861902bad74ed6295a7d69f49550f",
       "width": 1032,
       "height": 2237
@@ -1397,7 +1397,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "a706e6e94df49602a168f8b0dbc38a98a79f7e8fc7a00dc594a18bb3434de62d",
       "width": 1032,
       "height": 2237
@@ -1414,7 +1414,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "9b60d16c1bb419e3fbba4b49dd243a31f30b1ad94fc49b709be4732d1b0feabe",
       "width": 1032,
       "height": 2237
@@ -1431,7 +1431,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "35f18cde085388b7f78465fa183c31b10fdba43f4e40dfae082827a8514fbc2b",
       "width": 1032,
       "height": 2237
@@ -1448,7 +1448,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "f5fa655b9c65d93d330f0a717aa907ffa885a3ff7fd81a79c4b1ea60149e877a",
       "width": 1032,
       "height": 2237
@@ -1465,7 +1465,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "17c35fbf539943ac22115183339172f7024f080f73389dec5efaf2f90d0dc58b",
       "width": 1032,
       "height": 2237
@@ -1482,7 +1482,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "4f28cf75824af288b136c3a72da3875bc52d45546c6372131f79fab77a104267",
       "width": 1032,
       "height": 2237
@@ -1533,7 +1533,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "da9e39732f4f4b0f35031b0258ca261eb022455eff7e884d2c1743f804c38801",
       "width": 1032,
       "height": 2237
@@ -1550,7 +1550,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "72d3162ffa713810a003249081c0701dadd0e1ee7adc324f722a89a26850f4c4",
       "width": 1032,
       "height": 2237
@@ -1567,7 +1567,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "84cbb1db7032578d0f5b5146f244ce2424b7a4a1d6d5966b2ca58449f5e3ecea",
       "width": 1032,
       "height": 2237
@@ -1584,7 +1584,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "5f5490510483d5a758574b9e98f914c58967811ef5aefba08cef339b07c2240a",
       "width": 1032,
       "height": 2237
@@ -1601,7 +1601,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "1efdba156578d443fe5b9df77cffde7acb134278cdef0fa95150f8320b0e4c88",
       "width": 1032,
       "height": 2237
@@ -1618,7 +1618,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "7f19fdb66c12c78cd6df7bc935cfbf2139d0e9e522a00ee5df731a5804592003",
       "width": 1032,
       "height": 2237
@@ -1635,7 +1635,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "5a7d90928e42cc3f8a82da1e265d29240d3cf8df719f0d28749f3883c7ce6384",
       "width": 1032,
       "height": 2237
@@ -1652,12 +1652,12 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1,
+      "font_scale": 1.0,
       "sha256": "b912bce004c3c30a74b90c4a9beb009f1fd0ccfaaa7ea43438e424e071bbaec2",
       "width": 1032,
       "height": 2237
     }
   ],
-  "reviewed_by": "OpenAI screenshot review",
-  "archive_sha256": "a570262377a9e66a9654daab97d91ea10f020e7904c8b4a1e7ae7d8d2066c461"
+  "reviewed_by": "Reviewed 6 old/new UI screenshot comparisons (email wait light/dark, manual code light/dark, error/narrow) on 2026-11-14; expected merged screen.",
+  "archive_sha256": "d6ee8b1f46e0d7a273a18814f025525f1ae8ccdd98b9693484190d83ee2f9a35"
 }
