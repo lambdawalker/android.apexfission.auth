@@ -1,0 +1,39 @@
+name: UI Common source integration
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-integration:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: true
+      - name: Check out the reviewed UI Common implementation
+        uses: actions/checkout@v7
+        with:
+          repository: lambdawalker/android.ui.common
+          ref: 589b1925bb90ba5db45d4a22c5abcf7bffafe7c9
+          path: _integration/ui-common
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            21
+            25
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Validate against pinned shared source
+        run: ./gradlew :auth:testDebugUnitTest :app:assembleDebug :auth:assembleDebugAndroidTest -PuiCommonCheckout="$GITHUB_WORKSPACE/_integration/ui-common" --no-daemon --no-configuration-cache
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-common-integration-reports
+          path: '**/build/reports'
+          if-no-files-found: warn

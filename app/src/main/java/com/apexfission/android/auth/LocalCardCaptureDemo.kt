@@ -12,9 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.apexfission.android.auth.identity.capture.IdentityCamera
-import com.apexfission.android.democommon.CardTitle
-import com.apexfission.android.democommon.DemoCard
-import com.apexfission.android.democommon.DemoScreen
+import com.apexfission.android.ui.common.SectionHeading
+import com.apexfission.android.ui.common.ContentCard
+import com.apexfission.android.ui.common.CatalogScreen
 
 /** Local camera playground. No capture controller, session, persistence, or upload client. */
 @Composable
@@ -53,13 +53,13 @@ internal fun LocalCardCaptureDemo(
 /** Offline result content; previews never instantiate the camera or other runtime services. */
 @Composable
 internal fun LocalCardCaptureResult(successful: Boolean, onRetry: () -> Unit, onExit: () -> Unit) {
-    DemoScreen(
+    CatalogScreen(
         title = "Card capture demo",
-        welcomeNote = "Local preview only. No sign-in, uploads, or backend processing.",
+        description = "Local preview only. No sign-in, uploads, or backend processing.",
     ) {
         item(key = "capture_result") {
-            DemoCard {
-                CardTitle(title = if (successful) "Capture complete" else "Capture unavailable")
+            ContentCard {
+                SectionHeading(title = if (successful) "Capture complete" else "Capture unavailable")
                 Text(
                     if (successful) "Both sides were captured and discarded. No images were saved or sent."
                     else "The camera could not finish the capture. Try again or return to the demo menu.",

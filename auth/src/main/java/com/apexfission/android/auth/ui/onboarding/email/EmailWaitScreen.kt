@@ -10,8 +10,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apexfission.android.auth.library.R
 import com.apexfission.android.auth.ui.onboarding.common.BodyText
-import com.apexfission.android.auth.ui.onboarding.common.EmailOneTimeCodeField
-import com.apexfission.android.auth.ui.onboarding.common.OnboardingCard
+import com.apexfission.android.ui.common.CodeVerificationCard
+import androidx.compose.ui.autofill.ContentType
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
 import com.apexfission.android.auth.ui.onboarding.common.authText
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
@@ -50,50 +50,40 @@ fun EmailWaitScreen(
         onSecondary = onResend,
         secondaryEnabled = !busy && canResend,
     ) {
-        OnboardingCard {
-            BodyText(stringResource(R.string.auth_open_the_link_or_enter_the_code_from_the_latest_email_for))
-            if (email.isNotBlank()) {
-                Text(email, style = MaterialTheme.typography.titleSmall)
-            }
-            Text(
-                stringResource(R.string.auth_confirmation_code),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            EmailOneTimeCodeField(
-                value = code,
-                onValueChange = onCodeChange,
-                contentDescriptionText = stringResource(R.string.auth_six_digit_confirmation_code),
-                enabled = !busy,
-                autoFocus = autoFocus,
-            )
-            if (busyMessage != null) {
-                BodyText(busyMessage)
-            }
-            if (error != null) {
-                Text(
-                    authText(error),
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
-            if (attemptsRemaining != null) {
-                Text(
-                    stringResource(R.string.auth_attempts_remaining_1_s, attemptsRemaining),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            if (resendHelp != null) BodyText(resendHelp)
-            TextButton(onClick = onChangeEmail, enabled = !busy) {
-                Text(stringResource(R.string.auth_change_email_address))
-            }
-            if (onSignIn != null) {
-                TextButton(onClick = onSignIn, enabled = !busy) {
-                    Text(stringResource(R.string.auth_already_verified_sign_in))
+        CodeVerificationCard(
+            value = code,
+            onValueChange = onCodeChange,
+            codeLabel = stringResource(R.string.auth_confirmation_code),
+            codeContentDescription = stringResource(R.string.auth_six_digit_confirmation_code),
+            pasteLabel = stringResource(R.string.auth_paste_code),
+            instructions = stringResource(R.string.auth_open_the_link_or_enter_the_code_from_the_latest_email_for),
+            recipient = email.takeIf { it.isNotBlank() },
+            enabled = !busy,
+            autoFocus = autoFocus,
+            autofillContentType = ContentType("emailOTPCode"),
+            busyMessage = busyMessage,
+            errorMessage = error?.let { authText(it) },
+            supportingContent = {
+                if (attemptsRemaining != null) {
+                    Text(
+                        stringResource(R.string.auth_attempts_remaining_1_s, attemptsRemaining),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
-            }
-        }
+                if (resendHelp != null) BodyText(resendHelp)
+            },
+            actions = {
+                TextButton(onClick = onChangeEmail, enabled = !busy) {
+                    Text(stringResource(R.string.auth_change_email_address))
+                }
+                if (onSignIn != null) {
+                    TextButton(onClick = onSignIn, enabled = !busy) {
+                        Text(stringResource(R.string.auth_already_verified_sign_in))
+                    }
+                }
+            },
+        )
     }
 }
 

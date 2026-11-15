@@ -112,7 +112,7 @@ android {
 
 dependencies {
     implementation(project(":auth"))
-    implementation(libs.apexfission.demo.common)
+    implementation(libs.apexfission.ui.common)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

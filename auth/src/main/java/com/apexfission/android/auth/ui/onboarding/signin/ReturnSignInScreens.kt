@@ -21,7 +21,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.apexfission.android.auth.library.R
 import com.apexfission.android.auth.ui.onboarding.common.BodyText
-import com.apexfission.android.auth.ui.onboarding.common.EmailOneTimeCodeField
+import com.apexfission.android.ui.common.CodeVerificationCard
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingCard
 import com.apexfission.android.auth.ui.onboarding.common.OnboardingFrame
 import com.apexfission.android.auth.ui.onboarding.common.authText
@@ -106,21 +106,17 @@ fun ReturnEmailCodeScreen(
             onVerify(code)
         },
     ) {
-        OnboardingCard {
-            BodyText(stringResource(R.string.auth_enter_the_six_digit_sign_in_code_sent_to_1_s_this_is_separate_fro, email))
-            EmailOneTimeCodeField(
-                value = code,
-                onValueChange = { code = it },
-                contentDescriptionText = stringResource(R.string.auth_six_digit_code),
-            )
-            if (error != null) {
-                Text(
-                    authText(error),
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
-        }
+        CodeVerificationCard(
+            value = code,
+            onValueChange = { code = it },
+            codeLabel = stringResource(R.string.auth_confirmation_code),
+            codeContentDescription = stringResource(R.string.auth_six_digit_code),
+            pasteLabel = stringResource(R.string.auth_paste_code),
+            instructions = stringResource(R.string.auth_enter_the_six_digit_sign_in_code_sent_to_1_s_this_is_separate_fro, email),
+            autoFocus = true,
+            autofillContentType = androidx.compose.ui.autofill.ContentType("emailOTPCode"),
+            errorMessage = error?.let { authText(it) },
+        )
     }
 }
 
