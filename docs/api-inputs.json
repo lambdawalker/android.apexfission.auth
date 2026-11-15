@@ -151,6 +151,12 @@
   },
   {
     "guide": null,
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/CameraPermissionRoute.kt",
+    "sha256": "87cfab1f146d6f1523e215a0f94751911d72693bd6c276c9ec448c4ba4ffc094",
+    "visibility": "nonpublic"
+  },
+  {
+    "guide": null,
     "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/CaptureConfirmation.kt",
     "sha256": "685a67d8d5cf2100c244106c31f6e757d29892709c4f0d9e70b2bce090e31a7b",
     "visibility": "nonpublic"
@@ -159,6 +165,12 @@
     "guide": "docs/agents/api-inventory.md",
     "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCamera.kt",
     "sha256": "e795c0e980ef1b15f12b03e5347981050d67b856f40fc70edfbf93f093886068",
+    "visibility": "public"
+  },
+  {
+    "guide": "docs/agents/api-inventory.md",
+    "path": "auth/src/main/java/com/apexfission/android/auth/identity/capture/IdentityCameraAfterDisclosure.kt",
+    "sha256": "7e3ba7cd277998bf115b4ba8c319db3121d8af86d2ba2cbec14384648d96cd7c",
     "visibility": "public"
   },
   {

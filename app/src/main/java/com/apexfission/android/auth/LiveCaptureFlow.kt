@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.apexfission.android.auth.capture.*
 import com.apexfission.android.auth.email.EmailHttpClient
 import com.apexfission.android.auth.email.SecureAuthStorage
-import com.apexfission.android.auth.identity.capture.IdentityCamera
+import com.apexfission.android.auth.identity.capture.IdentityCameraAfterDisclosure
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -64,7 +64,9 @@ import kotlinx.serialization.json.jsonPrimitive
         allowNewCapture = !openSavedDetailsOnEntry && config.canStartCapture(),
         openSavedDetailsOnEntry = openSavedDetailsOnEntry,
         earlyCamera = { events ->
-            IdentityCamera(
+            // CaptureHost only enters this slot after policy-checked capture admission.
+            // Resuming processing or saved details never reaches the permission request.
+            IdentityCameraAfterDisclosure(
                 onCaptured = { front, back -> events.onImagesReady(front, back); events.onConfirmed() },
                 onError = events.onError, onCancel = events.onCancel,
                 onImagesReady = events.onImagesReady,
