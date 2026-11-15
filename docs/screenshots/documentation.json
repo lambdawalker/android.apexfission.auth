@@ -11,8 +11,8 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "97e70698f920a188220a85673ec57bb47fbfd3f2",
-      "render_inputs_sha256": "375cedc54fad0ad876f6101b3602049953c476caff0bc5508d7a7ef3e2bb1797",
+      "source_commit": "d779abc8ea4925fd88a68cb978b20c92c1822813",
+      "render_inputs_sha256": "f11432027a5397891bab08d930425e26519bbf0b176857cb4978b687d07e3eb8",
       "caption": "Synthetic component preview: emailStart",
       "alt": "Attestra emailStart in light theme; synthetic fixture data"
     },
@@ -26,8 +26,8 @@
       "capture_kind": "component-preview",
       "theme": "dark",
       "locale": "en",
-      "source_commit": "97e70698f920a188220a85673ec57bb47fbfd3f2",
-      "render_inputs_sha256": "375cedc54fad0ad876f6101b3602049953c476caff0bc5508d7a7ef3e2bb1797",
+      "source_commit": "d779abc8ea4925fd88a68cb978b20c92c1822813",
+      "render_inputs_sha256": "f11432027a5397891bab08d930425e26519bbf0b176857cb4978b687d07e3eb8",
       "caption": "Synthetic component preview: readDocument",
       "alt": "Attestra readDocument in dark theme; synthetic fixture data"
     },
@@ -41,8 +41,8 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "97e70698f920a188220a85673ec57bb47fbfd3f2",
-      "render_inputs_sha256": "375cedc54fad0ad876f6101b3602049953c476caff0bc5508d7a7ef3e2bb1797",
+      "source_commit": "d779abc8ea4925fd88a68cb978b20c92c1822813",
+      "render_inputs_sha256": "f11432027a5397891bab08d930425e26519bbf0b176857cb4978b687d07e3eb8",
       "caption": "Synthetic component preview: detailsSaved",
       "alt": "Attestra detailsSaved in light theme; synthetic fixture data"
     }
