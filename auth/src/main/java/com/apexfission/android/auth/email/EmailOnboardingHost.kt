@@ -435,6 +435,7 @@ fun EmailOnboardingHost(
             onChangeEmail = changeEmail,
             error = screen.error,
             attemptsRemaining = screen.attemptsRemaining,
+            autoFocus = true,
             canResend = canResend,
             resendHelp = if (canResend) null else resources.getString(R.string.auth_you_can_request_another_email_in_a_minute),
         )
