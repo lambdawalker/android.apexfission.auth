@@ -32,4 +32,6 @@ class AppScreenshotTest {
     fun configurationFailure() { AttestraAuthTheme { EnvironmentStatusScreen(false, "Could not load environment settings. Retry when connected.", {}, {}) } }
     @PreviewTest @AppDocumentationPreview @Composable
     fun signInRequired() { AttestraAuthTheme { CaptureSignInRequired({}) } }
+    @PreviewTest @AppDocumentationPreview @Composable
+    fun onboardingCongratulations() { AttestraAuthTheme { OnboardingCongratulationsScreen({}) } }
 }

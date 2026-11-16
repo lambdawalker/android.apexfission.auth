@@ -74,11 +74,64 @@ fun EmailOnboardingHost(
     onPasskeyDeferred: () -> Unit,
     onboarding: OnboardingPolicy? = null,
     onRetryConfiguration: () -> Unit = {},
-    // Keep identityContent as the final parameter for existing trailing-lambda clients.
     identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
     identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
         com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)
     },
+) = EmailOnboardingHostWithCompletion(
+    apiBaseUrl = apiBaseUrl,
+    link = link,
+    onLinkConsumed = onLinkConsumed,
+    onPasskeyDeferred = onPasskeyDeferred,
+    onboarding = onboarding,
+    onRetryConfiguration = onRetryConfiguration,
+    onOnboardingCompleted = onPasskeyDeferred,
+    identityReviewContent = identityReviewContent,
+    identityContent = identityContent,
+)
+
+/**
+ * Completion-aware overload. [onOnboardingCompleted] is called only when the user chooses Continue
+ * from the server-confirmed completed account view. Back/cancel/defer use [onPasskeyDeferred].
+ *
+ * The legacy overload above is retained unchanged for positional and trailing-lambda callers.
+ */
+@Composable
+fun EmailOnboardingHost(
+    apiBaseUrl: String,
+    link: VerificationLink?,
+    onLinkConsumed: () -> Unit,
+    onPasskeyDeferred: () -> Unit,
+    onboarding: OnboardingPolicy? = null,
+    onRetryConfiguration: () -> Unit = {},
+    onOnboardingCompleted: () -> Unit,
+    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
+    identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
+        com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)
+    },
+) = EmailOnboardingHostWithCompletion(
+    apiBaseUrl = apiBaseUrl,
+    link = link,
+    onLinkConsumed = onLinkConsumed,
+    onPasskeyDeferred = onPasskeyDeferred,
+    onboarding = onboarding,
+    onRetryConfiguration = onRetryConfiguration,
+    onOnboardingCompleted = onOnboardingCompleted,
+    identityReviewContent = identityReviewContent,
+    identityContent = identityContent,
+)
+
+@Composable
+private fun EmailOnboardingHostWithCompletion(
+    apiBaseUrl: String,
+    link: VerificationLink?,
+    onLinkConsumed: () -> Unit,
+    onPasskeyDeferred: () -> Unit,
+    onboarding: OnboardingPolicy?,
+    onRetryConfiguration: () -> Unit,
+    onOnboardingCompleted: () -> Unit,
+    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)?,
+    identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit,
 ) {
     val activityContext: Context = LocalContext.current
     val resources = LocalResources.current
@@ -503,7 +556,7 @@ fun EmailOnboardingHost(
                 }
             }
             "welcome" -> AccountTaskScreen(status ?: AccountStatus(), onboarding.optionalAccountSteps(status ?: AccountStatus()),
-                onContinue = exit,
+                onContinue = onOnboardingCompleted,
                 onAdd = { step ->
                     if (step in onboarding.optionalAccountSteps(status ?: AccountStatus())) {
                         clearPassword()
@@ -517,7 +570,8 @@ fun EmailOnboardingHost(
                     }
                 },
                 onReviewId = { acceptedCapturePolicy = null; reviewSavedDetailsRequested = true; passkeyScreen = "identity_flow" },
-                onRefresh = { scope.launch { refreshStatus() } })
+                onRefresh = { scope.launch { refreshStatus() } },
+                onBack = exit)
             "start" -> PasskeyTaskScreen(passkeyStage, onboarding.passkey == Requirement.REQUIRED,
                 onBack = exit, onCreate = createPasskey,
                 onRetryStatus = { if (passkeyTask.retryStatus()) scope.launch {

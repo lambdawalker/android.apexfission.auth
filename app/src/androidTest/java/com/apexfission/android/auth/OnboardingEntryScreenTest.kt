@@ -118,4 +118,19 @@ class OnboardingEntryScreenTest {
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Clearing local data"))
         compose.onNodeWithText("Clearing local data").assertIsDisplayed()
     }
+
+    @Test
+    fun congratulationsPageExplainsCompletionAndReturnsToDemoMenu() {
+        var returns = 0
+        compose.setContent {
+            AttestraAuthTheme {
+                OnboardingCongratulationsScreen(onDone = { returns++ })
+            }
+        }
+        compose.onNodeWithText("Congratulations").assertIsDisplayed()
+        compose.onNodeWithText("Onboarding complete").assertIsDisplayed()
+        compose.onNodeWithText("This confirms onboarding completion only; it does not assert identity verification.").assertIsDisplayed()
+        compose.onNodeWithText("Back to demo menu").performClick()
+        compose.runOnIdle { assertEquals(1, returns) }
+    }
 }

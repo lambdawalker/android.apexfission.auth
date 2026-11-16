@@ -37,6 +37,10 @@ EmailOnboardingHost(
         AccountIdentityFlow(policy, exit, openSavedDetailsOnEntry = true)
     },
     onPasskeyDeferred = { destination = EntryScreen.Home; clearIncomingLink() },
+    onOnboardingCompleted = {
+        clearIncomingLink()
+        destination = EntryScreen.Congratulations
+    },
 )
 ```
 
@@ -46,7 +50,7 @@ La implementación completa que CI compila está en
 y [LiveCaptureFlow](../../../app/src/main/java/com/apexfission/android/auth/LiveCaptureFlow.kt).
 `AccountIdentityFlow` es código del anfitrión de ejemplo, no una API exportada de auth.
 Implemente sus responsabilidades equivalentes; no importe componentes internos del ejemplo.
-El slot `identityContent` predeterminado muestra indisponibilidad, no una captura funcional. `identityReviewContent` es opcional y abre directamente el formulario de detalles guardados; mantenga `identityContent` para los consumidores existentes.
+El slot `identityContent` predeterminado muestra indisponibilidad, no una captura funcional. `identityReviewContent` es opcional y abre directamente el formulario de detalles guardados; mantenga `identityContent` para los consumidores existentes. `onOnboardingCompleted` es el callback de éxito después del onboarding; volver, cancelar o diferir siguen usando `onPasskeyDeferred`. El demo dirige el éxito a una página de felicitación.
 
 ## Responsabilidades del anfitrión
 

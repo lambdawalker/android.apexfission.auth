@@ -69,6 +69,28 @@
       "note": "Visual children are covered; services, live camera, permissions and navigation require device tests."
     },
     {
+      "source": "auth/src/main/java/com/apexfission/android/auth/email/EmailOnboardingHost.kt",
+      "symbol": "EmailOnboardingHostWithCompletion",
+      "kind": "runtime-delegation",
+      "scenarios": [
+        "auth:DocumentationScreenshotTest.emailStart",
+        "auth:DocumentationScreenshotTest.emailWait",
+        "auth:EmailCodeScreenshotTest.emptyState",
+        "auth:EmailCodeScreenshotTest.withError",
+        "auth:DocumentationScreenshotTest.emailLimit",
+        "auth:DocumentationScreenshotTest.emailRecovery",
+        "auth:DocumentationScreenshotTest.passkeyStart",
+        "auth:DocumentationScreenshotTest.password",
+        "auth:DocumentationScreenshotTest.returnSignIn",
+        "auth:AuthTaskScreenshotTest.methodChoice",
+        "auth:AuthTaskScreenshotTest.verifyingCode",
+        "auth:AuthTaskScreenshotTest.connectionRecovery",
+        "auth:AuthTaskScreenshotTest.passkeyCancelled",
+        "auth:AuthTaskScreenshotTest.completedAccount"
+      ],
+      "note": "Private implementation behind both public host overloads; visual children share the public host coverage."
+    },
+    {
       "source": "auth/src/main/java/com/apexfission/android/auth/identity/IdentityIntegrationUnavailable.kt",
       "symbol": "IdentityIntegrationUnavailable",
       "kind": "direct",
@@ -573,6 +595,15 @@
         "auth:AuthTaskScreenshotTest.completedAccount"
       ],
       "note": "Offline synthetic task states; native prompts and network behavior are tested separately."
+    },
+    {
+      "source": "app/src/main/java/com/apexfission/android/auth/OnboardingCongratulationsScreen.kt",
+      "symbol": "OnboardingCongratulationsScreen",
+      "kind": "direct",
+      "scenarios": [
+        "app:AppScreenshotTest.onboardingCongratulations"
+      ],
+      "note": "Demo-only server-confirmed completion destination; deterministic offline fixture."
     }
   ]
 }

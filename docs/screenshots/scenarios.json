@@ -14,7 +14,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "emailStart"
@@ -32,7 +32,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "emailWait"
@@ -50,7 +50,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "emailLimit"
@@ -68,7 +68,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "emailLinkUnusable"
@@ -86,7 +86,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "emailRecovery"
@@ -104,7 +104,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "passkeyStart"
@@ -122,7 +122,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "passkeyFailed"
@@ -140,7 +140,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "passkeyUnsupported"
@@ -158,7 +158,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "identityStart"
@@ -176,7 +176,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "identityUnreadable"
@@ -194,7 +194,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "identitySubmissionFailed"
@@ -212,7 +212,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "detailsSaved"
@@ -230,7 +230,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "welcome"
@@ -248,7 +248,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "password"
@@ -266,7 +266,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "returnSignIn"
@@ -284,7 +284,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "returnCode"
@@ -302,7 +302,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "prepareCapture"
@@ -320,7 +320,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "uploadDocument"
@@ -338,7 +338,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "readDocument"
@@ -356,7 +356,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "extractedReview"
@@ -374,7 +374,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "manualReview"
@@ -392,7 +392,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "components"
@@ -410,7 +410,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "catalog"
@@ -428,7 +428,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "unavailable"
@@ -446,7 +446,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "noCamera"
@@ -464,7 +464,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "legacyFrontReview"
@@ -482,7 +482,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "legacyBackReview"
@@ -500,7 +500,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "legacyIdentityReview"
@@ -518,7 +518,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "legacyIdentitySuccess"
@@ -536,7 +536,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "legacyIdentityUnsuccessful"
@@ -554,7 +554,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "emptyState"
@@ -572,7 +572,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "withError"
@@ -590,7 +590,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "cannotResend"
@@ -608,7 +608,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "autoplayReadingProgress"
@@ -626,7 +626,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "overviewState"
@@ -644,7 +644,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "microphoneState"
@@ -662,7 +662,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "deniedState"
@@ -680,7 +680,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "menu"
@@ -698,7 +698,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "resetting"
@@ -716,7 +716,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "configurationLoading"
@@ -734,7 +734,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "configurationFailure"
@@ -752,7 +752,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "signInRequired"
@@ -789,7 +789,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Edit issuing jurisdiction; changes apply together"
@@ -807,7 +807,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "menuWithoutBackend"
@@ -843,7 +843,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Local card capture complete; images discarded"
@@ -861,7 +861,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Local card capture failure and retry"
@@ -879,7 +879,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Camera permission denied: explicit retry"
@@ -897,7 +897,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
       "caption": "Camera permission recovery: explicit Settings action"
@@ -915,7 +915,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: methodChoice"
@@ -933,7 +933,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: codeEntry"
@@ -951,7 +951,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: verifyingCode"
@@ -969,7 +969,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: connectionRecovery"
@@ -987,7 +987,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: passwordRecovery"
@@ -1005,7 +1005,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: passkeyReady"
@@ -1023,7 +1023,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: passkeyCancelled"
@@ -1041,7 +1041,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: passkeyUnsupportedRequired"
@@ -1059,7 +1059,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: passkeySavedStatusRetry"
@@ -1077,7 +1077,7 @@
         852
       ],
       "locale": "en",
-      "font_scale": 1.0,
+      "font_scale": 1,
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: completedAccount"
@@ -1099,6 +1099,24 @@
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: narrowCodeRecovery"
+    },
+    {
+      "id": "app:AppScreenshotTest.onboardingCongratulations",
+      "module": "app",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "method": "onboardingCongratulations",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "en",
+      "font_scale": 1,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "onboardingCongratulations"
     }
   ]
 }

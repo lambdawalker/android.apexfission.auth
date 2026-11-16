@@ -16,6 +16,9 @@ import com.apexfission.android.auth.library.R
 import com.apexfission.android.auth.ui.onboarding.signin.SignInTaskScreen
 import com.apexfission.android.auth.ui.onboarding.passkey.PasskeyTaskScreen
 import com.apexfission.android.auth.ui.onboarding.email.EmailStartScreen
+import com.apexfission.android.auth.ui.onboarding.account.AccountTaskScreen
+import com.apexfission.android.auth.discovery.OnboardingStep
+import com.apexfission.android.auth.passkey.AccountStatus
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -92,5 +95,47 @@ class AuthTaskScreensTest {
         } }
         compose.onNodeWithText(text(R.string.auth_do_this_later)).performClick()
         compose.runOnIdle { assertEquals(1, deferred) }
+    }
+
+    @Test fun completedAccountBackDoesNotReportSuccessfulCompletion() {
+        var completions = 0
+        var backs = 0
+        compose.setContent { AttestraAuthTheme {
+            AccountTaskScreen(
+                status = AccountStatus(onboardingComplete = true),
+                optionalSteps = setOf(OnboardingStep.PASSKEY),
+                onContinue = { completions++ },
+                onAdd = {},
+                onReviewId = {},
+                onRefresh = {},
+                onBack = { backs++ },
+            )
+        } }
+        compose.onNodeWithContentDescription(text(R.string.auth_back)).performClick()
+        compose.runOnIdle {
+            assertEquals(0, completions)
+            assertEquals(1, backs)
+        }
+    }
+
+    @Test fun completedAccountContinueReportsSuccessfulCompletion() {
+        var completions = 0
+        var backs = 0
+        compose.setContent { AttestraAuthTheme {
+            AccountTaskScreen(
+                status = AccountStatus(onboardingComplete = true),
+                optionalSteps = emptySet(),
+                onContinue = { completions++ },
+                onAdd = {},
+                onReviewId = {},
+                onRefresh = {},
+                onBack = { backs++ },
+            )
+        } }
+        compose.onNodeWithText(text(R.string.auth_continue)).performClick()
+        compose.runOnIdle {
+            assertEquals(1, completions)
+            assertEquals(0, backs)
+        }
     }
 }
