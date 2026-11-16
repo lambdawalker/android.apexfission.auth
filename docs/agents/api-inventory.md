@@ -604,7 +604,20 @@ fun EmailOnboardingHost(
     onPasskeyDeferred: () -> Unit,
     onboarding: OnboardingPolicy? = null,
     onRetryConfiguration: () -> Unit = {},
-    // Keep identityContent as the final parameter for existing trailing-lambda clients.
+    identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
+    identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
+        com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)
+    },
+)
+@Composable
+fun EmailOnboardingHost(
+    apiBaseUrl: String,
+    link: VerificationLink?,
+    onLinkConsumed: () -> Unit,
+    onPasskeyDeferred: () -> Unit,
+    onboarding: OnboardingPolicy? = null,
+    onRetryConfiguration: () -> Unit = {},
+    onOnboardingCompleted: () -> Unit,
     identityReviewContent: (@Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit)? = null,
     identityContent: @Composable (Boolean, CapturePolicy?, () -> Unit) -> Unit = { _, _, exit ->
         com.apexfission.android.auth.identity.IdentityIntegrationUnavailable(exit)

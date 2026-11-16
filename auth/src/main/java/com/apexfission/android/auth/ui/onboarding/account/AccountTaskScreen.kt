@@ -21,8 +21,9 @@ internal fun AccountTaskScreen(
     onAdd: (OnboardingStep) -> Unit,
     onReviewId: () -> Unit,
     onRefresh: () -> Unit,
+    onBack: () -> Unit = onContinue,
 ) {
-    OnboardingFrame(stringResource(R.string.auth_your_account), Icons.Default.Lock, "", onContinue,
+    OnboardingFrame(stringResource(R.string.auth_your_account), Icons.Default.Lock, "", onBack,
         primaryLabel = stringResource(R.string.auth_continue), onPrimary = onContinue) {
         OnboardingCard {
             BodyText(stringResource(R.string.auth_your_account_setup_is_complete))

@@ -23,7 +23,7 @@ import com.apexfission.android.auth.ui.onboarding.OnboardingBusinessActions
 import com.apexfission.android.auth.ui.onboarding.OnboardingCatalog
 import com.apexfission.android.auth.ui.theme.AttestraAuthTheme
 
-private enum class EntryScreen { Home, Catalog, Onboarding, IdentityCapture, LocalCardCapture }
+private enum class EntryScreen { Home, Catalog, Onboarding, Congratulations, IdentityCapture, LocalCardCapture }
 
 class MainActivity : ComponentActivity() {
     private companion object { const val TAG = "EmailDebugX" }
@@ -87,6 +87,9 @@ class MainActivity : ComponentActivity() {
                         onRecheckAppLinks = associationCheck::refresh,
                     )
                     EntryScreen.LocalCardCapture -> LocalCardCaptureDemo(onExit = { destination = EntryScreen.Home })
+                    EntryScreen.Congratulations -> OnboardingCongratulationsScreen(
+                        onDone = { destination = EntryScreen.Home },
+                    )
                     EntryScreen.IdentityCapture -> {
                         val config = environment.configuration
                         if (config != null) CompositionLocalProvider(LocalBackendConfiguration provides config) {
@@ -116,6 +119,10 @@ class MainActivity : ComponentActivity() {
                                     AccountIdentityFlow(policy, exit, openSavedDetailsOnEntry = true)
                                 },
                                 onPasskeyDeferred = { destination = EntryScreen.Home; clearIncomingLink() },
+                                onOnboardingCompleted = {
+                                    clearIncomingLink()
+                                    destination = EntryScreen.Congratulations
+                                },
                             )
                             }
                         }
