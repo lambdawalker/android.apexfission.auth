@@ -41,7 +41,7 @@ Use una instalación de prueba nueva o revoque la cámara antes de instrumentar:
 
 ```sh
 adb shell pm revoke com.apexfission.android.auth android.permission.CAMERA
-./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest,com.apexfission.android.auth.AppSettingsNavigationTest
+./gradlew :app:connectedDebugAndroidTest
 ```
 
 Las pruebas comprueban el botón/callback, intent y paquete exactos, vuelta real desde

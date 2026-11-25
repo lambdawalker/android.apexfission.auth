@@ -41,7 +41,7 @@ Run on a fresh test installation, or revoke the camera grant before instrumentat
 
 ```sh
 adb shell pm revoke com.apexfission.android.auth android.permission.CAMERA
-./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest,com.apexfission.android.auth.AppSettingsNavigationTest
+./gradlew :app:connectedDebugAndroidTest
 ```
 
 The tests check the visible header/callback, exact settings intent/package, actual

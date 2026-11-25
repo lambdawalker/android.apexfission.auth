@@ -71,7 +71,25 @@ jobs:
           disable-animations: true
           script: |
             bash gradlew :auth:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.capture.DocumentReviewUiTest,com.apexfission.android.auth.identity.capture.CameraPermissionRecoveryUiTest,com.apexfission.android.auth.signin.AuthTaskScreensTest
-            bash gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apexfission.android.auth.OnboardingEntryScreenTest,com.apexfission.android.auth.LocalCardCaptureDemoTest,com.apexfission.android.auth.DemoWindowSecurityTest,com.apexfission.android.auth.AppSettingsNavigationTest
+            bash gradlew :app:connectedDebugAndroidTest
+      - name: Verify required demo tests ran
+        run: |
+          python3 - <<'PYTEST'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          required = {
+              ("com.apexfission.android.auth.AppSettingsNavigationTest", "headerOpensApplicationDetailsForTheInstalledPackage"),
+              ("com.apexfission.android.auth.AppSettingsNavigationTest", "settingsReturnAndRecreationKeepTheCatalogUsableAfterPermissionGrant"),
+              ("com.apexfission.android.auth.OnboardingEntryScreenTest", "settingsHeaderIsVisibleAndUsableWithoutBackendDuringReset"),
+          }
+          passed = set()
+          for path in Path("app/build/outputs/androidTest-results/connected").rglob("TEST-*.xml"):
+              for case in ET.parse(path).getroot().iter("testcase"):
+                  if not any(case.find(tag) is not None for tag in ("failure", "error", "skipped")):
+                      passed.add((case.get("classname"), case.get("name")))
+          assert required <= passed, f"Required settings tests missing or unsuccessful: {required - passed}"
+          print("All required settings tests executed successfully")
+          PYTEST
       - uses: actions/upload-artifact@v7
         if: always()
         with:
