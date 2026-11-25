@@ -167,10 +167,17 @@ def accept(directory, reviewer):
 
 
 def documentation_captures(manifest):
-    selections = {'emailStart': ('light', 'email-start-light.png'), 'readDocument': ('dark', 'read-document-dark.png'), 'detailsSaved': ('light', 'details-saved-light.png')}
+    selections = [
+        ('auth:DocumentationScreenshotTest.emailStart', 'light', 'email-start-light.png'),
+        ('auth:DocumentationScreenshotTest.readDocument', 'dark', 'read-document-dark.png'),
+        ('auth:DocumentationScreenshotTest.detailsSaved', 'light', 'details-saved-light.png'),
+        ('app:AppScreenshotTest.menu', 'light', 'demo-menu-light.png'),
+        ('app:AppScreenshotTest.menu', 'dark', 'demo-menu-dark.png'),
+    ]
     captures = []
-    for method, (theme, name) in selections.items():
-        image = next(i for i in manifest['images'] if i['scenario'] == 'auth:DocumentationScreenshotTest.' + method and i['theme'] == theme)
+    for scenario, theme, name in selections:
+        method = scenario.split(".")[-1]
+        image = next(i for i in manifest['images'] if i['scenario'] == scenario and i['theme'] == theme)
         target = ROOT / 'docs/assets/screenshots' / name
         captures.append(dict(path=target.relative_to(ROOT).as_posix(), image_sha256=image['sha256'], width=image['width'], height=image['height'], scenario=image['scenario'], fixture=image['fixture'], capture_kind=image['capture_kind'], theme=theme, locale='en', source_commit=manifest['source_commit'], render_inputs_sha256=manifest['inputs']['sha256'], caption='Synthetic component preview: '+method, alt='Attestra '+method+' in '+theme+' theme; synthetic fixture data'))
     return captures

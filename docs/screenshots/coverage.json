@@ -399,9 +399,10 @@
         "app:AppScreenshotTest.menu",
         "app:AppScreenshotTest.resetting",
         "app:AppScreenshotTest.menuWithoutBackend",
-        "app:AppScreenshotTest.menuLargeText"
+        "app:AppScreenshotTest.menuLargeText",
+        "app:AppScreenshotTest.menuSpanish"
       ],
-      "note": "Covered with deterministic offline fixture inputs."
+      "note": "Shared catalog and App settings header with inert callbacks; light/dark, narrow large text, Spanish settings label, unavailable backend and reset states. Activity settings intent/return are checked on a device."
     },
     {
       "source": "app/src/main/java/com/apexfission/android/auth/OnboardingEntryScreen.kt",

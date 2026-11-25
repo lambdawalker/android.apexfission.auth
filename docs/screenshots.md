@@ -37,7 +37,7 @@ python3 scripts/screenshots/suite.py accept --directory docs/generated/screensho
 ```
 
 This writes `docs/screenshots/baselines.zip` and `baselines.json`, and synchronizes
-three curated guide images plus `documentation.json`. Commit them together. The ZIP
+curated guide images, including the light/dark launcher, plus `documentation.json`. Commit them together. The ZIP
 is durable accepted reference data, not an expiring CI artifact or a second authored
 image set. The manifest ties each curated image to its scenario and accepted pixels.
 A new commit with unchanged relevant inputs does not require recapture.
@@ -75,7 +75,11 @@ runtime cases; it does not claim to render live services.
 Camera streams, Android system dialogs, focus, inference, navigation, privacy-window
 behavior and lifecycle/process restoration require separate device/backend tests.
 Legacy identity-decision mockups are marked `legacy-design`, not live verification.
-The UI pictured is English even when the surrounding guide is Spanish.
+The existing UI pictured is English even when the surrounding guide is Spanish.
+The app menu also has Spanish App settings label fixtures in both themes; the rest
+of its existing menu remains English. Menu, no-backend, reset and narrow/large-text
+fixtures cover the settings header with inert callbacks. Device tests separately
+check the settings intent, return, recreation and a platform permission grant.
 
 Publication-only Gradle additions are delimited by `BEGIN MAVEN PUBLICATION ONLY` / `END MAVEN PUBLICATION ONLY` in the root/auth build files and `gradle.properties`. They are excluded from visual render-input hashes. Android configuration, dependencies, toolchain and UI sources remain fingerprinted; the original reviewed images and provenance are retained. Do not put visual/build-runtime changes inside these publishing blocks.
 

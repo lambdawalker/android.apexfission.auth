@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Attestra Auth</string>
+    <string name="demo_app_settings">App settings</string>
 </resources>

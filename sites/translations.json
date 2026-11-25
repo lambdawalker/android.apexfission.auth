@@ -41,8 +41,8 @@
   },
   "docs/agents/demos.md": {
     "path": "docs/es/agents/demos.md",
-    "source_sha256": "3209917170b48b79a392a37f45e87c0e6ae92ba7e16433d537b78bc8484babf0",
-    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11."
+    "source_sha256": "157e88137b00bfe03baa5cdf0bbcba653f48b2a39f15287a9a295935063e1495",
+    "provenance": "Spanish translation reviewed against canonical changes removing the mock demo and consolidating live capture; 2026-11-02. Identifiers and code fences preserved. Namespace imports, source paths and migration consequences reviewed in both languages; 2026-11-11. 2026-11-25: reviewed English and Spanish settings behavior, local capture, device-test scope and identical build/launch/test commands together."
   },
   "IMPORT.md": {
     "path": "docs/es/IMPORT.md",
