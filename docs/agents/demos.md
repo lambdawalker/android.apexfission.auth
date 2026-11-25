@@ -53,6 +53,10 @@ local capture, and check permission recovery; grant it and re-enter to check cap
 
 ## Reviewed examples
 
+| Launcher, light | Launcher, dark |
+| --- | --- |
+| ![Demo catalog with App settings above the entries, light theme](../assets/screenshots/demo-menu-light.png) | ![Demo catalog with App settings above the entries, dark theme](../assets/screenshots/demo-menu-dark.png) |
+
 ![Email setup, synthetic light-theme preview](../assets/screenshots/email-start-light.png)
 
 ![Reading a document, synthetic dark-theme preview](../assets/screenshots/read-document-dark.png)

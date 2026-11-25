@@ -188,6 +188,9 @@ def promote_docs(directory, manifest):
     for capture in captures:
         image = next(i for i in manifest['images'] if i['scenario'] == capture['scenario'] and i['theme'] == capture['theme'])
         shutil.copyfile(directory / image['path'], ROOT / capture['path'])
+        legacy = ROOT / 'sites/astro/public/assets' / capture['path']
+        legacy.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(directory / image['path'], legacy)
     (ROOT / 'docs/screenshots/documentation.json').write_text(json.dumps({'schemaVersion': 1, 'captures': captures}, indent=2) + '\n')
 
 

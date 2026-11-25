@@ -37,7 +37,8 @@ python3 scripts/screenshots/suite.py accept --directory docs/generated/screensho
 ```
 
 This writes `docs/screenshots/baselines.zip` and `baselines.json`, and synchronizes
-curated guide images, including the light/dark launcher, plus `documentation.json`. Commit them together. The ZIP
+curated guide images (including the light/dark launcher) plus `documentation.json`.
+Commit them together. The ZIP
 is durable accepted reference data, not an expiring CI artifact or a second authored
 image set. The manifest ties each curated image to its scenario and accepted pixels.
 A new commit with unchanged relevant inputs does not require recapture.

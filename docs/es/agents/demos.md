@@ -53,6 +53,10 @@ local y compruebe la recuperación; después concédala y vuelva a entrar para c
 
 ## Ejemplos revisados
 
+| Menú, tema claro | Menú, tema oscuro |
+| --- | --- |
+| ![Catálogo con App settings arriba de las entradas, tema claro](../../assets/screenshots/demo-menu-light.png) | ![Catálogo con App settings arriba de las entradas, tema oscuro](../../assets/screenshots/demo-menu-dark.png) |
+
 ![Configuración de correo, interfaz inglesa en tema claro con datos sintéticos](../../assets/screenshots/email-start-light.png)
 
 ![Lectura de documento, interfaz inglesa en tema oscuro con datos sintéticos](../../assets/screenshots/read-document-dark.png)
