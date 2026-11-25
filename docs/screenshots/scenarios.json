@@ -683,7 +683,7 @@
       "font_scale": 1.0,
       "density": "renderer default; recorded output dimensions",
       "animation": "renderer-controlled; permission autoAdvance=false",
-      "caption": "menu"
+      "caption": "Launcher catalog with App settings above the demo entries"
     },
     {
       "id": "app:AppScreenshotTest.resetting",
@@ -1099,6 +1099,24 @@
       "density": "renderer default; recorded output dimensions",
       "animation": "static state; no live services",
       "caption": "Persistent auth task: narrowCodeRecovery"
+    },
+    {
+      "id": "app:AppScreenshotTest.menuSpanish",
+      "module": "app",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "method": "menuSpanish",
+      "variants": 2,
+      "capture_kind": "component-preview",
+      "status": "implemented-ui",
+      "viewport_dp": [
+        393,
+        852
+      ],
+      "locale": "es",
+      "font_scale": 1.0,
+      "density": "renderer default; recorded output dimensions",
+      "animation": "renderer-controlled; permission autoAdvance=false",
+      "caption": "Spanish App settings action above the demo entries; existing menu content remains English"
     }
   ]
 }

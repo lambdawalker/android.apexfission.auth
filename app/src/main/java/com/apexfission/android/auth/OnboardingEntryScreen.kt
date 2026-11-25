@@ -35,6 +35,7 @@ import com.apexfission.android.ui.common.SectionHeading
 import com.apexfission.android.ui.common.ContentCard
 import com.apexfission.android.ui.common.CatalogScreen
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -54,6 +55,7 @@ internal fun OnboardingEntryScreen(
     onStart: () -> Unit,
     onCatalog: () -> Unit,
     onCardCapture: () -> Unit,
+    onOpenSettings: () -> Unit,
     applicationId: String = "",
     assetLinksUrl: String = "",
     appLinkDiagnosticState: AppLinkDiagnosticState = AppLinkDiagnosticState.Checking,
@@ -64,6 +66,13 @@ internal fun OnboardingEntryScreen(
         title = "Attestra test menu",
         description = "Choose a flow to test. Your saved progress stays on this device until you reset it.",
         eyebrow = "AUTHENTICATION",
+        headerActions = {
+            OutlinedButton(
+                onClick = onOpenSettings,
+                modifier = Modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.small,
+            ) { Text(stringResource(R.string.demo_app_settings)) }
+        },
     ) {
         item(key = "onboarding") {
             ContentCard {
@@ -348,7 +357,8 @@ private fun OnboardingEntryScreenPreview() {
             onDeleteLocalUser = {},
             onStart = {},
             onCatalog = {},
-            onCardCapture = {}
+            onCardCapture = {},
+            onOpenSettings = {},
         )
     }
 }

@@ -11,8 +11,8 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "ffcdcf4ac0f88903d4b8590d6d12e92ddadc35f9",
-      "render_inputs_sha256": "43c48e1f3d94ef8713d6208570474c84d5b10c389b251f9651446da967baa8ea",
+      "source_commit": "3e066a147c55de736191a25e7b66dbe0a94fd8bf",
+      "render_inputs_sha256": "fbfde10450c28e895b5b5bee4bf9cda654aab7d513232ec52e805dd4b6669e00",
       "caption": "Synthetic component preview: emailStart",
       "alt": "Attestra emailStart in light theme; synthetic fixture data"
     },
@@ -26,8 +26,8 @@
       "capture_kind": "component-preview",
       "theme": "dark",
       "locale": "en",
-      "source_commit": "ffcdcf4ac0f88903d4b8590d6d12e92ddadc35f9",
-      "render_inputs_sha256": "43c48e1f3d94ef8713d6208570474c84d5b10c389b251f9651446da967baa8ea",
+      "source_commit": "3e066a147c55de736191a25e7b66dbe0a94fd8bf",
+      "render_inputs_sha256": "fbfde10450c28e895b5b5bee4bf9cda654aab7d513232ec52e805dd4b6669e00",
       "caption": "Synthetic component preview: readDocument",
       "alt": "Attestra readDocument in dark theme; synthetic fixture data"
     },
@@ -41,10 +41,40 @@
       "capture_kind": "component-preview",
       "theme": "light",
       "locale": "en",
-      "source_commit": "ffcdcf4ac0f88903d4b8590d6d12e92ddadc35f9",
-      "render_inputs_sha256": "43c48e1f3d94ef8713d6208570474c84d5b10c389b251f9651446da967baa8ea",
+      "source_commit": "3e066a147c55de736191a25e7b66dbe0a94fd8bf",
+      "render_inputs_sha256": "fbfde10450c28e895b5b5bee4bf9cda654aab7d513232ec52e805dd4b6669e00",
       "caption": "Synthetic component preview: detailsSaved",
       "alt": "Attestra detailsSaved in light theme; synthetic fixture data"
+    },
+    {
+      "path": "docs/assets/screenshots/demo-menu-light.png",
+      "image_sha256": "13186866c4197169b163745d61491de511c522022ec011252ddb1fe9500c5e5f",
+      "width": 1032,
+      "height": 2237,
+      "scenario": "app:AppScreenshotTest.menu",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "theme": "light",
+      "locale": "en",
+      "source_commit": "3e066a147c55de736191a25e7b66dbe0a94fd8bf",
+      "render_inputs_sha256": "fbfde10450c28e895b5b5bee4bf9cda654aab7d513232ec52e805dd4b6669e00",
+      "caption": "Synthetic component preview: menu",
+      "alt": "Attestra menu in light theme; synthetic fixture data"
+    },
+    {
+      "path": "docs/assets/screenshots/demo-menu-dark.png",
+      "image_sha256": "6bf269e86dedc5c655ee7cc0049ee0224ed0df9750125c8d8c57545d0d40691d",
+      "width": 1032,
+      "height": 2237,
+      "scenario": "app:AppScreenshotTest.menu",
+      "fixture": "app/src/screenshotTest/kotlin/com/apexfission/android/auth/AppScreenshotTest.kt",
+      "capture_kind": "component-preview",
+      "theme": "dark",
+      "locale": "en",
+      "source_commit": "3e066a147c55de736191a25e7b66dbe0a94fd8bf",
+      "render_inputs_sha256": "fbfde10450c28e895b5b5bee4bf9cda654aab7d513232ec52e805dd4b6669e00",
+      "caption": "Synthetic component preview: menu",
+      "alt": "Attestra menu in dark theme; synthetic fixture data"
     }
   ]
 }

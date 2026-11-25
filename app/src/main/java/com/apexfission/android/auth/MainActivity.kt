@@ -2,6 +2,8 @@ package com.apexfission.android.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.net.Uri
+import android.provider.Settings
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
 import android.util.Log
@@ -81,6 +83,7 @@ class MainActivity : ComponentActivity() {
                         onStart = { destination = EntryScreen.Onboarding },
                         onCatalog = { destination = EntryScreen.Catalog },
                         onCardCapture = { destination = EntryScreen.LocalCardCapture },
+                        onOpenSettings = ::openAppSettings,
                         applicationId = associationCheck.packageName,
                         assetLinksUrl = associationCheck.assetLinksUrl,
                         appLinkDiagnosticState = associationCheck.diagnosticState,
@@ -149,6 +152,13 @@ class MainActivity : ComponentActivity() {
         if (intent.action == Intent.ACTION_VIEW) {
             Log.d(TAG, if (incomingLink != null) "Verification link received while app is open" else "Unrecognized verification link while app is open")
         }
+    }
+
+    private fun openAppSettings() {
+        startActivity(Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.fromParts("package", packageName, null),
+        ))
     }
 
     private fun clearIncomingLink() {

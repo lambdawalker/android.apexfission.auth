@@ -1,5 +1,6 @@
 package com.apexfission.android.auth
 
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertCountEquals
@@ -21,13 +22,25 @@ class OnboardingEntryScreenTest {
     @get:Rule val compose = createComposeRule()
 
     @Test
+    fun settingsHeaderIsVisibleAndUsableWithoutBackendDuringReset() {
+        var settings = 0
+        compose.setContent {
+            AttestraAuthTheme {
+                OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}, {}, { settings++ })
+            }
+        }
+        compose.onNodeWithText("App settings").assertIsDisplayed().assertIsEnabled().performClick()
+        compose.runOnIdle { assertEquals(1, settings) }
+    }
+
+    @Test
     fun catalogAndOnboardingRemainReachableWithoutBackend() {
         var starts = 0
         var catalogs = 0
         var captures = 0
         compose.setContent {
             AttestraAuthTheme {
-                OnboardingEntryScreen(false, false, null, {}, { starts++ }, { catalogs++ }, { captures++ })
+                OnboardingEntryScreen(false, false, null, {}, { starts++ }, { catalogs++ }, { captures++ }, {})
             }
         }
         compose.onNodeWithText("Open onboarding").performClick()
@@ -55,6 +68,7 @@ class OnboardingEntryScreenTest {
                     onStart = {},
                     onCatalog = {},
                     onCardCapture = {},
+                    onOpenSettings = {},
                     applicationId = "com.apexfission.android.auth",
                     assetLinksUrl = "https://dev.attestrabond.com/.well-known/assetlinks.json",
                     appLinkDiagnosticState = AppLinkDiagnosticState.Ready(
@@ -86,7 +100,7 @@ class OnboardingEntryScreenTest {
         var deletions = 0
         compose.setContent {
             AttestraAuthTheme {
-                OnboardingEntryScreen(true, false, null, { deletions++ }, {}, {}, {})
+                OnboardingEntryScreen(true, false, null, { deletions++ }, {}, {}, {}, {})
             }
         }
         compose.onNode(hasScrollAction()).performScrollToNode(hasText("Delete local user"))
@@ -105,7 +119,7 @@ class OnboardingEntryScreenTest {
     fun resetDisablesNavigationAndDeletionAndShowsStatus() {
         compose.setContent {
             AttestraAuthTheme {
-                OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}, {})
+                OnboardingEntryScreen(false, true, "Clearing local data", {}, {}, {}, {}, {})
             }
         }
         compose.onNodeWithText("Open onboarding").assertIsNotEnabled()
