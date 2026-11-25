@@ -158,4 +158,6 @@ media:
     - docs/assets/screenshots/email-start-light.png
     - docs/assets/screenshots/read-document-dark.png
     - docs/assets/screenshots/details-saved-light.png
+    - docs/assets/screenshots/demo-menu-light.png
+    - docs/assets/screenshots/demo-menu-dark.png
     require_dimensions: true
